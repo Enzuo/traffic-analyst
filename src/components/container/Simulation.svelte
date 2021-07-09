@@ -28,6 +28,6 @@
 
   <button on:click={killSimulation}>Kill sim</button>
   <Graph getData={() => {
-    return [elapsedTime/1000, Math.sin(elapsedTime/1500)*50]
+    return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/>
 </div>

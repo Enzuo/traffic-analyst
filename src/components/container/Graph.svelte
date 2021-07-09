@@ -13,6 +13,7 @@
     const viewY = 100 // value
     const width = 300
     const height = 300
+    const precisionX = 0.2
 
     // scaling functions
     const scaledX = (x : number) => {
@@ -25,8 +26,8 @@
     }
     
     // background
-    let background = draw.rect(width-margin*2, height-margin*2).attr({ fill: '#FEF' }).move(margin, margin)
-    let backgroundFull = draw.rect(width, height).attr({ fill: '#FEF' })
+    let background = draw.rect(width-margin*2, height-margin*2).attr({ fill: '#FAFAFA' }).move(margin, margin)
+    let backgroundFull = draw.rect(width, height)
     console.log(scaledX(10))
     // grid
     var pattern = draw.pattern(scaledX(10), scaledY(10), function(add) {
@@ -36,8 +37,6 @@
     }).move(margin, margin)
     backgroundFull.fill(pattern)
 
-
-    console.log(width, height)
     let path
     let dataPts = []
     const update = () => {
@@ -45,27 +44,34 @@
       if(path) path.remove()
 
       let [x, y] = getData()
-      dataPts.push({x, y})
 
-      let pathData = ['M', 0, -height+(margin), 'M', 0, 0]
-      pathData = dataPts.reduce((arr, pt) => {
+      let lastPoint = dataPts[dataPts.length - 1]
+      if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
+        lastPoint.y = y
+      }
+      else {
+        dataPts.push({x, y})
+      }
+
+      let pathData = ['M', 0, margin, 'M', 0, height-margin]
+      pathData = dataPts.reduce((arr, pt, i) => {
         let x = scaledX(pt.x)
-        let y = scaledY(pt.y)
+        let y = height - scaledY(pt.y)
+        let command = 'L'
+        if(i ===0){
+          command === 'M'
+        }
 
-        return arr.concat(['L', x, y])
+        return arr.concat([command, x, y])
       }, pathData)
       // pathData.push('z')
-      console.log(pathData)
-      path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', strokeWidth: '2' })
+      path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '2%' })
       path.move(width-margin-scaledX(x), 0)
-
-      // let rect = draw.rect(1, y).attr({ fill: '#f06' })
-      // rect.move(x, 100)
     }
 
 
   
-    setInterval(update, 250)
+    setInterval(update, 100)
   });
 
 </script>
