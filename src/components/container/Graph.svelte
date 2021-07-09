@@ -9,64 +9,77 @@
 
     var draw = SVG().addTo(container).size(300, 300)
     const margin = 20
-    const viewX = 30 // time in seconds
-    const viewY = 100 // value
-    const width = 300
-    const height = 300
-    const precisionX = 0.2
+    const viewX = 10 // time in seconds
+    const viewY = 100 // y value
+    const gridX = 10
+    const gridY = 10
+    const canvasWidth = 300
+    const canvasHeight = 300
+    const width = canvasWidth - margin * 2
+    const height = canvasHeight - margin * 2
+    const precisionX = viewX / width * 2 // 2 px
 
-    // scaling functions
+    // transform functions 
     const scaledX = (x : number) => {
-      x = x * (width-margin*2) / viewX
+      // scale
+      x = x * (width / viewX)
       return x
     }
     const scaledY = (y : number) => {
-      y = y * (height-margin*2) / viewY
+      y = y * (height / viewY)
       return y
     }
     
     // background
-    let background = draw.rect(width-margin*2, height-margin*2).attr({ fill: '#FAFAFA' }).move(margin, margin)
-    let backgroundFull = draw.rect(width, height)
-    console.log(scaledX(10))
+    let background = draw.rect(width, height).attr({ fill: '#FAFAFA' }).move(margin, margin)
+    let backgroundFull = draw.rect(canvasWidth, canvasHeight)
     // grid
-    var pattern = draw.pattern(scaledX(10), scaledY(10), function(add) {
-      add.rect(scaledX(10),scaledY(10)).stroke('#ddd').fill('#FFFFFF00')
-      // add.rect(10,10)
-      // add.rect(10,10).move(10,10)
+    var pattern = draw.pattern(scaledX(gridX), scaledY(gridY), function(add) {
+      add.rect(scaledX(gridX),scaledY(gridY)).stroke('#ddd').fill('none')
     }).move(margin, margin)
     backgroundFull.fill(pattern)
+
+    // legend
+    draw.text("0").move(width+margin+2, height+margin).font('size', 10)
+    draw.text('-'+viewX).move(margin-12, height+margin).font('size', 10)
+    draw.text(''+viewY).move(width+margin+2, margin-12).font('size', 10)
+
 
     let path
     let dataPts = []
     const update = () => {
       if(!getData) return
-      if(path) path.remove()
 
       let [x, y] = getData()
 
       let lastPoint = dataPts[dataPts.length - 1]
       if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
         lastPoint.y = y
+        return
       }
       else {
         dataPts.push({x, y})
       }
 
-      let pathData = ['M', 0, margin, 'M', 0, height-margin]
+      if(dataPts[0].x < (x - viewX)){
+        dataPts.shift()
+      }
+
+      let pathData = ['M', 0, margin, 'M', 0, canvasHeight-margin]
       pathData = dataPts.reduce((arr, pt, i) => {
         let x = scaledX(pt.x)
-        let y = height - scaledY(pt.y)
+        let y = canvasHeight - scaledY(pt.y)
         let command = 'L'
         if(i ===0){
-          command === 'M'
+          command = 'M'
         }
 
         return arr.concat([command, x, y])
       }, pathData)
-      // pathData.push('z')
-      path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '2%' })
-      path.move(width-margin-scaledX(x), 0)
+
+      if(path) path.remove()
+      path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '1%' })
+      path.move(width + margin - scaledX(x), 0)
     }
 
 
