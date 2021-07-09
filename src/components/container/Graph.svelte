@@ -1,23 +1,25 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { SVG, PathArray } from '@svgdotjs/svg.js'
+  import { SVG } from '@svgdotjs/svg.js'
 
-  export let getData : () => [number, number] 
+  export let observeData : () => [number, number] 
 
   let container
   onMount(() => {
 
-    var draw = SVG().addTo(container).size(300, 300)
+    
+    const canvasWidth = container.offsetWidth || 300
+    const canvasHeight = container.offsetHeight || 300
     const margin = 20
     const viewX = 10 // time in seconds
     const viewY = 100 // y value
-    const gridX = 10
-    const gridY = 10
-    const canvasWidth = 300
-    const canvasHeight = 300
+    const gridX = 3
+    const gridY = 30
     const width = canvasWidth - margin * 2
     const height = canvasHeight - margin * 2
     const precisionX = viewX / width * 2 // 2 px
+    var draw = SVG().addTo(container).size(canvasWidth, canvasHeight)
+
 
     // transform functions 
     const scaledX = (x : number) => {
@@ -36,7 +38,7 @@
     // grid
     var pattern = draw.pattern(scaledX(gridX), scaledY(gridY), function(add) {
       add.rect(scaledX(gridX),scaledY(gridY)).stroke('#ddd').fill('none')
-    }).move(margin, margin)
+    }).move(margin+width, margin+height)
     backgroundFull.fill(pattern)
 
     // legend
@@ -48,9 +50,9 @@
     let path
     let dataPts = []
     const update = () => {
-      if(!getData) return
+      if(!observeData) return
 
-      let [x, y] = getData()
+      let [x, y] = observeData()
 
       let lastPoint = dataPts[dataPts.length - 1]
       if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
@@ -65,7 +67,7 @@
         dataPts.shift()
       }
 
-      let pathData = ['M', 0, margin, 'M', 0, canvasHeight-margin]
+      let pathData = ['M', 0, margin]
       pathData = dataPts.reduce((arr, pt, i) => {
         let x = scaledX(pt.x)
         let y = canvasHeight - scaledY(pt.y)
@@ -81,7 +83,6 @@
       path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '1%' })
       path.move(width + margin - scaledX(x), 0)
     }
-
 
   
     setInterval(update, 100)

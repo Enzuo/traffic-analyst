@@ -27,7 +27,7 @@
   {Math.floor(elapsedTime)}
 
   <button on:click={killSimulation}>Kill sim</button>
-  <Graph getData={() => {
+  <Graph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/>
 </div>
