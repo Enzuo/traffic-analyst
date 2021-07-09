@@ -1,4 +1,6 @@
 <script>
+  import Graph from '@/components/container/Graph.svelte'
+
   import {Simulation} from '@/logic/simulation'
   const my_sim = Simulation()
 
@@ -25,4 +27,7 @@
   {Math.floor(elapsedTime)}
 
   <button on:click={killSimulation}>Kill sim</button>
+  <Graph getData={() => {
+    return [elapsedTime, Math.random()*100]
+  }}/>
 </div>

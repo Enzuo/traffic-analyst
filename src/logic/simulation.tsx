@@ -2,7 +2,7 @@ export function Simulation () {
   let elapsedTime = 0
   
   const forward = (t : DOMHighResTimeStamp) => {
-    elapsedTime = t
+    elapsedTime = t 
   }
 
   const currentState = () => {
