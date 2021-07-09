@@ -67,10 +67,10 @@
         dataPts.shift()
       }
 
-      let pathData = ['M', 0, margin]
+      let pathData = ['M', 0, 0]
       pathData = dataPts.reduce((arr, pt, i) => {
         let x = scaledX(pt.x)
-        let y = canvasHeight - scaledY(pt.y)
+        let y = height - scaledY(pt.y)
         let command = 'L'
         if(i ===0){
           command = 'M'
@@ -81,7 +81,7 @@
 
       if(path) path.remove()
       path = draw.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '1%' })
-      path.move(width + margin - scaledX(x), 0)
+      path.move(width + margin - scaledX(x), margin)
     }
 
   
