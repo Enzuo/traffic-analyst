@@ -23,13 +23,12 @@ export default function realtimegraph(){
   let path = null
   let runHandle = null
 
-  const init = (container, opts:any) => {
-    
+  const setOptions = (opts) => {
     // TODO find a better way here to avoid repeating, maybe use object opts
     // TODO enable 0 to be passed in
     canvasWidth = opts?.canvasWidth || 300
     canvasHeight = opts?.canvasHeight || 300
-    margin = opts?.margin || 20
+    margin = parseInt(opts?.margin) || 20
     viewX = opts?.viewX || 10
     viewY = opts?.viewY || 100
     gridX = opts?.gridX || 3
@@ -39,8 +38,18 @@ export default function realtimegraph(){
     height = canvasHeight - margin * 2
     precisionX = viewX / width * 2 // 2 px
 
+    init()
+  }
+
+  const init = (container?) => {
     // TODO to create or recreate svg ?
-    svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
+    if(container){
+      svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
+    }
+    if(!svggraph){
+      return
+    }
+    svggraph.clear()
 
     // background
     let background = svggraph.rect(width, height).attr({ fill: '#FAFAFA' }).move(margin, margin)
@@ -118,6 +127,7 @@ export default function realtimegraph(){
 
   return {
     init,
+    setOptions,
     push,
     run,
   }

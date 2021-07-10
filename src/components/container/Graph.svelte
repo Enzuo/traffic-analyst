@@ -10,9 +10,11 @@
   let margin = 25
 
   onMount(() => {
-    graph.init(container, {margin})
+    graph.init(container)
     graph.run(observeData)
   });
+
+  $: graph.setOptions({margin})
 
 </script>
 
