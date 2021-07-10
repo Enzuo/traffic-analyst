@@ -3,19 +3,12 @@ import { SVG } from '@svgdotjs/svg.js'
 // livegraph, realtimegraph ?
 export default function realtimegraph(){
   // props
-  let canvasWidth = 300
-  let canvasHeight = 300
-  let margin = 20
-  let viewX = 10 
-  let viewY = 100
-  let gridX = 3
-  let gridY = 30
-  let precisionPixel = 2
+  let props
 
   // computed
-  let width = canvasWidth - margin * 2
-  let height = canvasHeight - margin * 2
-  let precisionX = viewX / width * precisionPixel
+  let width
+  let height
+  let precisionX
 
   // state
   let dataPts = []
@@ -23,36 +16,44 @@ export default function realtimegraph(){
   let path = null
   let runHandle = null
 
-  const setOptions = (opts) => {
+  const setProps = (opts) => {
     // TODO find a better way here to avoid repeating, maybe use object opts
     // TODO enable 0 to be passed in
-    canvasWidth = opts?.canvasWidth || 300
-    canvasHeight = opts?.canvasHeight || 300
-    margin = parseInt(opts?.margin) || 20
-    viewX = opts?.viewX || 10
-    viewY = opts?.viewY || 100
-    gridX = opts?.gridX || 3
-    gridY = opts?.gridY || 30
+    props = {
+      canvasWidth : opts.canvasWidth ?? 300,
+      canvasHeight : opts.canvasHeight ?? 300,
+      margin : parseInt(opts.margin) ?? 20,
+      viewX : opts.viewX ?? 10,
+      viewY : opts.viewY ?? 100,
+      gridX : opts.gridX ?? 3,
+      gridY : opts.gridY ?? 30,
+      precisionPixel : opts.precisionPixel ?? 2,
+    }
+    
+    //computed
+    width = props.canvasWidth - props.margin * 2
+    height = props.canvasHeight - props.margin * 2
+    precisionX = props.viewX / width * 2 // 2 px
 
-    width = canvasWidth - margin * 2
-    height = canvasHeight - margin * 2
-    precisionX = viewX / width * 2 // 2 px
-
-    init()
+    drawScene()
   }
 
-  const init = (container?) => {
-    // TODO to create or recreate svg ?
-    if(container){
-      svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
-    }
-    if(!svggraph){
-      return
-    }
+  const init = (container) => {
+    const {canvasWidth, canvasHeight} = props
+
+    svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
+
+    drawScene()
+  }
+
+  const drawScene = () => {
+    const {canvasWidth, canvasHeight, margin, gridX, gridY, viewX, viewY} = props
+
+    if(!svggraph) return
     svggraph.clear()
 
     // background
-    let background = svggraph.rect(width, height).attr({ fill: '#FAFAFA' }).move(margin, margin)
+    svggraph.rect(width, height).attr({ fill: '#FAFAFA' }).move(margin, margin)
     let backgroundFull = svggraph.rect(canvasWidth, canvasHeight)
     // grid
     var pattern = svggraph.pattern(scaledX(gridX), scaledY(gridY), function(add) {
@@ -69,6 +70,8 @@ export default function realtimegraph(){
   // update but without "observeData"
   // const push = ({t, values} : {t:number, values:array}) => {
   const push = ({x, y} : {x:number, y:number}) => {
+    const {viewX} = props
+
     let lastPoint = dataPts[dataPts.length - 1]
     if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
       lastPoint.y = y
@@ -78,7 +81,7 @@ export default function realtimegraph(){
       dataPts.push({x, y})
     }
 
-    if(dataPts[0].x < (x - viewX)){
+    while(dataPts[0].x < (x - viewX)){
       dataPts.shift()
     }
 
@@ -86,6 +89,8 @@ export default function realtimegraph(){
   }
 
   const drawCurve = () => {
+    const {margin} = props
+
     if(!dataPts.length) return 
 
     let pathData = ['M', 0, 0]
@@ -117,17 +122,17 @@ export default function realtimegraph(){
 
   // transform functions 
   const scaledX = (x : number) => {
-    x = x * (width / viewX)
+    x = x * (width / props.viewX)
     return x
   }
   const scaledY = (y : number) => {
-    y = y * (height / viewY)
+    y = y * (height / props.viewY)
     return y
   }
 
   return {
     init,
-    setOptions,
+    setProps,
     push,
     run,
   }

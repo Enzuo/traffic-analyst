@@ -6,15 +6,17 @@
   export let observeData : () => [number, number] 
 
   let container
-  let graph = realtimegraph()
   let margin = 25
+  
+  let graph = realtimegraph()
+  $: graph.setProps({margin})
+  
 
   onMount(() => {
     graph.init(container)
     graph.run(observeData)
   });
 
-  $: graph.setOptions({margin})
 
 </script>
 
