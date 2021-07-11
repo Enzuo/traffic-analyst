@@ -25,9 +25,11 @@
   Hello world
   
   {Math.floor(elapsedTime)}
-
   <button on:click={killSimulation}>Kill sim</button>
   <Graph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
+  }}/>
+  <Graph observeData={() => {
+    return [elapsedTime/1000, Math.abs(Math.cos(elapsedTime/1500)*50)]
   }}/>
 </div>

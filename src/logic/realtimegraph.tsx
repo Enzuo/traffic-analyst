@@ -23,13 +23,13 @@ export default function realtimegraph(opts?){
   let path = null
   let runHandle = null
 
-  setOptions({opts})
+  setOptions(opts || {})
   function setOptions (opts) {
     // TODO find a better way here to avoid repeating, maybe use object opts
     // TODO enable 0 to be passed in
-    canvasWidth = opts.canvasWidth || canvasWidth
-    canvasHeight = opts.canvasHeight || canvasHeight
-    margin = parseInt(opts.margin) || margin
+    canvasWidth = parseInt(opts.canvasWidth) || canvasWidth
+    canvasHeight = parseInt(opts.canvasHeight) || canvasHeight
+    margin = Math.min(parseInt(opts.margin), Math.min(canvasWidth/2,canvasHeight/2)) || margin
     viewX = opts.viewX || viewX
     viewY = opts.viewY || viewY
     gridX = opts.gridX || gridX
@@ -41,11 +41,13 @@ export default function realtimegraph(opts?){
     height = canvasHeight - margin * 2
     precisionX = viewX / width * 2
 
+    if(svggraph) svggraph.size(canvasWidth, canvasHeight)
+
     drawScene()
     drawCurve()
   }
 
-  const init = (container) => {
+  function init (container) {
     svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
 
     drawScene()
@@ -53,6 +55,8 @@ export default function realtimegraph(opts?){
 
   function drawScene () {
     if(!svggraph) return
+
+    // redraw svg
     svggraph.clear()
 
     // background
@@ -70,9 +74,7 @@ export default function realtimegraph(opts?){
     svggraph.text(''+viewY).move(width+margin+2, margin-12).font('size', 10)
   }
 
-  // update but without "observeData"
-  // const push = ({t, values} : {t:number, values:array}) => {
-  const push = ({x, y} : {x:number, y:number}) => {
+  function push ({x, y} : {x:number, y:number}) {
     let lastPoint = dataPts[dataPts.length - 1]
     if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
       lastPoint.y = y
@@ -111,7 +113,7 @@ export default function realtimegraph(opts?){
     path.move(width + margin - scaledX(lastPointX), margin)
   }
 
-  const run = (observableData : () => [number, number]) => {
+  function run (observableData : () => [number, number]) {
     runHandle = setInterval(() => {
       if(!observableData) return
       let [x, y] = observableData()

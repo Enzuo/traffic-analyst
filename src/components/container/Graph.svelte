@@ -7,9 +7,10 @@
 
   let container
   let margin = 25
+  let canvasWidth = 500
 
   let graph = realtimegraph()
-  $: graph.setOptions({margin})
+  $: graph.setOptions({margin, canvasWidth})
   
 
   onMount(() => {
@@ -26,3 +27,4 @@
 
 <div class="graph" bind:this={container} /> 
 Margin : <input bind:value={margin}/>
+Width : <input bind:value={canvasWidth}/>
