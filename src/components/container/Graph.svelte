@@ -7,9 +7,9 @@
 
   let container
   let margin = 25
-  
+
   let graph = realtimegraph()
-  $: graph.setProps({margin})
+  $: graph.setOptions({margin})
   
 
   onMount(() => {

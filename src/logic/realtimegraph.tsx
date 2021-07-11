@@ -1,14 +1,21 @@
 import { SVG } from '@svgdotjs/svg.js'
 
 // livegraph, realtimegraph ?
-export default function realtimegraph(){
+export default function realtimegraph(opts?){
   // props
-  let props
+  let canvasWidth = 300
+  let canvasHeight = 300
+  let margin = 20
+  let viewX = 10 
+  let viewY = 100
+  let gridX = 3
+  let gridY = 30
+  let precisionPixel = 2
 
   // computed
-  let width
-  let height
-  let precisionX
+  let width = canvasWidth - margin * 2
+  let height = canvasHeight - margin * 2
+  let precisionX = viewX / width * 2
 
   // state
   let dataPts = []
@@ -16,39 +23,35 @@ export default function realtimegraph(){
   let path = null
   let runHandle = null
 
-  const setProps = (opts) => {
+  setOptions({opts})
+  function setOptions (opts) {
     // TODO find a better way here to avoid repeating, maybe use object opts
     // TODO enable 0 to be passed in
-    props = {
-      canvasWidth : opts.canvasWidth ?? 300,
-      canvasHeight : opts.canvasHeight ?? 300,
-      margin : parseInt(opts.margin) ?? 20,
-      viewX : opts.viewX ?? 10,
-      viewY : opts.viewY ?? 100,
-      gridX : opts.gridX ?? 3,
-      gridY : opts.gridY ?? 30,
-      precisionPixel : opts.precisionPixel ?? 2,
-    }
+    canvasWidth = opts.canvasWidth || canvasWidth
+    canvasHeight = opts.canvasHeight || canvasHeight
+    margin = parseInt(opts.margin) || margin
+    viewX = opts.viewX || viewX
+    viewY = opts.viewY || viewY
+    gridX = opts.gridX || gridX
+    gridY = opts.gridY || gridY
+    precisionPixel = opts.precisionPixel || precisionPixel
     
     //computed
-    width = props.canvasWidth - props.margin * 2
-    height = props.canvasHeight - props.margin * 2
-    precisionX = props.viewX / width * 2 // 2 px
+    width = canvasWidth - margin * 2
+    height = canvasHeight - margin * 2
+    precisionX = viewX / width * 2
 
     drawScene()
+    drawCurve()
   }
 
   const init = (container) => {
-    const {canvasWidth, canvasHeight} = props
-
     svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
 
     drawScene()
   }
 
-  const drawScene = () => {
-    const {canvasWidth, canvasHeight, margin, gridX, gridY, viewX, viewY} = props
-
+  function drawScene () {
     if(!svggraph) return
     svggraph.clear()
 
@@ -70,8 +73,6 @@ export default function realtimegraph(){
   // update but without "observeData"
   // const push = ({t, values} : {t:number, values:array}) => {
   const push = ({x, y} : {x:number, y:number}) => {
-    const {viewX} = props
-
     let lastPoint = dataPts[dataPts.length - 1]
     if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
       lastPoint.y = y
@@ -88,9 +89,7 @@ export default function realtimegraph(){
     drawCurve()
   }
 
-  const drawCurve = () => {
-    const {margin} = props
-
+  function drawCurve () {
     if(!dataPts.length) return 
 
     let pathData = ['M', 0, 0]
@@ -122,17 +121,17 @@ export default function realtimegraph(){
 
   // transform functions 
   const scaledX = (x : number) => {
-    x = x * (width / props.viewX)
+    x = x * (width / viewX)
     return x
   }
   const scaledY = (y : number) => {
-    y = y * (height / props.viewY)
+    y = y * (height / viewY)
     return y
   }
 
   return {
     init,
-    setProps,
+    setOptions,
     push,
     run,
   }
