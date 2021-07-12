@@ -1,11 +1,8 @@
 export default function Car() {
-  let speed = 0
-  let power = 0
-  let torque = 0
-
   // car spec
   let name = 'zoe'
-  let torqueCurve = [[7,220], [35,220], [50,145], [70,105], [90, 80], [110, 65], [135, 52]]
+  let rev = 83 // ratio (engine revolution / speed km/h) 
+  let torqueCurve = [[0*rev,190], [7*rev,220], [33*rev,220], [50*rev,150], [70*rev,105], [90*rev, 80], [110*rev, 65], [135*rev, 52]]
   let gearRatio = 1
   let weight = 1468
   let length = 4084
@@ -14,7 +11,13 @@ export default function Car() {
   let dragCoef = 0.29 // cd
   let dragArea = 2.1
 
-  function drive (dt) {
+  // car state
+  let speed = 2 // Km/h
+  let power = 0 // Kw
+  let torque = 0 
+  let rpm = speed * rev
+
+  function drive (t, dt) {
     const coefWheelDrag = 0.25
     const rho = 1.2
     let SCd = dragArea * dragCoef
@@ -34,8 +37,20 @@ export default function Car() {
 
 
     // 
-    torque = getTorqueForRPM(torqueCurve, dt/100)
-    power = torqueToKW(torque, dt/100)
+    torque = getTorqueForRPM(torqueCurve, rpm)
+    power = torqueToKW(torque, rpm)
+
+    dt = dt / 1000 // dt in seconds
+    // let accwork = (power * 1000) * dt
+    // let accforce = ()
+
+    let mass = weight
+    let distance = (Math.max(speed, 3.6) / 3.6) * dt
+
+    let deltaV = (power * 1000 * Math.pow(dt, 2)) / (mass * distance)
+    speed += deltaV * 3.6
+
+    rpm = speed * rev
   }
 
   function getState() {
@@ -50,7 +65,7 @@ export default function Car() {
 
 /*-----------------
 
-  Helpers
+      Helpers
 
 -----------------*/
 
@@ -85,20 +100,26 @@ function PSToTorque(PS, rpm){
 // (Interpolate curve)
 type torqueCurve = number[][]
 function getTorqueForRPM (torqueCurve : torqueCurve, rpm : number) : number {
-  var index = torqueCurve.findIndex((torque) => {
-      return rpm < torque[0]
+  var torque = torqueCurve.find((torque) => {
+    return torque[0] === rpm
   })
-  if(index <= 0){
-      return null
+  if(torque){
+    return torque[1]
   }
-  var prevTorquePoint = torqueCurve[index-1]
-  var nextTorquePoint = torqueCurve[index]
+
+  var indexHigherRPM = torqueCurve.findIndex((torque) => {
+    return torque[0] > rpm
+  })
+  // not found or first torque point was higher,
+  // meaning the wanted rpm is before the torque curve if 0 or after if -1
+  if (indexHigherRPM <= 0) {
+    return null
+  }
+  var prevTorquePoint = torqueCurve[indexHigherRPM - 1]
+  var nextTorquePoint = torqueCurve[indexHigherRPM]
 
   var distRPM = nextTorquePoint[0] - prevTorquePoint[0]
   var distPercent = (rpm - prevTorquePoint[0]) / distRPM
   var distTorque = nextTorquePoint[1] - prevTorquePoint[1]
   return prevTorquePoint[1] + distTorque * distPercent
 }
-
-let a = [[1,2], [1,5]]
-getTorqueForRPM(a, 124)

@@ -6,14 +6,14 @@ export function Simulation () {
   let cars = []
   
   const forward = (t : DOMHighResTimeStamp) => {
-    let dt = t - elapsedTime
+    let dt = Math.min(t - elapsedTime, 20)
     elapsedTime = t 
 
     if(cars.length < 1) {
       cars.push(Car())
     }
 
-    cars.forEach(car => car.drive(t))
+    cars.forEach(car => car.drive(t, dt))
   }
 
   const currentState = () => {
