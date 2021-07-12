@@ -21,6 +21,7 @@ export default function realtimegraph(opts?){
   let dataPts = []
   let svggraph = null
   let path = null
+  let pathValue = null
   let runHandle = null
 
   setOptions(opts || {})
@@ -110,7 +111,11 @@ export default function realtimegraph(opts?){
     path = svggraph.path(pathData).attr({ fill: 'none', stroke: '#f06', 'stroke-width' : '1%' })
 
     let lastPointX = dataPts[dataPts.length - 1].x
+    let lastPointY = dataPts[dataPts.length - 1].y
     path.move(width + margin - scaledX(lastPointX), margin)
+
+    if(pathValue) pathValue.remove()
+    pathValue = svggraph.text(lastPointY).move(width+margin-10, Math.max(margin-20, margin-20+height-scaledY(lastPointY))).font('size', 10)
   }
 
   function run (observableData : () => [number, number]) {
