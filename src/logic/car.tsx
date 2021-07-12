@@ -16,34 +16,29 @@ export default function Car() {
   let power = 0 // Kw
   let torque = 0 
   let rpm = speed * rev
+  let accelerator = 0
 
   let force = 0
   let acc = 0
   let airDrag = 0
 
+  function accelerate (ratio) {
+    accelerator = ratio
+  }
+
   function drive (t, dt) {
     const coefWheelDrag = 0.25
-    const rho = 1.2
     const gravity = 10
 
     // wheel drag force
     let wheelDrag = weight * coefWheelDrag
-
-    // https://www.engineeringtoolbox.com/drag-coefficient-d_627.html
-    // Fd = 1/2 ρ v2 cd A                      
-    // where
-    // Fd = drag force (N)
-    // ρ = density of fluid (1.2 kg/m3 for air at NTP)
-    // v = flow velocity (m/s)
-    // cd = drag coefficient
-    // A = characteristic frontal area of the body  (m2)
-    airDrag = 0.5 * rho * Math.pow(speed/3.6, 2) * dragCoef * dragArea 
+    airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
 
 
     // allow drive from a standstill
     rpm = Math.max(rpm, 50)
 
-    torque = getTorqueForRPM(torqueCurve, rpm)
+    torque = getTorqueForRPM(torqueCurve, rpm) * accelerator
     power = torqueToKW(torque, rpm)
 
     dt = dt / 1000 // dt in seconds
@@ -66,6 +61,7 @@ export default function Car() {
   }
 
   return {
+    accelerate,
     drive,
     getState
   }
@@ -82,8 +78,30 @@ function torqueToKW(torque, rpm){
 }
 
 /**
+ * https://www.engineeringtoolbox.com/drag-coefficient-d_627.html
+ * Fd = 1/2 ρ v2 cd A                      
+ * where
+ * Fd = drag force (N)
+ * ρ = density of fluid (1.2 kg/m3 for air at NTP)
+ * v = flow velocity (m/s)
+ * cd = drag coefficient
+ * A = characteristic frontal area of the body  (m2)
  * 
- * @param curve [[rpm, torque]]
+ * @param {number} speed m/s
+ * @param {number} dragCoef
+ * @param {number} dragArea m2
+ * 
+ * @return {number} Force (N)
+ */
+function getAirDragForce(speed, dragCoef, dragArea){
+  const rho = 1.2
+  let airDrag = 0.5 * rho * Math.pow(speed, 2) * dragCoef * dragArea 
+  return airDrag
+}
+
+/**
+ * 
+ * @param torqueCurve [[rpm, torque]]
  */
 // Get Torque for any RPM
 // Assuming the torqueCurve is of the form

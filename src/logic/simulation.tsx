@@ -1,8 +1,10 @@
 import Car from "./car"
+import Driver from "./driver"
 
 export function Simulation () {
   let elapsedTime = 0
 
+  let drivers = []
   let cars = []
   
   const forward = (t : DOMHighResTimeStamp) => {
@@ -10,9 +12,12 @@ export function Simulation () {
     elapsedTime = t 
 
     if(cars.length < 1) {
-      cars.push(Car())
+      let driver = Driver()
+      drivers.push(driver)
+      cars.push(driver.car)
     }
 
+    drivers.forEach(driver => driver.drive(t, dt))
     cars.forEach(car => car.drive(t, dt))
   }
 
