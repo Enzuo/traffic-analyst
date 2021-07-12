@@ -23,6 +23,13 @@
 
 </script>
 
+<style>
+  .graph-panel {
+    display:flex;
+    flex-direction:row;
+  }
+</style>
+
 <div>
   Hello world
   
@@ -31,6 +38,7 @@
   <!-- <RealTimeGraph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/> -->
+  <div class="graph-panel">
   <RealTimeGraph 
     title="Torque" 
     options={{viewY: 250, viewX: 30}} 
@@ -58,4 +66,5 @@
       return [elapsedTime/1000, carState.speed]
     }}
   />
+  </div>
 </div>

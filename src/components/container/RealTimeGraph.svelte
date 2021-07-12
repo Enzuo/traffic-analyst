@@ -2,6 +2,8 @@
   import { onMount } from "svelte"
   // import { SVG } from '@svgdotjs/svg.js'
   import realtimegraph from '@/logic/realTimeGraph'
+  import { watchResize } from "svelte-watch-resize";
+
 
   export let observeData : () => [number, number] 
   export let title : number
@@ -21,6 +23,10 @@
     graph.run(observeData)
   });
 
+  const handleResize = () => {
+    width = container.offsetWidth
+  }
+
 
 </script>
 
@@ -28,7 +34,9 @@
 	.graph { width: 100%; height: 100%; }
 </style>
 
-<h1>{title}</h1>
-<div class="graph" bind:this={container} /> 
-Margin : <input bind:value={margin}/>
-Width : <input bind:value={width}/>
+<div>
+  <h1>{title}</h1>
+  <div class="graph" bind:this={container} use:watchResize={handleResize}/> 
+  Margin : <input bind:value={margin}/>
+  Width : <input bind:value={width}/>
+</div>
