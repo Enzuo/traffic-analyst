@@ -39,32 +39,61 @@
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/> -->
   <div class="graph-panel">
-  <RealTimeGraph 
-    title="Torque" 
-    options={{viewY: 250, viewX: 30}} 
-    observeData={() => {
-      if(!my_sim.currentState().car) return [0,0]
-      let carState = my_sim.currentState().car.getState()
-      return [elapsedTime/1000, carState.torque]
-    }}
-  />
-  <RealTimeGraph 
-    title="Power" 
-    options={{viewY: 100, viewX: 30}} 
-    observeData={() => {
-      if(!my_sim.currentState().car) return [0,0]
-      let carState = my_sim.currentState().car.getState()
-      return [elapsedTime/1000, carState.power]
-    }}
-  />
-  <RealTimeGraph 
-    title="Speed" 
-    options={{viewY: 150, viewX: 30}} 
-    observeData={() => {
-      if(!my_sim.currentState().car) return [0,0]
-      let carState = my_sim.currentState().car.getState()
-      return [elapsedTime/1000, carState.speed]
-    }}
-  />
+    <RealTimeGraph 
+      title="Torque" 
+      options={{viewY: 250, viewX: 30}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.torque]
+      }}
+    />
+    <RealTimeGraph 
+      title="Power" 
+      options={{viewY: 100, viewX: 30}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.power]
+      }}
+    />
+    <RealTimeGraph 
+      title="Speed" 
+      options={{viewY: 150, viewX: 30}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.speed]
+      }}
+    />
+  </div>
+  <div class="graph-panel">
+    <RealTimeGraph 
+      title="Acceleration" 
+      options={{viewY: 10, viewX: 30}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.acc]
+      }}
+    />
+    <RealTimeGraph 
+      title="Force" 
+      options={{viewY: 7000, viewX: 30, gridY:700}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.force]
+      }}
+    />
+    <RealTimeGraph 
+      title="AirDrag" 
+      options={{viewY: 7000, viewX: 30, gridY:700}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.airDrag]
+      }}
+    />
   </div>
 </div>

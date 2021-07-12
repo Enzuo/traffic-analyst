@@ -34,9 +34,7 @@
 	.graph { width: 100%; height: 100%; }
 </style>
 
-<div>
+<div class="graph">
   <h1>{title}</h1>
   <div class="graph" bind:this={container} use:watchResize={handleResize}/> 
-  Margin : <input bind:value={margin}/>
-  Width : <input bind:value={width}/>
 </div>

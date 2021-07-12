@@ -33,8 +33,8 @@ export default function realtimegraph(opts?){
     margin = Math.min(parseInt(opts.margin), Math.min(canvasWidth/2,canvasHeight/2)) || margin
     viewX = opts.viewX || viewX
     viewY = opts.viewY || viewY
-    gridX = opts.gridX || gridX
-    gridY = opts.gridY || gridY
+    gridX = opts.gridX || (viewX / 6)
+    gridY = opts.gridY || (viewY / 6)
     precisionPixel = opts.precisionPixel || precisionPixel
     
     //computed
