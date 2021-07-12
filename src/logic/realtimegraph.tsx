@@ -27,8 +27,8 @@ export default function realtimegraph(opts?){
   function setOptions (opts) {
     // TODO find a better way here to avoid repeating, maybe use object opts
     // TODO enable 0 to be passed in
-    canvasWidth = parseInt(opts.canvasWidth) || canvasWidth
-    canvasHeight = parseInt(opts.canvasHeight) || canvasHeight
+    canvasWidth = parseInt(opts.width) || canvasWidth
+    canvasHeight = parseInt(opts.height) || canvasHeight
     margin = Math.min(parseInt(opts.margin), Math.min(canvasWidth/2,canvasHeight/2)) || margin
     viewX = opts.viewX || viewX
     viewY = opts.viewY || viewY

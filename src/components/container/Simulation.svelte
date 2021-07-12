@@ -1,5 +1,5 @@
 <script>
-  import Graph from '@/components/container/Graph.svelte'
+  import RealTimeGraph from '@/components/container/RealTimeGraph.svelte'
 
   import {Simulation} from '@/logic/simulation'
   const my_sim = Simulation()
@@ -26,10 +26,23 @@
   
   {Math.floor(elapsedTime)}
   <button on:click={killSimulation}>Kill sim</button>
-  <Graph observeData={() => {
+  <RealTimeGraph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/>
-  <Graph observeData={() => {
-    return [elapsedTime/1000, Math.abs(Math.cos(elapsedTime/1500)*50)]
-  }}/>
+  <RealTimeGraph 
+    title="Torque" 
+    options={{viewY: 250, viewX: 30}} 
+    observeData={() => {
+      let carState = my_sim.currentState().car.getState()
+      return [elapsedTime/1000, carState.torque]
+    }}
+  />
+  <RealTimeGraph 
+    title="Power" 
+    options={{viewY: 10, viewX: 30}} 
+    observeData={() => {
+      let carState = my_sim.currentState().car.getState()
+      return [elapsedTime/1000, carState.power]
+    }}
+  />
 </div>
