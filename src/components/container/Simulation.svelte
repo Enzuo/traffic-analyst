@@ -40,6 +40,15 @@
   }}/> -->
   <div class="graph-panel">
     <RealTimeGraph 
+      title="Throttle" 
+      options={{viewY: 1, viewX: 30}} 
+      observeData={() => {
+        if(!my_sim.currentState().car) return [0,0]
+        let carState = my_sim.currentState().car.getState()
+        return [elapsedTime/1000, carState.throttle]
+      }}
+    />
+    <RealTimeGraph 
       title="Torque" 
       options={{viewY: 250, viewX: 30}} 
       observeData={() => {
@@ -74,7 +83,7 @@
       observeData={() => {
         if(!my_sim.currentState().car) return [0,0]
         let carState = my_sim.currentState().car.getState()
-        return [elapsedTime/1000, carState.acc]
+        return [elapsedTime/1000, carState.acceleration]
       }}
     />
     <RealTimeGraph 

@@ -16,14 +16,14 @@ export default function Car() {
   let power = 0 // Kw
   let torque = 0 
   let rpm = speed * rev
-  let accelerator = 0
+  let throttle = 0
 
   let force = 0
-  let acc = 0
+  let acceleration = 0
   let airDrag = 0
 
-  function accelerate (ratio) {
-    accelerator = ratio
+  function accelerate (throttleRatio) {
+    throttle = throttleRatio
   }
 
   function drive (t, dt) {
@@ -38,7 +38,7 @@ export default function Car() {
     // allow drive from a standstill
     rpm = Math.max(rpm, 50)
 
-    torque = getTorqueForRPM(torqueCurve, rpm) * accelerator
+    torque = getTorqueForRPM(torqueCurve, rpm) * throttle
     power = torqueToKW(torque, rpm)
 
     dt = dt / 1000 // dt in seconds
@@ -47,8 +47,8 @@ export default function Car() {
     let distance = (Math.max(speed, 3.6) / 3.6) * dt
     let work = power * 1000 * dt
     force = work / distance
-    acc = Math.max((force - airDrag - wheelDrag), 0) / mass
-    let deltaV = acc * dt
+    acceleration = (force - airDrag - wheelDrag) / mass
+    let deltaV = acceleration * dt
 
     // let deltaV = (power * 1000 * Math.pow(dt, 2)) / (mass * distance)
     speed += deltaV * 3.6
@@ -57,7 +57,7 @@ export default function Car() {
   }
 
   function getState() {
-    return {speed, power, torque, force, acc, airDrag}
+    return {speed, power, torque, force, acceleration, airDrag, throttle}
   }
 
   return {
