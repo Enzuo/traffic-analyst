@@ -12,7 +12,7 @@ export default function Car() {
   let dragArea = 2.1
 
   // car state
-  let speed = 100 // Km/h
+  let speed = 0 // Km/h
   let power = 0 // Kw
   let torque = 0 
   let rpm = speed * rev

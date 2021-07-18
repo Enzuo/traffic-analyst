@@ -2,6 +2,7 @@
   import RealTimeGraph from '@/components/container/RealTimeGraph.svelte'
 
   import {Simulation} from '@/logic/simulation'
+import RoadGraph from './RoadGraph.svelte'
   const my_sim = Simulation()
 
   let elapsedTime = 0
@@ -38,6 +39,7 @@
   <!-- <RealTimeGraph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/> -->
+  <RoadGraph road={my_sim.currentState().road}></RoadGraph>
   <div class="graph-panel">
     <RealTimeGraph 
       title="Throttle" 
