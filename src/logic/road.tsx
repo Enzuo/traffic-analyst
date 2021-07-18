@@ -1,8 +1,13 @@
 export default function Road(){
   let cars = []
+  let index = 0
 
   function addCar(car) {
-    cars.push({car, position: 0})
+    cars.push({
+      id: index++, 
+      car, 
+      position: 0
+    })
   }
 
   function animate(t, dt) {
@@ -10,7 +15,6 @@ export default function Road(){
       let carStatus = car.car.getState()
       let speed = carStatus.speed / 3.6
       car.position += speed * (dt / 1000)
-
     })
   }
 

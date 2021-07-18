@@ -5,16 +5,20 @@
 
 
   export let road
-  let scale = 3
 
-  let carBoxes = []
+  let carBoxes = {}
+  let scale = 3
   let container
   let svggraph
 
 
   function animate () {
     road.cars.forEach((car) => {
-      carBoxes[0].move(car.position*scale, 5)
+      let carBox = carBoxes[car.id]
+      if(!carBox){
+        carBox = carBoxes[car.id] = svggraph.rect(4.1*scale, 1.8*scale).stroke('#000').fill('red')
+      }
+      carBox.move(car.position*scale, 5)
     })
   }
 
@@ -28,9 +32,6 @@
     let canvasWidth = container.offsetWidth
     let canvasHeight = container.offsetHeight
     svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
-
-    carBoxes.push(svggraph.rect(4.1*scale, 1.8*scale))
-
 
 
     let cancelLoopHandler
