@@ -12,7 +12,7 @@ export default function Car() {
   let dragArea = 2.1
 
   // car state
-  let speed = 0 // Km/h
+  let speed = 100 // Km/h
   let power = 0 // Kw
   let torque = 0 
   let rpm = speed * rev
@@ -23,7 +23,7 @@ export default function Car() {
   let airDrag = 0
 
   function accelerate (throttleRatio) {
-    throttle = throttleRatio
+    throttle = Math.max(Math.min(throttleRatio, 1), 0)
   }
 
   function drive (t, dt) {
@@ -51,7 +51,7 @@ export default function Car() {
     let deltaV = acceleration * dt
 
     // let deltaV = (power * 1000 * Math.pow(dt, 2)) / (mass * distance)
-    speed += deltaV * 3.6
+    speed += deltaV ? deltaV * 3.6 : 0
 
     rpm = speed * rev
   }
