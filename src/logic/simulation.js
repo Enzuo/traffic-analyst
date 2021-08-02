@@ -22,8 +22,8 @@ export function Simulation () {
       road.addCar(car)
     }
 
-    drivers = drivers.map(driver => Driver.animate(driver, t, dt))
-    cars = cars.map(car => Car.animate(car, t, dt))
+    drivers.forEach(driver => Driver.animate(driver, t, dt))
+    cars.forEach(car => Car.animate(car, t, dt))
     road.animate(t, dt)
   }
 

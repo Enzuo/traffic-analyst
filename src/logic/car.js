@@ -38,7 +38,7 @@ export function create () {
 }
 
 export function accelerate (car, throttleRatio) {
-  car.throttle = Math.max(Math.min(throttleRatio, 1), 0)
+  car.state.throttle = Math.max(Math.min(throttleRatio, 1), 0)
   return car
 }
 
@@ -72,11 +72,12 @@ export function animate (car, t, dt) {
   speed += deltaV ? deltaV * 3.6 : 0
   rpm = speed * revR
 
-  return {
-    ...car, 
+  car.state = {
+    ...car.state, 
     speed, rpm, 
     power, torque, force, acceleration, airDrag,
   }
+  return car
 }
 
 

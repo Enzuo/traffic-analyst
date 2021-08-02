@@ -50,9 +50,10 @@ export function animate (driver, t, dt) {
 
   previousAcc = carState.acceleration
   previousSpeed = carState.speed
-  console.log('currentThrottle', currentThrottle)
-  let car = Car.accelerate(driver.car, currentThrottle)
-  return {...driver, car, previousAcc, previousSpeed, throttleIncidence, currentThrottle, previousThrottle}
+  Car.accelerate(driver.car, currentThrottle)
+  Object.assign(driver, {
+    previousAcc, previousSpeed, throttleIncidence, currentThrottle, previousThrottle
+  })
 }
 
 function getThrottleIncidence(previousThrottle, currentThrottle, previousAcc, currentAcc){
