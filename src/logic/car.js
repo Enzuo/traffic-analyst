@@ -25,14 +25,17 @@ export default function Car () {
   const dragArea = 2.1
 
   // car state
-  let speed = 0 // Km/h
-  let rpm = speed * revRatio
-  let throttle = 0
-  let power = 0 // Kw
-  let torque = 0 
-  let force = 0
-  let acceleration = 0
-  let airDrag = 0
+  const state = {
+    speed : 0, // Km/h
+    rpm : 0 * revRatio,
+    throttle : 0,
+    power : 0, // Kw
+    torque : 0, 
+    force : 0,
+    acceleration : 0,
+    airDrag : 0,
+  }
+
 
 
   /**
@@ -40,54 +43,46 @@ export default function Car () {
    * @param {number} throttleRatio 0.0 to 1.0
    */
   function accelerate (throttleRatio) {
-    throttle = Math.max(Math.min(throttleRatio, 1), 0)
+    state.throttle = Math.max(Math.min(throttleRatio, 1), 0)
   }
 
   /**
    * 
    * @param {*} t 
-   * @param {*} dt 
+   * @param {*} dtms delta time in ms since last tick
    */
-  function animate (t, dt) {
+  function animate (t, dtms) {
     const coefWheelDrag = 0.25
     const gravity = 10
 
     // wheel drag force
     let wheelDrag = weight * coefWheelDrag
-    airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
+    let airDrag = getAirDragForce(state.speed/3.6, dragCoef, dragArea)
 
     // allow drive from a standstill
-    rpm = Math.max(rpm, 50)
+    let rpm = Math.max(state.rpm, 50)
 
-    torque = getTorqueForRPM(torqueCurve, rpm) * throttle
-    power = torqueToKW(torque, rpm)
+    let torque = getTorqueForRPM(torqueCurve, rpm) * state.throttle
+    let power = torqueToKW(torque, rpm)
 
-    dt = dt / 1000 // dt in seconds
+    const dt = dtms / 1000 // dt in seconds
 
-    // calculate acc
+    // calculate acceleration
     const mass = weight
-    let distance = (Math.max(speed, 3.6) / 3.6) * dt
+    let distance = (Math.max(state.speed, 3.6) / 3.6) * dt
     let work = power * 1000 * dt
-    force = work / distance
-    acceleration = (force - airDrag - wheelDrag) / mass
+    let force = work / distance
+    let acceleration = (force - airDrag - wheelDrag) / mass
     let deltaV = acceleration * dt
 
-    // caculate speed
-    speed += deltaV ? deltaV * 3.6 : 0
-    rpm = speed * revRatio
+    // update state
+    state.speed += deltaV ? deltaV * 3.6 : 0
+    state.rpm = state.speed * revRatio
+    Object.assign(state, {acceleration, force, airDrag, torque, power})
   }
 
   function getState() {
-    return {
-      speed,
-      rpm,
-      throttle,
-      power,
-      torque,
-      force,
-      acceleration,
-      airDrag,
-    }
+    return state
   }
 
   return {
