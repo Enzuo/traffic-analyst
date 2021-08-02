@@ -100,15 +100,15 @@ function getAirDragForce(speed, dragCoef, dragArea){
 }
 
 /**
- * 
- * @param torqueCurve [[rpm, torque]]
+ * Get Torque for any RPM
+ * Assuming the torqueCurve is of the form
+ * [[rpm, torque],[rpm, torque],...]
+ * (Interpolate curve)
+ * @param {number[][]} torqueCurve
+ * @param {number} rpm 
+ * @returns {number}
  */
-// Get Torque for any RPM
-// Assuming the torqueCurve is of the form
-// [[rpm, torque],[rpm, torque],...]
-// (Interpolate curve)
-type torqueCurve = number[][]
-function getTorqueForRPM (torqueCurve : torqueCurve, rpm : number) : number {
+function getTorqueForRPM (torqueCurve, rpm) {
   var torque = torqueCurve.find((torque) => {
     return torque[0] === rpm
   })
