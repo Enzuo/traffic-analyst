@@ -13,9 +13,9 @@ export default function realtimegraph(opts){
   let precisionPixel = 2
 
   // computed
-  let width = canvasWidth - margin * 2
-  let height = canvasHeight - margin * 2
-  let precisionX = viewX / width * 2
+  let graphWidth = canvasWidth - margin * 2
+  let graphHeight = canvasHeight - margin * 2
+  let precisionX = viewX / graphWidth * 2
 
   // state
   let dataPts = []
@@ -38,9 +38,9 @@ export default function realtimegraph(opts){
     precisionPixel = opts.precisionPixel || precisionPixel
     
     //computed
-    width = canvasWidth - margin * 2
-    height = canvasHeight - margin * 2
-    precisionX = viewX / width * 2
+    graphWidth = canvasWidth - margin * 2
+    graphHeight = canvasHeight - margin * 2
+    precisionX = viewX / graphWidth * 2
 
     if(svggraph) svggraph.size(canvasWidth, canvasHeight)
 
@@ -61,18 +61,18 @@ export default function realtimegraph(opts){
     svggraph.clear()
 
     // background
-    svggraph.rect(width, height).attr({ fill: '#FAFAFA' }).move(margin, margin)
+    svggraph.rect(graphWidth, graphHeight).attr({ fill: '#FAFAFA' }).move(margin, margin)
     let backgroundFull = svggraph.rect(canvasWidth, canvasHeight)
     // grid
     var pattern = svggraph.pattern(scaledX(gridX), scaledY(gridY), function(add) {
       add.rect(scaledX(gridX),scaledY(gridY)).stroke('#ddd').fill('none')
-    }).move(margin+width, margin+height)
+    }).move(margin + graphWidth, margin + graphHeight)
     backgroundFull.fill(pattern)
 
     // legend
-    svggraph.text("0").move(width+margin+2, height+margin).font('size', 10)
-    svggraph.text('-'+viewX).move(margin-12, height+margin).font('size', 10)
-    svggraph.text(''+viewY).move(width+margin+2, margin-12).font('size', 10)
+    svggraph.text("0").move(graphWidth + margin + 2, graphHeight + margin).font('size', 10)
+    svggraph.text('-'+viewX).move(margin-12, graphHeight+margin).font('size', 10)
+    svggraph.text(''+viewY).move(graphWidth+margin+2, margin-12).font('size', 10)
   }
 
   /**
@@ -103,7 +103,7 @@ export default function realtimegraph(opts){
     let pathData = ['M', 0, 0]
     pathData = dataPts.reduce((arr, pt, i) => {
       let x = scaledX(pt.x)
-      let y = height - scaledY(pt.y)
+      let y = graphHeight - scaledY(pt.y)
       let command = 'L'
       if(i ===0){
         command = 'M'
@@ -117,10 +117,12 @@ export default function realtimegraph(opts){
 
     let lastPointX = dataPts[dataPts.length - 1].x
     let lastPointY = dataPts[dataPts.length - 1].y
-    path.move(width + margin - scaledX(lastPointX), margin)
+    path.move(graphWidth + margin - scaledX(lastPointX), margin)
 
     if(pathValue) pathValue.remove()
-    pathValue = svggraph.text(lastPointY).move(width+margin-10, Math.max(margin-20, margin-20+height-scaledY(lastPointY))).font('size', 10)
+    pathValue = svggraph.text(lastPointY)
+      .move(graphWidth + margin - 10, Math.max(margin - 20, margin - 20 + graphHeight - scaledY(lastPointY)))
+      .font('size', 10)
   }
 
   /**
@@ -137,11 +139,11 @@ export default function realtimegraph(opts){
 
   // transform functions 
   const scaledX = (x) => {
-    x = x * (width / viewX)
+    x = x * (graphWidth / viewX)
     return x
   }
   const scaledY = (y) => {
-    y = y * (height / viewY)
+    y = y * (graphHeight / viewY)
     return y
   }
 
