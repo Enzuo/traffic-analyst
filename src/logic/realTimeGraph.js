@@ -1,7 +1,7 @@
 import { SVG } from '@svgdotjs/svg.js'
 
 // livegraph, realtimegraph ?
-export default function realtimegraph(opts?){
+export default function realtimegraph(opts){
   // props
   let canvasWidth = 300
   let canvasHeight = 300
@@ -75,7 +75,12 @@ export default function realtimegraph(opts?){
     svggraph.text(''+viewY).move(width+margin+2, margin-12).font('size', 10)
   }
 
-  function push ({x, y} : {x:number, y:number}) {
+  /**
+   * 
+   * @param {{x:number, y:number}} param0 
+   * @returns 
+   */
+  function push ({x, y}) {
     let lastPoint = dataPts[dataPts.length - 1]
     if(lastPoint && Math.abs(lastPoint.x - x) < precisionX ){
       lastPoint.y = y
@@ -118,7 +123,11 @@ export default function realtimegraph(opts?){
     pathValue = svggraph.text(lastPointY).move(width+margin-10, Math.max(margin-20, margin-20+height-scaledY(lastPointY))).font('size', 10)
   }
 
-  function run (observableData : () => [number, number]) {
+  /**
+   * 
+   * @param {() => [number, number]} observableData 
+   */
+  function run (observableData) {
     runHandle = setInterval(() => {
       if(!observableData) return
       let [x, y] = observableData()
@@ -127,11 +136,11 @@ export default function realtimegraph(opts?){
   }
 
   // transform functions 
-  const scaledX = (x : number) => {
+  const scaledX = (x) => {
     x = x * (width / viewX)
     return x
   }
-  const scaledY = (y : number) => {
+  const scaledY = (y) => {
     y = y * (height / viewY)
     return y
   }

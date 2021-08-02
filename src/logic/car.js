@@ -1,71 +1,84 @@
-export default function Car() {
-  // car spec
-  let name = 'zoe'
-  let rev = 83 // ratio (engine revolution / speed km/h) 
-  let torqueCurve = [[0*rev,190], [7*rev,220], [33*rev,220], [50*rev,150], [70*rev,105], [90*rev, 80], [110*rev, 65], [135*rev, 52], [200*rev, 30]]
-  let gearRatio = 1
-  let weight = 1468
-  let length = 4084
-  let width = 1730
-  let height = 1562
-  let dragCoef = 0.29 // cd
-  let dragArea = 2.1
+var id = 0
 
-  // car state
-  let speed = 0 // Km/h
-  let power = 0 // Kw
-  let torque = 0 
-  let rpm = speed * rev
-  let throttle = 0
-
-  let force = 0
-  let acceleration = 0
-  let airDrag = 0
-
-  function accelerate (throttleRatio) {
-    throttle = Math.max(Math.min(throttleRatio, 1), 0)
-  }
-
-  function drive (t, dt) {
-    const coefWheelDrag = 0.25
-    const gravity = 10
-
-    // wheel drag force
-    let wheelDrag = weight * coefWheelDrag
-    airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
-
-
-    // allow drive from a standstill
-    rpm = Math.max(rpm, 50)
-
-    torque = getTorqueForRPM(torqueCurve, rpm) * throttle
-    power = torqueToKW(torque, rpm)
-
-    dt = dt / 1000 // dt in seconds
-
-    let mass = weight
-    let distance = (Math.max(speed, 3.6) / 3.6) * dt
-    let work = power * 1000 * dt
-    force = work / distance
-    acceleration = (force - airDrag - wheelDrag) / mass
-    let deltaV = acceleration * dt
-
-    // let deltaV = (power * 1000 * Math.pow(dt, 2)) / (mass * distance)
-    speed += deltaV ? deltaV * 3.6 : 0
-
-    rpm = speed * rev
-  }
-
-  function getState() {
-    return {speed, power, torque, force, acceleration, airDrag, throttle}
-  }
-
+export function create () {
+  const rev = 83
+  const speed = 0
+  const torqueCurve = [[0*rev,190], [7*rev,220], [33*rev,220], [50*rev,150], [70*rev,105], [90*rev, 80], [110*rev, 65], [135*rev, 52], [200*rev, 30]]
+  
   return {
-    accelerate,
-    drive,
-    getState
+    id : id++,
+    
+    // car spec
+    props : {
+      name : 'zoe',
+      revR : rev, // ratio (engine revolution / speed km/h)
+      torqueCurve : torqueCurve,
+      gearRatio : 1,
+      weight : 1468,
+      length : 4084,
+      width : 1730,
+      height : 1562,
+      dragCoef : 0.29, // cd
+      dragArea : 2.1,
+    },
+
+    // car state
+    state : {
+      speed : speed, // Km/h
+      rpm : speed * rev,
+      throttle : 0,
+      power : 0, // Kw
+      torque : 0, 
+      
+      force : 0,
+      acceleration : 0,
+      airDrag : 0,
+    }
   }
 }
+
+export function accelerate (car, throttleRatio) {
+  car.throttle = Math.max(Math.min(throttleRatio, 1), 0)
+  return car
+}
+
+export function animate (car, t, dt) {
+  const coefWheelDrag = 0.25
+  const gravity = 10
+
+  const {weight, dragCoef, dragArea, torqueCurve, revR} = car.props
+  let {speed, rpm, throttle} = car.state
+
+  // wheel drag force
+  let wheelDrag = weight * coefWheelDrag
+  let airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
+
+  // allow drive from a standstill
+  rpm = Math.max(rpm, 50)
+
+  let torque = getTorqueForRPM(torqueCurve, rpm) * throttle
+  let power = torqueToKW(torque, rpm)
+
+  dt = dt / 1000 // dt in seconds
+
+  const mass = weight
+  let distance = (Math.max(speed, 3.6) / 3.6) * dt
+  let work = power * 1000 * dt
+  let force = work / distance
+  let acceleration = (force - airDrag - wheelDrag) / mass
+  let deltaV = acceleration * dt
+
+  // let deltaV = (power * 1000 * Math.pow(dt, 2)) / (mass * distance)
+  speed += deltaV ? deltaV * 3.6 : 0
+  rpm = speed * revR
+
+  return {
+    ...car, 
+    speed, rpm, 
+    power, torque, force, acceleration, airDrag,
+  }
+}
+
 
 /*-----------------
 

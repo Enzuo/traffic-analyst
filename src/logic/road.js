@@ -12,8 +12,8 @@ export default function Road(){
 
   function animate(t, dt) {
     cars.forEach(car => {
-      let carStatus = car.car.getState()
-      let speed = carStatus.speed / 3.6
+      let carState = car.car.state
+      let speed = carState.speed / 3.6
       car.position += speed * (dt / 1000)
     })
   }
