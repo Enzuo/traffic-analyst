@@ -5,14 +5,14 @@ export default function Road(){
   function addCar(car) {
     cars.push({
       id: index++, 
-      car, 
+      carLogic: car, 
       position: 0
     })
   }
 
   function animate(t, dt) {
     cars.forEach(car => {
-      let carState = car.car.state
+      let carState = car.carLogic.getState()
       let speed = carState.speed / 3.6
       car.position += speed * (dt / 1000)
     })

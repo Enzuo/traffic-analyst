@@ -1,5 +1,5 @@
-import * as Car from "./car"
-import * as Driver from "./driver"
+import Car from "./car"
+import Driver from "./driver"
 import Road from "./road"
 
 export function Simulation () {
@@ -14,16 +14,16 @@ export function Simulation () {
     elapsedTime = t 
 
     if(cars.length < 1) {
-      let car = Car.create()
-      let driver = Driver.create(car)
+      let car = Car()
+      let driver = Driver(car, road)
 
       drivers.push(driver)
       cars.push(car)
       road.addCar(car)
     }
 
-    drivers.forEach(driver => Driver.animate(driver, t, dt))
-    cars.forEach(car => Car.animate(car, t, dt))
+    drivers.forEach(driver => driver.animate(t, dt))
+    cars.forEach(car => car.animate(t, dt))
     road.animate(t, dt)
   }
 
