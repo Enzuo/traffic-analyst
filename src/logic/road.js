@@ -5,6 +5,7 @@ export default function Road(){
   function addCar(car) {
     cars.push({
       id: index++, 
+      // TODO use some inheritance instead of having a seperate carLogic entity ?
       carLogic: car, 
       position: 0
     })
@@ -17,7 +18,7 @@ export default function Road(){
       car.position += speed * (dt / 1000)
 
       // collisions
-      const carInFront = getObjectInFrontOf(car)
+      const carInFront = getObjectInFrontOf(car.carLogic)
       if(carInFront){
         if(carInFront.position <= car.position + 4.1){
           car.position = carInFront.position - 4.1
@@ -28,7 +29,7 @@ export default function Road(){
   }
 
   function getObjectInFrontOf(car){
-    const carIndex = cars.findIndex(c => car.id === c.id)
+    const carIndex = cars.findIndex(c => car.id === c.carLogic.id)
     return cars[carIndex-1]
   }
 

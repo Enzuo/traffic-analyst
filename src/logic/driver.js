@@ -14,11 +14,10 @@ export default function Driver ({car, road, targetSpeed = 90}) {
   function animate (t, dt) {
     let carState = car.getState()
 
-    let isAcclerating = carState.acceleration > 0
+    let carInFront = road.getObjectInFrontOf(car)
+
     let distToTargetSpeed = targetSpeed - carState.speed
     let distToTargetSpeedRatio = distToTargetSpeed / targetEasing
-    let distToTargetAcc = 0 - carState.acceleration
-    let distToTargetAccRatio = distToTargetAcc / carState.acceleration
 
     throttleIncidence = getThrottleIncidence(previousThrottle, currentThrottle, previousAcc, carState.acceleration) ?? throttleIncidence
     

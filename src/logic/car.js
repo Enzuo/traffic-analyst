@@ -90,6 +90,7 @@ export default function Car ({speed = 0}) {
   }
 
   return {
+    id,
     accelerate,
     setSpeed,
     animate,
