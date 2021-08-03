@@ -12,7 +12,7 @@ import RoadGraph from './RoadGraph.svelte'
     cancelLoopHandler = window.requestAnimationFrame(runLoop)
     
     my_sim.forward(t)
-    elapsedTime = my_sim.currentState().elapsedTime
+    elapsedTime = my_sim.getState().elapsedTime
   }
   setTimeout(() => {
     cancelLoopHandler = window.requestAnimationFrame(runLoop)
@@ -39,14 +39,14 @@ import RoadGraph from './RoadGraph.svelte'
   <!-- <RealTimeGraph observeData={() => {
     return [elapsedTime/1000, Math.abs(Math.sin(elapsedTime/1500)*50)]
   }}/> -->
-  <RoadGraph road={my_sim.currentState().road}></RoadGraph>
+  <RoadGraph road={my_sim.getState().road}></RoadGraph>
   <div class="graph-panel">
     <RealTimeGraph 
       title="Throttle" 
       options={{viewY: 1, viewX: 30}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.throttle]
       }}
     />
@@ -54,8 +54,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="Torque" 
       options={{viewY: 250, viewX: 30}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.torque]
       }}
     />
@@ -63,8 +63,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="Power" 
       options={{viewY: 100, viewX: 30}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.power]
       }}
     />
@@ -72,8 +72,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="Speed" 
       options={{viewY: 150, viewX: 30}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.speed]
       }}
     />
@@ -83,8 +83,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="Acceleration" 
       options={{viewY: 10, viewX: 30}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.acceleration]
       }}
     />
@@ -92,8 +92,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="Force" 
       options={{viewY: 7000, viewX: 30, gridY:700}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.force]
       }}
     />
@@ -101,8 +101,8 @@ import RoadGraph from './RoadGraph.svelte'
       title="AirDrag" 
       options={{viewY: 7000, viewX: 30, gridY:700}} 
       observeData={() => {
-        if(!my_sim.currentState().car) return [0,0]
-        let carState = my_sim.currentState().car.getState()
+        if(!my_sim.getState().car) return [0,0]
+        let carState = my_sim.getState().car.getState()
         return [elapsedTime/1000, carState.airDrag]
       }}
     />

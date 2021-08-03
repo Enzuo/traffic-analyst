@@ -4,6 +4,7 @@ import Road from "./road"
 
 export function Simulation () {
   let elapsedTime = 0
+  let elapsedSimulationTime = 0
 
   let drivers = []
   let cars = []
@@ -11,15 +12,11 @@ export function Simulation () {
   
   const forward = (t) => {
     let dt = Math.min(t - elapsedTime, 20)
-    elapsedTime = t 
+    elapsedTime = t
+    elapsedSimulationTime += dt
 
-    if(cars.length < 1) {
-      let car = Car()
-      let driver = Driver(car, road)
-
-      drivers.push(driver)
-      cars.push(car)
-      road.addCar(car)
+    if(tickInterval(2000, elapsedSimulationTime)) {
+      addCar()
     }
 
     drivers.forEach(driver => driver.animate(t, dt))
@@ -27,7 +24,25 @@ export function Simulation () {
     road.animate(t, dt)
   }
 
-  const currentState = () => {
+  let lastTick = 0
+  const tickInterval = (interval, t) => {
+    if(t - lastTick >= interval){
+      lastTick = t
+      return true
+    }
+    return false
+  }
+
+  const addCar = () => {
+    let car = Car()
+    let driver = Driver(car, road)
+
+    drivers.push(driver)
+    cars.push(car)
+    road.addCar(car)
+  }
+
+  const getState = () => {
     return {
       elapsedTime,
       car : cars[0],
@@ -37,6 +52,6 @@ export function Simulation () {
 
   return {
     forward,
-    currentState
+    getState
   }    
 }
