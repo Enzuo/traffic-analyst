@@ -1,31 +1,38 @@
 let uniqueId = 0
 
-export default function Car ({speed = 0}) {  
+export default function Car ({
+  speed = 0
+}) {  
+  const revRatio = 83
+
+  this.id = uniqueId++
   // car props
-  const id = uniqueId++
-  const name = 'zoe'
-  const revRatio = 83 // ratio (engine revolution / speed km/h)
-  const torqueCurve = [
-    [0*revRatio,190], 
-    [7*revRatio,220], 
-    [33*revRatio,220], 
-    [50*revRatio,150], 
-    [70*revRatio,105], 
-    [90*revRatio, 80], 
-    [110*revRatio, 65], 
-    [135*revRatio, 52], 
-    [200*revRatio, 30]
-  ]
-  const gearRatio = 1
-  const weight = 1468
-  const length = 4084
-  const width = 1730
-  const height = 1562
-  const dragCoef = 0.29 // cd
-  const dragArea = 2.1
+  this.props = {
+    name : 'zoe',
+    // ratio (engine revolution / speed km/h)
+    revRatio : revRatio,
+    torqueCurve : [
+      [0*revRatio,190], 
+      [7*revRatio,220], 
+      [33*revRatio,220], 
+      [50*revRatio,150], 
+      [70*revRatio,105], 
+      [90*revRatio, 80], 
+      [110*revRatio, 65], 
+      [135*revRatio, 52], 
+      [200*revRatio, 30]
+    ],
+    gearRatio : 1,
+    weight : 1468,
+    length : 4084,
+    width : 1730,
+    height : 1562,
+    dragCoef : 0.29, // cd
+    dragArea : 2.1,
+  }
 
   // car state
-  const state = {
+  this.state = {
     speed : speed, // Km/h
     rpm : speed * revRatio,
     throttle : 0,
@@ -42,60 +49,67 @@ export default function Car ({speed = 0}) {
    * Adjust car accelerator
    * @param {number} throttleRatio 0.0 to 1.0
    */
-  function accelerate (throttleRatio) {
-    state.throttle = Math.max(Math.min(throttleRatio, 1), 0)
+  this.accelerate = function (throttleRatio) {
+    this.state.throttle = Math.max(Math.min(throttleRatio, 1), 0)
   }
 
   /**
    * 
    * @param {*} t 
-   * @param {*} dtms delta time in ms since last tick
+   * @param {*} dt delta time in ms since last tick
    */
-  function animate (t, dtms) {
+  this.animate = function (t, dt) {
+    this.updateForces(dt / 1000)
+  }
+
+  /**
+   * 
+   * @param {number} dt delta time in seconds
+   */
+  this.updateForces = function (dt){
     const coefWheelDrag = 0.25
     const gravity = 10
+    const {torqueCurve, weight, dragCoef, dragArea} = this.props
+    const {speed, rpm, throttle} = this.state
 
     // wheel drag force
     let wheelDrag = weight * coefWheelDrag // * Math.min(Math.abs(state.speed), 1)
-    let airDrag = getAirDragForce(state.speed/3.6, dragCoef, dragArea)
+    let airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
 
-    // allow drive from a standstill
-    let rpm = Math.max(state.rpm, 50)
-
-    let torque = getTorqueForRPM(torqueCurve, rpm) * state.throttle
+    let torque = getTorqueForRPM(torqueCurve, rpm) * throttle
     let power = torqueToKW(torque, rpm)
-
-    const dt = dtms / 1000 // dt in seconds
 
     // calculate acceleration
     const mass = weight
-    let distance = (Math.max(state.speed, 3.6) / 3.6) * dt
+    let distance = (Math.max(speed, 3.6) / 3.6) * dt
     let work = power * 1000 * dt
     let force = work / distance
     let acceleration = (force - airDrag - wheelDrag) / mass
     let deltaV = acceleration * dt
 
     // update state
-    setSpeed(state.speed += deltaV ? deltaV * 3.6 : 0)
-    Object.assign(state, {acceleration, force, airDrag, torque, power})
+    this.setSpeed(speed + (deltaV ? deltaV * 3.6 : 0))
+    Object.assign(this.state, {acceleration, force, airDrag, torque, power})
   }
 
-  function setSpeed(speed) {
-    state.speed = speed
-    state.rpm = state.speed * revRatio
+  this.setSpeed = function (speed) {
+    this.state.speed = speed
+
+    // mininum rpm : allow drive from a standstill
+    this.state.rpm = Math.max(speed * revRatio, 50)
   }
 
-  function getState() {
-    return state
+  this.getState = function () {
+    return this.state
   }
 
-  return {
-    id,
-    accelerate,
-    setSpeed,
-    animate,
-    getState,
-  }
+  // return {
+  //   id,
+  //   accelerate,
+  //   setSpeed,
+  //   animate,
+  //   getState,
+  // }
 }
 
 /*-----------------
