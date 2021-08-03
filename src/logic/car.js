@@ -1,6 +1,6 @@
 let uniqueId = 0
 
-export default function Car () {  
+export default function Car ({speed = 0}) {  
   // car props
   const id = uniqueId++
   const name = 'zoe'
@@ -26,8 +26,8 @@ export default function Car () {
 
   // car state
   const state = {
-    speed : 0, // Km/h
-    rpm : 0 * revRatio,
+    speed : speed, // Km/h
+    rpm : speed * revRatio,
     throttle : 0,
     power : 0, // Kw
     torque : 0, 
@@ -56,7 +56,7 @@ export default function Car () {
     const gravity = 10
 
     // wheel drag force
-    let wheelDrag = weight * coefWheelDrag
+    let wheelDrag = weight * coefWheelDrag // * Math.min(Math.abs(state.speed), 1)
     let airDrag = getAirDragForce(state.speed/3.6, dragCoef, dragArea)
 
     // allow drive from a standstill

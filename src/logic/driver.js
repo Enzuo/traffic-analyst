@@ -1,9 +1,7 @@
 let uniqueId = 0
 
-export default function Driver (car, road) {
+export default function Driver ({car, road, targetSpeed = 90}) {
   const id = uniqueId++
-
-  let targetSpeed = 90
 
   let currentThrottle = 0
   let targetThrottle = {low:0, high:1}

@@ -34,8 +34,10 @@ export function Simulation () {
   }
 
   const addCar = () => {
-    let car = Car()
-    let driver = Driver(car, road)
+    let idealSpeed = 80 + Math.random() * 20
+
+    let car = Car({speed : idealSpeed})
+    let driver = Driver({car, road, targetSpeed : idealSpeed})
 
     drivers.push(driver)
     cars.push(car)
