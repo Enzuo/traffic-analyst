@@ -76,9 +76,13 @@ export default function Car ({speed = 0}) {
     let deltaV = acceleration * dt
 
     // update state
-    state.speed += deltaV ? deltaV * 3.6 : 0
-    state.rpm = state.speed * revRatio
+    setSpeed(state.speed += deltaV ? deltaV * 3.6 : 0)
     Object.assign(state, {acceleration, force, airDrag, torque, power})
+  }
+
+  function setSpeed(speed) {
+    state.speed = speed
+    state.rpm = state.speed * revRatio
   }
 
   function getState() {
@@ -87,6 +91,7 @@ export default function Car ({speed = 0}) {
 
   return {
     accelerate,
+    setSpeed,
     animate,
     getState,
   }
