@@ -48,7 +48,7 @@ export function Simulation () {
     return {
       elapsedTime,
       car : cars[0],
-      road : road.getState()
+      road,
     }
   }
 

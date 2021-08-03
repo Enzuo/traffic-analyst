@@ -37,11 +37,16 @@ export default function Road(){
     return {cars}
   }
 
+  function getCar(id){
+    return cars.find(c => id === c.id)
+  }
+
 
   return {
     addCar,
     getObjectInFrontOf,
     animate,
     getState,
+    getCar,
   }
 }

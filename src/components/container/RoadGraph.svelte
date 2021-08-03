@@ -5,6 +5,7 @@
 
 
   export let road
+  export let onCarClick = (id) => { console.log('click car', id)}
 
   let carBoxes = {}
   let scale = 3
@@ -13,11 +14,17 @@
 
 
   function animate () {
-    road.cars.forEach((car) => {
+    road.getState().cars.forEach((car) => {
       let carBox = carBoxes[car.id]
+
       if(!carBox){
         carBox = carBoxes[car.id] = svggraph.rect(4.1*scale, 1.8*scale).stroke('#000').fill('red')
+        carBox.click(function() {
+          onCarClick(car.id)
+          this.fill({ color: '#f06' })
+        })
       }
+
       carBox.move(car.position*scale, 5)
     })
   }
