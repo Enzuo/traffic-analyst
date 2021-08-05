@@ -33,7 +33,7 @@ export default function Car ({
 
   // car state
   this.state = {
-    speed : speed, // Km/h
+    speed : speed, // m/s
     rpm : speed * revRatio,
     throttle : 0,
     power : 0, // Kw
@@ -74,21 +74,21 @@ export default function Car ({
 
     // wheel drag force
     let wheelDrag = weight * coefWheelDrag // * Math.min(Math.abs(state.speed), 1)
-    let airDrag = getAirDragForce(speed/3.6, dragCoef, dragArea)
+    let airDrag = getAirDragForce(speed, dragCoef, dragArea)
 
     let torque = getTorqueForRPM(torqueCurve, rpm) * throttle
     let power = torqueToKW(torque, rpm)
 
     // calculate acceleration
     const mass = weight
-    let distance = (Math.max(speed, 3.6) / 3.6) * dt
+    let distance = (Math.max(speed, 1)) * dt // min speed of 1m/s
     let work = power * 1000 * dt
     let force = work / distance
     let acceleration = (force - airDrag - wheelDrag) / mass
     let deltaV = acceleration * dt
 
     // update state
-    this.setSpeed(speed + (deltaV ? deltaV * 3.6 : 0))
+    this.setSpeed(speed + (deltaV ? deltaV : 0))
     Object.assign(this.state, {acceleration, force, airDrag, torque, power})
   }
 
@@ -96,7 +96,7 @@ export default function Car ({
     this.state.speed = speed
 
     // mininum rpm : allow drive from a standstill
-    this.state.rpm = Math.max(speed * revRatio, 50)
+    this.state.rpm = Math.max(speed * 3.6 * revRatio, 50)
   }
 
   this.getState = function () {

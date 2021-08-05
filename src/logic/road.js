@@ -1,15 +1,15 @@
 export default function Road(){
   let cars = []
 
-  function addCar(car) {
-    car.position = 0
+  function addCar(car, position = 0) {
+    car.position = position
     cars.push(car)
   }
 
   function animate(t, dt) {
     cars.forEach(car => {
       // let carState = car.getState()
-      let speed = car.state.speed / 3.6
+      let speed = car.state.speed
       car.position += speed * (dt / 1000)
 
       // collisions

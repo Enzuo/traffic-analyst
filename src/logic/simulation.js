@@ -11,7 +11,7 @@ export function Simulation () {
   let road = Road()
   
   const carGenerator = Ticker()
-  
+
   const forward = (t) => {
     let dt = Math.min(t - elapsedTime, 20)
     elapsedTime = t
@@ -27,7 +27,7 @@ export function Simulation () {
   }
 
   const addCar = () => {
-    let idealSpeed = 70 + Math.random() * 40
+    let idealSpeed = (70 + Math.random() * 40) / 3.6
 
     let car = new Car({speed : idealSpeed})
     let driver = Driver({car, road, targetSpeed : idealSpeed})

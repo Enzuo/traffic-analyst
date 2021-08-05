@@ -59,6 +59,15 @@
     setTimeout(() => {
       cancelLoopHandler = window.requestAnimationFrame(runLoop)
     }, 500)
+
+
+    // background grid
+    let background = svggraph.rect(canvasWidth, canvasHeight)
+    const gridSize = 25 
+    var pattern = svggraph.pattern(gridSize*scale,canvasHeight, function(add) {
+      add.rect(gridSize*scale,canvasHeight).stroke('#ddd').fill('none')
+    }).move(0,0)
+    background.fill(pattern)
   })
 
 </script>

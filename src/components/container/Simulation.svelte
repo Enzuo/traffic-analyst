@@ -84,7 +84,7 @@
       options={{viewY: 150, viewX: 30}} 
       observeData={() => {
         let carState = observedCar.state
-        return [elapsedTime/1000, carState.speed]
+        return [elapsedTime/1000, carState.speed * 3.6]
       }}
     />
   </div>
