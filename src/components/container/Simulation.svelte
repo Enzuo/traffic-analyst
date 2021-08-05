@@ -63,11 +63,11 @@
       }}
     />
     <RealTimeGraph 
-      title="Torque" 
-      options={{viewY: 250, viewX: 30}} 
+      title="Brake" 
+      options={{viewY: 1, viewX: 30}} 
       observeData={() => {
         let carState = observedCar.state
-        return [elapsedTime/1000, carState.torque]
+        return [elapsedTime/1000, carState.brake]
       }}
     />
     <RealTimeGraph 
@@ -95,6 +95,14 @@
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.acceleration]
+      }}
+    />
+    <RealTimeGraph 
+      title="Torque" 
+      options={{viewY: 250, viewX: 30}} 
+      observeData={() => {
+        let carState = observedCar.state
+        return [elapsedTime/1000, carState.torque]
       }}
     />
     <RealTimeGraph 

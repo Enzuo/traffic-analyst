@@ -29,7 +29,7 @@ export default function Car ({
     height : 1562,
     dragCoef : 0.29, // cd
     dragArea : 2.1,
-    brakePadsForce : 15000,
+    brakePadsForce : 12000,
   }
 
   // car state
@@ -110,7 +110,7 @@ export default function Car ({
   this.setSpeed = function (speed) {
     this.state.speed = Math.max(speed, 0)
 
-    // mininum rpm : allow drive from a standstill
+    // mininum 50 rpm : allow drive from a standstill
     this.state.rpm = Math.max(speed * 3.6 * revRatio, 50)
   }
 

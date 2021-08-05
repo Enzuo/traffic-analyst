@@ -4,6 +4,7 @@ export default function Road(){
   function addCar(car, position = 0) {
     car.position = position
     cars.push(car)
+    // TODO sort by position
   }
 
   function animate(t, dt) {
