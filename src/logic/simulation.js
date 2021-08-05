@@ -22,10 +22,10 @@ export function Simulation () {
     elapsedTime = t
     elapsedSimulationTime += dt
 
-    // if(carGenerator.tickInterval(2000, elapsedSimulationTime)) {
-    //   let cruisingSpeed = (70 + Math.random() * 40)
-    //   addCar(cruisingSpeed)
-    // }
+    if(carGenerator.tickInterval(2000, elapsedSimulationTime)) {
+      let cruisingSpeed = (70 + Math.random() * 40)
+      addCar(cruisingSpeed)
+    }
 
     drivers.forEach(driver => driver.animate(t, dt))
     cars.forEach(car => car.animate(t, dt))
@@ -34,8 +34,8 @@ export function Simulation () {
 
   const addCar = (cruisingSpeed, position) => {
     cruisingSpeed /= 3.6
-
-    let car = new Car({speed : 25})
+    const initialSpeed = cruisingSpeed
+    let car = new Car({speed : initialSpeed})
     let driver = Driver({car, road, cruisingSpeed})
 
     drivers.push(driver)
