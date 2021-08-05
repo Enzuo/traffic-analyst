@@ -1,6 +1,7 @@
 import Car from "./car"
 import Driver from "./driver"
 import Road from "./road"
+import Utils from "./utils"
 
 export function Simulation () {
   let elapsedTime = 0
@@ -10,7 +11,7 @@ export function Simulation () {
   let cars = []
   let road = Road()
   
-  const carGenerator = Ticker()
+  const carGenerator = Utils.createTicker()
 
   const init = () => {
     addCar(50,100)
@@ -35,7 +36,7 @@ export function Simulation () {
   const addCar = (cruisingSpeed, position) => {
     cruisingSpeed /= 3.6
     const initialSpeed = cruisingSpeed
-    let car = new Car({speed : initialSpeed})
+    let car = new Car({speed : 25})
     let driver = Driver({car, road, cruisingSpeed})
 
     drivers.push(driver)
@@ -47,6 +48,7 @@ export function Simulation () {
     return {
       elapsedTime,
       cars,
+      drivers,
       road,
     }
   }
@@ -59,15 +61,3 @@ export function Simulation () {
   }    
 }
 
-function Ticker() {
-  let lastTick = 0
-  return {
-    tickInterval : (interval, t) => {
-      if(t - lastTick >= interval){
-        lastTick = t
-        return true
-      }
-      return false
-    }
-  }
-}
