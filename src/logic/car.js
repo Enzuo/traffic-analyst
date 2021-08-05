@@ -29,6 +29,7 @@ export default function Car ({
     height : 1562,
     dragCoef : 0.29, // cd
     dragArea : 2.1,
+    brakePadsForce : 15000,
   }
 
   // car state
@@ -36,6 +37,7 @@ export default function Car ({
     speed : speed, // m/s
     rpm : speed * revRatio,
     throttle : 0,
+    brake : 0,
     power : 0, // Kw
     torque : 0, 
     force : 0,
@@ -51,6 +53,16 @@ export default function Car ({
    */
   this.accelerate = function (throttleRatio) {
     this.state.throttle = Math.max(Math.min(throttleRatio, 1), 0)
+    this.state.brake = 0
+  }
+
+    /**
+   * Adjust car brakes
+   * @param {number} brakeRatio 0.0 to 1.0
+   */
+  this.brake = function (brakeRatio) {
+    this.state.brake = Math.max(Math.min(brakeRatio, 1), 0)
+    this.state.throttle = 0
   }
 
   /**
@@ -69,8 +81,8 @@ export default function Car ({
   this.updateForces = function (dt){
     const coefWheelDrag = 0.25
     const gravity = 10
-    const {torqueCurve, weight, dragCoef, dragArea} = this.props
-    const {speed, rpm, throttle} = this.state
+    const {torqueCurve, weight, dragCoef, dragArea, brakePadsForce} = this.props
+    const {speed, rpm, throttle, brake} = this.state
 
     // wheel drag force
     let wheelDrag = weight * coefWheelDrag // * Math.min(Math.abs(state.speed), 1)
@@ -79,12 +91,15 @@ export default function Car ({
     let torque = getTorqueForRPM(torqueCurve, rpm) * throttle
     let power = torqueToKW(torque, rpm)
 
+    // brake
+    let brakeForce = brake * brakePadsForce
+
     // calculate acceleration
     const mass = weight
     let distance = (Math.max(speed, 1)) * dt // min speed of 1m/s
     let work = power * 1000 * dt
     let force = work / distance
-    let acceleration = (force - airDrag - wheelDrag) / mass
+    let acceleration = (force - airDrag - wheelDrag - brakeForce) / mass
     let deltaV = acceleration * dt
 
     // update state
@@ -93,7 +108,7 @@ export default function Car ({
   }
 
   this.setSpeed = function (speed) {
-    this.state.speed = speed
+    this.state.speed = Math.max(speed, 0)
 
     // mininum rpm : allow drive from a standstill
     this.state.rpm = Math.max(speed * 3.6 * revRatio, 50)

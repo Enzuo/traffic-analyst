@@ -16,6 +16,22 @@ export default function Driver ({car, road, targetSpeed = 90}) {
 
     let carInFront = road.getObjectInFrontOf(car)
 
+    // return car.brake(1)
+
+    if(carInFront) {
+      let speedDiff = carState.speed - carInFront.speed
+      let distanceInSeconds = carInFront.distance / speedDiff
+
+      const anticipationDistance = 10
+      const minDistance = 1
+
+      if(distanceInSeconds < anticipationDistance  && distanceInSeconds > 0){
+        currentThrottle = 0
+        return car.brake(0.2)
+        // return car.accelerate(currentThrottle)
+      }
+    }
+
     let distToTargetSpeed = targetSpeed - carState.speed
     let distToTargetSpeedRatio = distToTargetSpeed / targetEasing
 

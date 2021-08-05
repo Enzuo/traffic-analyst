@@ -30,8 +30,8 @@
       // variable color
       console.log()
       if(car.id !== selectedId){
-        let red = Math.floor(255 * car.state.throttle)
-        let green = 255 - Math.floor(255 * car.state.throttle)
+        let red = 125 + Math.floor(125 * car.state.brake)
+        let green = 125 + Math.floor(255 * car.state.throttle)
         carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
       }
 
