@@ -10,27 +10,20 @@ export function Simulation () {
   let cars = []
   let road = Road()
   
+  const carGenerator = Ticker()
+  
   const forward = (t) => {
     let dt = Math.min(t - elapsedTime, 20)
     elapsedTime = t
     elapsedSimulationTime += dt
 
-    if(tickInterval(2000, elapsedSimulationTime)) {
+    if(carGenerator.tickInterval(2000, elapsedSimulationTime)) {
       addCar()
     }
 
     drivers.forEach(driver => driver.animate(t, dt))
     cars.forEach(car => car.animate(t, dt))
     road.animate(t, dt)
-  }
-
-  let lastTick = 0
-  const tickInterval = (interval, t) => {
-    if(t - lastTick >= interval){
-      lastTick = t
-      return true
-    }
-    return false
   }
 
   const addCar = () => {
@@ -56,4 +49,17 @@ export function Simulation () {
     forward,
     getState
   }    
+}
+
+function Ticker() {
+  let lastTick = 0
+  return {
+    tickInterval : (interval, t) => {
+      if(t - lastTick >= interval){
+        lastTick = t
+        return true
+      }
+      return false
+    }
+  }
 }

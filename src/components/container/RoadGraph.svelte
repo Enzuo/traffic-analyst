@@ -11,6 +11,7 @@
   let scale = 3
   let container
   let svggraph
+  let selectedId = null
 
 
   function animate () {
@@ -18,11 +19,20 @@
       let carBox = carBoxes[car.id]
 
       if(!carBox){
-        carBox = carBoxes[car.id] = svggraph.rect(4.1*scale, 1.8*scale).stroke('#000').fill('red')
+        carBox = carBoxes[car.id] = svggraph.rect(4.1*scale, 1.8*scale).stroke('#000').fill({ color: 'red' })
         carBox.click(function() {
+          selectedId = car.id
           onCarClick(car.id)
-          this.fill({ color: '#f06' })
+          carBox.fill({ color: 'yellow' })
         })
+      }
+
+      // variable color
+      console.log()
+      if(car.id !== selectedId){
+        let red = Math.floor(255 * car.state.throttle)
+        let green = 255 - Math.floor(255 * car.state.throttle)
+        carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
       }
 
       carBox.move(car.position*scale, 5)

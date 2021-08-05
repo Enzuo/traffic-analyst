@@ -27,6 +27,9 @@
   const handleCarClick = (id) => {
     observedCar = my_sim.getState().road.getCar(id)
   }
+  const stopCar = () => {
+    observedCar.setSpeed(0)
+  }
 
 </script>
 
@@ -48,6 +51,8 @@
   <RoadGraph road={my_sim.getState().road} onCarClick={handleCarClick}></RoadGraph>
   {#if observedCar}
   Id : {observedCar.id}
+  <button on:click={stopCar}>Stop</button>
+
   <div class="graph-panel">
     <RealTimeGraph 
       title="Throttle" 
