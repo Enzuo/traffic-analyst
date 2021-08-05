@@ -35,7 +35,7 @@ export function Simulation () {
   const addCar = (cruisingSpeed, position) => {
     cruisingSpeed /= 3.6
 
-    let car = new Car({speed : cruisingSpeed})
+    let car = new Car({speed : 25})
     let driver = Driver({car, road, cruisingSpeed})
 
     drivers.push(driver)

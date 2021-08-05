@@ -24,7 +24,7 @@
 
 
   // let observedCar = null
-  let observedCar = my_sim.getState().cars[1]
+  let observedCar = my_sim.getState().cars[0]
   const handleCarClick = (id) => {
     observedCar = my_sim.getState().road.getCar(id)
   }

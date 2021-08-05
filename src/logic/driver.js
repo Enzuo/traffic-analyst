@@ -7,7 +7,7 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
   let currentBrake = 0
 
   let targetThrottle = {low:0, high:1}
-  let targetEasing = 5
+  let targetEasing = 5 / 3.6
   let throttleIncidence = 1
   let previousThrottle = 0
   let previousAcc = null
@@ -47,11 +47,11 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
     deccelerationCurve = null
 
 
-    let isInEasingZone = (cruisingSpeed - carState.speed) < targetEasing
+    let isInEasingZone = Math.abs(cruisingSpeed - carState.speed) < targetEasing
 
     if(isInEasingZone){
       if(!accelerationCurve){
-        accelerationCurve = createLinearCurve(cruisingSpeed - targetEasing, cruisingSpeed, carState.acceleration, 0)
+        accelerationCurve = createLinearCurve(cruisingSpeed - targetEasing, cruisingSpeed, 1, 0)
       }
       let desiredAcc = accelerationCurve.getYForX(carState.speed)
       if(desiredAcc < carState.acceleration){
@@ -61,47 +61,18 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
         applyAccelerator(0.01)
       }
     }
-    else {
+    else if (carState.speed < cruisingSpeed){
       accelerationCurve = null
       applyAccelerator(0.01)
     }
-
-    // if(distToCrusingSpeedRatio < -1){
-    //   applyAccelerator(-0.02)
-    // }
-    // else if(distToCrusingSpeedRatio < 1){
-    //   applyAccelerator(-0.01)
-    // }
-    // else{
-    //   applyAccelerator(0.01)
-    // }
-
-    // let distToTargetSpeed = cruisingSpeed - carState.speed
-    // let distToTargetSpeedRatio = distToTargetSpeed / targetEasing
-
-    // throttleIncidence = getThrottleIncidence(previousThrottle, currentThrottle, previousAcc, carState.acceleration) ?? throttleIncidence
-    
-    // previousThrottle = currentThrottle
-
-    // if(distToTargetSpeedRatio < -1){
-    //   currentThrottle = 0
-    // }
-    // else if(distToTargetSpeedRatio < 1){
-    //   // let targetAcc = getCurve(previousSpeed, targetSpeed, carState.acceleration, 0, 'easingtoTarget')
-    //   let deltaSpeed = Math.abs(previousSpeed - carState.speed)
-    //   let curveRatio = deltaSpeed / Math.abs(previousSpeed - cruisingSpeed)
-    //   let targetAcc = curveRatio * carState.acceleration
-    //   currentThrottle -= targetAcc * throttleIncidence
-    // }
-    // else {
-    //   currentThrottle = 1
-    // }
-
-    // currentThrottle = Math.max(Math.min(currentThrottle, 1), 0)
-
-    // previousAcc = carState.acceleration
-    // previousSpeed = carState.speed
-    // applyAccelerator(currentThrottle)
+    else {
+      if(currentThrottle < 0.01){
+        applyBrake(0.01)
+      }
+      else {
+        applyAccelerator(-0.01)
+      }
+    }
   }
 
   function applyBrake(val){
