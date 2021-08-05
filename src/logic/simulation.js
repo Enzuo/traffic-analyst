@@ -13,7 +13,7 @@ export function Simulation () {
   const carGenerator = Ticker()
 
   const init = () => {
-    addCar(70,50)
+    addCar(50,100)
     addCar(110,0)
   }
 
@@ -23,8 +23,8 @@ export function Simulation () {
     elapsedSimulationTime += dt
 
     // if(carGenerator.tickInterval(2000, elapsedSimulationTime)) {
-    //   let idealSpeed = (70 + Math.random() * 40)
-    //   addCar(idealSpeed)
+    //   let cruisingSpeed = (70 + Math.random() * 40)
+    //   addCar(cruisingSpeed)
     // }
 
     drivers.forEach(driver => driver.animate(t, dt))
@@ -32,11 +32,11 @@ export function Simulation () {
     road.animate(t, dt)
   }
 
-  const addCar = (idealSpeed, position) => {
-    idealSpeed /= 3.6
+  const addCar = (cruisingSpeed, position) => {
+    cruisingSpeed /= 3.6
 
-    let car = new Car({speed : idealSpeed})
-    let driver = Driver({car, road, targetSpeed : idealSpeed})
+    let car = new Car({speed : cruisingSpeed})
+    let driver = Driver({car, road, cruisingSpeed})
 
     drivers.push(driver)
     cars.push(car)
@@ -46,7 +46,7 @@ export function Simulation () {
   const getState = () => {
     return {
       elapsedTime,
-      car : cars[0],
+      cars,
       road,
     }
   }
