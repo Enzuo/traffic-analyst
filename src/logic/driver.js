@@ -23,15 +23,16 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
     let carInFront = road.getObjectInFrontOf(car)
     if(carInFront) {
       let speedDiff = carState.speed - carInFront.speed
-      let distanceInSeconds = carInFront.distance / carState.speed
+      // distance really matters when its seen according to speed
+      let normalizedDistance = carInFront.distance / Math.max(carState.speed, 1)
 
       const anticipationDistance = 3
       const minDistance = 1
-      if(distanceInSeconds < anticipationDistance && distanceInSeconds > 0){
+      if(normalizedDistance < anticipationDistance && normalizedDistance > 0){
         if(!deccelerationCurve){
-          deccelerationCurve = createLinearCurve(distanceInSeconds, minDistance, carState.speed, carInFront.speed)
+          deccelerationCurve = createLinearCurve(normalizedDistance, minDistance, carState.speed, carInFront.speed)
         }
-        let desiredSpeed = deccelerationCurve.getYForX(distanceInSeconds) // getReachYForX
+        let desiredSpeed = deccelerationCurve.getYForX(normalizedDistance) // getReachYForX
         // release brake if under targetSpeed
         if(desiredSpeed > carState.speed){
           applyBrake(-0.02)

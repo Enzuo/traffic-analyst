@@ -16,8 +16,8 @@ export default function Road(){
       // collisions
       const carInFront = getObjectInFrontOf(car)
       if(carInFront){
-        if(carInFront.distance <= 4.1){
-          car.position = carInFront.position - 4.1
+        if(carInFront.distance <= 0){
+          car.position = carInFront.position - carInFront.props.length/1000
           car.setSpeed(carInFront.speed)
         }
       }
@@ -29,7 +29,7 @@ export default function Road(){
     // const car = cars[carIndex]
     const carInFront = cars[carIndex-1]
     if(carInFront){
-      return {...carInFront, speed : carInFront.state.speed, distance : carInFront.position - car.position}
+      return {...carInFront, speed : carInFront.state.speed, distance : carInFront.position - car.position - carInFront.props.length/1000}
     }
     return null
   }
