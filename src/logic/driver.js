@@ -47,7 +47,10 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
         && (carInFront.speed < (carState.speed + 1) || normalizedDistance < minDistance)
       ){
         accelerationCurve = null
-        deccelerationCurve = createLinearCurve(Math.max(normalizedDistance, minDistance+0.1), minDistance, carState.speed, carInFront.speed)
+        deccelerationCurve = createLinearCurve(
+          Math.max(normalizedDistance, minDistance+0.1), minDistance, 
+          Math.max(carState.speed, carInFront.speed), carInFront.speed
+        )
         return
       }
       if(deccelerationCurve){
