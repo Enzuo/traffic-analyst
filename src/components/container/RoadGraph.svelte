@@ -7,7 +7,7 @@
   export let road
   export let onCarClick = (id) => { console.log('click car', id)}
 
-  let carBoxes = {}
+  let carEntities = {}
   let scale = 3
   let container
   let svggraph
@@ -16,26 +16,39 @@
 
   function animate () {
     road.getState().cars.forEach((car) => {
-      let carBox = carBoxes[car.id]
+      let carEntity = carEntities[car.id]
 
-      if(!carBox){
-        carBox = carBoxes[car.id] = svggraph.rect(4.1*scale, 1.8*scale).stroke('#000').fill({ color: 'red' })
-        carBox.click(function() {
+      if(!carEntity){
+        const circleSize = 10
+        const carLength = 4.1
+        const carWidth = 1.8
+        
+        let group = svggraph.group()
+        let selectCircle = group.circle(circleSize * scale)
+          .stroke('none').fill({ color: 'red' })
+          .move(-circleSize/2 * scale,-circleSize/2 * scale)
+        let carBox = group.rect(carLength * scale, carWidth * scale)
+          .stroke('#000').fill({ color: 'red' })
+          .move(-carLength/2 * scale, -carWidth/2 * scale)
+
+        group.click(function() {
           selectedId = car.id
           onCarClick(car.id)
-          carBox.fill({ color: 'yellow' })
+          selectCircle.fill({ color: 'rgba(255, 255, 0, 0.30)' })
         })
+
+        carEntity = carEntities[car.id] = {group, carBox, selectCircle}
       }
 
       // variable color
-      console.log()
+      let red = 125 + Math.floor(125 * car.state.brake)
+      let green = 125 + Math.floor(255 * car.state.throttle)
+      carEntity.carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
       if(car.id !== selectedId){
-        let red = 125 + Math.floor(125 * car.state.brake)
-        let green = 125 + Math.floor(255 * car.state.throttle)
-        carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
+        carEntity.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.03)'})
       }
 
-      carBox.move(car.position*scale, 5)
+      carEntity.group.move(car.position*scale, 5)
     })
   }
 

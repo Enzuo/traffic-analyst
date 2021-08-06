@@ -42,8 +42,9 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
     bigBrainTicker.tickInterval(1000, t, () => {
       // reacting to the car in front
       if(normalizedDistance < anticipationDistance 
-        && normalizedDistance > 0 
-        && carInFront.speed < (carState.speed + 1)
+        // && normalizedDistance > 0 
+        && normalizedDistance !== null
+        && (carInFront.speed < (carState.speed + 1) || normalizedDistance < minDistance)
       ){
         accelerationCurve = null
         deccelerationCurve = createLinearCurve(Math.max(normalizedDistance, minDistance+0.1), minDistance, carState.speed, carInFront.speed)

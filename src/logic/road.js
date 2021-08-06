@@ -1,9 +1,18 @@
 export default function Road(){
   let cars = []
 
+  let nbCarIn = 0
+
   function addCar(car, position = 0) {
+    // don't add the car if already someone in that spot
+    if(cars.find(c => {
+      return c.position < position + 4 && c.position > position - 4
+    })){
+      return
+    }
     car.position = position
     cars.push(car)
+    nbCarIn++
     // TODO sort by position
   }
 
@@ -35,11 +44,7 @@ export default function Road(){
   }
 
   function getState() {
-    return {cars}
-  }
-
-  function getCar(id){
-    return cars.find(c => id === c.id)
+    return {cars, nbCarIn}
   }
 
 
@@ -48,6 +53,5 @@ export default function Road(){
     getObjectInFrontOf,
     animate,
     getState,
-    getCar,
   }
 }

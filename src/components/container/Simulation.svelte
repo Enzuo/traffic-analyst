@@ -33,7 +33,9 @@
   let observedDriver = my_sim.getState().drivers[1]
 
   const handleCarClick = (id) => {
-    observedCar = my_sim.getState().road.getCar(id)
+    let {driver, car} = my_sim.getCar(id)
+    observedCar = car
+    observedDriver = driver
   }
   const stopCar = () => {
     observedCar.setSpeed(0)
