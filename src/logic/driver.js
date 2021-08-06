@@ -9,7 +9,7 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
   let currentBrake = 0
 
   // following car behavior
-  const anticipationDistance = 2
+  const anticipationDistance = 2.5
   const minDistance = 1
   let normalizedDistance = 0
   let desiredSpeed = 0
@@ -43,10 +43,10 @@ export default function Driver ({car, road, cruisingSpeed = 25}) {
       // reacting to the car in front
       if(normalizedDistance < anticipationDistance 
         && normalizedDistance > 0 
-        && carInFront.speed < carState.speed
+        && carInFront.speed < (carState.speed + 1)
       ){
         accelerationCurve = null
-        deccelerationCurve = createLinearCurve(normalizedDistance, minDistance, carState.speed, carInFront.speed)
+        deccelerationCurve = createLinearCurve(Math.max(normalizedDistance, minDistance+0.1), minDistance, carState.speed, carInFront.speed)
         return
       }
       if(deccelerationCurve){
