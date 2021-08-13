@@ -21,3 +21,6 @@ npm run dev
 ## Misc
 
 Built using svelte, typescript, jsdoc
+
+Tags : 
+Rule 184, stop waves
