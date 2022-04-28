@@ -1,9 +1,10 @@
 <script lang="ts">
+  import Cars from '@/components/container/Cars.svelte'
   import Simulation from '@/components/container/Simulation.svelte'
 </script>
 
 <main>
-  <Simulation/>
+  <Cars/>
 </main>
 
 <style>

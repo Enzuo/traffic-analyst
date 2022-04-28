@@ -1,5 +1,5 @@
-import * as database from './database.js'
+import * as db from './database.js'
 
-function listCars() {
-  
+export function listCars() {
+  return db.car.list()
 }

@@ -1,3 +1,5 @@
-export const database = {
-  
+import * as data from './database.json'
+
+export const car = {
+  list : () => data.cars
 }

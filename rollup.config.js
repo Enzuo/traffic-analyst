@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
+import json from '@rollup/plugin-json';
 import path from 'path';
 
 
@@ -75,6 +76,8 @@ export default {
         { find: '@', replacement: path.resolve(projectRootDir, 'src')}
       ]
     }),
+
+    json(),
 
     // In dev mode, call `npm run start` once
     // the bundle has been generated
