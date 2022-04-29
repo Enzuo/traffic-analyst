@@ -1,0 +1,8 @@
+name: zoe
+engine:
+  torqueY: [190, 220, 220, 150, 105, 80, 65 , 52 , 30 ]
+  torqueX: [0  , 7  , 33 , 50 , 70 , 90, 110, 135, 200]
+  torqueXMultiplier: 83
+
+gearRatio: [1]
+gearSpeed: 12.05

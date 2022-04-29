@@ -1,0 +1,5 @@
+name : hyundai i20 1.2 (84)
+weight : 1050
+engine : hyundai_petrol_1.2_84
+gearRatio : [3.727, 2.056, 1.269, 0.906, 0.719]
+gearSpeed : 35.4

@@ -23,11 +23,12 @@ for(let i=0; i<folders.length; i++){
       console.error("Parsing error on line " + e.line + ", column " + e.column +
         ": " + e.message);
     }
+    // add unique id based on filename (which should be unique)
+    let id = path.basename(folderFiles[j], '.yaml')
+    fileParsed['id'] = id
 
     database[folder].push(fileParsed)
   }
 }
-
-console.log(database)
 
 fs.writeFileSync(path.join(__dirname,  'database.json'), JSON.stringify(database, null, 2))
