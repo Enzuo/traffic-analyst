@@ -21,7 +21,6 @@ export function create(props){
 
 
 export function updateForces(car, dt){
-  console.log('update forces')
   let dts = dt/1000
   const coefWheelDrag = 0.25
   const gravity = 10
@@ -58,7 +57,7 @@ export function updateForces(car, dt){
     engineRpm : rpmForSpeed
   }
 
-  console.log(force,airDrag,wheelDrag,brakeForce)
+  // console.log(force,airDrag,wheelDrag,brakeForce)
 
   return Object.assign(car, { state : Object.assign(car.state, newState)})
 }

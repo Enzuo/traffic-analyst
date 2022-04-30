@@ -4,6 +4,7 @@
 
 </script>
 
+
 <ul>
 	{#each cars as car}
 		<li>{car.name}</li>
