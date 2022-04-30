@@ -21,6 +21,7 @@ export function Simulation () {
   }
 
   const start = () => {
+    if(cancelLoopHandler) return
     cancelLoopHandler = window.requestAnimationFrame(runLoop)
     isPlaying = true
   }
@@ -40,7 +41,7 @@ export function Simulation () {
     elapsedSimulationTime += dt
 
     for(var i=0; i<animateFn.length; i++){
-      animateFn[i](t, dt)
+      animateFn[i](elapsedSimulationTime, dt)
     }
   }
   

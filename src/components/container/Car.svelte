@@ -1,20 +1,54 @@
 <script>
   import * as cardata from '@/logic/cardata'
   import {Simulation} from '@/logic/simulation2'
+  import * as Car from '@/logic/car2'
 
   let carId = 'renault_zoe'
 
-  let car = cardata.getCar(carId)
+  let carSpecs = cardata.getCar(carId)
 
-  let carAccSim = Simulation()
+  let carAccelerationSim = Simulation()
+  let carEntity = Car.create(carSpecs)
+  carEntity.state.throttleInput = 1
 
-  carAccSim.addAnimate((t, dt) => {
-    console.log('anim', dt)
+
+  let time = 0
+  let engineRpm = 0
+  let speed = 0
+
+  carAccelerationSim.addAnimate((t, dt) => {
+    carEntity = Car.updateForces(carEntity, dt)
+    
+    // update display
+    time = t
+    engineRpm = carEntity.state.engineRpm
+    speed = carEntity.state.speed
   })
 
-  carAccSim.start()
+  function handleStart() {
+    carAccelerationSim.start()
+	}
+  function handleStop() {
+    carAccelerationSim.stop()
+	}
 
-  console.log(car)
+
+  console.log(carSpecs, carEntity)
 
 </script>
 
+
+Car : {carSpecs.name}
+
+<button on:click={handleStart}>Start</button>
+<button on:click={handleStop}>Stop</button>
+<br/>
+<div>
+  Time simulation elapsed : {Math.floor(time)}
+</div>
+<div>
+  Speed : {Math.floor(speed*3.6)}
+</div>
+<div>
+  Engine rpm : {Math.floor(engineRpm)}
+</div>
