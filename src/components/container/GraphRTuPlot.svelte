@@ -2,13 +2,14 @@
   import { onMount } from 'svelte'
   import { createGraph } from '@/logic/graphRTuPlot'
 
+  export let title
   export let data = [[], []]
 
   
   let chart
   onMount(() => {
     let chartElement = document.getElementById('chart')			
-    chart = createGraph(chartElement)
+    chart = createGraph({title},chartElement)
   })
 
   const updateGraph = (data) => {

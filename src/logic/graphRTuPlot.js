@@ -42,14 +42,14 @@ const options = {
   ],
 }
 
-let plotChart
+// let plotChart
 
 let chartData = [
   [],[]
 ];
 
-export function createGraph(element){
-  plotChart = new uPlot(options, chartData, element);
+export function createGraph(opts, element){
+  let plotChart = new uPlot(Object.assign(options, opts), chartData, element);
   return { setData : (data) => {
     plotChart.setData(data)
   }}

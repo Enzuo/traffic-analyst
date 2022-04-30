@@ -19,6 +19,7 @@
   let engineRpm = 0
   let speed = 0
   let speedHistory = [[], []]
+  let accHistory = [[], []]
 
   carAccelerationSim.addAnimate((t, dt) => {
     carEntity = Car.updateForces(carEntity, dt)
@@ -27,11 +28,15 @@
     time = t
     engineRpm = carEntity.state.engineRpm
     speed = carEntity.state.speed
-
+    
     // update chart
+    let acc = carEntity.state.acceleration
     speedHistory[0].push(t/1000)
     speedHistory[1].push(speed*3.6)
+    accHistory[0].push(t/1000)
+    accHistory[1].push(acc)
     speedHistory = speedHistory
+    accHistory = accHistory
   })
 
   function handleStart() {
@@ -66,4 +71,5 @@ Car : {carSpecs.name}
   Engine rpm : {Math.floor(engineRpm)}
 </div>
 
-<GraphRtUplot data={speedHistory}></GraphRtUplot>
+<GraphRtUplot title="Speed" data={speedHistory}></GraphRtUplot>
+<GraphRtUplot title="Acceleration" data={accHistory}></GraphRtUplot>

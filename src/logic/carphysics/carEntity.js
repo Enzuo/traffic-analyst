@@ -54,7 +54,8 @@ export function updateForces(car, dt){
 
   let newState = {
     speed : speed + (deltaV ? deltaV : 0),
-    engineRpm : rpmForSpeed
+    engineRpm : rpmForSpeed,
+    acceleration, force, airDrag, torque, power
   }
 
   // console.log(force,airDrag,wheelDrag,brakeForce)
