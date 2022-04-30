@@ -1,7 +1,7 @@
 <script>
   import * as cardata from '@/logic/cardata'
   import {Simulation} from '@/logic/simulation2'
-  import * as Car from '@/logic/car2'
+  import * as Car from '@/logic/carphysics/carEntity'
 
   let carId = 'renault_zoe'
 

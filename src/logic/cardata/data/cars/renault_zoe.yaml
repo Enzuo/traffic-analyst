@@ -6,3 +6,10 @@ engine:
 
 gearRatio: [1]
 gearSpeed: 12.05
+weight : 1468
+length : 4084
+width : 1730
+height : 1562
+dragCoef : 0.29
+dragArea : 2.1
+brakePadsForce : 12000
