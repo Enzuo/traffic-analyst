@@ -8,7 +8,7 @@
 
   let carId = 'renault_zoe'
 
-  let carSpecs = cardata.getCar(carId)
+  let carSpecs = cardata.getCar(carId, 0)
 
   let carAccelerationSim = Simulation()
   let carEntity = Car.create(carSpecs)
@@ -72,7 +72,7 @@
 </script>
 
 
-Car : {carSpecs.name}
+Car : {carSpecs.name} {carSpecs.trim}
 
 <button on:click={handleStart}>Start</button>
 <button on:click={handleStop}>Stop</button>

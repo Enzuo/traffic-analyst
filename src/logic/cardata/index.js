@@ -4,8 +4,12 @@ export function listCars() {
   return db.car.list()
 }
 
-export function getCar(id) {
+export function getCar(id, indexTrim) {
   let car = db.car.get(id)
+
+  if(typeof indexTrim !== 'undefined' && car.trims && car.trims[indexTrim]){
+    car = Object.assign(car, car.trims[indexTrim])
+  }
 
   // get linked engine
   if(typeof car.engine === 'string'){

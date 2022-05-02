@@ -2,7 +2,7 @@ name: zoe
 trim: Q90
 year: 2017
 engine:
-  torqueY: [190, 220, 220, 150, 105, 80, 65 , 52 , 30 ]
+  torqueY: [190, 220, 220, 162, 115, 90, 73 , 60 , 40 ]
   torqueX: [0  , 7  , 33 , 50 , 70 , 90, 110, 135, 200]
   torqueXMultiplier: 80
 
@@ -16,3 +16,13 @@ height : 1562
 dragCoef : 0.29
 dragArea : 2.1
 brakePadsForce : 12000
+
+
+
+trims:
+  - trim : r75 life
+    year : 2016
+    engine : 
+      torqueY: [190, 210 , 210, 167 , 137 , 98  , 78   , 60  , 48   ]
+      torqueX: [0  , 250, 2500, 3250, 4000, 5500, 7000 , 9000, 11300]
+      torqueXMultiplier: 1
