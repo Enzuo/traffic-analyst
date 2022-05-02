@@ -3,13 +3,14 @@
   import { createGraph } from '@/logic/graphRTuPlot'
 
   export let title
+  export let units
   export let data = [[], []]
 
   
   let chart
   onMount(() => {
     let chartElement = document.getElementById('chart')			
-    chart = createGraph({title},chartElement)
+    chart = createGraph({title, units},chartElement)
   })
 
   const updateGraph = (data) => {
