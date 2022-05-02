@@ -6,7 +6,7 @@
 
 
 
-  let carId = 'hyundai_i20'
+  let carId = 'renault_zoe'
 
   let carSpecs = cardata.getCar(carId)
 
