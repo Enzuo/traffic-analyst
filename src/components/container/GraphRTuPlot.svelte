@@ -6,6 +6,7 @@
   export let units
   export let key
   export let time
+  export let transformFn
   export let observed 
   let dataHistory = [[], []]
 
@@ -18,8 +19,9 @@
 
   const updateGraph = (t) => {
     if(chart){
+      let value = transformFn ? transformFn(observed[key]) : observed[key]
       dataHistory[0].push(t/1000)
-      dataHistory[1].push(observed[key])
+      dataHistory[1].push(value)
 
       chart.setData(dataHistory)
     }

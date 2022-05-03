@@ -50,7 +50,9 @@
 
   console.log(carSpecs, carEntity)
 
-
+  function mstokmh(ms){
+    return ms * 3.6
+  }
 
 
 
@@ -78,6 +80,7 @@ Car : {carSpecs.name} {carSpecs.trim}
 <GraphRtUplot 
   title="Speed" 
   key="speed" 
+  transformFn={mstokmh}
   time={time}
   observed={carEntity.state}
 ></GraphRtUplot>
