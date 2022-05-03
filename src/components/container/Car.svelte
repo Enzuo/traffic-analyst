@@ -6,9 +6,9 @@
 
 
 
-  let carId = 'renault_zoe'
+  let carId = 'hyundai_i20'
 
-  let carSpecs = cardata.getCar(carId, 0)
+  let carSpecs = cardata.getCar(carId)
 
   let carAccelerationSim = Simulation()
   let carEntity = Car.create(carSpecs)

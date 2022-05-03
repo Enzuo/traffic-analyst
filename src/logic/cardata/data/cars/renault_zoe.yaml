@@ -5,6 +5,7 @@ engine:
   torqueY: [190, 220, 220, 162, 115, 90, 73 , 60 , 40 ]
   torqueX: [0  , 7  , 33 , 50 , 70 , 90, 110, 135, 200]
   torqueXMultiplier: 80
+  minRPM: 50
 
 gearRatio: [1]
 driveRatio: 9.3
