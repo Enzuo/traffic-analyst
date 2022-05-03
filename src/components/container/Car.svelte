@@ -6,7 +6,7 @@
 
 
 
-  let carId = 'hyundai_i20'
+  let carId = 'renault_trafic2'
 
   let carSpecs = cardata.getCar(carId)
 
@@ -19,9 +19,6 @@
   let engineRpm = 0
   let speed = 0
   let gearInput
-  let speedHistory = [[], []]
-  let accHistory = [[], []]
-  let powerHistory = [[], []]
 
   carAccelerationSim.addAnimate((t, dt) => {
     carEntity = Car.updateForces(carEntity, dt)
@@ -41,18 +38,6 @@
     engineRpm = carEntity.state.engineRpm
     speed = carEntity.state.speed
     gearInput = carEntity.state.gearInput
-    
-    // update chart
-    let acc = carEntity.state.acceleration
-    speedHistory[0].push(t/1000)
-    speedHistory[1].push(speed*3.6)
-    accHistory[0].push(t/1000)
-    accHistory[1].push(acc)
-    powerHistory[0].push(t/1000)
-    powerHistory[1].push(carEntity.state.power)
-    speedHistory = speedHistory
-    accHistory = accHistory
-    powerHistory = powerHistory
   })
 
   function handleStart() {
@@ -90,6 +75,23 @@ Car : {carSpecs.name} {carSpecs.trim}
   Gear : {gearInput}
 </div>
 
-<GraphRtUplot title="Speed" data={speedHistory}></GraphRtUplot>
-<GraphRtUplot units="m/s²" title="Acceleration" data={accHistory}></GraphRtUplot>
-<GraphRtUplot units="kw" title="Power" data={powerHistory}></GraphRtUplot>
+<GraphRtUplot 
+  title="Speed" 
+  key="speed" 
+  time={time}
+  observed={carEntity.state}
+></GraphRtUplot>
+<GraphRtUplot 
+  title="Acceleration" 
+  units="m/s²" 
+  key="acceleration" 
+  time={time}
+  observed={carEntity.state}
+></GraphRtUplot>
+<GraphRtUplot 
+  title="Power" 
+  units="kw" 
+  key="power" 
+  time={time}
+  observed={carEntity.state}
+></GraphRtUplot>

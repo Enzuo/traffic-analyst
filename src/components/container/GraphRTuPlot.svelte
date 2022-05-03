@@ -4,7 +4,10 @@
 
   export let title
   export let units
-  export let data = [[], []]
+  export let key
+  export let time
+  export let observed 
+  let dataHistory = [[], []]
 
   
   let chart
@@ -13,15 +16,17 @@
     chart = createGraph({title, units},chartElement)
   })
 
-  const updateGraph = (data) => {
+  const updateGraph = (t) => {
     if(chart){
-      chart.setData(data)
+      dataHistory[0].push(t/1000)
+      dataHistory[1].push(observed[key])
+
+      chart.setData(dataHistory)
     }
   }
 
-  $: updateGraph(data)
+  $: updateGraph(time)
 
 </script>
 
-Graph : 
 <div id="chart"></div>
