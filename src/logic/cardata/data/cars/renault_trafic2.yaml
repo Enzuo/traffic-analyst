@@ -1,0 +1,38 @@
+name : renault trafic 2 dci 2.0 (90)
+trim : L1H1
+
+# -------------
+# ENGINE
+# -------------
+engine:     
+  name : m9r dci 2.0 90
+  torqueY : [140 ,240 ,240 ,240 ,200 ,190 ,160]
+  torqueX : [1000,1500,2000,2500,3000,3500,4000]
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [4.564, 2.442, 1.515, 0.986, 0.773, 0.600]
+driveRatio : 4.2
+gearSpeed : 50.44
+wheelDiameter : 67
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1848
+width : 1904
+height : 1962
+length : 4782
+dragArea : 3.5
+dragCoef : 0.4
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim : L2H2
+    length : 5180
+    height : 2460
+    dragArea : 4.67
+    weight : 1810
