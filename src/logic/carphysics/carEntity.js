@@ -25,7 +25,7 @@ export function updateForces(car, dt){
   let dts = dt/1000
   // const coefWheelDrag = 0.0025
   const gravity = 9.81
-  const {engine, gearRatio, driveRatio, gearSpeed, weight, dragCoef, dragArea, brakePadsForce} = car.props
+  const {engine, gearRatio, driveRatio, gearSpeed, weight, dragCoef, dragArea, brakePadsForce, wheelDiameter} = car.props
   const {speed, engineRpm, throttleInput, brakeInput, gearInput} = car.state
 
   // wheel drag force
@@ -36,7 +36,7 @@ export function updateForces(car, dt){
   // let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
   // let accelerationSlip = 
 
-  let coefWheelDrag = 0.03   
+  let coefWheelDrag = 0.03  
   let rollingResistanceForce = weight * gravity * coefWheelDrag// * Math.min(Math.abs(state.speed), 1) 
   let aeroDragForce = getAirDragForce(speed, dragCoef, dragArea)
 
@@ -49,17 +49,12 @@ export function updateForces(car, dt){
   // calculate acceleration
   const mass = weight
 
-  // let distance = (Math.max(speed, 1)) * dts // min speed of 1m/s
-  // let work = power * 1000 * dts
-  // let force = work / distance
-  // let acceleration = (force - aeroDragForce - rollingResistanceForce - brakeForce) / mass
-  // let deltaV = acceleration * dts
-
   let transmissionEfficiency = gearRatio[gearInput] > 1 ? 0.85 : 0.9
-  let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio[gearInput]
-  let wheelRadius = 0.31
-  let forceAtWheel = torqueAtWheel / wheelRadius
-  let acceleration = (forceAtWheel - aeroDragForce - rollingResistanceForce - brakeForce) / mass
+  let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
+
+  // let thrustForce = getEngineForceFromTorque(torque, driveRatio, gearRatio[gearInput], wheelDiameter)
+
+  let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass
   let deltaV = acceleration * dts
 
   let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
@@ -69,7 +64,7 @@ export function updateForces(car, dt){
   let newState = {
     speed : speed + (deltaV ? deltaV : 0),
     engineRpm : rpmForSpeed,
-    acceleration, forceAtWheel, aeroDragForce, torque, power
+    acceleration, thrustForce, aeroDragForce, torque, power
   }
 
   // console.log(force,airDrag,wheelDrag,brakeForce)
@@ -86,6 +81,36 @@ export function updateForces(car, dt){
 function getEngineRpmForSpeed(speed, speedForGear, minRpm){
   let rpm = speed / (speedForGear/3.6/1000)
   return Math.max(rpm, minRpm)
+}
+
+/**
+ * 
+ * @param {number} speed  m/s
+ * @param {number} power kw
+ * @param {number} dts s
+ * @returns 
+ */
+function getEngineForceFromPower(speed, power, dts){
+  let distance = (Math.max(speed, 1)) * dts // min speed of 1m/s
+  let work = power * 1000 * dts
+  let force = work / distance
+  return force
+}
+
+/**
+ * 
+ * @param {number} torque nm
+ * @param {number} driveRatio 
+ * @param {number} gearRatio 
+ * @param {number} wheelDiameter cm
+ * @returns 
+ */
+function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDiameter = 63){
+  let transmissionEfficiency = gearRatio > 1 ? 0.85 : 0.9
+  let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio
+  let wheelRadius = (wheelDiameter/100)/2
+  let forceAtWheel = torqueAtWheel / wheelRadius
+  return forceAtWheel
 }
 
 
