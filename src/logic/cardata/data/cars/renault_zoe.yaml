@@ -1,25 +1,50 @@
 name: zoe
 trim: Q90
 year: 2017
+style: hatchback
+
+# -------------
+# ENGINE
+# -------------
 engine:
   torqueY: [190, 220, 220, 162, 115, 90, 73 , 60 , 40 ]
   torqueX: [0  , 7  , 33 , 50 , 70 , 90, 110, 135, 200]
   torqueXMultiplier: 80
   minRPM: 50
 
+# -------------
+# TRANSMISSION
+# -------------
 gearRatio: [1]
 driveRatio: 9.3
 gearSpeed: 12.6
+
+# -------------
+# DIMENSIONS
+# -------------
 weight : 1480
 length : 4084
 width : 1730
 height : 1562
 dragCoef : 0.29
 dragArea : 2.1
+
+wheelBase: 2588
+trunk: 338
+trunkMax: 1225
+clearance: 120
+
+# -------------
+# STATS
+# -------------
 brakePadsForce : 12000
+turningCircle : 10.56
+acc0100: 13.5 
 
 
-
+# -------------
+# TRIMS
+# -------------
 trims:
   - trim : r75 life
     year : 2016

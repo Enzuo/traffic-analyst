@@ -1,8 +1,33 @@
 name : hyundai i20 1.2 (84)
-weight : 1050
+year : 2015
+
+# -------------
+# ENGINE
+# -------------
 engine : hyundai_petrol_1.2_84
+
+# -------------
+# TRANSMISSION
+# -------------
 gearRatio : [3.727, 2.056, 1.269, 0.906, 0.719]
 driveRatio : 4.6
 gearSpeed : 35.4
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1050
+length: 4035
+width: 1734
+height: 1474
 dragCoef : 0.3
 dragArea : 2.12
+
+wheelbase: 2570
+trunk:
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 13.1
