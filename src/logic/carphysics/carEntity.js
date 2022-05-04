@@ -31,13 +31,12 @@ export function updateForces(car, dt){
   // wheel drag force
   let slope = 0
 
-  // TODO add acceleration slip, depending on acceleration of the car tire will sleep increasing rolling resistance up to 200%
-  // const tirePressure = 2.5
-  // let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
-  // let accelerationSlip = 
+  const tirePressure = 2.5
+  let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
+  // Depending on acceleration, tires will slip which can look like an increase in rolling resistance up to 200%
+  let tireSlip = 1 + car.state.acceleration * 0.3
 
-  let coefWheelDrag = 0.03  
-  let rollingResistanceForce = weight * gravity * coefWheelDrag// * Math.min(Math.abs(state.speed), 1) 
+  let rollingResistanceForce = weight * gravity * coefWheelDrag * tireSlip
   let aeroDragForce = getAirDragForce(speed, dragCoef, dragArea)
 
   let torque = getTorqueForRPM(engine.torqueCurve, engineRpm) * throttleInput
@@ -49,10 +48,10 @@ export function updateForces(car, dt){
   // calculate acceleration
   const mass = weight
 
-  let transmissionEfficiency = gearRatio[gearInput] > 1 ? 0.85 : 0.9
-  let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
+  // let transmissionEfficiency = gearRatio[gearInput] > 1 ? 0.85 : 0.9
+  // let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
 
-  // let thrustForce = getEngineForceFromTorque(torque, driveRatio, gearRatio[gearInput], wheelDiameter)
+  let thrustForce = getEngineForceFromTorque(torque, driveRatio, gearRatio[gearInput], wheelDiameter)
 
   let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass
   let deltaV = acceleration * dts
