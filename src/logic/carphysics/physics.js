@@ -4,7 +4,7 @@
  * @param {number} speedForGear km/h at 1000rpm
  * @param {number} minRpm 
  */
-export function getEngineRpmForSpeed(speed, speedForGear, minRpm){
+export function getEngineRpmForSpeed(speed, speedForGear, minRpm=0){
   let rpm = speed / (speedForGear/3.6/1000)
   return Math.max(rpm, minRpm)
 }
@@ -80,6 +80,7 @@ export function getPowerForSpeed(speed, weight, scx){
  * @returns {number} Force (N)
  */
 export function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDiameter = 63){
+  if(!torque) return null
   let transmissionEfficiency = getTransmissionEfficiency(gearRatio)
   let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio
   let wheelRadius = (wheelDiameter/100)/2

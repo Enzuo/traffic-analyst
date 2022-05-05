@@ -3,10 +3,12 @@
   import {Simulation} from '@/logic/simulation2'
   import * as Car from '@/logic/carphysics/carEntity'
   import GraphRtUplot from './GraphRTUplot.svelte'
+  import { getPowerForSpeed } from '@/logic/carphysics/physics'
+  import UPlotGearing from './UPlotGearing.svelte'
 
 
 
-  let carId = 'renault_trafic2'
+  let carId = 'hyundai_i20'
 
   let carSpecs = cardata.getCar(carId)
 
@@ -25,6 +27,7 @@
 
     // switch gear
     let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
+    // maxRpm = 3500
     if(carEntity.state.engineRpm >= maxRpm){
       // carEntity.state.throttleInput = 0
       let maxGear = carEntity.props.gearRatio.length - 1
@@ -69,6 +72,7 @@ Car : {carSpecs.name} {carSpecs.trim}
 </div>
 <div>
   Speed : {Math.floor(speed*3.6)}
+  Power needed : {getPowerForSpeed(speed, carEntity.props.weight, carEntity.props.dragCoef * carEntity.props.dragArea)}
 </div>
 <div>
   Engine rpm : {Math.floor(engineRpm)}
@@ -76,6 +80,8 @@ Car : {carSpecs.name} {carSpecs.trim}
 <div>
   Gear : {gearInput}
 </div>
+
+<UPlotGearing car={carSpecs}></UPlotGearing>
 
 <GraphRtUplot 
   title="Speed" 
