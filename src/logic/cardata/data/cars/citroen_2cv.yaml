@@ -38,7 +38,7 @@ trunkMax:
 # -------------
 acc0100: 
 turningCircle : 11
-fuelCapacity: 
+fuelTank: 25 
 
 
 # -------------
