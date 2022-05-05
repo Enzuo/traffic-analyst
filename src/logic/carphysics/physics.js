@@ -50,7 +50,7 @@ export function getRollingResistanceForce(speed, acceleration, weight){
   // For example, for pneumatic tires, a 5% slip can translate into a 200% increase in rolling resistance.
   // When the tractive force is about 40% of the maximum traction, the slip resistance is almost equal to the basic rolling resistance
   // At high torques, which apply a tangential force to the road of about half the weight of the vehicle, the rolling resistance may triple (a 200% increase).
-  let tireSlip = 1 + acceleration * 0.3
+  let tireSlip = 1 + acceleration * 0.4
 
   let rollingResistanceForce = weight * gravity * coefWheelDrag * tireSlip
   return rollingResistanceForce
