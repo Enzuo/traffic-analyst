@@ -9,12 +9,23 @@ export function getEngineRpmForSpeed(speed, speedForGear, minRpm){
   return Math.max(rpm, minRpm)
 }
 
+
+/**
+ * 
+ * @param {number} gearRatio 
+ * @param {*} gearBoxType 
+ * @returns {number} efficiency ratio between 0 and 1
+ */
+export function getTransmissionEfficiency(gearRatio, gearBoxType){
+  return gearRatio > 1 ? 0.85 : 0.96
+}
+
 /**
  * 
  * @param {number} speed  m/s
  * @param {number} power kw
  * @param {number} dts s
- * @returns 
+ * @returns {number} Force (N)
  */
 export function getEngineForceFromPower(speed, power, dts){
   let distance = (Math.max(speed, 1)) * dts // min speed of 1m/s
@@ -28,13 +39,17 @@ export function getEngineForceFromPower(speed, power, dts){
  * @param {number} speed m/s
  * @param {number} acceleration m/s²
  * @param {number} weight kg
- * @returns 
+ * @returns {number} Force (N)
  */
 export function getRollingResistanceForce(speed, acceleration, weight){
   const gravity = 9.81
   const tirePressure = 2.5
   let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
+  
   // Depending on acceleration, tires will slip which can look like an increase in rolling resistance up to 200%
+  // For example, for pneumatic tires, a 5% slip can translate into a 200% increase in rolling resistance.
+  // When the tractive force is about 40% of the maximum traction, the slip resistance is almost equal to the basic rolling resistance
+  // At high torques, which apply a tangential force to the road of about half the weight of the vehicle, the rolling resistance may triple (a 200% increase).
   let tireSlip = 1 + acceleration * 0.3
 
   let rollingResistanceForce = weight * gravity * coefWheelDrag * tireSlip
@@ -49,10 +64,10 @@ export function getRollingResistanceForce(speed, acceleration, weight){
  * @returns kw
  */
 export function getPowerForSpeed(speed, weight, scx){
-  console.log(speed, weight, scx)
   let rollingResistanceForce = getRollingResistanceForce(speed, 0, weight)
   let airDragForce = getAirDragForce(speed, scx)
-  let work = speed * (rollingResistanceForce + airDragForce)
+  let transmissionEfficiency = getTransmissionEfficiency(1)
+  let work = speed * ((rollingResistanceForce + airDragForce) / transmissionEfficiency)
   return work / 1000
 }
 
@@ -62,16 +77,22 @@ export function getPowerForSpeed(speed, weight, scx){
  * @param {number} driveRatio 
  * @param {number} gearRatio 
  * @param {number} wheelDiameter cm
- * @returns 
+ * @returns {number} Force (N)
  */
 export function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDiameter = 63){
-  let transmissionEfficiency = gearRatio > 1 ? 0.85 : 0.9
+  let transmissionEfficiency = getTransmissionEfficiency(gearRatio)
   let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio
   let wheelRadius = (wheelDiameter/100)/2
   let forceAtWheel = torqueAtWheel / wheelRadius
   return forceAtWheel
 }
 
+/**
+ * 
+ * @param {number} torque Nm
+ * @param {number} rpm 
+ * @returns {number} kw
+ */
 export function torqueToKW(torque, rpm){
   if(torque === null || !rpm){ return null }
   return (torque * rpm) / 9549
@@ -105,7 +126,7 @@ export function getAirDragForce(speed, SCx){
  * (Interpolate curve)
  * @param {number[][]} torqueCurve
  * @param {number} rpm 
- * @returns {number}
+ * @returns {number} Nm
  */
 export function getTorqueForRPM (torqueCurve, rpm) {
   var torque = torqueCurve.find((torque) => {

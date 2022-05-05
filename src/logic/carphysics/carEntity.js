@@ -2,6 +2,8 @@ import {
   getAirDragForce, 
   getRollingResistanceForce, 
   getEngineForceFromTorque, 
+  getTransmissionEfficiency,
+  getEngineForceFromPower,
   getTorqueForRPM, 
   torqueToKW, 
   getEngineRpmForSpeed
@@ -51,7 +53,7 @@ export function updateForces(car, dt){
   // calculate acceleration
   const mass = weight
 
-  // let transmissionEfficiency = gearRatio[gearInput] > 1 ? 0.85 : 0.9
+  // let transmissionEfficiency = getTransmissionEfficiency(gearRatio[gearInput])
   // let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
 
   let thrustForce = getEngineForceFromTorque(torque, driveRatio, gearRatio[gearInput], wheelDiameter)
