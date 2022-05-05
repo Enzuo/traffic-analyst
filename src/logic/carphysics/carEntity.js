@@ -1,5 +1,13 @@
-let uniqueId = 0
+import {
+  getAirDragForce, 
+  getRollingResistanceForce, 
+  getEngineForceFromTorque, 
+  getTorqueForRPM, 
+  torqueToKW, 
+  getEngineRpmForSpeed
+} from './physics'
 
+let uniqueId = 0
 
 export function create(props){
   return {
@@ -31,13 +39,8 @@ export function updateForces(car, dt){
   // wheel drag force
   let slope = 0
 
-  const tirePressure = 2.5
-  let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
-  // Depending on acceleration, tires will slip which can look like an increase in rolling resistance up to 200%
-  let tireSlip = 1 + car.state.acceleration * 0.3
-
-  let rollingResistanceForce = weight * gravity * coefWheelDrag * tireSlip
-  let aeroDragForce = getAirDragForce(speed, dragCoef, dragArea)
+  let rollingResistanceForce = getRollingResistanceForce(speed, car.state.acceleration, weight)
+  let aeroDragForce = getAirDragForce(speed, dragCoef * dragArea)
 
   let torque = getTorqueForRPM(engine.torqueCurve, engineRpm) * throttleInput
   let power = torqueToKW(torque, engineRpm)
@@ -69,113 +72,4 @@ export function updateForces(car, dt){
   // console.log(force,airDrag,wheelDrag,brakeForce)
 
   return Object.assign(car, { state : Object.assign(car.state, newState)})
-}
-
-/**
- * 
- * @param {number} speed m/s
- * @param {number} speedForGear km/h at 1000rpm
- * @param {number} minRpm 
- */
-function getEngineRpmForSpeed(speed, speedForGear, minRpm){
-  let rpm = speed / (speedForGear/3.6/1000)
-  return Math.max(rpm, minRpm)
-}
-
-/**
- * 
- * @param {number} speed  m/s
- * @param {number} power kw
- * @param {number} dts s
- * @returns 
- */
-function getEngineForceFromPower(speed, power, dts){
-  let distance = (Math.max(speed, 1)) * dts // min speed of 1m/s
-  let work = power * 1000 * dts
-  let force = work / distance
-  return force
-}
-
-/**
- * 
- * @param {number} torque nm
- * @param {number} driveRatio 
- * @param {number} gearRatio 
- * @param {number} wheelDiameter cm
- * @returns 
- */
-function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDiameter = 63){
-  let transmissionEfficiency = gearRatio > 1 ? 0.85 : 0.9
-  let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio
-  let wheelRadius = (wheelDiameter/100)/2
-  let forceAtWheel = torqueAtWheel / wheelRadius
-  return forceAtWheel
-}
-
-
-/*-----------------
-
-      Helpers
-
------------------*/
-function torqueToKW(torque, rpm){
-  if(torque === null || !rpm){ return null }
-  return (torque * rpm) / 9549
-}
-
-/**
- * https://www.engineeringtoolbox.com/drag-coefficient-d_627.html
- * Fd = 1/2 ρ v2 cd A                      
- * where
- * Fd = drag force (N)
- * ρ = density of fluid (1.2 kg/m3 for air at NTP)
- * v = flow velocity (m/s)
- * cd = drag coefficient
- * A = characteristic frontal area of the body  (m2)
- * 
- * @param {number} speed m/s
- * @param {number} dragCoef
- * @param {number} dragArea m2
- * 
- * @return {number} Force (N)
- */
-function getAirDragForce(speed, dragCoef, dragArea){
-  const rho = 1.2
-  let SCx = dragCoef * dragArea 
-  let airDrag = 0.5 * rho * Math.pow(speed, 2) * SCx
-  return airDrag
-}
-
-/**
- * Get Torque for any RPM
- * Assuming the torqueCurve is of the form
- * [[rpm, torque],[rpm, torque],...]
- * (Interpolate curve)
- * @param {number[][]} torqueCurve
- * @param {number} rpm 
- * @returns {number}
- */
-function getTorqueForRPM (torqueCurve, rpm) {
-  var torque = torqueCurve.find((torque) => {
-    return torque[0] === rpm
-  })
-  if(torque){
-    return torque[1]
-  }
-
-  var indexHigherRPM = torqueCurve.findIndex((torque) => {
-    return torque[0] > rpm
-  })
-  // not found or first torque point was higher,
-  // meaning the wanted rpm is before the torque curve if 0 or after if -1
-  if (indexHigherRPM <= 0) {
-    return null
-  }
-  var prevTorquePoint = torqueCurve[indexHigherRPM - 1]
-  var nextTorquePoint = torqueCurve[indexHigherRPM]
-
-  var distRPM = nextTorquePoint[0] - prevTorquePoint[0]
-  var distPercent = (rpm - prevTorquePoint[0]) / distRPM
-  var distTorque = nextTorquePoint[1] - prevTorquePoint[1]
-  return prevTorquePoint[1] + distTorque * distPercent
 }
