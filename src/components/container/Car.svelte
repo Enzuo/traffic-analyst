@@ -8,16 +8,21 @@
 
 
 
-  let carIds = ['renault_zoe', 'hyundai_i20']
+  let carIds = ['citroen_2cv',['citroen_2cv',0], 'renault_zoe', 'hyundai_i20']
 
   let carEntities = []
   for(var i=0; i<carIds.length; i++){
-    let carSpecs = cardata.getCar(carIds[i])
-    // console.log(carSpecs)
+    let carSpecs
+    if(carIds[i] instanceof Array){
+      carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
+    }
+    else {
+      carSpecs = cardata.getCar(carIds[i])
+    }
+
     let carEntity = Car.create(carSpecs)
     carEntity.state.throttleInput = 1
     carEntities.push(carEntity)
-    // console.log(JSON.stringify(carEntities, null, 2))
   }
 
   
@@ -79,7 +84,7 @@
 <button on:click={handleStop}>Stop</button>
 <br/>
 <div>
-  Time simulation elapsed : {Math.floor(time)}
+  Time simulation elapsed : {(time/1000).toFixed(1)}
 </div>
 <div>
   Speed : {Math.floor(speed*3.6)}

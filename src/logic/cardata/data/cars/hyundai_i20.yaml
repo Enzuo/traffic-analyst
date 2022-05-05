@@ -24,10 +24,12 @@ dragCoef : 0.3
 dragArea : 2.12
 
 wheelbase: 2570
-trunk:
+trunk: 326
 trunkMax:
 
 # -------------
 # STATS
 # -------------
 acc0100: 13.1
+turningCircle : 10.2
+fuelCapacity: 50
