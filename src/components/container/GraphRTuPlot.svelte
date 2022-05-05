@@ -13,17 +13,19 @@
   
   let chart
   onMount(() => {
-    let chartElement = document.getElementById('chart')			
-    chart = createGraph({title, units},chartElement)
+    let chartElement = document.getElementById('chart')	
+    
+    chart = createGraph({title, units, key, transformFn}, observed, chartElement)
   })
 
   const updateGraph = (t) => {
     if(chart){
-      let value = transformFn ? transformFn(observed[key]) : observed[key]
-      dataHistory[0].push(t/1000)
-      dataHistory[1].push(value)
+      chart.updateData(t, observed)
+      // let value = transformFn ? transformFn(observed[key]) : observed[key]
+      // dataHistory[0].push(t/1000)
+      // dataHistory[1].push(value)
 
-      chart.setData(dataHistory)
+      // chart.setData(dataHistory)
     }
   }
 

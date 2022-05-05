@@ -4,11 +4,33 @@ import 'uplot/dist/uPlot.min.css'
 
 // let plotChart
 
-let chartData = [
-  [],[]
-];
+// let chartData = [
+//   [],[]
+// ];
 
-export function createGraph(opts, element){
+let chartData = [[]]
+
+/**
+ * 
+ * @param {{title:string, units:string, key:string, transformFn:(v:number)=>number}} opts 
+ * @param {[{props:object, state:object}]} observed 
+ * @param {*} element 
+ * @returns 
+ */
+export function createGraph(opts, observed, element){
+
+  let series = []
+  let colors = ["blue","red","orange","green"]
+  for(let i=0; i<observed.length; i++){
+    series.push({
+      label: observed[i].props.name,
+      scale: "y",
+      value: (u, v) => v == null ? "-" : v.toFixed(1) + (opts.units || 'km/h'),
+      stroke: colors[i],
+    })
+
+    chartData.push([])
+  }
 
   const options = {
     title: opts.title || "Speed",
@@ -24,12 +46,7 @@ export function createGraph(opts, element){
     },
     series: [
       {},
-      {
-        label: opts.units || "Km/h",
-        scale: "y",
-        value: (u, v) => v == null ? "-" : v.toFixed(1),
-        stroke: "blue",
-      },
+      ...series
     ],
     scales: {
       "x": {
@@ -52,8 +69,20 @@ export function createGraph(opts, element){
   }
   
   let plotChart = new uPlot(Object.assign(options, opts), chartData, element);
-  return { setData : (data) => {
-    plotChart.setData(data)
-  }}
+  let {key, transformFn} = opts
+  return { 
+    setData : (data) => {
+      plotChart.setData(data)
+    },
+    updateData : (t, observed) => {
+      chartData[0].push(t/1000)
+      for(let i=0; i<observed.length; i++){
+        let value = transformFn ? transformFn(observed[i].state[key]) : observed[i].state[key]
+        chartData[i+1].push(value)
+        
+      }
+      plotChart.setData(chartData)
+    }
+  }
 }
 

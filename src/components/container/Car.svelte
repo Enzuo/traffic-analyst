@@ -8,39 +8,51 @@
 
 
 
-  let carId = 'hyundai_i20'
+  let carIds = ['renault_trafic2', 'hyundai_i20']
 
-  let carSpecs = cardata.getCar(carId)
+  let carEntities = []
+  for(var i=0; i<carIds.length; i++){
+    let carSpecs = cardata.getCar(carIds[i])
+    // console.log(carSpecs)
+    let carEntity = Car.create(carSpecs)
+    carEntity.state.throttleInput = 1
+    carEntities.push(carEntity)
+    // console.log(JSON.stringify(carEntities, null, 2))
+  }
 
-  let carAccelerationSim = Simulation()
-  let carEntity = Car.create(carSpecs)
-  carEntity.state.throttleInput = 1
-
-
+  
+  
   let time = 0
   let engineRpm = 0
   let speed = 0
   let gearInput
-
+  
+  let carAccelerationSim = Simulation()
   carAccelerationSim.addAnimate((t, dt) => {
-    carEntity = Car.updateForces(carEntity, dt)
+    for(let i=0; i<carEntities.length; i++){
+      let carEntity = carEntities[i]
+      carEntity = Car.updateForces(carEntity, dt)
 
-    // switch gear
-    let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
-    // maxRpm = 3500
-    if(carEntity.state.engineRpm >= maxRpm){
-      // carEntity.state.throttleInput = 0
-      let maxGear = carEntity.props.gearRatio.length - 1
-      if(carEntity.state.gearInput < maxGear){
-        carEntity.state.gearInput += 1
+      // switch gear
+      let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
+      // maxRpm = 3500
+      if(carEntity.state.engineRpm >= maxRpm){
+        // carEntity.state.throttleInput = 0
+        let maxGear = carEntity.props.gearRatio.length - 1
+        if(carEntity.state.gearInput < maxGear){
+          carEntity.state.gearInput += 1
+        }
       }
+
+      carEntities[i] = carEntity
     }
+
     
     // update display
     time = t
-    engineRpm = carEntity.state.engineRpm
-    speed = carEntity.state.speed
-    gearInput = carEntity.state.gearInput
+    // engineRpm = carEntity.state.engineRpm
+    // speed = carEntity.state.speed
+    // gearInput = carEntity.state.gearInput
   })
 
   function handleStart() {
@@ -51,7 +63,7 @@
 	}
 
 
-  console.log(carSpecs, carEntity)
+  console.log(carEntities)
 
   function mstokmh(ms){
     return ms * 3.6
@@ -60,10 +72,9 @@
 
 
 </script>
-
-
-Car : {carSpecs.name} {carSpecs.trim}
-
+{#each carEntities as carEntity}
+  Car : {carEntity.props.name} {carEntity.props.trim}
+{/each}
 <button on:click={handleStart}>Start</button>
 <button on:click={handleStop}>Stop</button>
 <br/>
@@ -74,25 +85,19 @@ Car : {carSpecs.name} {carSpecs.trim}
   Speed : {Math.floor(speed*3.6)}
 </div>
 <div>
-  Power needed : {getPowerRequiredForSpeed(speed, carEntity.props.weight, carEntity.props.dragCoef * carEntity.props.dragArea).toFixed(1)}
-</div>
-<div>
-  Engine rpm : {Math.floor(engineRpm)}
-</div>
-<div>
-  Gear : {gearInput}
+  Power needed : {getPowerRequiredForSpeed(speed, carEntities[0].props.weight, carEntities[0].props.dragCoef * carEntities[0].props.dragArea).toFixed(1)}
 </div>
 
-<UPlotGearing car={carSpecs}></UPlotGearing>
+<UPlotGearing car={carEntities[0].props}></UPlotGearing>
 
 <GraphRtUplot 
   title="Speed" 
   key="speed" 
   transformFn={mstokmh}
   time={time}
-  observed={carEntity.state}
+  observed={carEntities}
 ></GraphRtUplot>
-<GraphRtUplot 
+<!-- <GraphRtUplot 
   title="Acceleration" 
   units="m/s²" 
   key="acceleration" 
@@ -105,4 +110,4 @@ Car : {carSpecs.name} {carSpecs.trim}
   key="power" 
   time={time}
   observed={carEntity.state}
-></GraphRtUplot>
+></GraphRtUplot> -->

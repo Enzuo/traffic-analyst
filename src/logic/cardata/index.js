@@ -28,7 +28,7 @@ export function getCar(id, indexTrim) {
     car.engine.torqueCurve = curve
   }
 
-  return Object.assign(defaultCar, car)
+  return Object.assign(Object.create(defaultCar), car)
 }
 
 
