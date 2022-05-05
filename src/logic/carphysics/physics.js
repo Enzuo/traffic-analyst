@@ -56,6 +56,20 @@ export function getRollingResistanceForce(speed, acceleration, weight){
   return rollingResistanceForce
 }
 
+
+/**
+ * 
+ * @param {number} speed m/s 
+ * @param {number} weight kg 
+ * @param {number} scx Cx . surface
+ * @returns N
+ */
+export function getResistanceForceAtSpeed(speed, weight, scx){
+  let rollingResistanceForce = getRollingResistanceForce(speed, 0, weight)
+  let airDragForce = getAirDragForce(speed, scx)
+  return (rollingResistanceForce + airDragForce)
+}
+
 /**
  * 
  * @param {number} speed m/s 
@@ -63,11 +77,10 @@ export function getRollingResistanceForce(speed, acceleration, weight){
  * @param {number} scx Cx . surface
  * @returns kw
  */
-export function getPowerForSpeed(speed, weight, scx){
-  let rollingResistanceForce = getRollingResistanceForce(speed, 0, weight)
-  let airDragForce = getAirDragForce(speed, scx)
+export function getPowerRequiredForSpeed(speed, weight, scx){
+  let resistanceForce = getResistanceForceAtSpeed(speed, weight, scx)
   let transmissionEfficiency = getTransmissionEfficiency(1)
-  let work = speed * ((rollingResistanceForce + airDragForce) / transmissionEfficiency)
+  let work = speed * ((resistanceForce) / transmissionEfficiency)
   return work / 1000
 }
 

@@ -3,7 +3,7 @@
   import {Simulation} from '@/logic/simulation2'
   import * as Car from '@/logic/carphysics/carEntity'
   import GraphRtUplot from './GraphRTUplot.svelte'
-  import { getPowerForSpeed } from '@/logic/carphysics/physics'
+  import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
 
 
@@ -72,7 +72,9 @@ Car : {carSpecs.name} {carSpecs.trim}
 </div>
 <div>
   Speed : {Math.floor(speed*3.6)}
-  Power needed : {getPowerForSpeed(speed, carEntity.props.weight, carEntity.props.dragCoef * carEntity.props.dragArea)}
+</div>
+<div>
+  Power needed : {getPowerRequiredForSpeed(speed, carEntity.props.weight, carEntity.props.dragCoef * carEntity.props.dragArea).toFixed(1)}
 </div>
 <div>
   Engine rpm : {Math.floor(engineRpm)}
