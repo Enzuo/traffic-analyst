@@ -8,7 +8,6 @@ import 'uplot/dist/uPlot.min.css'
 //   [],[]
 // ];
 
-let chartData = [[]]
 
 /**
  * 
@@ -18,7 +17,7 @@ let chartData = [[]]
  * @returns 
  */
 export function createGraph(opts, observed, element){
-
+  let chartData = [[]]
   let series = []
   let colors = ["blue","red","orange","green"]
   for(let i=0; i<observed.length; i++){

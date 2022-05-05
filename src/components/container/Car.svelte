@@ -2,13 +2,13 @@
   import * as cardata from '@/logic/cardata'
   import {Simulation} from '@/logic/simulation2'
   import * as Car from '@/logic/carphysics/carEntity'
-  import GraphRtUplot from './GraphRTUplot.svelte'
+  import GraphRtUplot from './UPlotRealtime.svelte'
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
 
 
 
-  let carIds = ['renault_trafic2', 'hyundai_i20']
+  let carIds = ['renault_zoe', 'hyundai_i20']
 
   let carEntities = []
   for(var i=0; i<carIds.length; i++){
@@ -97,14 +97,14 @@
   time={time}
   observed={carEntities}
 ></GraphRtUplot>
-<!-- <GraphRtUplot 
+<GraphRtUplot 
   title="Acceleration" 
   units="m/s²" 
   key="acceleration" 
   time={time}
-  observed={carEntity.state}
+  observed={carEntities}
 ></GraphRtUplot>
-<GraphRtUplot 
+<!-- <GraphRtUplot 
   title="Power" 
   units="kw" 
   key="power" 
