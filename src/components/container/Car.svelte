@@ -6,6 +6,8 @@
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
 
+  import '@/logic/3d'
+
 
 
   let carIds = ['peugeot_206', 'renault_zoe', 'hyundai_i20', 'renault_trafic2' ]
