@@ -21,14 +21,21 @@ wheelDiameter: 57
 # -------------
 # DIMENSIONS
 # -------------
-weight : 900
+weight : 910
+length : 3835
+width : 1652
+height : 1428
 dragArea : 1.96
 dragCoef : 0.33
 
+wheelbase : 2442
+trunk : 245
+trunkMax : 1130
 
 # -------------
 # STATS
 # -------------
 fuelTank: 50
+turningCircle : 10.8
 acc0100: 15.5
 vmax: 155

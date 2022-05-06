@@ -1,5 +1,6 @@
 name : renault trafic 2 dci 2.0 (90)
-trim : L1H1
+year : 2006
+trim : 2.0 dCi (90 Hp) L1H1
 
 # -------------
 # ENGINE
@@ -20,7 +21,7 @@ wheelDiameter : 67
 # -------------
 # DIMENSIONS
 # -------------
-weight : 1710
+weight : 1860
 width : 1904
 height : 1962
 length : 4782
@@ -40,7 +41,7 @@ vmax: 150
 # TRIMS
 # -------------
 trims : 
-  - trim : L2H2
+  - trim : 2.0 dCi (90 Hp) L2H2
     length : 5180
     height : 2460
     dragArea : 4.67

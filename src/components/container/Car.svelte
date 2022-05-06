@@ -8,7 +8,7 @@
 
 
 
-  let carIds = ['citroen_2cv',['citroen_2cv',0], 'renault_zoe', 'hyundai_i20']
+  let carIds = ['peugeot_206', 'renault_zoe', 'hyundai_i20', 'renault_trafic2' ]
 
   let carEntities = []
   for(var i=0; i<carIds.length; i++){
