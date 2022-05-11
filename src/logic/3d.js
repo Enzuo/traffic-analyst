@@ -69,6 +69,8 @@ function createThreeAnimation ( element ) {
     animateFns.push(fn)
   }
 
+  createEnvMap(scene, renderer)
+
 
   return {scene, renderer, subscribeAnimation}
 }
@@ -120,16 +122,27 @@ function createEnvMap(scene, renderer){
 }
 
 
-function createCar(scene){
+function createCar(ThreeAnimation){
+  let {scene} = ThreeAnimation
   // MODELS
   const loader = new GLTFLoader()
   let car
   loader.load( '/models/zoe.glb', function ( gltf ) {
-    console.log(gltf)
+    // console.log(gltf)
     car = gltf.scene
     scene.add( car );
-    console.log(scene)
   })
+
+  function animate(){
+    if(!car) return
+    car.traverse((a) => {
+      if(a.name.indexOf('Wheel') === 0){
+        a.rotation.y += 0.01
+      }
+    })
+  }
+
+  ThreeAnimation.subscribeAnimation(animate)
 }
 
 
@@ -137,6 +150,7 @@ function createCar(scene){
 function main(){
   let ThreeAnimation = createThreeAnimation(document.body)
   createCube(ThreeAnimation)
+  createCar(ThreeAnimation)
 }
 
 main()
