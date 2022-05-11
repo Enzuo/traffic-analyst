@@ -8,7 +8,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 
 
 
-function createThreeAnimation ( element ) {
+export function createThreeAnimation ( element ) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -47,15 +47,6 @@ function createThreeAnimation ( element ) {
       animateFns[i]()
     }
 
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    // if(car) car.traverse((a) => {
-    //   if(a.name.indexOf('Wheel') === 0){
-    //     a.rotation.y += 0.01
-    //   }
-    //   // console.log(a)
-    // })
-    // applyAnimation(ANIM_STATE, MY_ANIMATIONS)
     controls.update();
     renderer.render( scene, camera );
   }
@@ -122,35 +113,44 @@ function createEnvMap(scene, renderer){
 }
 
 
-function createCar(ThreeAnimation){
+export function createCar(ThreeAnimation){
   let {scene} = ThreeAnimation
   // MODELS
   const loader = new GLTFLoader()
-  let car
+  let carObject
   loader.load( '/models/zoe.glb', function ( gltf ) {
     // console.log(gltf)
-    car = gltf.scene
-    scene.add( car );
+    carObject = gltf.scene
+    scene.add( carObject );
   })
 
-  function animate(){
-    if(!car) return
-    car.traverse((a) => {
+  function update(dt, car){
+    if(!carObject) return
+
+    let {speed} = car.state
+    let {wheelDiameter} = car.props
+    let wheelPerimeter = (wheelDiameter/100) * Math.PI
+    let wheelTurnsPerS = speed / wheelPerimeter
+    let wheelTurnOverDt = (wheelTurnsPerS / 1000) * dt * Math.PI * 2
+    let maxRotationSpeed = 0.25 // avoid rolling backward effect
+    carObject.traverse((a) => {
       if(a.name.indexOf('Wheel') === 0){
-        a.rotation.y += 0.01
+        a.rotation.y += Math.min(maxRotationSpeed,wheelTurnOverDt)
       }
     })
   }
 
-  ThreeAnimation.subscribeAnimation(animate)
+  // ThreeAnimation.subscribeAnimation(animate)
+
+  return { update }
 }
 
 
 
-function main(){
-  let ThreeAnimation = createThreeAnimation(document.body)
-  createCube(ThreeAnimation)
-  createCar(ThreeAnimation)
-}
+// function main(){
+//   let ThreeAnimation = createThreeAnimation(document.body)
+//   createCube(ThreeAnimation)
+//   createCar(ThreeAnimation)
+// }
 
-main()
+// main()

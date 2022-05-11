@@ -6,77 +6,101 @@
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
 
-  import '@/logic/3d'
+  import * as threeD from '@/logic/3d'
 
 
 
-  let carIds = ['peugeot_206', 'renault_zoe', 'hyundai_i20', 'renault_trafic2' ]
+  let carIds = ['citroen_2cv' ]
 
-  let carEntities = []
-  for(var i=0; i<carIds.length; i++){
-    let carSpecs
-    if(carIds[i] instanceof Array){
-      carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
-    }
-    else {
-      carSpecs = cardata.getCar(carIds[i])
-    }
 
-    let carEntity = Car.create(carSpecs)
-    carEntity.state.throttleInput = 1
-    carEntities.push(carEntity)
-  }
-
-  
-  
-  let time = 0
-  let engineRpm = 0
-  let speed = 0
-  let gearInput
-  
-  let carAccelerationSim = Simulation()
-  carAccelerationSim.addAnimate((t, dt) => {
-    for(let i=0; i<carEntities.length; i++){
-      let carEntity = carEntities[i]
-      carEntity = Car.updateForces(carEntity, dt)
-
-      // switch gear
-      let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
-      // maxRpm = 3500
-      if(carEntity.state.engineRpm >= maxRpm){
-        // carEntity.state.throttleInput = 0
-        let maxGear = carEntity.props.gearRatio.length - 1
-        if(carEntity.state.gearInput < maxGear){
-          carEntity.state.gearInput += 1
-        }
+  function carCompare(cars){
+    let carEntities = []
+    for(var i=0; i<carIds.length; i++){
+      let carSpecs
+      if(carIds[i] instanceof Array){
+        carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
+      }
+      else {
+        carSpecs = cardata.getCar(carIds[i])
       }
 
-      carEntities[i] = carEntity
+      let carEntity = Car.create(carSpecs)
+      carEntity.state.throttleInput = 1
+      carEntities.push(carEntity)
     }
 
-    
-    // update display
+
+    // create simulation
+    let simulation = Simulation()
+    simulation.subscribeTick((t, dt) => {
+      for(let i=0; i<carEntities.length; i++){
+        let carEntity = carEntities[i]
+        carEntity = Car.updateForces(carEntity, dt)
+
+        // switch gear
+        let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
+        // maxRpm = 3500
+        if(carEntity.state.engineRpm >= maxRpm){
+          // carEntity.state.throttleInput = 0
+          let maxGear = carEntity.props.gearRatio.length - 1
+          if(carEntity.state.gearInput < maxGear){
+            carEntity.state.gearInput += 1
+          }
+        }
+
+        carEntities[i] = carEntity
+      }
+    })
+
+
+
+
+    // create 3d representation
+    function createThreeCompare (element) {
+      // create scene
+      let threeAnimation = threeD.createThreeAnimation(element)
+      // create cars
+      let cars = []
+      for(let i=0; i<carEntities.length; i++){
+        let car = threeD.createCar(threeAnimation)
+        cars.push(car)
+      }
+      
+      simulation.subscribeTick((t, dt) => {
+        for(let i=0; i<cars.length; i++){
+          cars[i].update(dt, carEntities[i])
+        }
+      })
+    }
+
+    return {carEntities, simulation, createThreeCompare}
+  }
+
+
+
+  
+  
+  
+  let { carEntities, simulation, createThreeCompare } = carCompare(carIds)
+  let time = 0
+  let speed = 0
+  // simulation observe
+  simulation.subscribeTick((t, dt) => {
     time = t
-    // engineRpm = carEntity.state.engineRpm
-    // speed = carEntity.state.speed
-    // gearInput = carEntity.state.gearInput
   })
 
   function handleStart() {
-    carAccelerationSim.start()
+    simulation.start()
 	}
   function handleStop() {
-    carAccelerationSim.stop()
+    simulation.stop()
 	}
-
-
-  console.log(carEntities)
 
   function mstokmh(ms){
     return ms * 3.6
   }
 
-
+  createThreeCompare(document.body)
 
 </script>
 {#each carEntities as carEntity}

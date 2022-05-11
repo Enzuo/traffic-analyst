@@ -11,7 +11,7 @@ export function Simulation () {
    * 
    * @param {(t:number, dt:number) => {}} fn 
    */
-  const addAnimate = (fn) => {
+  const subscribeTick = (fn) => {
     animateFn.push(fn)
   }
 
@@ -48,6 +48,6 @@ export function Simulation () {
   return {
     start,
     stop,
-    addAnimate
+    subscribeTick
   }    
 }
