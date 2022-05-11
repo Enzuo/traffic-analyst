@@ -10,7 +10,7 @@
 
 
 
-  let carIds = ['citroen_2cv' ]
+  let carIds = ['citroen_2cv', 'peugeot_206' ]
 
 
   function carCompare(cars){
@@ -62,7 +62,7 @@
       // create cars
       let cars = []
       for(let i=0; i<carEntities.length; i++){
-        let car = threeD.createCar(threeAnimation)
+        let car = threeD.createCar(threeAnimation, i)
         cars.push(car)
       }
       

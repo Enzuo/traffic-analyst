@@ -113,7 +113,7 @@ function createEnvMap(scene, renderer){
 }
 
 
-export function createCar(ThreeAnimation){
+export function createCar(ThreeAnimation, index){
   let {scene} = ThreeAnimation
   // MODELS
   const loader = new GLTFLoader()
@@ -121,7 +121,8 @@ export function createCar(ThreeAnimation){
   loader.load( '/models/zoe.glb', function ( gltf ) {
     // console.log(gltf)
     carObject = gltf.scene
-    scene.add( carObject );
+    scene.add( carObject )
+    carObject.position.z += index*3
   })
 
   function update(dt, car){
@@ -131,13 +132,18 @@ export function createCar(ThreeAnimation){
     let {wheelDiameter} = car.props
     let wheelPerimeter = (wheelDiameter/100) * Math.PI
     let wheelTurnsPerS = speed / wheelPerimeter
-    let wheelTurnOverDt = (wheelTurnsPerS / 1000) * dt * Math.PI * 2
+    let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
     let maxRotationSpeed = 0.25 // avoid rolling backward effect
     carObject.traverse((a) => {
       if(a.name.indexOf('Wheel') === 0){
         a.rotation.y += Math.min(maxRotationSpeed,wheelTurnOverDt)
       }
+
+      // if(a.name.indexOf('Body') === 0){
+      //   a
+      // }
     })
+    carObject.position.x -= speed * dt / 1000
   }
 
   // ThreeAnimation.subscribeAnimation(animate)
