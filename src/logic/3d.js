@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
                            // 'three/examples/jsm/controls/OrbitControls.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { getWheelTurns } from './carphysics/physics'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -100,29 +101,20 @@ function updateCameraDistance(camera, cameraControls, cars){
   for(let i=0; i<cars.length; i++){
     positions.push(cars[i].position.x)
   }
-  let posMax = Math.max(...positions)
-  let posMin = Math.min(...positions)
-  let posX = (posMax + posMin) / 2
-  let distanceMin = (posMax - posMin)/2
-  posX = posX ? posX : 0
-  // console.log(posX)
+  let carMaxX = Math.max(...positions)
+  let carMinX = Math.min(...positions)
+  const distanceBetweenCar = 3
+  let distanceMaxBetweenCar = Math.max(carMaxX - carMinX, (cars.length) * distanceBetweenCar)
+  
+  let distanceCameraMin = distanceMaxBetweenCar / 2
+  let cameraPosX = (carMaxX + carMinX) / 2
+  cameraPosX = cameraPosX ? cameraPosX : 0
 
-  // let cameraDistance = 5
-  // controls.target = new THREE.Vector3(posX,0,0)
-  cameraControls.moveTo(posX,0,0)
-  if(cameraControls.distance < distanceMin){
-    cameraControls.dollyTo(distanceMin, false)
-    cameraControls.minDistance = distanceMin
+  cameraControls.moveTo(cameraPosX,0,0)
+  if(cameraControls.distance < distanceCameraMin){
+    cameraControls.dollyTo(distanceCameraMin, false)
+    cameraControls.minDistance = distanceCameraMin
   }
-  // camra
-  // cameraControls.setOptions({minDistance : 10})
-
-
-  // let cameraPositionX = 0
-  // camera.position.x = posX
-  // let cameraQuaternion = new THREE.Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
-  // console.log(cameraQuaternion)
-  // camera.position.set(cameraQuaternion.multiplyScalar(cameraDistance))
 }
 
 
@@ -172,7 +164,7 @@ function createEnvMap(scene, renderer){
 }
 
 
-export function createCar(ThreeAnimation, index){
+export function createCar(ThreeAnimation, index, totalNumbers){
   let {scene} = ThreeAnimation
   // MODELS
   const loader = new GLTFLoader()
@@ -187,7 +179,8 @@ export function createCar(ThreeAnimation, index){
     carObjects.push(carObject)
 
     // Initial position
-    carObject.position.z += index*3
+    const distanceBetweenCar = 3
+    carObject.position.z += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
 
     // Wheels
     carObject.traverse((a) => {
@@ -202,8 +195,7 @@ export function createCar(ThreeAnimation, index){
 
     let {speed} = car.state
     let {wheelDiameter} = car.props
-    let wheelPerimeter = (wheelDiameter/100) * Math.PI
-    let wheelTurnsPerS = speed / wheelPerimeter
+    let wheelTurnsPerS = getWheelTurns(speed, wheelDiameter)
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
     let maxRotationSpeed = 0.25 // avoid rolling backward effect
 

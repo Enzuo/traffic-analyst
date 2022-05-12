@@ -59,6 +59,18 @@ export function getRollingResistanceForce(speed, acceleration, weight){
 
 /**
  * 
+ * @param {number} speed m/s
+ * @param {number} wheelDiameter cm
+ * @returns turns/s
+ */
+export function getWheelTurns(speed, wheelDiameter = 63){
+  let wheelPerimeter = (wheelDiameter/100) * Math.PI
+  return speed / wheelPerimeter
+}
+
+
+/**
+ * 
  * @param {number} speed m/s 
  * @param {number} weight kg 
  * @param {number} scx Cx . surface
