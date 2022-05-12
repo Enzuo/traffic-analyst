@@ -164,14 +164,14 @@ function createEnvMap(scene, renderer){
 }
 
 
-export function createCar(ThreeAnimation, index, totalNumbers){
+export function createCar(ThreeAnimation, index, totalNumbers, color){
   let {scene} = ThreeAnimation
   // MODELS
   const loader = new GLTFLoader()
   let carObject
   let wheelObjects = []
   loader.load( '/models/zoe.glb', function ( gltf ) {
-    // console.log(gltf)
+    console.log(gltf)
 
     carObject = gltf.scene
     scene.add( carObject )
@@ -182,10 +182,16 @@ export function createCar(ThreeAnimation, index, totalNumbers){
     const distanceBetweenCar = 3
     carObject.position.z += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
 
-    // Wheels
     carObject.traverse((a) => {
+      // Wheels
       if(a.name.indexOf('Wheel') === 0){
         wheelObjects.push(a)
+      }
+
+      //
+      if(a.name.indexOf('Body') === 0){
+        // let colorCode = ...color
+        a.material.color = new THREE.Color(color)
       }
     })
   })

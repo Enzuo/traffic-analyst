@@ -4,6 +4,7 @@
 
   export let title
   export let units
+  export let colors
   export let key
   export let transformFn
 
@@ -14,7 +15,7 @@
   onMount(() => {
     let chartElement = document.getElementById('chart')	
     
-    chart = createGraph({title, units, key, transformFn}, observed, chartElement)
+    chart = createGraph({title, units, key, transformFn, colors}, observed, chartElement)
   })
 
   const updateGraph = (t) => {

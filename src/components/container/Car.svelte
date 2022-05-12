@@ -2,7 +2,7 @@
   import * as cardata from '@/logic/cardata'
   import {Simulation} from '@/logic/simulation2'
   import * as Car from '@/logic/carphysics/carEntity'
-  import GraphRtUplot from './UPlotRealtime.svelte'
+  import UPlotRealtime from './UPlotRealtime.svelte'
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
 
@@ -11,6 +11,8 @@
 
 
   let carIds = ['citroen_2cv', 'peugeot_206', 'hyundai_i20']
+  let colors = ["blue","red","orange","green"]
+  let colors3D = ['rgb(30,30,200)',"red","orange","green"]
 
 
   function carCompare(cars){
@@ -62,7 +64,7 @@
       // create cars
       let cars = []
       for(let i=0; i<carEntities.length; i++){
-        let car = threeD.createCar(threeAnimation, i, carEntities.length)
+        let car = threeD.createCar(threeAnimation, i, carEntities.length, colors3D[i])
         cars.push(car)
       }
       
@@ -121,20 +123,22 @@
 
 <UPlotGearing car={carEntities[0].props}></UPlotGearing>
 
-<GraphRtUplot 
+<UPlotRealtime 
   title="Speed" 
   key="speed" 
   transformFn={mstokmh}
   time={time}
+  colors={colors}
   observed={carEntities}
-></GraphRtUplot>
-<GraphRtUplot 
+></UPlotRealtime>
+<UPlotRealtime 
   title="Acceleration" 
   units="m/s²" 
   key="acceleration" 
   time={time}
+  colors={colors}
   observed={carEntities}
-></GraphRtUplot>
+></UPlotRealtime>
 <!-- <GraphRtUplot 
   title="Power" 
   units="kw" 

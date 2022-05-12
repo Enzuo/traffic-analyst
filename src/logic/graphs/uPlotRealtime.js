@@ -11,7 +11,7 @@ import 'uplot/dist/uPlot.min.css'
 
 /**
  * 
- * @param {{title:string, units:string, key:string, transformFn:(v:number)=>number}} opts 
+ * @param {{title:string, units:string, key:string, colors:[], transformFn:(v:number)=>number}} opts 
  * @param {[{props:object, state:object}]} observed 
  * @param {*} element 
  * @returns 
@@ -19,7 +19,7 @@ import 'uplot/dist/uPlot.min.css'
 export function createGraph(opts, observed, element){
   let chartData = [[]]
   let series = []
-  let colors = ["blue","red","orange","green"]
+  let colors = opts.colors ? opts.colors : ["blue","red","orange","green"]
   for(let i=0; i<observed.length; i++){
     series.push({
       label: observed[i].props.name,
