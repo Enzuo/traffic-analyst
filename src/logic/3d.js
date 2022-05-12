@@ -2,15 +2,16 @@ import * as THREE from 'three'
 
 // import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
                            // 'three/examples/jsm/controls/OrbitControls.js'
+import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 
+CameraControls.install( { THREE: THREE } )
 
 
 export function createThreeAnimation ( element ) {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
   const renderer = new THREE.WebGLRenderer();
   renderer.physicallyCorrectLights = true;
@@ -33,9 +34,27 @@ export function createThreeAnimation ( element ) {
   ptLight.position.set( -300, 300, 300 );
   scene.add( ptLight );
 
+  // CLOCK
+  const clock = new THREE.Clock();
+
+
   // CAMERA
-  camera.position.z = 100;
-  const controls = new OrbitControls( camera, renderer.domElement );
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  camera.position.z = 10;
+  // const cameraGroup = new THREE.Group();
+  // cameraGroup.add( camera );
+  // cameraGroup.position.z = 50
+  // let cameraContainer = new THREE.Object3D();
+  // cameraContainer.position.set(10, 0, 0);
+  // cameraContainer.add(camera);
+  // scene.add(cameraContainer)
+
+
+  // const controls = new OrbitControls( camera, renderer.domElement );
+  const cameraControls = new CameraControls( camera, renderer.domElement );
+  cameraControls.dollySpeed = 0.1
+  // controls.maxDistance = 50
+  // controls.target = new THREE.Vector3(10,0,0)
 
 
   // ANIMATION
@@ -47,7 +66,12 @@ export function createThreeAnimation ( element ) {
       animateFns[i]()
     }
 
-    controls.update();
+    // controls.update();
+    const delta = clock.getDelta();
+    const hasControlsUpdated = cameraControls.update( delta );
+    updateCameraDistance(camera, cameraControls, carObjects)
+
+
     renderer.render( scene, camera );
   }
   animate()
@@ -62,13 +86,48 @@ export function createThreeAnimation ( element ) {
 
   createEnvMap(scene, renderer)
 
+  // CUBE
+  createCube(scene, subscribeAnimation)
+
 
   return {scene, renderer, subscribeAnimation}
 }
 
+let carObjects = []
 
-function createCube (ThreeAnimation) {
-  let {scene} = ThreeAnimation
+function updateCameraDistance(camera, cameraControls, cars){
+  let positions = []
+  for(let i=0; i<cars.length; i++){
+    positions.push(cars[i].position.x)
+  }
+  let posMax = Math.max(...positions)
+  let posMin = Math.min(...positions)
+  let posX = (posMax + posMin) / 2
+  let distanceMin = (posMax - posMin)/2
+  posX = posX ? posX : 0
+  // console.log(posX)
+
+  // let cameraDistance = 5
+  // controls.target = new THREE.Vector3(posX,0,0)
+  cameraControls.moveTo(posX,0,0)
+  if(cameraControls.distance < distanceMin){
+    cameraControls.dollyTo(distanceMin, false)
+    cameraControls.minDistance = distanceMin
+  }
+  // camra
+  // cameraControls.setOptions({minDistance : 10})
+
+
+  // let cameraPositionX = 0
+  // camera.position.x = posX
+  // let cameraQuaternion = new THREE.Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
+  // console.log(cameraQuaternion)
+  // camera.position.set(cameraQuaternion.multiplyScalar(cameraDistance))
+}
+
+
+function createCube (scene, subscribeAnimation) {
+  // let {scene} = ThreeAnimation
   const geometry = new THREE.BoxGeometry();
   const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
   const cube = new THREE.Mesh( geometry, material );
@@ -80,7 +139,7 @@ function createCube (ThreeAnimation) {
     cube.rotation.y += 0.01;
   }
 
-  ThreeAnimation.subscribeAnimation(animate)
+  subscribeAnimation(animate)
 }
 
 
@@ -118,11 +177,24 @@ export function createCar(ThreeAnimation, index){
   // MODELS
   const loader = new GLTFLoader()
   let carObject
+  let wheelObjects = []
   loader.load( '/models/zoe.glb', function ( gltf ) {
     // console.log(gltf)
+
     carObject = gltf.scene
     scene.add( carObject )
+
+    carObjects.push(carObject)
+
+    // Initial position
     carObject.position.z += index*3
+
+    // Wheels
+    carObject.traverse((a) => {
+      if(a.name.indexOf('Wheel') === 0){
+        wheelObjects.push(a)
+      }
+    })
   })
 
   function update(dt, car){
@@ -134,15 +206,12 @@ export function createCar(ThreeAnimation, index){
     let wheelTurnsPerS = speed / wheelPerimeter
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
     let maxRotationSpeed = 0.25 // avoid rolling backward effect
-    carObject.traverse((a) => {
-      if(a.name.indexOf('Wheel') === 0){
-        a.rotation.y += Math.min(maxRotationSpeed,wheelTurnOverDt)
-      }
 
-      // if(a.name.indexOf('Body') === 0){
-      //   a
-      // }
-    })
+    for(let i=0; i<wheelObjects.length; i++){
+      let wheel = wheelObjects[i]
+      wheel.rotation.y += Math.min(maxRotationSpeed,wheelTurnOverDt)
+    }
+    
     carObject.position.x -= speed * dt / 1000
   }
 
