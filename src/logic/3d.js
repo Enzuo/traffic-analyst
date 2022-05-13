@@ -7,6 +7,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { getWheelTurns } from './carphysics/physics'
+import { xlink_attr } from 'svelte/internal'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -15,25 +16,26 @@ export function createThreeAnimation ( element ) {
   const scene = new THREE.Scene();
 
   const renderer = new THREE.WebGLRenderer();
-  renderer.physicallyCorrectLights = true;
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  // renderer.physicallyCorrectLights = true;
+  // renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setSize( window.innerWidth, window.innerHeight );
   element.appendChild( renderer.domElement );
 
   // LIGHTS
-  let ambLight = new THREE.AmbientLight( 0x404040, 0.3 ); // soft white light
+  let ambLight = new THREE.AmbientLight( 0xffffff, 0.3 ); // soft white light
   scene.add( ambLight );
 
-  let directionalLight = new THREE.DirectionalLight( 0xffffff, 2.5 );
+  let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
   const targetObject = new THREE.Object3D();
-  targetObject.position.set(-300, -300, -300)
+  targetObject.position.set(300, -100, -200)
   directionalLight.target = targetObject;
+  directionalLight.castShadow = true;
   scene.add(targetObject);
   scene.add( directionalLight );
 
-  let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
-  ptLight.position.set( -300, 300, 300 );
-  scene.add( ptLight );
+  // let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
+  // ptLight.position.set( -300, 300, 300 );
+  // scene.add( ptLight );
 
   // CLOCK
   const clock = new THREE.Clock();
@@ -42,20 +44,9 @@ export function createThreeAnimation ( element ) {
   // CAMERA
   const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
   camera.position.z = 10;
-  // const cameraGroup = new THREE.Group();
-  // cameraGroup.add( camera );
-  // cameraGroup.position.z = 50
-  // let cameraContainer = new THREE.Object3D();
-  // cameraContainer.position.set(10, 0, 0);
-  // cameraContainer.add(camera);
-  // scene.add(cameraContainer)
 
-
-  // const controls = new OrbitControls( camera, renderer.domElement );
   const cameraControls = new CameraControls( camera, renderer.domElement );
   cameraControls.dollySpeed = 0.1
-  // controls.maxDistance = 50
-  // controls.target = new THREE.Vector3(10,0,0)
 
 
   // ANIMATION
@@ -85,7 +76,7 @@ export function createThreeAnimation ( element ) {
     animateFns.push(fn)
   }
 
-  createEnvMap(scene, renderer)
+  // createEnvMap(scene, renderer)
 
   // CUBE
   createCube(scene, subscribeAnimation)
@@ -167,15 +158,18 @@ function createEnvMap(scene, renderer){
 const loader = new GLTFLoader()
 // createRoad
 // load materials
+let clayMaterial
 export const loadMaterials = () => new Promise ((resolve, reject) => {
   loader.load('/models/clay.glb', function (gltf) {
     console.log('material', gltf)
 
     gltf.scene.traverse( function( object ) {
       if ( object.material ) {
+        clayMaterial = object.material
         console.log(object.material)
+        resolve()
       }
-  } );
+    });
   })
 })
 
@@ -202,9 +196,16 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
         wheelObjects.push(a)
       }
 
+      if ( a instanceof THREE.Mesh ) {
+        // a.material.normalMap = clayMaterial.normalMap;
+      }
+
+
       //
       if(a.name.indexOf('Body') === 0){
         // let colorCode = ...color
+        a.material = clayMaterial.clone()
+        // console.log(a)
         a.material.color = new THREE.Color(color)
       }
     })
