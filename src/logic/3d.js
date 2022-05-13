@@ -164,10 +164,24 @@ function createEnvMap(scene, renderer){
 }
 
 
+const loader = new GLTFLoader()
+// createRoad
+// load materials
+export const loadMaterials = () => new Promise ((resolve, reject) => {
+  loader.load('/models/clay.glb', function (gltf) {
+    console.log('material', gltf)
+
+    gltf.scene.traverse( function( object ) {
+      if ( object.material ) {
+        console.log(object.material)
+      }
+  } );
+  })
+})
+
 export function createCar(ThreeAnimation, index, totalNumbers, color){
   let {scene} = ThreeAnimation
   // MODELS
-  const loader = new GLTFLoader()
   let carObject
   let wheelObjects = []
   loader.load( '/models/zoe.glb', function ( gltf ) {
