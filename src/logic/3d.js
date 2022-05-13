@@ -187,10 +187,14 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
   let {scene} = ThreeAnimation
   // MODELS
   let carObject
+  let carBody
   let wheelObjects = []
   let wheel
   loadModel('/models/wheel.glb').then((wheelScene) => {
     wheel = wheelScene.scene.children[0]
+    wheel.material = clayMaterial.clone()
+    wheel.material.color = new THREE.Color(0x333333)
+    console.log(wheel)
     return loadModel('/models/zoe.glb')
   }).then((gltf) => {
 
@@ -211,7 +215,7 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
         let carWheel = wheel.clone()
         carWheel.position.copy(a.position)
         if(a.name.indexOf('Left') > 0){
-          console.log('right wheel')
+          console.log('right wheel', carWheel)
           carWheel.scale.x *= -1
           carWheel.scale.z *= -1
         }
@@ -232,6 +236,7 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
         a.material = clayMaterial.clone()
         // console.log(a)
         a.material.color = new THREE.Color(color)
+        carBody = a
       }
     })
   })
@@ -239,7 +244,7 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
   function update(dt, car){
     if(!carObject) return
 
-    let {speed} = car.state
+    let {speed, acceleration} = car.state
     let {wheelDiameter} = car.props
     let wheelTurnsPerS = getWheelTurns(speed, wheelDiameter)
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
@@ -251,6 +256,10 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
     }
     
     carObject.position.x += speed * dt / 1000
+
+    // Add body tilt
+    let tilt = (acceleration / 4) * (Math.PI/180)
+    carBody.rotation.z = tilt
   }
 
   // ThreeAnimation.subscribeAnimation(animate)
