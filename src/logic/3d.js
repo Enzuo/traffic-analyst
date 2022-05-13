@@ -7,7 +7,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { getWheelTurns } from './carphysics/physics'
-import { xlink_attr } from 'svelte/internal'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -22,8 +21,8 @@ export function createThreeAnimation ( element ) {
   element.appendChild( renderer.domElement );
 
   // LIGHTS
-  let ambLight = new THREE.AmbientLight( 0xffffff, 0.3 ); // soft white light
-  scene.add( ambLight );
+  // let ambLight = new THREE.AmbientLight( 0xffffff, 0.3 ); // soft white light
+  // scene.add( ambLight );
 
   let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
   const targetObject = new THREE.Object3D();
@@ -32,6 +31,8 @@ export function createThreeAnimation ( element ) {
   directionalLight.castShadow = true;
   scene.add(targetObject);
   scene.add( directionalLight );
+
+  renderer.toneMappingExposure = 0.1;
 
   // let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
   // ptLight.position.set( -300, 300, 300 );
@@ -76,7 +77,7 @@ export function createThreeAnimation ( element ) {
     animateFns.push(fn)
   }
 
-  // createEnvMap(scene, renderer)
+  createEnvMap(scene, renderer)
 
   // CUBE
   createCube(scene, subscribeAnimation)
@@ -129,15 +130,15 @@ function createCube (scene, subscribeAnimation) {
 
 function createEnvMap(scene, renderer){
   // ENV MAP
-  const textureLoader = new THREE.TextureLoader();
-  let textureEquirec = textureLoader.load( '/models/env.jpeg' );
-  textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
-  textureEquirec.encoding = THREE.sRGBEncoding;
+  // const textureLoader = new THREE.TextureLoader();
+  // let textureEquirec = textureLoader.load( '/models/env.jpeg' );
+  // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+  // textureEquirec.encoding = THREE.sRGBEncoding;
 
-  scene.environment = textureEquirec
+  // scene.environment = textureEquirec
 
-  let background = new THREE.Color( 0xaaaaaa );
-  scene.background = background
+  // let background = new THREE.Color( 0xaaaaaa );
+  // scene.background = background
 
   // ENV MAP 2
   let pmremGenerator = new THREE.PMREMGenerator( renderer );
@@ -173,12 +174,26 @@ export const loadMaterials = () => new Promise ((resolve, reject) => {
   })
 })
 
+function loadModel(filePath) { 
+  return new Promise((resolve, reject) => {
+    loader.load(filePath, function( glb) {
+      console.log(glb)
+      resolve(glb)
+    })
+  })
+} 
+
 export function createCar(ThreeAnimation, index, totalNumbers, color){
   let {scene} = ThreeAnimation
   // MODELS
   let carObject
   let wheelObjects = []
-  loader.load( '/models/zoe.glb', function ( gltf ) {
+  let wheel
+  loadModel('/models/wheel.glb').then((wheelScene) => {
+    wheel = wheelScene.scene.children[0]
+    return loadModel('/models/zoe.glb')
+  }).then((gltf) => {
+
     console.log(gltf)
 
     carObject = gltf.scene
@@ -193,7 +208,17 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
     carObject.traverse((a) => {
       // Wheels
       if(a.name.indexOf('Wheel') === 0){
-        wheelObjects.push(a)
+        let carWheel = wheel.clone()
+        carWheel.position.copy(a.position)
+        if(a.name.indexOf('Left') > 0){
+          console.log('right wheel')
+          carWheel.scale.x *= -1
+          carWheel.scale.z *= -1
+        }
+
+        carObject.add(carWheel)
+
+        wheelObjects.push(carWheel)
       }
 
       if ( a instanceof THREE.Mesh ) {
@@ -222,10 +247,10 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
 
     for(let i=0; i<wheelObjects.length; i++){
       let wheel = wheelObjects[i]
-      wheel.rotation.y += Math.min(maxRotationSpeed,wheelTurnOverDt)
+      wheel.rotation.z -= Math.min(maxRotationSpeed,wheelTurnOverDt)
     }
     
-    carObject.position.x -= speed * dt / 1000
+    carObject.position.x += speed * dt / 1000
   }
 
   // ThreeAnimation.subscribeAnimation(animate)
