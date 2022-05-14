@@ -61,8 +61,8 @@ export function createThreeAnimation ( element ) {
 
     // controls.update();
     const delta = clock.getDelta();
-    const hasControlsUpdated = cameraControls.update( delta );
     updateCameraDistance(camera, cameraControls, carObjects)
+    const hasControlsUpdated = cameraControls.update( delta );
 
 
     renderer.render( scene, camera );
