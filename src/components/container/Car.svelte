@@ -5,7 +5,7 @@
   import {carCompare} from '@/logic/app/carCompare'
 
 
-  let carIds = ['citroen_2cv', 'peugeot_206', 'hyundai_i20']
+  let carIds = ['hyundai_i20', 'peugeot_206', 'renault_zoe']
   let colors = ["blue","red","orange","green"]
   let colors3D = [0x5895FF,0xFF5758,0xFFA132,"green"]
 

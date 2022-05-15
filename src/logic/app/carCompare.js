@@ -58,7 +58,7 @@ export function carCompare(carIds){
     // create cars
     let cars = []
     for(let i=0; i<carEntities.length; i++){
-      let car = threeD.createCar(threeAnimation, i, carEntities.length, colors[i])
+      let car = threeD.createCar(threeAnimation, carEntities[i], i, carEntities.length, colors[i])
       cars.push(car)
     }
     

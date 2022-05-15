@@ -183,19 +183,21 @@ function loadModel(filePath) {
   })
 } 
 
-export function createCar(ThreeAnimation, index, totalNumbers, color){
+export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   let {scene} = ThreeAnimation
   // MODELS
   let carObject
   let carBody
   let wheelObjects = []
   let wheel
-  loadModel('/models/wheel.glb').then((wheelScene) => {
+  let carModel = car.props.model || 'zoe'
+  let wheelModel = car.props.modelWheel || 'wheel'
+  loadModel('/models/'+wheelModel+'.glb').then((wheelScene) => {
     wheel = wheelScene.scene.children[0]
     wheel.material = clayMaterial.clone()
     wheel.material.color = new THREE.Color(0x333333)
     console.log(wheel)
-    return loadModel('/models/zoe.glb')
+    return loadModel('/models/'+carModel+'.glb')
   }).then((gltf) => {
 
     console.log(gltf)
@@ -214,7 +216,7 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
       if(a.name.indexOf('Wheel') === 0){
         let carWheel = wheel.clone()
         carWheel.position.copy(a.position)
-        if(a.name.indexOf('Left') > 0){
+        if(a.name.indexOf('Right') > 0){
           console.log('right wheel', carWheel)
           carWheel.scale.x *= -1
           carWheel.scale.z *= -1
@@ -231,7 +233,7 @@ export function createCar(ThreeAnimation, index, totalNumbers, color){
 
 
       //
-      if(a.name.indexOf('Body') === 0){
+      if(a.name.indexOf('Wheel') < 0){
         // let colorCode = ...color
         a.material = clayMaterial.clone()
         // console.log(a)

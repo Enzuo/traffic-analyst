@@ -39,3 +39,10 @@ fuelTank: 50
 turningCircle : 10.8
 acc0100: 15.5
 vmax: 155
+
+
+# -------------
+# 3D
+# -------------
+model: peugeot206
+modelWheel: wheel206
