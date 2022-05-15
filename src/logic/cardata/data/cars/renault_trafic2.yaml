@@ -48,3 +48,9 @@ trims :
     weight : 1810
 
     trunk : 8360
+
+# -------------
+# 3D
+# -------------
+model: trafic
+modelWheel: wheelTrafic

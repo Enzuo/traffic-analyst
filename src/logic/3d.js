@@ -232,12 +232,16 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
       }
 
 
-      //
+      // Every thing other than wheel
       if(a.name.indexOf('Wheel') < 0){
         // let colorCode = ...color
         a.material = clayMaterial.clone()
         // console.log(a)
         a.material.color = new THREE.Color(color)
+      }
+
+      // body
+      if(a.name.indexOf('Body') >= 0){
         carBody = a
       }
     })
