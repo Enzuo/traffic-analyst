@@ -52,8 +52,8 @@ export function createThreeAnimation ( element ) {
 
   // ANIMATION
   let animateFns = []
-  function animate() {
-    requestAnimationFrame( animate );
+  function renderLoop() {
+    requestAnimationFrame( renderLoop );
 
     for(let i=0; i<animateFns.length; i++){
       animateFns[i]()
@@ -67,7 +67,7 @@ export function createThreeAnimation ( element ) {
 
     renderer.render( scene, camera );
   }
-  animate()
+  renderLoop()
 
   /**
    * 
@@ -174,14 +174,30 @@ export const loadMaterials = () => new Promise ((resolve, reject) => {
   })
 })
 
-function loadModel(filePath) { 
+function loadModel(filePath, onError) { 
   return new Promise((resolve, reject) => {
-    loader.load(filePath, function( glb) {
+    loader.load('/models/' + filePath, function(glb) {
       console.log(glb)
       resolve(glb)
-    })
+    }, (progress) => {
+      console.log('progress', progress)
+    }, function(e) {
+      console.log('error', e)
+      if(onError) resolve(onError())
+      // reject()
+    }
+    
+    )
   })
 } 
+
+
+
+function defaultCarModel(){
+  return loadModel('zoe.glb')
+}
+
+
 
 export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   let {scene} = ThreeAnimation
@@ -192,15 +208,15 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   let wheel
   let carModel = car.props.model || 'zoe'
   let wheelModel = car.props.modelWheel || 'wheel'
-  loadModel('/models/'+wheelModel+'.glb').then((wheelScene) => {
+  loadModel('wheel.glb').then((wheelScene) => {
     wheel = wheelScene.scene.children[0]
     wheel.material = clayMaterial.clone()
     wheel.material.color = new THREE.Color(0x333333)
     console.log(wheel)
-    return loadModel('/models/'+carModel+'.glb')
+    return loadModel(carModel+'.glb', defaultCarModel)
   }).then((gltf) => {
 
-    console.log(gltf)
+    console.log('loaded model', gltf)
 
     carObject = gltf.scene
     scene.add( carObject )
@@ -272,13 +288,3 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
   return { update }
 }
-
-
-
-// function main(){
-//   let ThreeAnimation = createThreeAnimation(document.body)
-//   createCube(ThreeAnimation)
-//   createCar(ThreeAnimation)
-// }
-
-// main()

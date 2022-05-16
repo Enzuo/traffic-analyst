@@ -54,3 +54,10 @@ trims :
     driveRatio : 3.625
     gearSpeed : 21.3
     weight : 715 # 610 + 75 + 30
+
+
+# -------------
+# 3D
+# -------------
+model: 2cv
+modelWheel: wheel2cv
