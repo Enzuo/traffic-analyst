@@ -174,27 +174,25 @@ export const loadMaterials = () => new Promise ((resolve, reject) => {
   })
 })
 
-function loadModel(filePath, onError) { 
+function loadModel(filePath) { 
   return new Promise((resolve, reject) => {
-    loader.load('/models/' + filePath, function(glb) {
+    if(!filePath) reject(Error('no file specified'))
+
+    loader.load('/models/' + filePath + '.glb', function(glb) {
       console.log(glb)
       resolve(glb)
     }, (progress) => {
       console.log('progress', progress)
     }, function(e) {
-      console.log('error', e)
-      if(onError) resolve(onError())
-      // reject()
-    }
-    
-    )
+      reject(e)
+    })
   })
 } 
 
 
 
 function defaultCarModel(){
-  return loadModel('zoe.glb')
+  return loadModel('zoe')
 }
 
 
@@ -206,14 +204,21 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   let carBody
   let wheelObjects = []
   let wheel
-  let carModel = car.props.model || 'zoe'
-  let wheelModel = car.props.modelWheel || 'wheel'
-  loadModel('wheel.glb').then((wheelScene) => {
+  let carModel = car.props.model
+  let wheelModel = car.props.modelWheel
+  loadModel(wheelModel)
+  .catch((e) => {
+    return loadModel('wheel')
+  })
+  .then((wheelScene) => {
     wheel = wheelScene.scene.children[0]
     wheel.material = clayMaterial.clone()
     wheel.material.color = new THREE.Color(0x333333)
-    console.log(wheel)
-    return loadModel(carModel+'.glb', defaultCarModel)
+  })
+  .then(() => {
+    return loadModel(carModel)
+  }).catch((e) => {
+    return defaultCarModel()
   }).then((gltf) => {
 
     console.log('loaded model', gltf)
