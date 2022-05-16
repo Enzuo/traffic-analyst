@@ -48,6 +48,7 @@ trims :
     weight : 1810
 
     trunk : 8360
+    model : traficl2h2
 
 # -------------
 # 3D
