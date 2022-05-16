@@ -9,16 +9,22 @@ export function carCompare(carIds){
   let carEntities = []
   for(var i=0; i<carIds.length; i++){
     let carSpecs
-    if(carIds[i] instanceof Array){
-      carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
-    }
-    else {
-      carSpecs = cardata.getCar(carIds[i])
-    }
+    try {
 
-    let carEntity = Car.create(carSpecs)
-    carEntity.state.throttleInput = 1
-    carEntities.push(carEntity)
+      if(carIds[i] instanceof Array){
+        carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
+      }
+      else {
+        carSpecs = cardata.getCar(carIds[i])
+      }
+      
+      let carEntity = Car.create(carSpecs)
+      carEntity.state.throttleInput = 1
+      carEntities.push(carEntity)
+    }
+    catch(e){
+
+    }
   }
 
 

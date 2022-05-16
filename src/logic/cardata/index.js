@@ -4,10 +4,12 @@ export function listCars() {
   return db.car.list()
 }
 
-export function getCar(id, indexTrim) {
+export function getCar(id, idTrim) {
   let car = db.car.get(id)
+  if (!car) throw Error('car not found')
 
-  if(typeof indexTrim !== 'undefined' && car.trims && car.trims[indexTrim]){
+  if(typeof idTrim !== 'undefined' && car.trims){
+    let indexTrim = car.trims.findIndex(t => t.trim === idTrim)
     car = Object.assign(car, car.trims[indexTrim])
   }
 
