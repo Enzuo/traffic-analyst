@@ -1,0 +1,49 @@
+name : citroen ln
+year : 1976
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  torqueY: [19.8,29.7,34.6,37.6,39.6,41  ,41  ,41  ,40.9,40.8,33.7]
+  torqueX: [1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000]
+  hp: 32
+  displacement : 602
+  type : boxer2
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [4.55,2.5,1.81,1.15]
+driveRatio : 4.375
+gearSpeed : 20.7
+wheelDiameter : 55
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 705
+length: 3380
+width: 1520
+height: 1370
+dragCoef : 0.43
+dragArea : 1.73
+
+wheelbase: 2230
+trunk: 
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 29.3
+vmax: 120
+turningCircle : 9.4
+fuelTank: 40
+wheelType: 135SR13
+
+# -------------
+# 3D
+# -------------
+model: citroenLn
+modelWheel: wheelLn
