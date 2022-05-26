@@ -9,6 +9,7 @@ engine:
   name : m9r dci 2.0 90
   torqueY : [140 ,240 ,240 ,240 ,200 ,190 ,160]
   torqueX : [1000,1500,2000,2500,3000,3500,4000]
+  hp : 90
 
 # -------------
 # TRANSMISSION
@@ -48,10 +49,10 @@ trims :
     weight : 1810
 
     trunk : 8360
-    model : traficl2h2
+    model : renaultTraficL2H2
 
 # -------------
 # 3D
 # -------------
-model: trafic
+model: renaultTrafic
 modelWheel: wheelTrafic

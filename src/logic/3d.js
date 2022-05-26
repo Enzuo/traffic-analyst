@@ -192,7 +192,7 @@ function loadModel(filePath) {
 
 
 function defaultCarModel(){
-  return loadModel('zoe')
+  return loadModel('renaultZoe')
 }
 
 
