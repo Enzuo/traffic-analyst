@@ -1,0 +1,41 @@
+name : tesla model 3
+year : 
+
+# -------------
+# ENGINE
+# -------------
+engine :   
+  torqueY: [404, 404 , 387 , 322 , 203 , 100]
+  torqueX: [0  , 4650, 5000, 6000, 9500, 15000]
+  minRPM: 50
+  hp: 275
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [1]
+driveRatio : 9
+gearSpeed : 14
+wheelDiameter : 67
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1645
+length: 4673
+width: 1849
+height: 1422
+dragCoef : 0.23
+dragArea : 2.45
+
+wheelbase: 2875
+trunk: 545
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 6.1
+vmax: 210
+turningCircle : 11.6
+fuelTank : 54

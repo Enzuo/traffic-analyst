@@ -1,0 +1,43 @@
+name : tesla model S
+trim : P85
+year : 2014 #2012
+
+# -------------
+# ENGINE
+# -------------
+engine :   
+  torqueY: [601,601 , 487 , 425 , 313 , 130  ]
+  torqueX: [0  ,5000, 6000, 7000, 9500, 16000]
+  minRPM: 50
+  hp: 421
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [1]
+driveRatio : 9.73
+gearSpeed : 13.56
+wheelDiameter : 70
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 2100
+length: 4970
+width: 1964
+height: 1440
+dragCoef : 0.23
+dragArea : 2.45
+
+wheelbase: 2960
+trunk : 895
+trunkMax: 1645
+
+# -------------
+# STATS
+# -------------
+acc0100: 4.4
+vmax: 210
+turningCircle : 11.3
+fuelTank : 75
+wheelType: P245/45R19 

@@ -1,0 +1,59 @@
+name : 
+trim :
+year :
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  
+  hp:
+  torqueY: []
+  torqueX: []
+  type : 
+  displacement :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : []
+driveRatio : 
+gearSpeed : 
+wheelDiameter : 
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 
+length: 
+width: 
+height:
+dragCoef : 
+dragArea :
+
+wheelbase:
+trunk: 
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 
+vmax: 
+turningCircle : 
+fuelTank :
+autonomy : 
+wheelType :
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
