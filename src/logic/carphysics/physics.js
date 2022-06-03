@@ -120,7 +120,8 @@ export function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDia
  * @returns {number} kw
  */
 export function torqueToKW(torque, rpm){
-  if(torque === null || !rpm){ return null }
+  if(torque === null){ return null }
+  if(!rpm){ return 0 }
   return (torque * rpm) / 9549
 }
 

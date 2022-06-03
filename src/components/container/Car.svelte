@@ -3,6 +3,7 @@
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
+  import UPlotTorque from './UPlotTorque.svelte'
 
 
   let carIds = ['tesla_modelS', 'tesla_model3']
@@ -49,6 +50,7 @@
 </div>
 
 <UPlotGearing car={carEntities[0].props}></UPlotGearing>
+<UPlotTorque cars={carEntities}></UPlotTorque>
 
 <UPlotRealtime 
   title="Speed" 
