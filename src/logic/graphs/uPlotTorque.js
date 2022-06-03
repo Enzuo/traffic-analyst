@@ -42,7 +42,10 @@ export function createGraph(cars, element, opts = {}){
     // })
     // let maxRPM = Math.max(...allCarsRPM)
 
-    let torqueXArray = cars.map(car => car.props.engine.torqueX)
+    let torqueXArray = cars.map(car => {
+      let xMultiplier = car.props.engine.torqueXMultiplier || 1
+      return car.props.engine.torqueX.map(x => x * xMultiplier)
+    })
     let torqueX = [].concat(...torqueXArray)
     // delete duplicates
     // https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
@@ -50,18 +53,18 @@ export function createGraph(cars, element, opts = {}){
       return torqueX.indexOf(item) == pos;
     })
     rpms.sort((a,b) => a - b)
-    console.log(rpms)
 
     let data = [rpms]
     // generate curves data
     for(var i=0; i<cars.length; i++) {
       let car = cars[i]
       let engine = car.props.engine
+      let xMultiplier = engine.torqueXMultiplier || 1
       let torque = []
       let hp = []
       for(let j=0; j<rpms.length; j++) {
         let rpm = rpms[j]
-        let index = engine.torqueX.findIndex(a => a === rpm)
+        let index = engine.torqueX.findIndex(x => x * xMultiplier === rpm)
         if(index >= 0 ){
           let t = engine.torqueY[index]
           torque.push(t)
