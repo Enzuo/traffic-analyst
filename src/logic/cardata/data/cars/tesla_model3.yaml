@@ -1,14 +1,15 @@
 name : tesla model 3
-year : 
+year : 2018
+trim : standard 285hp
 
 # -------------
 # ENGINE
 # -------------
 engine :   
-  torqueY: [404, 404 , 387 , 322 , 203 , 100]
-  torqueX: [0  , 4650, 5000, 6000, 9500, 15000]
+  torqueY: [400, 400 , 397 , 331 , 283 , 248 , 209 , 140  ,80]
+  torqueX: [0  , 4500, 5000, 6000, 7000, 8000, 9500, 12000,16000]
   minRPM: 50
-  hp: 275
+  hp: 281
 
 # -------------
 # TRANSMISSION
@@ -21,7 +22,7 @@ wheelDiameter : 67
 # -------------
 # DIMENSIONS
 # -------------
-weight : 1645
+weight : 1745
 length: 4673
 width: 1849
 height: 1422
@@ -38,4 +39,4 @@ trunkMax:
 acc0100: 6.1
 vmax: 210
 turningCircle : 11.6
-fuelTank : 54
+fuelTank : 55

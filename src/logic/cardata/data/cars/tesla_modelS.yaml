@@ -6,8 +6,9 @@ year : 2014 #2012
 # ENGINE
 # -------------
 engine :   
-  torqueY: [601,601 , 487 , 425 , 313 , 130  ]
-  torqueX: [0  ,5000, 6000, 7000, 9500, 16000]
+  # 421hp 310kw, max rpm 16000, 421hp @5000 to9500
+  torqueY: [600,600 , 492 , 422 , 369 , 311 , 224  , 130  ]
+  torqueX: [0  ,5000, 6000, 7000, 8000, 9500, 12000, 16000]
   minRPM: 50
   hp: 421
 
@@ -22,7 +23,7 @@ wheelDiameter : 70
 # -------------
 # DIMENSIONS
 # -------------
-weight : 2100
+weight : 2220
 length: 4970
 width: 1964
 height: 1440
@@ -38,6 +39,6 @@ trunkMax: 1645
 # -------------
 acc0100: 4.4
 vmax: 210
-turningCircle : 11.3
-fuelTank : 75
+turningCircle : 12.3
+fuelTank : 85
 wheelType: P245/45R19 

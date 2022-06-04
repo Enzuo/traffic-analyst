@@ -21,6 +21,7 @@ export function createGraph(cars, element, opts = {}){
       stroke: colors[i],
       dash: [10, 5],
       spanGaps: true,
+      points : {show: false},
     }
     let powerSerie = {
       label: "power",
@@ -28,6 +29,7 @@ export function createGraph(cars, element, opts = {}){
       value: (u, v) => v == null ? "-" : v.toFixed(0),
       stroke: colors[i],
       spanGaps: true,
+      points : {show: false},
     }
     series.push(torqueSerie)
     series.push(powerSerie)
