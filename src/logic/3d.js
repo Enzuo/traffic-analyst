@@ -191,8 +191,26 @@ function loadModel(filePath) {
 
 
 
-function defaultCarModel(){
-  return loadModel('renaultZoe')
+function defaultCarModel(car){
+  return loadModel('defaultHatchback').then((glb) => {
+    let carObject = glb.scene
+    let wheelDiameter = car.props.wheelDiameter || 63
+    let length = car.props.length || 4000
+    let width = car.props.width || 1700
+    let height = (car.props.height - (wheelDiameter * 5)) || 1500
+    carObject.traverse((a) => {
+      if(a.name.indexOf('Wheel') === 0){
+        a.position.z *= width  / 1000
+        a.position.x *= length  / 1000
+      }
+      if(a.name.indexOf('Body') === 0){
+        a.scale.z = width  / 1000
+        a.scale.y = height  / 1000
+        a.scale.x = length  / 1000
+      }
+    })
+    return glb
+  })
 }
 
 
@@ -218,7 +236,7 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   .then(() => {
     return loadModel(carModel)
   }).catch((e) => {
-    return defaultCarModel()
+    return defaultCarModel(car)
   }).then((gltf) => {
 
     console.log('loaded model', gltf)
@@ -240,6 +258,12 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
       if(a.name.indexOf('Wheel') === 0){
         let carWheel = wheel.clone()
         carWheel.position.copy(a.position)
+
+        // // inverse main scene scale if needed
+        // wheel.scale.x = 1/carObject.scale.x
+        // wheel.scale.y = 1/carObject.scale.y
+        // wheel.scale.z = 1/carObject.scale.z
+
         if(a.name.indexOf('Right') > 0){
           console.log('right wheel', carWheel)
           carWheel.scale.x *= -1
