@@ -28,7 +28,7 @@ height : 1962
 length : 4782
 dragArea : 3.5
 dragCoef : 0.36
-
+wheelBase : 3090
 trunk : 3200
 
 # -------------
@@ -43,11 +43,11 @@ vmax: 150
 # -------------
 trims : 
   - trim : 2.0 dCi (90 Hp) L2H2
+    weight : 1810
     length : 5180
     height : 2460
     dragArea : 4.67
-    weight : 1810
-
+    wheelBase : 3500
     trunk : 8360
     model : renaultTraficL2H2
 

@@ -6,7 +6,7 @@
   import UPlotTorque from './UPlotTorque.svelte'
 
 
-  let carIds = ['dacia_logan', 'peugeot_206', 'renault_trafic2', 'citroen_ln']
+  let carIds = ['dacia_logan', 'peugeot_206', 'renault_trafic2', ['renault_trafic2', '2.0 dCi (90 Hp) L2H2'], 'citroen_ln']
   let colors = ["blue","red","orange","green","purple"]
   let colors3D = [0x5895FF,0xFF5758,0xFFA132,"green","purple"]
 

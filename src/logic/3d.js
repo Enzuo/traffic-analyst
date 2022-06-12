@@ -228,9 +228,12 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
     carObjects.push(carObject)
 
+    let wheelDiameter = car.props.wheelDiameter || 63
+
     // Initial position
     const distanceBetweenCar = 3
     carObject.position.z += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
+    carObject.position.y += wheelDiameter/500
 
     carObject.traverse((a) => {
       // Wheels
