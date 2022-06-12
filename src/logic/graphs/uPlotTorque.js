@@ -1,4 +1,3 @@
-import { prepare } from '@svgdotjs/svg.js'
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'  
 import { getEngineRpmForSpeed, getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, torqueToKW } from '../carphysics/physics'
@@ -62,7 +61,7 @@ export function createGraph(cars, element, opts = {}){
     let maxRPM = Math.max(...allCarsRPM)
 
     let rpms = []
-    for(var i=minRPM; i<maxRPM; i+=step) {
+    for(var i=minRPM; i<=maxRPM; i+=step) {
       rpms.push(i)
     }
 

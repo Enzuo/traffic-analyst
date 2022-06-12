@@ -24,3 +24,6 @@ Built using svelte, typescript, jsdoc
 
 Tags : 
 Rule 184, stop waves
+
+Useful websites :
+zeperfs.com

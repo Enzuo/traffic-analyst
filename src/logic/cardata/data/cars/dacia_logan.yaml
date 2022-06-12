@@ -1,0 +1,59 @@
+name : logan
+brand : dacia
+trim : logan mcv
+year : 2006
+
+# -------------
+# ENGINE
+# -------------
+engine : 
+  name : 1.5 dci 70 k9k
+  hp: 67
+  torqueY: [95.2, 154.7, 160 , 159.3, 155.1, 147, 135.1, 119.4, 99.3] # 160nm @1700 67hp @4000
+  torqueX: [1000, 1500 , 1700, 2000 , 2500 , 3000, 3500, 4000 , 4500]
+  type : l4
+  displacement : 1461
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [3.73, 2.05, 1.32, 0.97, 0.75]
+driveRatio : 3.87
+gearSpeed : 40.4
+wheelDiameter : 63
+type : FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1245
+length: 4450
+width: 1740
+height: 1636
+dragCoef : 0.36
+dragArea : 2.36
+
+wheelbase: 2900
+trunk: 198
+trunkMax: 2350
+
+# -------------
+# STATS
+# -------------
+acc0100: 17.7
+vmax: 150
+turningCircle : 11.25
+fuelTank : 50
+wheelType : 185/65/15
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
