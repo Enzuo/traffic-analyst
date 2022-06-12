@@ -1,0 +1,56 @@
+name : clio 2
+brand : renault
+trim : RXT 1.6 (90) bva
+year : 1998
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  
+  hp: 90
+  torqueY: [49.4, 127.3, 128.9, 131.0, 124.1, 131.0, 130.0, 128.0, 109.4]
+  torqueX: [1000, 1500 ,2000  ,2500  ,3000  ,4000  ,4500  , 5000 , 5500 ]
+  minRPM: 1500
+  type : petrol 
+  layout : l4
+  displacement : 1598
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [3.994, 2.536, 1.581, 1]
+driveRatio : 2.815
+gearSpeed : 40
+wheelDiameter : 60 
+type : FWD 
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1055
+length: 3773
+width: 1640
+height: 1417
+dragCoef : 0.35
+dragArea : 1.93
+
+wheelbase: 2472
+trunk: 255
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 12.9
+vmax: 175
+turningCircle : 10.3
+fuelTank : 50
+autonomy : 
+wheelType : 165/65 R 14 T
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
