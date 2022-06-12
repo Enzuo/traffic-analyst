@@ -11,7 +11,8 @@ engine :
   hp:
   torqueY: []
   torqueX: []
-  type : 
+  type : # petrol, diesel, hybrid, electric
+  layout : # boxer2, l4, v6
   displacement :
 
 # -------------
@@ -20,7 +21,7 @@ engine :
 gearRatio : []
 driveRatio : 
 gearSpeed : 
-wheelDiameter : 
+wheelDiameter : # 63cm
 type : #AWD, RWD, FWD
 
 # -------------
