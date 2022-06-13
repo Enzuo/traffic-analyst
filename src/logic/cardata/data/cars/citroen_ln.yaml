@@ -11,7 +11,7 @@ engine :
   hp: 32
   displacement : 602
   layout : boxer2
-  
+
 # -------------
 # TRANSMISSION
 # -------------
@@ -41,7 +41,7 @@ trunkMax:
 acc0100: 29.3
 vmax: 120
 turningCircle : 9.4
-fuelTank: 40
+energyTank: 40
 wheelType: 135SR13
 
 # -------------

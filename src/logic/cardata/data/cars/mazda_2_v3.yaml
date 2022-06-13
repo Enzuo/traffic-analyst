@@ -1,0 +1,61 @@
+name : 2 (III)
+brand : mazda
+trim :
+year : 2014
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name : skyactiv-g 1.5 (90)
+  hp: 90
+  # 148nm @4000 90ch @6000
+  torqueY: [69.6, 104.5, 121.9, 132.3, 139.3, 144.3, 148 , 140.1, 126.1, 114.6, 105 , 87.3]
+  torqueX: [1000, 1500 , 2000 , 2500 , 3000 , 3500 , 4000, 4500 , 5000 , 5500 , 6000, 6500]
+  type : petrol
+  layout : l4
+  displacement : 1496
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [3.583, 1.904, 1.218, 0.918, 0.717]
+driveRatio : 3.672
+gearSpeed : 45.1
+wheelDiameter : 63
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 975
+length: 4060
+width: 1695
+height: 1495
+dragCoef : 0.29
+dragArea : 2.1
+
+wheelbase: 2570
+trunk: 280
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 9.7
+vmax: 183
+turningCircle : 9.4
+energyTank : 44
+autonomy : 
+wheelType : 185/65/15
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:

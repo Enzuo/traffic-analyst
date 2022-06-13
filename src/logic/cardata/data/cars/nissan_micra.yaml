@@ -45,7 +45,7 @@ trunkMax:
 acc0100: 13.7
 vmax: 170
 turningCircle : 9.3
-fuelTank : 41
+energyTank : 41
 autonomy : 
 wheelType : 165/70 R 14
 

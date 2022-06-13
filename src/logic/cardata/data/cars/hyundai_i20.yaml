@@ -35,4 +35,4 @@ trunkMax:
 acc0100: 13.1
 vmax: 176
 turningCircle : 10.2
-fuelTank: 50
+energyTank: 50

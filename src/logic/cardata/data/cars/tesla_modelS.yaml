@@ -40,5 +40,5 @@ trunkMax: 1645
 acc0100: 4.4
 vmax: 210
 turningCircle : 12.3
-fuelTank : 85
+energyTank : 85
 wheelType: P245/45R19 

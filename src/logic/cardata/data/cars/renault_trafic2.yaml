@@ -22,7 +22,7 @@ wheelDiameter : 67
 # -------------
 # DIMENSIONS
 # -------------
-weight : 1860
+weight : 1753
 width : 1904
 height : 1962
 length : 4782
@@ -43,7 +43,7 @@ vmax: 150
 # -------------
 trims : 
   - trim : 2.0 dCi (90 Hp) L2H2
-    weight : 1810
+    weight : 1885
     length : 5180
     height : 2460
     dragArea : 4.67

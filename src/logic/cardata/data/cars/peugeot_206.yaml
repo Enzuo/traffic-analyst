@@ -36,7 +36,7 @@ trunkMax : 1130
 # -------------
 # STATS
 # -------------
-fuelTank: 50
+energyTank: 50
 turningCircle : 10.8
 acc0100: 15.5
 vmax: 155

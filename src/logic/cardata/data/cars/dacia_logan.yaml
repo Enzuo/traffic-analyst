@@ -43,7 +43,7 @@ trunkMax: 2350
 acc0100: 17.7
 vmax: 150
 turningCircle : 11.25
-fuelTank : 50
+energyTank : 50
 wheelType : 185/65/15
 
 # -------------
