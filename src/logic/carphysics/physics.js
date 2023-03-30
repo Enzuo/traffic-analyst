@@ -10,6 +10,13 @@ export function getEngineRpmForSpeed(speed, speedForGear, minRpm=0){
 }
 
 
+export function getSpeedForRPM(rpm, gearRatio, driveRatio, wheelDiameter = 63){
+  let rps = rpm/60
+  let axleRps = rps/(gearRatio * driveRatio)
+  let speed = axleRps * (wheelDiameter/100 * Math.PI)
+  return speed
+}
+
 /**
  * 
  * @param {number} gearRatio 
