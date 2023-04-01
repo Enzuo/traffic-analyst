@@ -6,7 +6,7 @@
 </script>
 
 <main>
-  <Tools/>
+  <Car/>
 </main>
 
 <style>

@@ -2,13 +2,15 @@ const fs = require('fs')
 const path = require('path')
 const yaml = require('yaml');
 
-const folders = ['cars','engines']
+const DATA_FOLDERS = ['cars','engines']
 
 let database = {}
+let nb = 0
+let nb_errors = 0
 
-for(let i=0; i<folders.length; i++){
-  let folder = folders[i]
-  let folderPath = path.join(__dirname, 'data', folder)
+for(let i=0; i<DATA_FOLDERS.length; i++){
+  let folder = DATA_FOLDERS[i]
+  let folderPath = path.join(__dirname, '../../../data', folder)
   let folderFiles = fs.readdirSync(folderPath)
   database[folder] = []
   
@@ -18,17 +20,23 @@ for(let i=0; i<folders.length; i++){
     let fileParsed
     try {
       fileParsed = yaml.parse(fileContent)
+
+      // add unique id based on filename (which should be unique)
+      let id = path.basename(folderFiles[j], '.yaml')
+      fileParsed['id'] = id
+
+      database[folder].push(fileParsed)
+
+      nb++
   
     } catch (e) {
-      console.error("Parsing error on line " + e.line + ", column " + e.column +
-        ": " + e.message);
-    }
-    // add unique id based on filename (which should be unique)
-    let id = path.basename(folderFiles[j], '.yaml')
-    fileParsed['id'] = id
+      console.error("Parsing error on line " + e.line + ", column " + e.column + ": " + e.message)
 
-    database[folder].push(fileParsed)
+      nb_errors++
+    }
+
   }
 }
 
+console.log(`database updated with ${nb} entities ${nb_errors} errors`) 
 fs.writeFileSync(path.join(__dirname,  'database.json'), JSON.stringify(database, null, 2))

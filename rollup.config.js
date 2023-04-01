@@ -8,7 +8,9 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
+import chokidar from 'chokidar'; 
 import path from 'path';
+import { spawn } from 'child_process';
 
 
 const projectRootDir = path.resolve(__dirname);
@@ -89,9 +91,57 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
+    // run({
+    //   // specify the command to run your script
+    //   execArgv: ['-r', 'esm'],
+    //   cmd: 'npm run build-db',
+    //   watch: 'data', // watch the build folder for changes
+    // }),
+    // execute('npm run build-db'),
   ],
   watch: {
     clearScreen: false
   }
 };
+
+
+/**------------------------------------
+ * Build database
+ * ----------------------------------*/
+
+chokidar.watch('data').on('all', (event, path) => {
+  console.log(`${event} ${path}`);
+  debouncedBuildDatabase();
+});
+
+
+
+// define a debounce function
+function debounce(func, wait) {
+  let timeout;
+  return function() {
+    const context = this, args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(context, args);
+    }, wait);
+  };
+}
+
+// define a function to run the build command
+function buildDatabase() {
+  console.log('Building database...');
+  const child = spawn('npm', ['run', 'build-db']); // run the build command as a child process
+  child.stdout.on('data', data => {
+    console.log(data.toString());
+  });
+  child.stderr.on('data', data => {
+    console.error(data.toString());
+  });
+  child.on('exit', code => {
+    console.log(`Build process exited with code ${code}`);
+  });
+}
+
+const debouncedBuildDatabase = debounce(buildDatabase, 1000); // wait for 1 second after the last change
