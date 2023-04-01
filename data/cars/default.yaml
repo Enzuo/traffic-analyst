@@ -43,10 +43,17 @@ trunkMax:
 # -------------
 acc0100: 
 vmax: 
-turningCircle : 
+avgConsumption : 
 energyTank :
 autonomy : 
+turningCircle : 
 wheelType :
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
 
 # -------------
 # TRIMS
@@ -54,8 +61,3 @@ wheelType :
 trims : 
   - trim :
 
-# -------------
-# 3D
-# -------------
-model: 
-modelWheel:

@@ -41,6 +41,11 @@ acc0100:
 turningCircle : 11
 energyTank: 25 
 
+# -------------
+# 3D
+# -------------
+model: citroen2cv
+modelWheel: wheel2cv
 
 # -------------
 # TRIMS
@@ -58,8 +63,3 @@ trims :
     weight : 715 # 610 + 75 + 30
 
 
-# -------------
-# 3D
-# -------------
-model: citroen2cv
-modelWheel: wheel2cv
