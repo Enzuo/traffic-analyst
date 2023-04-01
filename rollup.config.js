@@ -131,7 +131,7 @@ function debounce(func, wait) {
 // define a function to run the build command
 function buildDatabase() {
   console.log('Building database...');
-  const child = spawn('npm', ['run', 'build-db']); // run the build command as a child process
+  const child = spawn('npm run build-db', { shell: true });
   child.stdout.on('data', data => {
     console.log(data.toString());
   });
