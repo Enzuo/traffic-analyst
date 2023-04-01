@@ -9,8 +9,8 @@ year : 2007
 engine :  
   name : 1.3 Multijet
   hp: 75
-  torqueY: [109.2, 181 , 190 , 189 , 183.5, 171.9, 150.1, 131.3, 111.7] 
-  torqueX: [1000 , 1500, 1750, 2000, 2500 , 3000 , 3500 , 4000 , 4400]
+  torqueY: [109.2, 145 , 145 , 145 , 145, 145, 145, 132, 110] # 145nm @1500 75hp @4000
+  torqueX: [1000 , 1500, 1750, 2000, 2500 , 3000 , 3500 , 4000 , 4500] 
   type : diesel
   layout : l4
   displacement : 1248
@@ -32,7 +32,7 @@ length: 3546
 width: 1627
 height: 1488
 dragCoef : 0.325
-dragArea :
+dragArea : 2.01
 
 wheelbase: 2300
 trunk: 182
