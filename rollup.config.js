@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
 import json from '@rollup/plugin-json';
+import copy from 'rollup-plugin-copy';
 import chokidar from 'chokidar'; 
 import path from 'path';
 import { spawn } from 'child_process';
@@ -92,13 +93,11 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser(),
-    // run({
-    //   // specify the command to run your script
-    //   execArgv: ['-r', 'esm'],
-    //   cmd: 'npm run build-db',
-    //   watch: 'data', // watch the build folder for changes
-    // }),
-    // execute('npm run build-db'),
+    copy({
+      targets: [
+        { src: 'data/3Dmodels/**/*', dest: 'public/build/models' }
+      ]
+    })
   ],
   watch: {
     clearScreen: false

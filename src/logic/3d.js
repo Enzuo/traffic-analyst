@@ -178,7 +178,7 @@ function loadModel(filePath) {
   return new Promise((resolve, reject) => {
     if(!filePath) reject(Error('no file specified'))
 
-    loader.load('/models/' + filePath + '.glb', function(glb) {
+    loader.load('/build/models/' + filePath + '.glb', function(glb) {
       console.log(glb)
       resolve(glb)
     }, (progress) => {
@@ -232,6 +232,9 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
     wheel = wheelScene.scene.children[0]
     wheel.material = clayMaterial.clone()
     wheel.material.color = new THREE.Color(0x333333)
+  })
+  .catch((e) => {
+    console.error(e)
   })
   .then(() => {
     return loadModel(carModel)
