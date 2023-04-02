@@ -1,6 +1,10 @@
-const fs = require('fs')
-const path = require('path')
-const yaml = require('yaml');
+import  fs from 'fs'
+import { fileURLToPath } from 'url';
+import path from 'path'
+import yaml from 'yaml'
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const DATA_FOLDERS = ['cars','engines']
 

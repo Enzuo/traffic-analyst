@@ -3,13 +3,14 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import watchAndRun from 'vite-plugin-watch-and-run'
 import sveltePreprocess from 'svelte-preprocess'
 
 
 export default defineConfig({
   root: './',
   build: {
-    outDir: './build'
+    outDir: './build',
   },
   resolve:{
     alias:{
@@ -17,6 +18,15 @@ export default defineConfig({
     },
   },
   plugins: [
+    watchAndRun([
+      {
+        name: 'build database',
+        watchKind: ['add', 'change', 'unlink'],
+        watch: path.resolve('data/**/*.(yaml|md)'),
+        run: 'npm run build-db',
+        delay: 300
+      }
+    ]),
     svelte({
       preprocess: [sveltePreprocess({ typescript: true })]
     }),
@@ -31,6 +41,7 @@ export default defineConfig({
           dest: './3dmodels'
         }
       ]
-    })
+    }),
+
   ]
 });
