@@ -212,7 +212,7 @@ function loadModel(filePath) {
   return new Promise((resolve, reject) => {
     if(!filePath) reject(Error('no file specified'))
 
-    loader.load('/build/models/' + filePath + '.glb', function(glb) {
+    loader.load('/3dmodels/' + filePath + '.glb', function(glb) {
       console.log(glb)
       resolve(glb)
     }, (progress) => {
@@ -226,7 +226,7 @@ function loadModel(filePath) {
 
 
 function defaultCarModel(car){
-  return loadModel('defaultHatchback').then((glb) => {
+  return loadModel('_defaultHatchback').then((glb) => {
     let carObject = glb.scene
     let wheelDiameter = car.props.wheelDiameter || 63
     let length = car.props.length || 4000
