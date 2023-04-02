@@ -15,8 +15,10 @@ export function createThreeAnimation ( element ) {
   const scene = new THREE.Scene();
 
   const renderer = new THREE.WebGLRenderer();
-  // renderer.physicallyCorrectLights = true;
-  // renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.physicallyCorrectLights = true; // much better colors (https://github.com/donmccurdy/three-gltf-viewer/blob/main/src/viewer.js)
+  renderer.outputEncoding = THREE.sRGBEncoding; 
+  renderer.useLegacyLights = false;
+  renderer.setClearColor( 0xf8d0a3 );
   renderer.setSize( window.innerWidth, window.innerHeight );
   element.appendChild( renderer.domElement );
 
@@ -26,7 +28,8 @@ export function createThreeAnimation ( element ) {
 
   let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
   const targetObject = new THREE.Object3D();
-  targetObject.position.set(300, -100, -200)
+  targetObject.position.set(0, 0, 0)
+  directionalLight.position.set(0, 5, 0)
   directionalLight.target = targetObject;
   directionalLight.castShadow = true;
   scene.add(targetObject);
@@ -37,6 +40,18 @@ export function createThreeAnimation ( element ) {
   // let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
   // ptLight.position.set( -300, 300, 300 );
   // scene.add( ptLight );
+
+  // SHADOWS
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  directionalLight.shadow.mapSize.width = 512; // default
+  directionalLight.shadow.mapSize.height = 512; // default
+  directionalLight.shadow.camera.near = 0.5; // default
+  directionalLight.shadow.camera.far = 500; // default
+
+  const helper = new THREE.CameraHelper( directionalLight.shadow.camera );
+  scene.add( helper );
 
   // CLOCK
   const clock = new THREE.Clock();
@@ -82,6 +97,9 @@ export function createThreeAnimation ( element ) {
   // CUBE
   createCube(scene, subscribeAnimation)
 
+  // GROUND
+  createGround(scene)
+
 
   return {scene, renderer, subscribeAnimation}
 }
@@ -115,8 +133,11 @@ function createCube (scene, subscribeAnimation) {
   const geometry = new THREE.BoxGeometry();
   const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
   const cube = new THREE.Mesh( geometry, material );
+  cube.position.y = 2
+  cube.castShadow = true
   scene.add( cube );
-  cube.position.z = -5;
+  cube.position.z = -3;
+  cube.position.x = -3
 
   function animate(){
     cube.rotation.x += 0.01;
@@ -124,6 +145,19 @@ function createCube (scene, subscribeAnimation) {
   }
 
   subscribeAnimation(animate)
+}
+
+function createGround (scene) {
+  // const groundGeometry = new THREE.PlaneBufferGeometry(10000, 10000)
+  // const groundMaterial = new THREE.ShadowMaterial();
+  // groundMaterial.opacity = 0.5; // set the opacity of the shadow material
+  const groundGeometry = new THREE.PlaneGeometry(10, 10);
+  const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  // ground.position.y = -1; // position the plane at y = -1 so that it is below other objects in the scene
+  ground.rotation.x = -Math.PI / 2; // rotate the plane to lie flat on the x-z plane
+  ground.receiveShadow = true; // enable the plane to receive shadows
+  scene.add(ground);
 }
 
 
@@ -245,6 +279,7 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
     console.log('loaded model', gltf)
 
     carObject = gltf.scene
+    // carObject.castShadow = true
     scene.add( carObject )
 
     carObjects.push(carObject)
@@ -279,6 +314,9 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
       }
 
       if ( a instanceof THREE.Mesh ) {
+        console.log('set cast shadow')
+        a.castShadow = true
+        a.receiveShadow = false
         // a.material.normalMap = clayMaterial.normalMap;
       }
 
@@ -286,9 +324,11 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
       // Every thing other than wheel
       if(a.name.indexOf('Wheel') < 0){
         // let colorCode = ...color
-        a.material = clayMaterial.clone()
+        // a.material = clayMaterial.clone()
         // console.log(a)
-        a.material.color = new THREE.Color(color)
+        if(a && a.material){
+          // a.material.color = new THREE.Color(color)
+        }
       }
 
       // body
