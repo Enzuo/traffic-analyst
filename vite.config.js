@@ -4,8 +4,6 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import watchAndRun from 'vite-plugin-watch-and-run'
-import sveltePreprocess from 'svelte-preprocess'
-
 
 export default defineConfig({
   root: './',
