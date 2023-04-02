@@ -27,9 +27,7 @@ export default defineConfig({
         delay: 300
       }
     ]),
-    svelte({
-      preprocess: [sveltePreprocess({ typescript: true })]
-    }),
+    svelte(),
     viteStaticCopy({
       targets: [
         {
