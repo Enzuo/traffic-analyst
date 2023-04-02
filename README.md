@@ -27,3 +27,20 @@ Rule 184, stop waves
 
 Useful websites :
 zeperfs.com
+
+
+
+## Contrib
+
+### Art
+
+#### Blender
+
+Origin point of the car body on the wheel level and centered
+Empty for each wheel named Wheel#R or Wheel#L
+Shade smooth
+Auto Smooth 20°
+
+#### Pixel scale
+
+1m50 -> 50 pixels
