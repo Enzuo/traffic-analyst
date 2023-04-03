@@ -109,7 +109,7 @@ let carObjects = []
 function updateCameraDistance(camera, cameraControls, cars){
   let positions = []
   for(let i=0; i<cars.length; i++){
-    positions.push(cars[i].position.x)
+    positions.push(cars[i].position.z)
   }
   let carMaxX = Math.max(...positions)
   let carMinX = Math.min(...positions)
@@ -120,7 +120,7 @@ function updateCameraDistance(camera, cameraControls, cars){
   let cameraPosX = (carMaxX + carMinX) / 2
   cameraPosX = cameraPosX ? cameraPosX : 0
 
-  cameraControls.moveTo(cameraPosX,0,0)
+  cameraControls.moveTo(0,0,cameraPosX)
   if(cameraControls.distance < distanceCameraMin){
     cameraControls.dollyTo(distanceCameraMin, false)
     cameraControls.minDistance = distanceCameraMin
@@ -234,13 +234,13 @@ function defaultCarModel(car){
     let height = (car.props.height - (wheelDiameter * 5)) || 1500
     carObject.traverse((a) => {
       if(a.name.indexOf('Wheel') === 0){
-        a.position.z *= width  / 1000
-        a.position.x *= length  / 1000
+        a.position.x *= width  / 1000
+        a.position.z *= length  / 1000
       }
       if(a.name.indexOf('Body') === 0){
-        a.scale.z = width  / 1000
+        a.scale.x = width  / 1000
         a.scale.y = height  / 1000
-        a.scale.x = length  / 1000
+        a.scale.z = length  / 1000
       }
     })
     return glb
@@ -288,8 +288,8 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
     // Initial position
     const distanceBetweenCar = 3
-    carObject.position.z += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
-    carObject.position.y += wheelDiameter/500
+    carObject.position.x += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
+    carObject.position.y += wheelDiameter/250
 
     carObject.traverse((a) => {
       // Wheels
@@ -302,10 +302,9 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
         // wheel.scale.y = 1/carObject.scale.y
         // wheel.scale.z = 1/carObject.scale.z
 
-        if(a.name.indexOf('Right') > 0){
+        if(!!a.name.match(/R$/g)){
           console.log('right wheel', carWheel)
           carWheel.scale.x *= -1
-          carWheel.scale.z *= -1
         }
 
         carObject.add(carWheel)
@@ -317,7 +316,6 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
         console.log('set cast shadow')
         a.castShadow = true
         a.receiveShadow = false
-        console.log("car material : ", a.material)
         // a.material.color = new THREE.Color(color)
         const texture = a.material.map;
         const newTexture = changeTextureColor(texture, color)
@@ -342,6 +340,8 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
         carBody = a
       }
     })
+
+    console.log("car created : ", carBody, car.id)
   })
 
   function update(dt, car){
@@ -355,14 +355,14 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
     for(let i=0; i<wheelObjects.length; i++){
       let wheel = wheelObjects[i]
-      wheel.rotation.z -= Math.min(maxRotationSpeed,wheelTurnOverDt)
+      wheel.rotation.x += Math.min(maxRotationSpeed,wheelTurnOverDt)
     }
     
-    carObject.position.x += speed * dt / 1000
+    carObject.position.z += speed * dt / 1000
 
     // Add body tilt
     let tilt = (acceleration / 4) * (Math.PI/180)
-    carBody.rotation.z = tilt
+    carBody.rotation.x = -tilt
   }
 
   // ThreeAnimation.subscribeAnimation(animate)
@@ -373,6 +373,8 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
 
 function changeTextureColor(texture, color) {
+  if(!texture) return null
+
   // create a canvas element to modify the texture
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
@@ -392,6 +394,8 @@ function changeTextureColor(texture, color) {
 
   const newTexture = new THREE.CanvasTexture(canvas);
   newTexture.needsUpdate = true;
+  newTexture.minFilter = THREE.NearestMipmapNearestFilter
+  newTexture.magFilter = THREE.NearestFilter
   newTexture.flipY = false // FLIP as Y-axis in the WebGL coordinate system is inverted compared to the canvas coordinate system
 
   return newTexture
