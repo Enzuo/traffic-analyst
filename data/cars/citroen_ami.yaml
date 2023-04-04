@@ -1,0 +1,63 @@
+name : ami
+brand : citroen
+trim :
+year : 2020
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  
+  hp: 8hp # 6kw
+  torqueY: [625,100 ,60  , 40  , 30  , 24  , 20  , 17.2, 15  , 12  , 7   ,0]
+  torqueX: [0  ,500 ,1000, 1500, 2000, 2500, 3000, 3500, 4000, 5000, 8000, 10000]
+  type : electric
+  layout : # boxer2, l4, v6
+  displacement :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [1]
+driveRatio : 12
+gearSpeed : 8.8
+wheelDiameter : 56
+type : FWD #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 562 # 482 a vide
+length: 2410
+width: 1390
+height: 1520
+dragCoef : 0.45
+dragArea : 2.1
+
+wheelbase: 1728
+trunk: 68
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: # 0-45 in about 10s
+vmax: 45 
+avgConsumption : 
+energyTank : 5.35
+autonomy : 70
+turningCircle : 7.2
+wheelType : 155/65R14
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
