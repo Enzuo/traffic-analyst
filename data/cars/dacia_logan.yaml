@@ -55,5 +55,5 @@ trims :
 # -------------
 # 3D
 # -------------
-model: 
-modelWheel:
+model: DaciaLogan
+modelWheel: wheelDaciaLogan
