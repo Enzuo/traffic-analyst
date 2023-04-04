@@ -1,6 +1,6 @@
 // vite.config.js
 import path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, normalizePath } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import watchAndRun from 'vite-plugin-watch-and-run'
@@ -29,11 +29,11 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: path.resolve(__dirname, './data/3Dmodels/cars') + '/*',
+          src: normalizePath(path.resolve(__dirname, './data/3Dmodels/cars') + '/*'),
           dest: './3dmodels'
         },
         {
-          src: path.resolve(__dirname, './data/3Dmodels/wheels') + '/*',
+          src: normalizePath(path.resolve(__dirname, './data/3Dmodels/wheels') + '/*'),
           dest: './3dmodels'
         }
       ]
