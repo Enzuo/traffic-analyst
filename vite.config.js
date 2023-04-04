@@ -20,7 +20,7 @@ export default defineConfig({
       {
         name: 'build database',
         watchKind: ['add', 'change', 'unlink'],
-        watch: path.resolve('data/**/*.(yaml|md)'),
+        watch: normalizePath(path.resolve('data/**/*.(yaml|md)')),
         run: 'npm run build-db',
         delay: 300
       }
