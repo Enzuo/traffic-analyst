@@ -17,6 +17,7 @@
     let speedArray = []
     for(let i=0; i<ratiosArray.length; i++){
       let ratio = parseFloat(ratiosArray[i])
+      console.log('drive ratio', driveRatio)
       let speed = getSpeedForRPM(rpm, ratio, driveRatio, wheelSize)
       speedArray.push((speed * 3.6).toFixed(1))
     }
@@ -30,5 +31,5 @@
 RPM <input value={rpm}>
 GearRatios <input value={gearRatios} on:input={handleRatioChange}>
 GearSpeed <input value={gearSpeed}>
-DriveRatio <input value={driveRatio}>
-WheelDiameter <input value={wheelSize}> cm
+DriveRatio <input bind:value={driveRatio}>
+WheelDiameter <input bind:value={wheelSize}> cm
