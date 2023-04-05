@@ -88,7 +88,7 @@ function setupCamera (renderer) {
  * @param {*} renderer 
  * @returns 
  */
-function createAnimation (camera, scene, renderer, cameraControls) {
+function createAnimation (camera, scene, renderer, cameraControls, simulation) {
   const clock = new THREE.Clock()
 
   /**
@@ -109,8 +109,10 @@ function createAnimation (camera, scene, renderer, cameraControls) {
     animationFrame = requestAnimationFrame( animationLoop );
     const delta = clock.getDelta() * 1000 // delta ms
 
-    for(let i=0; i<animatedObjects.length; i++){
-      animatedObjects[i].animate(delta)
+    if(simulation.isPlaying){
+      for(let i=0; i<animatedObjects.length; i++){
+        animatedObjects[i].animate(delta)
+      }
     }
 
     // controls.update();
@@ -132,13 +134,13 @@ function createAnimation (camera, scene, renderer, cameraControls) {
   return {start, stop, addAnimatedObject}
 }
 
-export default function SceneGraph (cars) {
+export default function SceneGraph (cars, simulation) {
 
   const {element, scene, renderer} = setupScene()
   const lights = setupLights(scene)
   const {camera, cameraControls} = setupCamera(renderer) 
 
-  const animation = createAnimation(camera, scene, renderer, cameraControls)
+  const animation = createAnimation(camera, scene, renderer, cameraControls, simulation)
 
 
 
@@ -169,7 +171,7 @@ export default function SceneGraph (cars) {
 
   // CARS
   cars.forEach((car, index) => {
-    const carObject = createCar(scene, cars, index, cars.length)
+    const carObject = createCar(scene, car, index, cars.length)
     animation.addAnimatedObject(carObject)
   })
 
@@ -326,8 +328,8 @@ function defaultCarModel(car){
 
 
 
-export function createCar(scene, cars, index, totalNumbers, color){
-  const car = cars[index]
+export function createCar(scene, car, index, totalNumbers, color){
+  // const car = cars[index]
   console.log('create Car', car)
   // MODELS
   let carObject
@@ -424,7 +426,7 @@ export function createCar(scene, cars, index, totalNumbers, color){
 
   function animate(dt){
     if(!carObject) return
-    const car = cars[index]
+    // const car = cars[index]
     
     let {speed, acceleration} = car.state
     // console.log(dt, speed, carObject.position.z)

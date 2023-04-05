@@ -48,6 +48,9 @@ export function Simulation () {
   return {
     start,
     stop,
-    subscribeTick
+    subscribeTick,
+    get isPlaying () {
+      return isPlaying
+    }
   }    
 }
