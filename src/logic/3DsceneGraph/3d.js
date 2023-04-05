@@ -11,7 +11,7 @@ import { getWheelTurns } from '@/logic/carphysics/physics'
 CameraControls.install( { THREE: THREE } )
 
 
-export function createThreeAnimation ( element ) {
+function setupScene () {
   const scene = new THREE.Scene();
 
   const renderer = new THREE.WebGLRenderer();
@@ -20,8 +20,20 @@ export function createThreeAnimation ( element ) {
   renderer.useLegacyLights = false;
   renderer.setClearColor( 0xf8d0a3 );
   renderer.setSize( window.innerWidth, window.innerHeight );
-  element.appendChild( renderer.domElement );
 
+  renderer.toneMappingExposure = 0.1;
+
+
+  // SHADOWS
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+
+
+  return {element : renderer.domElement, scene, renderer}
+}
+
+function setupLights (scene) {
   // LIGHTS
   // let ambLight = new THREE.AmbientLight( 0xffffff, 0.3 ); // soft white light
   // scene.add( ambLight );
@@ -35,34 +47,53 @@ export function createThreeAnimation ( element ) {
   scene.add(targetObject);
   scene.add( directionalLight );
 
-  renderer.toneMappingExposure = 0.1;
-
-  // let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
+    // let ptLight = new THREE.PointLight( 0xffffff, 100, 0 );
   // ptLight.position.set( -300, 300, 300 );
   // scene.add( ptLight );
 
-  // SHADOWS
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 
   directionalLight.shadow.mapSize.width = 512; // default
   directionalLight.shadow.mapSize.height = 512; // default
   directionalLight.shadow.camera.near = 0.5; // default
   directionalLight.shadow.camera.far = 500; // default
 
+
   const helper = new THREE.CameraHelper( directionalLight.shadow.camera );
   scene.add( helper );
+
+}
+
+function setupCamera (renderer) {
+    // CAMERA
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.position.z = 10;
+  
+    const cameraControls = new CameraControls( camera, renderer.domElement );
+    cameraControls.dollySpeed = 0.1
+
+    return {camera, cameraControls}
+}
+
+
+export function createThreeAnimation () {
+
+  const {element, scene, renderer} = setupScene()
+  const lights = setupLights(scene)
+  const {camera, cameraControls} = setupCamera(renderer) 
+
+
+
+
+
+
+
 
   // CLOCK
   const clock = new THREE.Clock();
 
 
-  // CAMERA
-  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  camera.position.z = 10;
 
-  const cameraControls = new CameraControls( camera, renderer.domElement );
-  cameraControls.dollySpeed = 0.1
 
 
   // ANIMATION
@@ -101,7 +132,7 @@ export function createThreeAnimation ( element ) {
   createGround(scene)
 
 
-  return {scene, renderer, subscribeAnimation}
+  return {element, scene, renderer, subscribeAnimation}
 }
 
 let carObjects = []

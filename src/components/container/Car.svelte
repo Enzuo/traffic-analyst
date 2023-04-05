@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import UPlotRealtime from './UPlotRealtime.svelte'
   import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
   import UPlotGearing from './UPlotGearing.svelte'
@@ -29,10 +30,14 @@
   function mstokmh(ms){
     return ms * 3.6
   }
-
-  setup3Dsimulation(document.body, colors3D)
+  let sceneGraphContainer
+  onMount( () => {
+    const element = setup3Dsimulation(colors3D)
+    sceneGraphContainer.appendChild(element);
+  })
 
 </script>
+<div bind:this={sceneGraphContainer}/>
 {#each carEntities as carEntity}
   Car : {carEntity.props.name} {carEntity.props.trim}
 {/each}

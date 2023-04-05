@@ -54,12 +54,12 @@ export function carCompare(carIds){
 
 
   // create 3d representation
-  async function setup3Dsimulation (element, colors) {
+ function setup3Dsimulation (colors) {
     // create scene
-    let threeAnimation = threeD.createThreeAnimation(element)
+    let threeAnimation = threeD.createThreeAnimation()
     
     // loading
-    await threeD.loadMaterials()
+    // await threeD.loadMaterials()
 
     // create cars
     let cars = []
@@ -73,6 +73,8 @@ export function carCompare(carIds){
         cars[i].update(dt, carEntities[i])
       }
     })
+
+    return threeAnimation.element
   }
 
   return {carEntities, simulation, setup3Dsimulation}
