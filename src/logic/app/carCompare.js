@@ -1,7 +1,7 @@
 import * as cardata from '@/logic/cardata'
 import * as Car from '@/logic/carphysics/carEntity'
 import {Simulation} from '@/logic/simulation2'
-import * as threeD from '@/logic/3d'
+import * as threeD from '@/logic/3DsceneGraph/3d'
 
 
 

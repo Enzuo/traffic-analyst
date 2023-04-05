@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
                            // 'three/examples/jsm/controls/OrbitControls.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-import { getWheelTurns } from './carphysics/physics'
+import { getWheelTurns } from '@/logic/carphysics/physics'
 
 CameraControls.install( { THREE: THREE } )
 
