@@ -1,12 +1,12 @@
 import * as cardata from '@/logic/cardata'
 import * as Car from '@/logic/carphysics/carEntity'
 import {Simulation} from '@/logic/simulation2'
-import * as threeD from '@/logic/3DsceneGraph/3d'
+import SceneGraph from '@/logic/3DsceneGraph/3d'
 
 
 
 export function carCompare(carIds){
-  let carEntities = []
+  const carEntities = []
   for(var i=0; i<carIds.length; i++){
     let carSpecs
     try {
@@ -56,25 +56,25 @@ export function carCompare(carIds){
   // create 3d representation
  function setup3Dsimulation (colors) {
     // create scene
-    let threeAnimation = threeD.createThreeAnimation()
+    let element = SceneGraph(carEntities)
     
     // loading
     // await threeD.loadMaterials()
 
     // create cars
-    let cars = []
-    for(let i=0; i<carEntities.length; i++){
-      let car = threeD.createCar(threeAnimation, carEntities[i], i, carEntities.length, colors[i])
-      cars.push(car)
-    }
+    // let cars = []
+    // for(let i=0; i<carEntities.length; i++){
+    //   let car = threeD.createCar(threeAnimation, carEntities[i], i, carEntities.length, colors[i])
+    //   cars.push(car)
+    // }
     
-    simulation.subscribeTick((t, dt) => {
-      for(let i=0; i<cars.length; i++){
-        cars[i].update(dt, carEntities[i])
-      }
-    })
+    // simulation.subscribeTick((t, dt) => {
+    //   for(let i=0; i<cars.length; i++){
+    //     cars[i].update(dt, carEntities[i])
+    //   }
+    // })
 
-    return threeAnimation.element
+    return element
   }
 
   return {carEntities, simulation, setup3Dsimulation}

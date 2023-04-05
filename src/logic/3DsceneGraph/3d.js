@@ -75,64 +75,106 @@ function setupCamera (renderer) {
     return {camera, cameraControls}
 }
 
+/**
+ * AnimatedObject
+ * @typedef {Object} AnimatedObject
+ * @property {(delta) => void} animate - The animation function of that object
+ */
 
-export function createThreeAnimation () {
+/**
+ * Animation factory
+ * @param {*} camera 
+ * @param {*} scene 
+ * @param {*} renderer 
+ * @returns 
+ */
+function createAnimation (camera, scene, renderer, cameraControls) {
+  const clock = new THREE.Clock()
 
-  const {element, scene, renderer} = setupScene()
-  const lights = setupLights(scene)
-  const {camera, cameraControls} = setupCamera(renderer) 
+  /**
+   * @type {Array.<AnimatedObject>}
+   */
+  const animatedObjects = []
 
+  let animationFrame
+  function start() {
+    animationLoop()
+  }
 
+  function stop() {
+    cancelAnimationFrame(animationFrame)
+  }
 
+  function animationLoop() {
+    animationFrame = requestAnimationFrame( animationLoop );
+    const delta = clock.getDelta() * 1000 // delta ms
 
-
-
-
-
-  // CLOCK
-  const clock = new THREE.Clock();
-
-
-
-
-
-  // ANIMATION
-  let animateFns = []
-  function renderLoop() {
-    requestAnimationFrame( renderLoop );
-
-    for(let i=0; i<animateFns.length; i++){
-      animateFns[i]()
+    for(let i=0; i<animatedObjects.length; i++){
+      animatedObjects[i].animate(delta)
     }
 
     // controls.update();
-    const delta = clock.getDelta();
     updateCameraDistance(camera, cameraControls, carObjects)
     const hasControlsUpdated = cameraControls.update( delta );
 
 
     renderer.render( scene, camera );
   }
-  renderLoop()
+
+  /**
+   * Adds an animated object to the list of objects to be animated.
+   * @param {AnimatedObject} obj - The object to be added to the list.
+   */
+  function addAnimatedObject(obj) {
+    animatedObjects.push(obj)
+  }
+
+  return {start, stop, addAnimatedObject}
+}
+
+export default function SceneGraph (cars) {
+
+  const {element, scene, renderer} = setupScene()
+  const lights = setupLights(scene)
+  const {camera, cameraControls} = setupCamera(renderer) 
+
+  const animation = createAnimation(camera, scene, renderer, cameraControls)
+
+
+
+
+
+
+
+
+  // ANIMATION
+  animation.start()
 
   /**
    * 
    * @param {Function} fn 
    */
-  function subscribeAnimation(fn){
-    animateFns.push(fn)
-  }
+  // function subscribeAnimation(fn){
+  //   animateFns.push(fn)
+  // }
 
   createEnvMap(scene, renderer)
 
   // CUBE
-  createCube(scene, subscribeAnimation)
+  const animatedCube = createCube(scene)
+  animation.addAnimatedObject(animatedCube)
 
   // GROUND
   createGround(scene)
 
+  // CARS
+  cars.forEach((car, index) => {
+    const carObject = createCar(scene, cars, index, cars.length)
+    animation.addAnimatedObject(carObject)
+  })
 
-  return {element, scene, renderer, subscribeAnimation}
+
+  return element
 }
 
 let carObjects = []
@@ -158,8 +200,12 @@ function updateCameraDistance(camera, cameraControls, cars){
   }
 }
 
-
-function createCube (scene, subscribeAnimation) {
+/**
+ * 
+ * @param {THREE.Scene} scene 
+ * @returns AnimatedObject
+ */
+function createCube (scene) {
   // let {scene} = ThreeAnimation
   const geometry = new THREE.BoxGeometry();
   const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -170,12 +216,12 @@ function createCube (scene, subscribeAnimation) {
   cube.position.z = -3;
   cube.position.x = -3
 
-  function animate(){
+  function animate(dt){
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
   }
 
-  subscribeAnimation(animate)
+  return { animate }
 }
 
 function createGround (scene) {
@@ -280,8 +326,9 @@ function defaultCarModel(car){
 
 
 
-export function createCar(ThreeAnimation, car, index, totalNumbers, color){
-  let {scene} = ThreeAnimation
+export function createCar(scene, cars, index, totalNumbers, color){
+  const car = cars[index]
+  console.log('create Car', car)
   // MODELS
   let carObject
   let carBody
@@ -295,7 +342,7 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
   })
   .then((wheelScene) => {
     wheel = wheelScene.scene.children[0]
-    wheel.material = clayMaterial.clone()
+    // wheel.material = clayMaterial.clone()
     wheel.material.color = new THREE.Color(0x333333)
   })
   .catch((e) => {
@@ -375,10 +422,12 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
     console.log("car created : ", carBody, car.id)
   })
 
-  function update(dt, car){
+  function animate(dt){
     if(!carObject) return
-
+    const car = cars[index]
+    
     let {speed, acceleration} = car.state
+    // console.log(dt, speed, carObject.position.z)
     let {wheelDiameter} = car.props
     let wheelTurnsPerS = getWheelTurns(speed, wheelDiameter)
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
@@ -398,7 +447,7 @@ export function createCar(ThreeAnimation, car, index, totalNumbers, color){
 
   // ThreeAnimation.subscribeAnimation(animate)
 
-  return { update }
+  return { animate }
 }
 
 

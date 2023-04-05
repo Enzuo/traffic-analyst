@@ -9,7 +9,7 @@ export function Simulation () {
 
   /**
    * 
-   * @param {(t:number, dt:number) => {}} fn 
+   * @param {(t:number, dt:number) => void} fn 
    */
   const subscribeTick = (fn) => {
     animateFn.push(fn)
