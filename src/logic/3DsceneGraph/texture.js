@@ -12,12 +12,10 @@ export function changeTextureColor(texture, color) {
 
   // modify the hue of the canvas
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < imageData.data.length; i += 4) {
-    const [r, g, b] = imageData.data.slice(i, i + 3);
-    const [h, s, l] = rgbToHsl(r, g, b); // convert RGB to HSL
-    const [newR, newG, newB] = hslToRgb(0.2, s, l); // modify the hue
-    imageData.data.set([newR, newG, newB], i);
-  }
+  const currentPalette = getTexturePalette(imageData)
+  console.log("PALETTE", currentPalette)
+  const newPalette = [[255,255,255]]
+  replacePalette(imageData, currentPalette, newPalette)
   context.putImageData(imageData, 0, 0);
 
   const newTexture = new THREE.CanvasTexture(canvas);
@@ -27,6 +25,41 @@ export function changeTextureColor(texture, color) {
   newTexture.flipY = false // FLIP as Y-axis in the WebGL coordinate system is inverted compared to the canvas coordinate system
 
   return newTexture
+}
+
+/**
+ * Sample the palette from a texture
+ * The palette is the first 5 pixel of that texture. 
+ * That palette describe colors that aren't generic and can be changed to change the car color
+ */
+function getTexturePalette (imageData) {
+  const palette = []
+  for (let i = 0; i < 20; i += 4) {
+    const [r, g, b] = imageData.data.slice(i, i + 3)
+    // if not already in palette // might have to change this so palette are always the same size of 5
+    if(findColorInPalette([r,g,b], palette) < 0){
+      palette.push([r, g, b])
+    }
+  }
+  return palette
+}
+
+function replacePalette (imageData, currentPalette, newPalette) {
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const [r, g, b] = imageData.data.slice(i, i + 3);
+    const paletteIndex = findColorInPalette([r, g, b], currentPalette)
+    if(paletteIndex >= 0){
+      const [newR, newG, newB] = newPalette.length > paletteIndex ? newPalette[paletteIndex] : [r, g ,b]
+      imageData.data.set([newR, newG, newB], i);
+    }
+  }
+  return imageData
+}
+
+function findColorInPalette([r, g, b], palette){
+  return palette.findIndex((a) => {
+    return a[0] === r && a[1] === g && a[2] === b
+  })
 }
 
 
