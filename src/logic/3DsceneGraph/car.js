@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { getWheelTurns } from '@/logic/carphysics/physics'
+import { getWheelTurns } from '@/logic/carLogic/physics'
 import {loadModel} from './loader'
 import {changeTextureColor} from './texture'
 

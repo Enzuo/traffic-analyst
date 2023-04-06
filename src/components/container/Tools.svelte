@@ -1,5 +1,5 @@
 <script>
-  import { getSpeedForRPM } from "@/logic/carphysics/physics"
+  import { getSpeedForRPM } from "@/logic/carLogic/physics"
 
   let rpm = 1000
   let gearRatios = '1'

@@ -1,13 +1,13 @@
 <script>
   import { onMount } from 'svelte'
   import UPlotRealtime from './UPlotRealtime.svelte'
-  import { getPowerRequiredForSpeed } from '@/logic/carphysics/physics'
+  import { getPowerRequiredForSpeed } from '@/logic/carLogic/physics'
   import UPlotGearing from './UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from './UPlotTorque.svelte'
 
 
-  let carIds = ['fiat_500', 'citroen_ln', 'dacia_logan']
+  let carIds = ['dacia_logan']
   let colors = ["blue","red","orange","green","purple"]
   let colors3D = [0x5895FF,0xFF5758,0xFFA132,"green","purple"]
 
