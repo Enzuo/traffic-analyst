@@ -5,7 +5,7 @@ import * as THREE from 'three'
                            // 'three/examples/jsm/controls/OrbitControls.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-import { createCar } from './car'
+import { createCarObject } from './car'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -171,7 +171,7 @@ export default function SceneGraph (cars, simulation) {
 
   // CARS
   cars.forEach((car, index) => {
-    const carObject = createCar(scene, car, index, cars.length)
+    const carObject = createCarObject(scene, car, index, cars.length)
     carObject.object.then((object) => {
       carObjects.push(object)
     })

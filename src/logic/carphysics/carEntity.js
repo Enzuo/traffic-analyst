@@ -11,7 +11,7 @@ import {
 
 let uniqueId = 0
 
-export function create(props){
+export function createCar(props){
   return {
     id: uniqueId++,
     props,

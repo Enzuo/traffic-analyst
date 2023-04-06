@@ -13,7 +13,7 @@ import {changeTextureColor} from './texture'
  * @param {*} color 
  * @returns {import('./sceneGraph').AnimatedObject}
  */
-export function createCar(scene, car, index, totalNumbers, color){
+export function createCarObject(scene, car, index, totalNumbers, color){
   // const car = cars[index]
   console.log('create Car', car)
   // MODELS
