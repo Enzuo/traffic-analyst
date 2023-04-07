@@ -56,7 +56,7 @@ export function carCompare(carIds){
   // create 3d representation
  function setup3Dsimulation (colors) {
     // create scene
-    let element = SceneGraph(carEntities, simulation)
+    let element = SceneGraph(carEntities, simulation, colors)
     
     // loading
     // await threeD.loadMaterials()

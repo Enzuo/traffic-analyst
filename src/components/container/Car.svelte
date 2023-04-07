@@ -7,7 +7,7 @@
   import UPlotTorque from './UPlotTorque.svelte'
 
 
-  let carIds = ['dacia_logan']
+  let carIds = ['renault_trafic2', ['renault_trafic2','2.0 dCi (90 Hp) L2H2'], 'dacia_logan']
   let colors = ["blue","red","orange","green","purple"]
   let colors3D = [0x5895FF,0xFF5758,0xFFA132,"green","purple"]
 
@@ -32,7 +32,7 @@
   }
   let sceneGraphContainer
   onMount( () => {
-    const element = setup3Dsimulation(colors3D)
+    const element = setup3Dsimulation(colors)
     sceneGraphContainer.appendChild(element);
   })
 

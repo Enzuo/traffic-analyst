@@ -41,8 +41,17 @@ taille-pneu.com
 Origin point of the car body on the wheel level and centered
 Empty for each wheel named Wheel#R or Wheel#L
 Shade smooth
-Auto Smooth 20°
+Auto Smooth around 20°
 
 #### Pixel scale
 
 1m50 -> 50 pixels
+
+### Texture
+
+First 5 pixels define the colors palette than can be altered to change the car color
+1 : base
+2 : darker
+3 : lighter
+4 : darker+
+5 : lighter+

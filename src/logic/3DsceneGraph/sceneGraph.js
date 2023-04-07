@@ -18,7 +18,7 @@ function setupScene () {
   renderer.outputEncoding = THREE.sRGBEncoding; 
   renderer.useLegacyLights = false;
   renderer.setClearColor( 0xf8d0a3 );
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( 300, 300 );
 
   renderer.toneMappingExposure = 0.1;
 
@@ -134,7 +134,7 @@ function createAnimation (camera, scene, renderer, cameraControls, simulation) {
   return {start, stop, addAnimatedObject}
 }
 
-export default function SceneGraph (cars, simulation) {
+export default function SceneGraph (cars, simulation, colors) {
 
   const {element, scene, renderer} = setupScene()
   const lights = setupLights(scene)
@@ -171,7 +171,7 @@ export default function SceneGraph (cars, simulation) {
 
   // CARS
   cars.forEach((car, index) => {
-    const carObject = createCarObject(scene, car, index, cars.length)
+    const carObject = createCarObject(scene, car, index, cars.length, colors[index])
     carObject.object.then((object) => {
       carObjects.push(object)
     })

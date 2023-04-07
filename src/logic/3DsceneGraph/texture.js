@@ -1,5 +1,14 @@
 import * as THREE from 'three'
 
+const PALETTES = {
+  "blue" : [[64,122,171],[46,99,144],[80,137,186]],
+  "red": [[197,41,67], [161,20,43], [209,66,89]],
+  "orange": [[220,130,50], [184,105,34], [221,148,83]],
+  "green": [[72,147,77], [56,125,61], [121,69,125]],
+  "purple": [[144,92,168], [118,69,138],[161,121,177]],
+}
+
+
 export function changeTextureColor(texture, color) {
   if(!texture) return null
 
@@ -14,7 +23,7 @@ export function changeTextureColor(texture, color) {
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const currentPalette = getTexturePalette(imageData)
   console.log("PALETTE", currentPalette)
-  const newPalette = [[255,255,255]]
+  const newPalette = PALETTES[color] || [[255,255,255]]
   replacePalette(imageData, currentPalette, newPalette)
   context.putImageData(imageData, 0, 0);
 
