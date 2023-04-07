@@ -52,8 +52,8 @@ wheelType : 155/65R14
 # -------------
 # 3D
 # -------------
-model: 
-modelWheel:
+model: citroenAmi
+modelWheel: wheelAmi
 
 # -------------
 # TRIMS
