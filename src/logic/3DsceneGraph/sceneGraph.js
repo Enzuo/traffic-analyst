@@ -10,7 +10,7 @@ import { createCarObject } from './car'
 CameraControls.install( { THREE: THREE } )
 
 
-function setupScene () {
+function createScene () {
   const scene = new THREE.Scene();
 
   const renderer = new THREE.WebGLRenderer();
@@ -28,11 +28,10 @@ function setupScene () {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 
-
   return {element : renderer.domElement, scene, renderer}
 }
 
-function setupLights (scene) {
+function createLights (scene) {
   // LIGHTS
   // let ambLight = new THREE.AmbientLight( 0xffffff, 0.3 ); // soft white light
   // scene.add( ambLight );
@@ -63,9 +62,10 @@ function setupLights (scene) {
 
 }
 
-function setupCamera (renderer) {
+function createCamera (renderer) {
     // CAMERA
-    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    const ratio = 1 // window.innerWidth / window.innerHeight
+    const camera = new THREE.PerspectiveCamera( 75, ratio, 0.1, 1000 );
     camera.position.z = 10;
   
     const cameraControls = new CameraControls( camera, renderer.domElement );
@@ -88,13 +88,14 @@ function setupCamera (renderer) {
  * @param {*} renderer 
  * @returns 
  */
-function createAnimation (camera, scene, renderer, cameraControls, simulation) {
+function createAnimation (camera, scene, renderer, cameraControls) {
   const clock = new THREE.Clock()
 
   /**
    * @type {Array.<AnimatedObject>}
    */
   const animatedObjects = []
+  const animateFunctions = []
 
   let animationFrame
   function start() {
@@ -109,12 +110,14 @@ function createAnimation (camera, scene, renderer, cameraControls, simulation) {
     animationFrame = requestAnimationFrame( animationLoop );
     const delta = clock.getDelta() * 1000 // delta ms
 
-    if(simulation.isPlaying){
-      for(let i=0; i<animatedObjects.length; i++){
-        animatedObjects[i].animate(delta)
-      }
+    for(let i=0; i<animateFunctions.length; i++){
+      animateFunctions[i](delta)
     }
 
+    for(let i=0; i<animatedObjects.length; i++){
+      animatedObjects[i].animate(delta)
+    }
+    
     // controls.update();
     updateCameraDistance(camera, cameraControls, carObjects)
     const hasControlsUpdated = cameraControls.update( delta );
@@ -131,16 +134,56 @@ function createAnimation (camera, scene, renderer, cameraControls, simulation) {
     animatedObjects.push(obj)
   }
 
-  return {start, stop, addAnimatedObject}
+  function addAnimateFunction(fn) {
+    animateFunctions.push(fn)
+  }
+
+  return {start, stop, addAnimatedObject, addAnimateFunction}
 }
+
+/**
+ * 
+ *
+ * 
+ */
+
+export function SingleCarSceneGraph(car) {
+  const {element, scene, renderer} = createScene()
+  const lights = createLights(scene)
+  const {camera, cameraControls} = createCamera(renderer) 
+  const animation = createAnimation(camera, scene, renderer, cameraControls)
+
+  createEnvMap(scene, renderer)
+  createGround(scene)
+
+
+  const carObject = createCarObject(scene, car)
+  carObject.object.then((object) => {
+    animation.addAnimateFunction(() => {
+      object.rotation.y += 0.004
+    })
+  })
+
+  animation.start()
+
+  return element
+}
+
+/**
+ * 
+ * @param {*} cars 
+ * @param {*} simulation 
+ * @param {*} colors 
+ * @returns 
+ */
 
 export default function SceneGraph (cars, simulation, colors) {
 
-  const {element, scene, renderer} = setupScene()
-  const lights = setupLights(scene)
-  const {camera, cameraControls} = setupCamera(renderer) 
+  const {element, scene, renderer} = createScene()
+  const lights = createLights(scene)
+  const {camera, cameraControls} = createCamera(renderer) 
 
-  const animation = createAnimation(camera, scene, renderer, cameraControls, simulation)
+  const animation = createAnimation(camera, scene, renderer, cameraControls)
 
 
 
@@ -171,7 +214,9 @@ export default function SceneGraph (cars, simulation, colors) {
 
   // CARS
   cars.forEach((car, index) => {
-    const carObject = createCarObject(scene, car, index, cars.length, colors[index])
+    const distanceBetweenCar = 3
+    const position = index*distanceBetweenCar - ((cars.length-1) * distanceBetweenCar/2)
+    const carObject = createCarObject(scene, car, position, colors[index])
     carObject.object.then((object) => {
       carObjects.push(object)
     })

@@ -6,7 +6,7 @@
 </script>
 
 <main>
-  <Car/>
+  <Cars/>
 </main>
 
 <style>
