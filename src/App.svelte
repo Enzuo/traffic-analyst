@@ -6,6 +6,9 @@
 </script>
 
 <main>
+  <h1>
+    <img src="title.png" alt="AutoWaves"/>
+  </h1>
   <Car/>
 </main>
 
@@ -29,4 +32,20 @@
 			max-width: none;
 		}
 	}
+  h1 {
+    color: #A2DED0; /* Mint Green */
+    color: #F7A9A8; /* Rose Pink*/
+    color: #F8E9A1; /* Pale Yellow*/
+
+    color:#FFA7C4 ;
+    color:#C3FFB5 ;
+    color:#E5F6FF;
+    color:#C2D8F9 ;
+    color:#5F5AA2 ;
+  }
+
+  h1 img {
+    width:300px;
+    image-rendering: pixelated;
+  }
 </style>
