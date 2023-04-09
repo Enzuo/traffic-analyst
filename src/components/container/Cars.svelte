@@ -1,7 +1,8 @@
 <script>
-  import { SingleCarSceneGraph } from '@/logic/3DsceneGraph/sceneGraph';
-  import {createCar} from '@/logic/carLogic/carEntity';
+  import { SingleCarSceneGraph } from '@/logic/3DsceneGraph/sceneGraph'
+  import {createCar} from '@/logic/carLogic/carEntity'
   import * as cardata from '@/logic/cardata'
+  import SceneGraph from './SceneGraph.svelte';
   let cars = cardata.listCars()
 
   let selectedCar
@@ -11,16 +12,16 @@
     selectedCar = car
   }
 
-  $: create3DView(selectedCar)
+  // $: create3DView(selectedCar)
 
-  let sceneGraphContainer
-  function create3DView(car) {
-    console.log('creating 3D view')
-    if(car){
-      let carEntity = createCar(car)
-      sceneGraphContainer.appendChild(SingleCarSceneGraph(carEntity))
-    }
-  }
+  // let sceneGraphContainer
+  // function create3DView(car) {
+  //   console.log('creating 3D view')
+  //   if(car){
+  //     let carEntity = createCar(car)
+  //     sceneGraphContainer.appendChild(SingleCarSceneGraph(carEntity))
+  //   }
+  // }
 
 </script>
 
@@ -34,6 +35,6 @@
     {selectedCar.brand}
     {selectedCar.name}
     {selectedCar.engine.hp}
+    <SceneGraph car={selectedCar}></SceneGraph>
   {/if}
-  <div bind:this={sceneGraphContainer}/>
 </ul>

@@ -74,6 +74,19 @@ function createCamera (renderer) {
     return {camera, cameraControls}
 }
 
+
+/***
+ * 
+            _   _ _____ __  __       _______ _____ ____  _   _ 
+     /\   | \ | |_   _|  \/  |   /\|__   __|_   _/ __ \| \ | |
+    /  \  |  \| | | | | \  / |  /  \  | |    | || |  | |  \| |
+   / /\ \ | . ` | | | | |\/| | / /\ \ | |    | || |  | | . ` |
+  / ____ \| |\  |_| |_| |  | |/ ____ \| |   _| || |__| | |\  |
+ /_/    \_\_| \_|_____|_|  |_/_/    \_\_|  |_____\____/|_| \_|
+                                                              
+                                                              
+ */
+
 /**
  * AnimatedObject
  * @typedef {Object} AnimatedObject
@@ -141,32 +154,135 @@ function createAnimation (camera, scene, renderer, cameraControls) {
   return {start, stop, addAnimatedObject, addAnimateFunction}
 }
 
-/**
+/***
  * 
- *
  * 
+ * 
+ *              CLASS ANIMATION
+ * 
+ * 
+ * 
+ * 
+ */
+
+class Animation {
+  constructor (scene, camera, renderer, CameraControls) {
+    Object.assign(this, { scene,camera, renderer, CameraControls })
+    this.clock = new THREE.Clock()
+  }
+
+  start() {
+    this.animationLoop()
+  }
+
+  stop() {
+    cancelAnimationFrame(this.animationFrame)
+  }
+
+  animationLoop() {
+    this.animationFrame = requestAnimationFrame( this.animationLoop.bind(this) );
+    this.renderer.render(this.scene, this.camera );
+    this.animate()
+  }
+
+  animate() {
+
+  }
+
+
+}
+
+class AnimationRotation extends Animation {
+  constructor (scene, camera, renderer, CameraControls) {
+    super(scene, camera, renderer, CameraControls)
+
+    this.isRemovingCar = false
+    this.removeAnimation = Promise.resolve()
+  }
+
+
+  setCar(carObject) {
+    this.removeAnimation.then(() => {
+      this.scene.add(carObject)
+      this.carObject = carObject
+    })
+  }
+
+  removeCar() {
+    this.isRemovingCar = true
+    let carToRemove = this.carObject
+    this.removeAnimation = setTimeoutPromise(() => {
+      this.isRemovingCar = false
+      return carToRemove
+    }, 150)
+    return this.removeAnimation
+  }
+
+  animate() {
+    if(this.carObject) {
+      if(this.isRemovingCar){
+        this.carObject.rotation.y += 0.5
+      }
+      this.carObject.rotation.y += 0.004
+    }
+  }
+
+}
+
+function setTimeoutPromise(fn, delay) {
+  return new Promise(function(resolve) {
+      setTimeout(() => {
+        let result = fn()
+        resolve(result)
+      }, delay);
+  });
+}
+
+/***
+ * 
+   _____  _____ ______ _   _ ______ _____ _____            _____  _    _ 
+  / ____|/ ____|  ____| \ | |  ____/ ____|  __ \     /\   |  __ \| |  | |
+ | (___ | |    | |__  |  \| | |__ | |  __| |__) |   /  \  | |__) | |__| |
+  \___ \| |    |  __| | . ` |  __|| | |_ |  _  /   / /\ \ |  ___/|  __  |
+  ____) | |____| |____| |\  | |___| |__| | | \ \  / ____ \| |    | |  | |
+ |_____/ \_____|______|_| \_|______\_____|_|  \_\/_/    \_\_|    |_|  |_|
+                                                                         
+                                                                         
  */
 
 export function SingleCarSceneGraph(car) {
   const {element, scene, renderer} = createScene()
   const lights = createLights(scene)
   const {camera, cameraControls} = createCamera(renderer) 
-  const animation = createAnimation(camera, scene, renderer, cameraControls)
+  const animation = new AnimationRotation(scene, camera, renderer, cameraControls)
 
   createEnvMap(scene, renderer)
   createGround(scene)
 
-
-  const carObject = createCarObject(scene, car)
-  carObject.object.then((object) => {
-    animation.addAnimateFunction(() => {
-      object.rotation.y += 0.004
-    })
-  })
-
   animation.start()
 
-  return element
+  // --------
+
+
+  createCar(car)
+
+  function updateData(car){
+    animation.removeCar().then((obj) => {
+      scene.remove(obj)
+    })
+    createCar(car)
+  }
+
+  function createCar(car) {
+    const carObject = createCarObject(car)
+    carObject.object.then((obj) => {
+      animation.setCar(obj)
+    })
+  }
+
+
+
+  return {element, updateData}
 }
 
 /**

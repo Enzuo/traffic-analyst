@@ -12,7 +12,7 @@ import {changeTextureColor} from './texture'
  * @param {string=} color 
  * @returns {import('./sceneGraph').AnimatedObject}
  */
-export function createCarObject(scene, car, positionX = 0, color){
+export function createCarObject(car, positionX = 0, color){
   // const car = cars[index]
   console.log('create Car', car)
   // MODELS
@@ -44,7 +44,7 @@ export function createCarObject(scene, car, positionX = 0, color){
 
     carObject = gltf.scene
     // carObject.castShadow = true
-    scene.add( carObject )
+    // scene.add( carObject )
 
     let wheelDiameter = car.props.wheelDiameter || 63
 
