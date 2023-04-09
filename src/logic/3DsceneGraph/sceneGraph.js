@@ -166,8 +166,8 @@ function createAnimation (camera, scene, renderer, cameraControls) {
  */
 
 class Animation {
-  constructor (scene, camera, renderer, CameraControls) {
-    Object.assign(this, { scene,camera, renderer, CameraControls })
+  constructor (scene, camera, renderer, cameraControls) {
+    Object.assign(this, { scene,camera, renderer, cameraControls })
     this.clock = new THREE.Clock()
   }
 
@@ -181,8 +181,10 @@ class Animation {
 
   animationLoop() {
     this.animationFrame = requestAnimationFrame( this.animationLoop.bind(this) );
+    const delta = this.clock.getDelta() * 1000 // delta ms
     this.renderer.render(this.scene, this.camera );
     this.animate()
+    this.cameraControls.update( delta );
   }
 
   animate() {
@@ -196,8 +198,9 @@ class AnimationRotation extends Animation {
   constructor (scene, camera, renderer, CameraControls) {
     super(scene, camera, renderer, CameraControls)
 
-    this.isRemovingCar = false
+    this.isChangingCar = true
     this.removeAnimation = Promise.resolve()
+    this.currentRotation = 0
   }
 
 
@@ -205,14 +208,17 @@ class AnimationRotation extends Animation {
     this.removeAnimation.then(() => {
       this.scene.add(carObject)
       this.carObject = carObject
+
+      setTimeoutPromise(() => {
+        this.isChangingCar = false
+      }, 150)
     })
   }
 
   removeCar() {
-    this.isRemovingCar = true
+    this.isChangingCar = true
     let carToRemove = this.carObject
     this.removeAnimation = setTimeoutPromise(() => {
-      this.isRemovingCar = false
       return carToRemove
     }, 150)
     return this.removeAnimation
@@ -220,13 +226,15 @@ class AnimationRotation extends Animation {
 
   animate() {
     if(this.carObject) {
-      if(this.isRemovingCar){
+      if(this.isChangingCar){
         this.carObject.rotation.y += 0.5
       }
-      this.carObject.rotation.y += 0.004
+      else {
+        this.currentRotation += 0.004
+        this.carObject.rotation.y = this.currentRotation
+      }
     }
   }
-
 }
 
 function setTimeoutPromise(fn, delay) {
@@ -264,16 +272,16 @@ export function SingleCarSceneGraph(car) {
   // --------
 
 
-  createCar(car)
+  createCarAndAnimateIt(car)
 
   function updateData(car){
     animation.removeCar().then((obj) => {
       scene.remove(obj)
     })
-    createCar(car)
+    createCarAndAnimateIt(car)
   }
 
-  function createCar(car) {
+  function createCarAndAnimateIt(car) {
     const carObject = createCarObject(car)
     carObject.object.then((obj) => {
       animation.setCar(obj)
