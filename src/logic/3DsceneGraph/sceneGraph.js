@@ -230,7 +230,7 @@ class AnimationRotation extends Animation {
         this.carObject.rotation.y += 0.5
       }
       else {
-        this.currentRotation += 0.004
+        this.currentRotation += 0.003
         this.carObject.rotation.y = this.currentRotation
       }
     }

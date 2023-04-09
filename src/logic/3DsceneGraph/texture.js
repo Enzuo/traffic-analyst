@@ -8,6 +8,8 @@ const PALETTES = {
   "purple": [[144,92,168], [118,69,138],[161,121,177]],
 }
 
+const DEFAULT_PALETTE = [[245,245,245],[210,210,210],[255,255,255]]
+
 
 export function changeTextureColor(texture, color) {
   if(!texture) return null
@@ -23,7 +25,7 @@ export function changeTextureColor(texture, color) {
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const currentPalette = getTexturePalette(imageData)
   console.log("PALETTE", currentPalette)
-  const newPalette = PALETTES[color] || [[255,255,255]]
+  const newPalette = PALETTES[color] || DEFAULT_PALETTE
   replacePalette(imageData, currentPalette, newPalette)
   context.putImageData(imageData, 0, 0);
 
