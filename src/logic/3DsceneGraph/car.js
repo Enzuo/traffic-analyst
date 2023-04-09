@@ -6,7 +6,6 @@ import {changeTextureColor} from './texture'
 
 /**
  * 
- * @param {*} scene 
  * @param {*} car 
  * @param {number=} positionX
  * @param {string=} color 

@@ -1,0 +1,71 @@
+name : Hilux VII xtra
+brand : Toyota
+trim :
+year : 2006
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  2kd ftv engine 2.5 d4d
+  hp: 120
+  torqueY: [130 , 180 , 240 , 260 , 325 , 238 , 210 , 180 ] # 325nm@2000 120hp@3600
+  torqueX: [1000, 1300, 1500, 1600, 2000, 3600, 4000, 4200]
+  type : diesel # petrol, diesel, hybrid, electric
+  layout : l4 # boxer2, l4, v6
+  displacement : 2494
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [4.31,2.33,1.44,1.00,0.79]
+driveRatio : 3.583
+gearSpeed : 48.6
+wheelDiameter : 73 #63cm
+type : AWD #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1740
+length: 5260
+width: 1885
+height: 1810
+dragCoef : 0.39
+dragArea : 3.4
+
+wheelbase: 3090
+trunk: 2300
+trunkMax:
+
+# -------------
+# STATS
+# -------------
+acc0100: 13.5
+vmax: 165
+avgConsumption : 
+energyTank : 80
+autonomy : 
+turningCircle : 13
+wheelType :  205R16 # 205/70R16
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim : 102hp
+    engine :  
+      name :  2kd ftv engine 2.5 d4d not intercooled
+      hp: 102
+      torqueY: [130 , 180 , 240 , 260 , 260 , 260  , 230  , 200 , 175 , 154 ] # 260nm@1600 102hp@3600
+      torqueX: [1000, 1300, 1500, 1600, 2000, 2400 , 3000 , 3600, 4000, 4200] # 70 @ 5000
+    acc0100 : 17.5 # https://www.youtube.com/watch?v=CtO58GOqxqQ 15
+    vmax : 150
+
+

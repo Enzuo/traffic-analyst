@@ -51,7 +51,7 @@ export function createGraph(cars, element, opts = {}){
     return rpms
   }
 
-  function getXFill(cars, step = 500){
+  function getXFill(cars, step = 100){
     let minRPM = 0
     let allCarsRPM = cars.map( car => { 
       let xMultiplier = car.props.engine.torqueXMultiplier || 1

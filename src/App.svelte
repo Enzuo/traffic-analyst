@@ -9,7 +9,8 @@
   <h1>
     <img src="title.png" alt="AutoWaves"/>
   </h1>
-  <Cars/>
+  <Tools></Tools>
+  <Car/>
 </main>
 
 <style>
