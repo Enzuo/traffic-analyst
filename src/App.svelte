@@ -9,7 +9,7 @@
   <h1>
     <img src="title.png" alt="AutoWaves"/>
   </h1>
-  <Car/>
+  <Cars/>
 </main>
 
 <style>

@@ -8,12 +8,11 @@ import {changeTextureColor} from './texture'
  * 
  * @param {*} scene 
  * @param {*} car 
- * @param {*} index 
- * @param {*} totalNumbers 
- * @param {*} color 
+ * @param {number=} positionX
+ * @param {string=} color 
  * @returns {import('./sceneGraph').AnimatedObject}
  */
-export function createCarObject(scene, car, index, totalNumbers, color){
+export function createCarObject(car, positionX = 0, color){
   // const car = cars[index]
   console.log('create Car', car)
   // MODELS
@@ -45,13 +44,12 @@ export function createCarObject(scene, car, index, totalNumbers, color){
 
     carObject = gltf.scene
     // carObject.castShadow = true
-    scene.add( carObject )
+    // scene.add( carObject )
 
     let wheelDiameter = car.props.wheelDiameter || 63
 
     // Initial position
-    const distanceBetweenCar = 3
-    carObject.position.x += index*distanceBetweenCar - ((totalNumbers-1) * distanceBetweenCar/2)
+    carObject.position.x = positionX
     carObject.position.y += wheelDiameter/250
 
     carObject.traverse((a) => {
