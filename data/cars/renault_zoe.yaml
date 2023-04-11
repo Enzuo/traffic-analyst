@@ -34,6 +34,7 @@ wheelBase: 2588
 trunk: 338
 trunkMax: 1225
 clearance: 120
+seats: 5
 
 # -------------
 # STATS

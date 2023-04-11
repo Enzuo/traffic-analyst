@@ -30,6 +30,7 @@ dragArea : 3.5
 dragCoef : 0.36
 wheelBase : 3090
 trunk : 3200
+seats: 3
 
 # -------------
 # STATS

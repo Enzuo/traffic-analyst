@@ -9,7 +9,7 @@ year : 1984
 engine :  
   name :  2.25D
   hp: 62
-  torqueY: [89.4, 112.4, 140 , 138  , 132  , 124  , 117, 110, 78.6] # 140Nm @1800 62hp @4000
+  torqueY: [89.4, 128  , 140 , 139  , 137  , 134  , 117, 110, 78.6] # 140Nm @1800 62hp @4000
   torqueX: [1000, 1500 , 1800, 2000 , 2500 , 3000 , 3500 , 4000, 4500]
   type : diesel
   layout : l4 # boxer2, l4, v6
@@ -31,12 +31,13 @@ weight : 1751
 length: 3883
 width: 1790
 height: 1963
-dragCoef : 0.5 # TODO
+dragCoef : 0.6 # TODO
 dragArea : 3.42
 
 wheelbase: 2360
 trunk: 212
 trunkMax: 850
+seats: 7
 
 # -------------
 # STATS
@@ -63,7 +64,7 @@ trims :
     engine :   
       name :  2.25P
       hp: 74
-      torqueY: [90  , 150 , 162  , 129 , 100] # 162nm@2000 74hp@4000
+      torqueY: [80  , 150 , 162  , 129 , 100] # 162nm@2000 74hp@4000
       torqueX: [1000, 1500, 2000 , 4000, 4500]
       type : petrol
       layout : l4 
@@ -75,7 +76,7 @@ trims :
     engine :   
       name :  2.5P
       hp: 83
-      torqueY: [95, 160  , 180 , 145 , 110] # 180Nm@2000 83hp@4000
+      torqueY: [85, 160  , 180 , 145 , 110] # 180Nm@2000 83hp@4000
       torqueX: [1000, 1500, 2000, 4000, 4500]
       type : petrol
       layout : l4

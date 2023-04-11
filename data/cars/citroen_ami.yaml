@@ -37,6 +37,7 @@ dragArea : 2.1
 wheelbase: 1728
 trunk: 68
 trunkMax:
+seats: 2
 
 # -------------
 # STATS

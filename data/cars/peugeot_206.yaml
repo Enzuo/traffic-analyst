@@ -32,6 +32,7 @@ dragCoef : 0.33
 wheelbase : 2442
 trunk : 245
 trunkMax : 1130
+seats: 5
 
 # -------------
 # STATS

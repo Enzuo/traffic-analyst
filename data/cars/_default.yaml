@@ -37,6 +37,7 @@ dragArea :
 wheelbase:
 trunk: 
 trunkMax:
+seats:
 
 # -------------
 # STATS
