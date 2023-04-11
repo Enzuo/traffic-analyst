@@ -52,8 +52,8 @@ wheelType :  205R16 # 205/70R16
 # -------------
 # 3D
 # -------------
-model: 
-modelWheel:
+model: toyotaHilux7
+modelWheel: wheelHilux
 
 # -------------
 # TRIMS
