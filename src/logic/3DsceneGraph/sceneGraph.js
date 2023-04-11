@@ -340,8 +340,9 @@ export default function SceneGraph (cars, simulation, colors) {
   cars.forEach((car, index) => {
     const distanceBetweenCar = 3
     const position = index*distanceBetweenCar - ((cars.length-1) * distanceBetweenCar/2)
-    const carObject = createCarObject(scene, car, position, colors[index])
+    const carObject = createCarObject(car, position, colors[index])
     carObject.object.then((object) => {
+      scene.add(object)
       carObjects.push(object)
     })
     animation.addAnimatedObject(carObject)

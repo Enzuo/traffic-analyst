@@ -99,6 +99,14 @@ export function createCarObject(car, positionX = 0, color){
       if(a.name.indexOf('Body') >= 0){
         carBody = a
       }
+
+      // misc
+      const miscObj = a.name.match(/^misc(\w*)/i)
+      console.log('MISC', miscObj, car.props.modelMisc)
+      if(miscObj && (!car.props.modelMisc || car.props.modelMisc.toLowerCase().indexOf(miscObj[1].toLowerCase()) < 0)){
+        console.log('HIDE MISC')
+        a.visible = false
+      }
     })
 
     console.log("car created : ", carBody, car.id)
