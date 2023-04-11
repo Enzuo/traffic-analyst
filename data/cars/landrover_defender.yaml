@@ -1,0 +1,63 @@
+name : Defender 90
+brand : Land Rover
+trim : 90 62
+year : 1984
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  2.25D
+  hp:
+  torqueY: [89.4, 112.4, 140 , 134.1, 122.0, 109.8, 100.3, 89.4, 78.6] # 140Nm @1800 62hp @4000
+  torqueX: [1000, 1500 , 1800, 2000 , 2500 , 3000 , 3500 , 4000, 4500]
+  type : diesel
+  layout : l4 # boxer2, l4, v6
+  displacement : 2286
+
+# -------------
+# TRANSMISSION
+# -------------
+gearRatio : [3.321,1.798,1.0,0.757]
+driveRatio : 3.54
+gearSpeed : 51.3
+wheelDiameter : 73 # 63cm
+type : AWD #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1751
+length: 3883
+width: 1790
+height: 1963
+dragCoef : 0.5 # TODO
+dragArea : 3.42
+
+wheelbase: 2360
+trunk: 212
+trunkMax: 850
+
+# -------------
+# STATS
+# -------------
+acc0100: 25
+vmax: 113
+avgConsumption : 
+energyTank : 60
+autonomy : 
+turningCircle : 
+wheelType : 205R16
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
