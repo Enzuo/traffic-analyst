@@ -21,18 +21,13 @@ export function getCar(carId, trimId=0, engineId=0) {
 
   // add base trim to the trims
   const trims = [].concat({trim: car.trim || 'default'}, car.trims || [])
-
-  // merge data
-  if(trimId > 0) {
-    car = Object.assign({}, car, trims[trimId])
-  }
+  // apply selected trim
+  car = Object.assign({}, car, trims[trimId])
 
   // add default engine to the engines
   const engines = [].concat({engine: car.engine}, car.engines || [])
-
-  if(engineId > 0){
-    car = Object.assign({}, car, engines[engineId])
-  }
+  // apply selected engine
+  car = Object.assign({}, car, engines[engineId])
 
   car = completeEngineData(car)
 

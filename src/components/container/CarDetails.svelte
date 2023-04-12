@@ -32,7 +32,7 @@
 Trims : 
 {#each car.trims as trimlist, index}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="trim" on:click={() => handleTrimClick(index)}>
+  <div class="trim {index===trimId ? 'selected' : ''}" on:click={() => handleTrimClick(index)}>
     <Icon name=truck></Icon>{trimlist.trim}
   </div>
 {/each}
@@ -42,7 +42,7 @@ Engines :
 {#if car.engines}
   {#each car.engines as engineList, index}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="trim" on:click={() => handleEngineClick(index)}>
+    <div class="trim {index===engineId ? 'selected' : ''}" on:click={() => handleEngineClick(index)}>
       <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp}
     </div>
   {/each}
@@ -55,3 +55,9 @@ Car :
 {car.trim}
 {car.engine.hp}
 <SceneGraph car={car}></SceneGraph>
+
+<style>
+  .selected {
+    color: plum;
+  }
+</style>
