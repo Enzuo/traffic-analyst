@@ -37,8 +37,8 @@ export function createGraph(cars, element, opts = {}){
 
   function getXKeys(cars){
     let torqueXArray = cars.map(car => {
-      let xMultiplier = car.props.engine.torqueXMultiplier || 1
-      return car.props.engine.torqueX.map(x => x * xMultiplier)
+      let xMultiplier = car.engine.torqueXMultiplier || 1
+      return car.engine.torqueX.map(x => x * xMultiplier)
     })
     let torqueX = [].concat(...torqueXArray)
     // delete duplicates
@@ -54,8 +54,8 @@ export function createGraph(cars, element, opts = {}){
   function getXFill(cars, step = 100){
     let minRPM = 0
     let allCarsRPM = cars.map( car => { 
-      let xMultiplier = car.props.engine.torqueXMultiplier || 1
-      let maxX = car.props.engine.torqueX[car.props.engine.torqueX.length-1] * xMultiplier
+      let xMultiplier = car.engine.torqueXMultiplier || 1
+      let maxX = car.engine.torqueX[car.engine.torqueX.length-1] * xMultiplier
       return maxX
     })
     let maxRPM = Math.max(...allCarsRPM)
@@ -69,7 +69,7 @@ export function createGraph(cars, element, opts = {}){
   }
 
   function getYKey(car, rpm){
-    let engine = car.props.engine
+    let engine = car.engine
     let xMultiplier = engine.torqueXMultiplier || 1
     let index = engine.torqueX.findIndex(x => x * xMultiplier === rpm)
     if(index >= 0 ){
@@ -80,7 +80,7 @@ export function createGraph(cars, element, opts = {}){
   }
 
   function getYFill(car, rpm){
-    let engine = car.props.engine
+    let engine = car.engine
     let xMultiplier = engine.torqueXMultiplier || 1
     let torque = getTorqueForRPM(engine.torqueCurve, rpm)
     let power = torqueToKW(torque, rpm)
@@ -96,7 +96,7 @@ export function createGraph(cars, element, opts = {}){
     // generate curves data
     for(var i=0; i<cars.length; i++) {
       let car = cars[i]
-      let engine = car.props.engine
+      let engine = car.engine
       let xMultiplier = engine.torqueXMultiplier || 1
       let torqueArray = []
       let powerArray = []

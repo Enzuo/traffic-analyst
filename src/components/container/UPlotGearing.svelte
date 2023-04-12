@@ -3,12 +3,13 @@
   import {createGraph} from '@/logic/graphs/uPlotGearing'
 
   export let car
+  let chartElement
 
-  onMount(() => {
-    let chartElement = document.getElementById('graph')			
-    createGraph(car, chartElement)
-  })
+  $ : if(chartElement) {
+    chartElement.innerHTML = ''
+    createGraph(car, chartElement, )
+  }
 
 </script>
 
-<div id="graph"></div>
+<div bind:this={chartElement}></div>

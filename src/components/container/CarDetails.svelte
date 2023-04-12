@@ -2,6 +2,8 @@
   import { getCar } from "@/logic/cardata"
   import Icon from "../presentation/Icon.svelte"
   import SceneGraph from "./SceneGraph.svelte"
+  import UPlotGearing from "./UPlotGearing.svelte"
+  import UPlotTorque from "./UPlotTorque.svelte"
 
 
   export let carId
@@ -54,6 +56,9 @@ Car :
 {car.name}
 {car.trim}
 {car.engine.hp}
+<UPlotGearing car={car}></UPlotGearing>
+<UPlotTorque cars={[car]}></UPlotTorque>
+
 <SceneGraph car={car}></SceneGraph>
 
 <style>

@@ -56,7 +56,7 @@
 </div>
 
 <UPlotGearing car={carEntities[0].props}></UPlotGearing>
-<UPlotTorque cars={carEntities}></UPlotTorque>
+<UPlotTorque cars={carEntities.map(c => c.props)}></UPlotTorque>
 
 <UPlotRealtime 
   title="Speed" 

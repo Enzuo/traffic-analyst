@@ -3,13 +3,15 @@
   import { createGraph } from '@/logic/graphs/uPlotTorque'
 
   export let cars
-  export let opts
+  export let opts = {}
 
-  onMount(() => {
-    let chartElement = document.getElementById('graph')			
+  let chartElement
+
+  $ : if(chartElement) {
+    chartElement.innerHTML = ''
     createGraph(cars, chartElement, opts)
-  })
+  }
 
 </script>
 
-<div id="graph"></div>
+<div bind:this={chartElement}></div>
