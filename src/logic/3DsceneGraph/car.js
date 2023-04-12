@@ -65,7 +65,7 @@ export function createCarObject(car, positionX = 0, color){
 
       // WHEELS
       if(a.name.indexOf('Wheel') >= 0){
-        let carWheel = cloneWheel(wheel, a)
+        let carWheel = cloneWheel(wheel, a, false)
         carObject.add(carWheel)
         wheelObjects.push(carWheel)
       }
@@ -147,11 +147,12 @@ export function createCarObject(car, positionX = 0, color){
   return { animate , object}
 }
 
-function cloneWheel(wheel, empty){
+function cloneWheel(wheel, empty, useRotation=true){
   let carWheel = wheel.clone()
   carWheel.position.copy(empty.position)
-  carWheel.rotation.copy(empty.rotation)
-
+  if(useRotation){
+    carWheel.rotation.copy(empty.rotation)
+  }
   if(!!empty.name.match(/R$/g)){
     carWheel.scale.x *= -1
   }
