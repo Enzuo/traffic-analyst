@@ -15,7 +15,12 @@
 
 <ul>
 	{#each cars as car}
-		<li on:click={() => handleCarClick(car)}>{car.name}</li>
+		<li on:click={() => handleCarClick(car)}>
+      {car.name}
+      {#if car.model}
+        <Icon name=bookmark></Icon>
+      {/if}
+    </li>
 	{/each}
 </ul>
 
