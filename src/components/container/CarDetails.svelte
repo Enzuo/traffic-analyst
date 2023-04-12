@@ -15,6 +15,10 @@
     trimId = index
   }
 
+  function handleEngineClick(index) {
+
+  }
+
   function resetTrim(trims){
     return 0
   }
@@ -29,6 +33,17 @@ Trims :
     <Icon name=truck></Icon>{trim.trim}
   </div>
 {/each}
+
+Engines : 
+
+{#if car.engines}
+  {#each car.engines as list, index}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="trim" on:click={() => handleEngineClick(index)}>
+      <Icon name=cog></Icon>{list.engine.name} {list.engine.hp}
+    </div>
+  {/each}
+{/if}
 
 Car :
 
