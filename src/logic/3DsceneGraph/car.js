@@ -51,32 +51,23 @@ export function createCarObject(car, positionX = 0, color){
     carObject.position.x = positionX
     carObject.position.y += wheelDiameter/250
 
+
+    const miscObjects = []
+
     carObject.traverse((a) => {
-      // Wheels
+
+      // MISC
+      const miscObj = a.name.match(/^misc(\w*)/i)
+      if(miscObj){
+        miscObjects.push({obj: a, name: miscObj[1]})
+        return
+      }
+
+      // WHEELS
       if(a.name.indexOf('Wheel') >= 0){
-        let carWheel = wheel.clone()
-        console.log("ROTATION of wheel",a.name, a.rotation)
-        carWheel.position.copy(a.position)
-        carWheel.rotation.copy(a.rotation)
-        console.log("COPY ROTATION of wheel",a.name, carWheel.rotation)
-
-
-        // // inverse main scene scale if needed
-        // wheel.scale.x = 1/carObject.scale.x
-        // wheel.scale.y = 1/carObject.scale.y
-        // wheel.scale.z = 1/carObject.scale.z
-
-        if(!!a.name.match(/R$/g)){
-          console.log('right wheel', carWheel)
-          carWheel.scale.x *= -1
-        }
-
+        let carWheel = cloneWheel(wheel, a)
         carObject.add(carWheel)
-
-        if(!a.name.match(/misc/i)){
-          wheelObjects.push(carWheel)
-        }
-
+        wheelObjects.push(carWheel)
       }
 
       if ( a instanceof THREE.Mesh ) {
@@ -107,12 +98,19 @@ export function createCarObject(car, positionX = 0, color){
         carBody = a
       }
 
-      // misc
-      const miscObj = a.name.match(/^misc(\w*)/i)
-      console.log('MISC', miscObj, car.props.modelMisc)
-      if(miscObj && (!car.props.modelMisc || car.props.modelMisc.toLowerCase().indexOf(miscObj[1].toLowerCase()) < 0)){
-        console.log('HIDE MISC')
-        a.visible = false
+
+    })
+
+    miscObjects.forEach((m) => {
+      carObject.remove(m.obj)
+      const miscName = new RegExp(m.name, 'i')
+      if(car.props.modelMisc && miscName.test(car.props.modelMisc)){
+        let isWheel = m.name.indexOf('Wheel') >= 0
+        if(isWheel){
+          carBody.add(cloneWheel(wheel, m.obj))
+          return 
+        }
+        carBody.add(m.obj)
       }
     })
 
@@ -147,6 +145,17 @@ export function createCarObject(car, positionX = 0, color){
   // ThreeAnimation.subscribeAnimation(animate)
 
   return { animate , object}
+}
+
+function cloneWheel(wheel, empty){
+  let carWheel = wheel.clone()
+  carWheel.position.copy(empty.position)
+  carWheel.rotation.copy(empty.rotation)
+
+  if(!!empty.name.match(/R$/g)){
+    carWheel.scale.x *= -1
+  }
+  return carWheel
 }
 
 
