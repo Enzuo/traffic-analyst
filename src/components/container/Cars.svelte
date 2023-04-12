@@ -1,40 +1,27 @@
 <script>
-  import { SingleCarSceneGraph } from '@/logic/3DsceneGraph/sceneGraph'
-  import {createCar} from '@/logic/carLogic/carEntity'
   import * as cardata from '@/logic/cardata'
   import SceneGraph from './SceneGraph.svelte';
+  import Icon from '../presentation/Icon.svelte';
+  import CarDetails from './CarDetails.svelte';
   let cars = cardata.listCars()
 
   let selectedCar
+  let selectedCarTrims 
 
   function handleCarClick (car) {
-    console.log(car)
-    selectedCar = car
+    let carTrims = cardata.getCarTrims(car.id)
+    selectedCar = carTrims[0]
+    selectedCarTrims = carTrims
   }
 
-  // $: create3DView(selectedCar)
-
-  // let sceneGraphContainer
-  // function create3DView(car) {
-  //   console.log('creating 3D view')
-  //   if(car){
-  //     let carEntity = createCar(car)
-  //     sceneGraphContainer.appendChild(SingleCarSceneGraph(carEntity))
-  //   }
-  // }
-
 </script>
-
 
 <ul>
 	{#each cars as car}
 		<li on:click={() => handleCarClick(car)}>{car.name}</li>
 	{/each}
-  {#if selectedCar}
-    SelectedCar : 
-    {selectedCar.brand}
-    {selectedCar.name}
-    {selectedCar.engine.hp}
-    <SceneGraph car={selectedCar}></SceneGraph>
-  {/if}
 </ul>
+
+{#if selectedCarTrims}
+  <CarDetails carWithTrims={selectedCarTrims}></CarDetails>
+{/if}
