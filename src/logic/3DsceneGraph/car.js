@@ -23,25 +23,25 @@ export function createCarObject(car, positionX = 0, color){
   let carObject
   let carBody
   let wheelObjects = []
-  let wheel
-  let carModel = car.props.model
-  let wheelModel = car.props.modelWheel
-  let promiseObject = loadModel(wheelModel)
+  let wheelModel
+  let carModelName = car.props.model
+  let wheelModelName = car.props.modelWheel
+  
+  let promiseObject = loadModel(wheelModelName)
   .catch((e) => {
     return loadModel('wheel')
   })
   .then((wheelScene) => {
-    wheel = wheelScene.scene.children[0]
-    // wheel.material = clayMaterial.clone()
-    wheel.material.color = new THREE.Color(0x333333)
+    wheelModel = wheelScene.scene.children[0]
+    wheelModel.material.color = new THREE.Color(0x333333)
   })
   .catch((e) => {
     console.error(e)
   })
   .then(() => {
-    return loadModel(carModel)
-  }).catch((e) => {
-    return defaultCarModel(car)
+    return loadModel(carModelName)
+  }).catch(() => {
+    return loadDefaultCarModel(car)
   }).then((gltf) => {
 
     console.log('loaded model', gltf)
@@ -70,7 +70,7 @@ export function createCarObject(car, positionX = 0, color){
 
       // WHEELS
       if(a.name.indexOf('Wheel') >= 0){
-        let carWheel = cloneWheel(wheel, a, false)
+        let carWheel = cloneWheel(wheelModel, a, false)
         carObject.add(carWheel)
         wheelObjects.push(carWheel)
       }
@@ -79,31 +79,15 @@ export function createCarObject(car, positionX = 0, color){
         console.log('set cast shadow')
         a.castShadow = true
         a.receiveShadow = false
-        // a.material.color = new THREE.Color(color)
         const texture = a.material.map;
         const newTexture = changeTextureColor(texture, color)
         a.material.map = newTexture
-
-        // a.material.normalMap = clayMaterial.normalMap;
-      }
-
-
-      // Every thing other than wheel
-      if(a.name.indexOf('Wheel') < 0){
-        // let colorCode = ...color
-        // a.material = clayMaterial.clone()
-        // console.log(a)
-        if(a && a.material){
-          // a.material.color = new THREE.Color(color)
-        }
       }
 
       // body
       if(a.name.indexOf('Body') >= 0){
         carBody = a
       }
-
-
     })
 
     miscObjects.forEach((m) => {
@@ -112,7 +96,7 @@ export function createCarObject(car, positionX = 0, color){
       if(car.props.modelMisc && miscName.test(car.props.modelMisc)){
         let isWheel = m.name.indexOf('Wheel') >= 0
         if(isWheel){
-          carBody.add(cloneWheel(wheel, m.obj))
+          carBody.add(cloneWheel(wheelModel, m.obj))
           return 
         }
         carBody.add(m.obj)
@@ -126,10 +110,8 @@ export function createCarObject(car, positionX = 0, color){
 
   function animate(dt){
     if(!carObject) return
-    // const car = cars[index]
-    
+
     let {speed, acceleration} = car.state
-    // console.log(dt, speed, carObject.position.z)
     let {wheelDiameter} = car.props
     let wheelTurnsPerS = getWheelTurns(speed, wheelDiameter)
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
@@ -164,7 +146,7 @@ function cloneWheel(wheel, empty, useRotation=true){
 
 
 
-function defaultCarModel(car){
+function loadDefaultCarModel(car){
   return loadModel('_defaultHatchback').then((glb) => {
     let carObject = glb.scene
     let wheelDiameter = car.props.wheelDiameter || 63

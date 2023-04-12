@@ -57,8 +57,8 @@ function createLights (scene) {
   directionalLight.shadow.camera.far = 500; // default
 
 
-  const helper = new THREE.CameraHelper( directionalLight.shadow.camera );
-  scene.add( helper );
+  // const helper = new THREE.CameraHelper( directionalLight.shadow.camera );
+  // scene.add( helper );
 
 }
 
@@ -269,24 +269,6 @@ export default function SceneGraph (cars, simulation, colors) {
 
   const animation = new AnimationSimulation(scene, camera, renderer, cameraControls, simulation)
 
-
-
-
-
-
-
-
-  // ANIMATION
-  animation.start()
-
-  /**
-   * 
-   * @param {Function} fn 
-   */
-  // function subscribeAnimation(fn){
-  //   animateFns.push(fn)
-  // }
-
   createEnvMap(scene, renderer)
 
   // CUBE
@@ -295,6 +277,9 @@ export default function SceneGraph (cars, simulation, colors) {
 
   // GROUND
   createGround(scene)
+
+  // ANIMATION
+  animation.start()
 
   // CARS
   cars.forEach((car, index) => {
