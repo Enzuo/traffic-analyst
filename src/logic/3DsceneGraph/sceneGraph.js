@@ -90,8 +90,8 @@ function createCamera (renderer) {
 /**
  * AnimatedObject
  * @typedef {Object} AnimatedObject
- * @property {(delta:number) => void} animate - The animation function of that object
- * @property {Promise<object>=} object
+ * @property {(delta:number) => void} animate - animation function
+ * @property {THREE.Object3D} object 3d object
  */
 
 /***
@@ -140,6 +140,7 @@ class AnimationRotation extends Animation {
     super(scene, camera, renderer, CameraControls)
 
     this.isChangingCar = true
+    /** @type {Promise<THREE.Object3D|void>} */
     this.removeAnimation = Promise.resolve()
     this.currentRotation = 0
   }
@@ -159,9 +160,7 @@ class AnimationRotation extends Animation {
   removeCar() {
     this.isChangingCar = true
     let carToRemove = this.carObject
-    this.removeAnimation = setTimeoutPromise(() => {
-      return carToRemove
-    }, 150)
+    this.removeAnimation = setTimeoutPromise(() => carToRemove, 150)
     return this.removeAnimation
   }
 
@@ -197,6 +196,10 @@ class AnimationSimulation extends Animation {
     updateCameraDistance(this.camera, this.cameraControls, carObjects)
   }
 
+  /**
+   * 
+   * @param {AnimatedObject} aObj 
+   */
   addAnimatedObject (aObj) {
     this.animated.push(aObj)
   }
@@ -237,22 +240,14 @@ export function SingleCarSceneGraph(car) {
   // --------
 
 
-  createCarAndAnimateIt(car)
+  createCarObject(car).then((c) => animation.setCar(c.object))
 
   function updateData(car){
     animation.removeCar().then((obj) => {
-      scene.remove(obj)
+      if(obj) scene.remove(obj)
     })
-    createCarAndAnimateIt(car)
+    createCarObject(car).then((c) => animation.setCar(c.object))
   }
-
-  function createCarAndAnimateIt(car) {
-    const carObject = createCarObject(car)
-    carObject.object.then((obj) => {
-      animation.setCar(obj)
-    })
-  }
-
 
 
   return {element, updateData}
@@ -306,12 +301,11 @@ export default function SceneGraph (cars, simulation, colors) {
     const distanceBetweenCar = 3
     const position = index*distanceBetweenCar - ((cars.length-1) * distanceBetweenCar/2)
     const carObject = createCarObject(car, position, colors[index])
-    carObject.object.then((object) => {
-      scene.add(object)
-      carObjects.push(object)
+    carObject.then((aObj) => {
+      scene.add(aObj.object)
+      carObjects.push(aObj.object)
+      animation.addAnimatedObject(aObj)
     })
-    // TODO remove the promise from this level
-    animation.addAnimatedObject(carObject)
   })
 
 
@@ -351,7 +345,7 @@ function updateCameraDistance(camera, cameraControls, cars){
 /**
  * 
  * @param {THREE.Scene} scene 
- * @returns AnimatedObject
+ * @returns {AnimatedObject}
  */
 function createCube (scene) {
   // let {scene} = ThreeAnimation
@@ -369,7 +363,7 @@ function createCube (scene) {
     cube.rotation.y += 0.01;
   }
 
-  return { animate }
+  return { animate, object:cube }
 }
 
 function createGround (scene) {

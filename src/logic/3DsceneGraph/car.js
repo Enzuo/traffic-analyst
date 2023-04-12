@@ -5,11 +5,16 @@ import {changeTextureColor} from './texture'
 
 
 /**
+ * @typedef {import('./sceneGraph').AnimatedObject} AnimatedObject
+ *
+ */
+
+/**
  * 
  * @param {*} car 
  * @param {number=} positionX
  * @param {string=} color 
- * @returns {import('./sceneGraph').AnimatedObject}
+ * @returns {Promise<AnimatedObject>}
  */
 export function createCarObject(car, positionX = 0, color){
   // const car = cars[index]
@@ -21,7 +26,7 @@ export function createCarObject(car, positionX = 0, color){
   let wheel
   let carModel = car.props.model
   let wheelModel = car.props.modelWheel
-  let object = loadModel(wheelModel)
+  let promiseObject = loadModel(wheelModel)
   .catch((e) => {
     return loadModel('wheel')
   })
@@ -142,9 +147,7 @@ export function createCarObject(car, positionX = 0, color){
     carBody.rotation.x = -tilt
   }
 
-  // ThreeAnimation.subscribeAnimation(animate)
-
-  return { animate , object}
+  return promiseObject.then((object) => {return { animate , object}})
 }
 
 function cloneWheel(wheel, empty, useRotation=true){
