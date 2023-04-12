@@ -1,0 +1,64 @@
+name : t2 kombi
+brand : volkswagen
+trim :
+year : 1967
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name : 1.6L B4
+  hp: 48
+  torqueY: [85  , 98  , 94  , 84  , 62]
+  torqueX: [1400, 2000, 3000, 4000, 4500] # https://www.volkszone.com/threads/maximum-revs-on-a-t2.281423/
+  type : petrol
+  layout : b4
+  displacement : 1584
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : 
+gearRatio : [4.70,2.28,1.47,0.89]
+driveRatio : 5
+gearSpeed : 28.8
+wheelDiameter : 68
+type : RWD 
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1410
+length: 4505
+width: 1720
+height: 1940
+dragCoef : 0.44 # https://vw-camper.fr/t/quel-est-le-cx-dun-bus/7829/3
+dragArea : 3.2
+
+wheelbase: 2400
+trunk: 
+trunkMax:
+seats: 7
+
+# -------------
+# STATS
+# -------------
+acc0100: 
+vmax: 
+avgConsumption : 
+energyTank :
+autonomy : 
+turningCircle : 
+wheelType : 215/65R16
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
