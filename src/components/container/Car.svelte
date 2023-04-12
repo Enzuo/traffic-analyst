@@ -7,8 +7,8 @@
   import UPlotTorque from './UPlotTorque.svelte'
 
 
-  let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
-  // let carIds = ['landrover_defender', ['landrover_defender', '2.25P 74hp'], ['landrover_defender', '2.5P 83hp']]
+  // let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
+  let carIds = ['landrover_defender', ['landrover_defender', 'defender110']]
   let colors = ["blue","red","orange","green","purple"]
   let colors3D = [0x5895FF,0xFF5758,0xFFA132,"green","purple"]
 

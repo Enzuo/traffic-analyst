@@ -1,27 +1,28 @@
 name : Defender 90
 brand : Land Rover
-trim : 90 62
+trim : defender90
 year : 1984
 
 # -------------
 # ENGINE
 # -------------
 engine :  
-  name :  2.25D
-  hp: 62
-  torqueY: [89.4, 128  , 140 , 139  , 137  , 134  , 117, 110, 78.6] # 140Nm @1800 62hp @4000
-  torqueX: [1000, 1500 , 1800, 2000 , 2500 , 3000 , 3500 , 4000, 4500]
+  name : NA2.5D 67hp
+  hp: 67
+  torqueY: [89.4, 140 , 154 , 148 , 128 , 118 , 78.6] # 154Nm @1800 67hp @4000
+  torqueX: [1000, 1500, 1800, 2500, 3500, 4000, 4500]
   type : diesel
   layout : l4 # boxer2, l4, v6
-  displacement : 2286
+  displacement : 2495
 
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [3.321,1.798,1.0,0.757]
+gearName : LT77
+gearRatio : [3.321,1.898,1.231,0.937,0.759]
 driveRatio : 3.54
-gearSpeed : 51.3
-wheelDiameter : 73 # 63cm
+gearSpeed : 53.3
+wheelDiameter : 76
 type : AWD #AWD, RWD, FWD
 
 # -------------
@@ -31,7 +32,7 @@ weight : 1751
 length: 3883
 width: 1790
 height: 1963
-dragCoef : 0.6 # TODO
+dragCoef : 0.6
 dragArea : 3.42
 
 wheelbase: 2360
@@ -44,7 +45,7 @@ seats: 7
 # -------------
 acc0100: 25
 vmax: 113 # 100 https://www.lrukforums.com/threads/2-25d-max-speed.249575/
-avgConsumption : 
+avgConsumption : 11
 energyTank : 60
 autonomy : 
 turningCircle : 
@@ -67,10 +68,23 @@ trims :
     wheelbase : 2794
     weight : 1850
     model : landroverDefender110
+    engine : 
+      name : 2.3D 60hp
+      hp: 60
+      torqueY: [89.4, 128  , 140 , 139  , 137  , 134  , 117, 110, 78.6] # 136Nm @1800 60hp @4000
+      torqueX: [1000, 1500 , 1800, 2000 , 2500 , 3000 , 3500 , 4000, 4500]
+    # 4 speed manual
+    gearRatio : [3.321,1.798,1.0,0.757]
 
 
 
-  - trim : 2.25P 74hp
+
+# -------------
+# OPTIONS
+# -------------
+options: 
+  - name : 2.3P 74hp
+    year : 1983
     engine :   
       name :  2.25P
       hp: 74
@@ -79,10 +93,9 @@ trims :
       type : petrol
       layout : l4 
       displacement : 2286
-    gearRatio : [3.32,1.91,1.30,1]
-    gearSpeed : 38.9
 
-  - trim : 2.5P 83hp
+  - name : 2.5P 83hp
+    year : 1985
     engine :   
       name :  2.5P
       hp: 83
@@ -92,7 +105,5 @@ trims :
       layout : l4
       displacement : 2495
     vmax: 120
-    gearRatio : [3.32,1.91,1.30,1]
-    gearSpeed : 38.9
 
 

@@ -18,6 +18,7 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
+gearName : 
 gearRatio : []
 driveRatio : 
 gearSpeed : 
@@ -62,3 +63,8 @@ modelWheel:
 trims : 
   - trim :
 
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options: 
+  - name :
