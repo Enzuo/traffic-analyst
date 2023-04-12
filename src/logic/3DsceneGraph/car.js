@@ -53,9 +53,13 @@ export function createCarObject(car, positionX = 0, color){
 
     carObject.traverse((a) => {
       // Wheels
-      if(a.name.indexOf('Wheel') === 0){
+      if(a.name.indexOf('Wheel') >= 0){
         let carWheel = wheel.clone()
+        console.log("ROTATION of wheel",a.name, a.rotation)
         carWheel.position.copy(a.position)
+        carWheel.rotation.copy(a.rotation)
+        console.log("COPY ROTATION of wheel",a.name, carWheel.rotation)
+
 
         // // inverse main scene scale if needed
         // wheel.scale.x = 1/carObject.scale.x
@@ -69,7 +73,10 @@ export function createCarObject(car, positionX = 0, color){
 
         carObject.add(carWheel)
 
-        wheelObjects.push(carWheel)
+        if(!a.name.match(/misc/i)){
+          wheelObjects.push(carWheel)
+        }
+
       }
 
       if ( a instanceof THREE.Mesh ) {

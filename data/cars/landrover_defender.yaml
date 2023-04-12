@@ -53,13 +53,23 @@ wheelType : 205R16
 # -------------
 # 3D
 # -------------
-model: 
-modelWheel:
+model: landroverDefender90
+modelWheel: wheelDefender
+modelMisc: Wheel1B
 
 # -------------
 # TRIMS
 # -------------
 trims : 
+  - trim : defender110
+    year : 1983
+    length : 4600
+    wheelbase : 2794
+    weight : 1850
+    model : landroverDefender110
+
+
+
   - trim : 2.25P 74hp
     engine :   
       name :  2.25P
@@ -84,4 +94,5 @@ trims :
     vmax: 120
     gearRatio : [3.32,1.91,1.30,1]
     gearSpeed : 38.9
+
 
