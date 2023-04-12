@@ -90,69 +90,9 @@ function createCamera (renderer) {
 /**
  * AnimatedObject
  * @typedef {Object} AnimatedObject
- * @property {(delta) => void} animate - The animation function of that object
+ * @property {(delta:number) => void} animate - The animation function of that object
  * @property {Promise<object>=} object
  */
-
-/**
- * Animation factory
- * @param {*} camera 
- * @param {*} scene 
- * @param {*} renderer 
- * @returns 
- */
-function createAnimation (camera, scene, renderer, cameraControls) {
-  const clock = new THREE.Clock()
-
-  /**
-   * @type {Array.<AnimatedObject>}
-   */
-  const animatedObjects = []
-  const animateFunctions = []
-
-  let animationFrame
-  function start() {
-    animationLoop()
-  }
-
-  function stop() {
-    cancelAnimationFrame(animationFrame)
-  }
-
-  function animationLoop() {
-    animationFrame = requestAnimationFrame( animationLoop );
-    const delta = clock.getDelta() * 1000 // delta ms
-
-    for(let i=0; i<animateFunctions.length; i++){
-      animateFunctions[i](delta)
-    }
-
-    for(let i=0; i<animatedObjects.length; i++){
-      animatedObjects[i].animate(delta)
-    }
-    
-    // controls.update();
-    updateCameraDistance(camera, cameraControls, carObjects)
-    const hasControlsUpdated = cameraControls.update( delta );
-
-
-    renderer.render( scene, camera );
-  }
-
-  /**
-   * Adds an animated object to the list of objects to be animated.
-   * @param {AnimatedObject} obj - The object to be added to the list.
-   */
-  function addAnimatedObject(obj) {
-    animatedObjects.push(obj)
-  }
-
-  function addAnimateFunction(fn) {
-    animateFunctions.push(fn)
-  }
-
-  return {start, stop, addAnimatedObject, addAnimateFunction}
-}
 
 /***
  * 
@@ -167,7 +107,10 @@ function createAnimation (camera, scene, renderer, cameraControls) {
 
 class Animation {
   constructor (scene, camera, renderer, cameraControls) {
-    Object.assign(this, { scene,camera, renderer, cameraControls })
+    this.scene = scene
+    this.camera = camera
+    this.renderer = renderer
+    this.cameraControls = cameraControls
     this.clock = new THREE.Clock()
   }
 
@@ -183,15 +126,13 @@ class Animation {
     this.animationFrame = requestAnimationFrame( this.animationLoop.bind(this) );
     const delta = this.clock.getDelta() * 1000 // delta ms
     this.renderer.render(this.scene, this.camera );
-    this.animate()
+    this.animate(delta)
     this.cameraControls.update( delta );
   }
 
-  animate() {
+  animate(delta) {
 
   }
-
-
 }
 
 class AnimationRotation extends Animation {
@@ -234,6 +175,30 @@ class AnimationRotation extends Animation {
         this.carObject.rotation.y = this.currentRotation
       }
     }
+  }
+}
+
+class AnimationSimulation extends Animation {
+  constructor (scene, camera, renderer, CameraControls, simulation) {
+    super(scene, camera, renderer, CameraControls)
+    
+    this.simulation = simulation
+    /** @type {Array.<AnimatedObject>} */
+    this.animated = []
+  }
+
+  animate(delta) {
+    if(this.simulation.isPlaying){
+      for(let i=0; i<this.animated.length; i++){
+        this.animated[i].animate(delta)
+      }
+    }
+
+    updateCameraDistance(this.camera, this.cameraControls, carObjects)
+  }
+
+  addAnimatedObject (aObj) {
+    this.animated.push(aObj)
   }
 }
 
@@ -307,7 +272,7 @@ export default function SceneGraph (cars, simulation, colors) {
   const lights = createLights(scene)
   const {camera, cameraControls} = createCamera(renderer) 
 
-  const animation = createAnimation(camera, scene, renderer, cameraControls)
+  const animation = new AnimationSimulation(scene, camera, renderer, cameraControls, simulation)
 
 
 
@@ -345,12 +310,20 @@ export default function SceneGraph (cars, simulation, colors) {
       scene.add(object)
       carObjects.push(object)
     })
+    // TODO remove the promise from this level
     animation.addAnimatedObject(carObject)
   })
 
 
   return element
 }
+
+
+
+
+
+
+
 
 let carObjects = []
 
