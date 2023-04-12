@@ -1,46 +1,49 @@
 <script>
-  import Icon from "../presentation/Icon.svelte";
-  import SceneGraph from "./SceneGraph.svelte";
+  import { getCar } from "@/logic/cardata"
+  import Icon from "../presentation/Icon.svelte"
+  import SceneGraph from "./SceneGraph.svelte"
 
 
-  export let carWithTrims
+  export let carId
   export let trimId = 0
+  export let engineId = 0
+
   let car
 
-  $: trimId = resetTrim(carWithTrims) // on car props change we reset the trim id
+  $: car = getCar(carId, trimId, engineId)
+  $: resetOnChange(carId) // on car props change we reset the trim id
 
-  $: car = carWithTrims[trimId]
-
-  function handleTrimClick(index) {
-    trimId = index
+  function handleTrimClick(id) {
+    trimId = id
   }
 
-  function handleEngineClick(index) {
-
+  function handleEngineClick(id) {
+    engineId = id
   }
 
-  function resetTrim(trims){
-    return 0
+  function resetOnChange(car){
+    trimId = 0
+    engineId = 0
   }
 
 </script>
 
 
 Trims : 
-{#each carWithTrims as trim, index}
+{#each car.trims as trimlist, index}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="trim" on:click={() => handleTrimClick(index)}>
-    <Icon name=truck></Icon>{trim.trim}
+    <Icon name=truck></Icon>{trimlist.trim}
   </div>
 {/each}
 
 Engines : 
 
 {#if car.engines}
-  {#each car.engines as list, index}
+  {#each car.engines as engineList, index}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="trim" on:click={() => handleEngineClick(index)}>
-      <Icon name=cog></Icon>{list.engine.name} {list.engine.hp}
+      <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp}
     </div>
   {/each}
 {/if}

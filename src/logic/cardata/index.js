@@ -12,41 +12,35 @@ export function listCars() {
 
 /**
  * 
- * @param {string} id
- * @returns {Array<Car>}
- */
-export function getCarTrims(id) {
-  let car = db.car.get(id)
-  if (!car) throw Error('car not found')
-
-  // extract trims
-  const trims = car.trims || []
-  const trimsInherited = trims.map((t) => Object.assign({}, car, t))
-  let carTrims = [].concat([car], trimsInherited)
-
-
-  carTrims = carTrims.map(c => {
-    completeEngineData(c)
-    return Object.assign(Object.create(defaultCar), c)
-  })
-
-  return carTrims
-}
-
-/**
- * 
- * @param {string} id 
- * @param {string|number} idTrim 
+ * @param {string} carId
  * @returns {Car}
  */
-export function getCar(id, idTrim=0){
-  const trims = getCarTrims(id)
-  if(typeof idTrim === 'number'){
-    return trims[idTrim]
-  }
-  return trims.find(t => t.trim === idTrim)
-}
+export function getCar(carId, trimId=0, engineId=0) {
+  let car = db.car.get(carId)
+  if (!car) throw Error('car not found')
 
+  // add base trim to the trims
+  const trims = [].concat({trim: car.trim || 'default'}, car.trims || [])
+
+  // merge data
+  if(trimId > 0) {
+    car = Object.assign({}, car, trims[trimId])
+  }
+
+  // add default engine to the engines
+  const engines = [].concat({engine: car.engine}, car.engines || [])
+
+  if(engineId > 0){
+    car = Object.assign({}, car, engines[engineId])
+  }
+
+  car = completeEngineData(car)
+
+  console.log('getting car', car, trims, engines)
+
+
+  return Object.assign(Object.create(defaultCar), car, {trims, engines})
+}
 
 
 function completeEngineData(car) {

@@ -5,13 +5,10 @@
   import CarDetails from './CarDetails.svelte';
   let cars = cardata.listCars()
 
-  let selectedCar
-  let selectedCarTrims 
+  let selectedCarId
 
   function handleCarClick (car) {
-    let carTrims = cardata.getCarTrims(car.id)
-    selectedCar = carTrims[0]
-    selectedCarTrims = carTrims
+    selectedCarId = car.id
   }
 
 </script>
@@ -22,6 +19,6 @@
 	{/each}
 </ul>
 
-{#if selectedCarTrims}
-  <CarDetails carWithTrims={selectedCarTrims}></CarDetails>
+{#if selectedCarId}
+  <CarDetails carId={selectedCarId}></CarDetails>
 {/if}
