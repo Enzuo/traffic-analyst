@@ -12,11 +12,12 @@
 
   let car
 
-  $: car = getCar(carId, trimId, engineId)
   $: resetOnChange(carId) // on car props change we reset the trim id
+  $: car = getCar(carId, trimId, engineId)
 
   function handleTrimClick(id) {
     trimId = id
+    engineId = 0
   }
 
   function handleEngineClick(id) {
@@ -45,7 +46,7 @@ Engines :
   {#each car.engines as engineList, index}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="trim {index===engineId ? 'selected' : ''}" on:click={() => handleEngineClick(index)}>
-      <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp}
+      <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp} {engineList.gearName}
     </div>
   {/each}
 {/if}
@@ -55,7 +56,8 @@ Car :
 {car.brand}
 {car.name}
 {car.trim}
-{car.engine.hp}
+<li>{car.engine.hp} HP</li>
+<li>{car.weight} KG</li>
 <UPlotGearing car={car}></UPlotGearing>
 <UPlotTorque cars={[car]}></UPlotTorque>
 

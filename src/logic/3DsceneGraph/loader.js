@@ -23,10 +23,10 @@ export function loadModel(filePath) {
     if(!filePath) reject(Error('no file specified'))
 
     loader.load('/3dmodels/' + filePath + '.glb', function(glb) {
-      console.log(glb)
+      // console.log(glb)
       resolve(glb)
     }, (progress) => {
-      console.log('progress', progress)
+      // console.log('progress', progress)
     }, function(e) {
       reject(e)
     })

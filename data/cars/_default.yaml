@@ -15,6 +15,10 @@ engine :
   layout : # boxer2, l4, v6
   displacement :
 
+# List additional engines
+engines :
+  - engine :
+
 # -------------
 # TRANSMISSION
 # -------------
@@ -56,6 +60,7 @@ wheelType :
 # -------------
 model: 
 modelWheel:
+modelMisc:
 
 # -------------
 # TRIMS
