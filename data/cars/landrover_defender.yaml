@@ -25,11 +25,11 @@ engines :
       layout : l4 
       displacement : 2286
     year : 1983
-    
+
   - engine :   
       name :  2.5P
       hp: 83
-      torqueY: [85, 160  , 180 , 145 , 110] # 180Nm@2000 83hp@4000
+      torqueY: [85, 160  , 175 , 142 , 110] # 175Nm@2000 80hp@4000
       torqueX: [1000, 1500, 2000, 4000, 4500]
       type : petrol
       layout : l4
@@ -41,9 +41,12 @@ engines :
 # TRANSMISSION
 # -------------
 gearName : LT77
-gearRatio : [3.321,1.898,1.231,0.937,0.759]
+gearRatio : [3.585, 2.300, 1.5074, 1.000, 0.8314]
+gearReverse : 3.7
+# LT230R
+gearTransfer : [1.667, 3.320]
 driveRatio : 3.54
-gearSpeed : 53.3
+gearSpeed : 29.2
 wheelDiameter : 76
 type : AWD #AWD, RWD, FWD
 
@@ -94,10 +97,12 @@ trims :
     engine : 
       name : 2.3D 60hp
       hp: 60
-      torqueY: [89.4, 128  , 140 , 139  , 137  , 134  , 117, 110, 78.6] # 136Nm @1800 60hp @4000
-      torqueX: [1000, 1500 , 1800, 2000 , 2500 , 3000 , 3500 , 4000, 4500]
+      torqueY: [89.4, 128  , 136 , 135 , 134 , 132  , 117 , 106, 78.6] # 136Nm @1800 60hp @4000
+      torqueX: [1000, 1500 , 1800, 2000, 2500, 3000 , 3500, 4000, 4500]
     # 4 speed manual
     gearRatio : [3.321,1.798,1.0,0.757]
+    driveRatio : 4.7
+    gearSpeed: 24.2
 
 
 
@@ -109,3 +114,5 @@ options:
 
 
 
+# https://www.lrukforums.com/threads/series-iii-2-5l-nad-speed.72699/#js-post-772098
+# https://drive.google.com/file/d/1i4WSUvr4hfpTOVcyirHrl3ZwtAUk4RS4/view
