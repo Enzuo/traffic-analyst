@@ -7,10 +7,10 @@ year : 1967
 # ENGINE
 # -------------
 engine :  
-  name : 1.6L B4 type1 h-code
+  name : 1.6L B4 type1 h-code VW 1600 engine
   hp: 48
-  torqueY: [85  , 98  , 94  , 84  , 62]
-  torqueX: [1400, 2000, 3000, 4000, 4500] # https://www.volkszone.com/threads/maximum-revs-on-a-t2.281423/
+  torqueY: [70  , 85  , 102  , 104 , 94  , 84  , 75] # 104nm@2200 47hp@4000
+  torqueX: [1000, 1400, 2000, 2200, 3000, 4000, 4200] # https://www.volkszone.com/threads/maximum-revs-on-a-t2.281423/
   type : petrol
   layout : b4
   displacement : 1584
@@ -19,9 +19,10 @@ engine :
 # TRANSMISSION
 # -------------
 gearName : 
-gearRatio : [4.80,2.31,1.47,0.89]
-driveRatio : 4.375
-gearSpeed : 29.3
+gearRatio : [3.80,2.06,1.26,0.82]
+gearReverse : 3.61
+driveRatio : 5.375
+gearSpeed : 29.1
 wheelDiameter : 68
 type : RWD 
 
@@ -29,11 +30,11 @@ type : RWD
 # DIMENSIONS
 # -------------
 weight : 1410
-length: 4505
-width: 1720
-height: 1940
+length: 4420
+width: 1765
+height: 1950
 dragCoef : 0.44 # https://vw-camper.fr/t/quel-est-le-cx-dun-bus/7829/3
-dragArea : 3.2
+dragArea : 3.4
 
 wheelbase: 2400
 trunk: 
@@ -44,9 +45,9 @@ seats: 7
 # STATS
 # -------------
 acc0100: 
-vmax: 
-avgConsumption : 
-energyTank :
+vmax: 105
+avgConsumption : 10.4
+energyTank : 60
 autonomy : 
 turningCircle : 
 wheelType : 215/65R16
