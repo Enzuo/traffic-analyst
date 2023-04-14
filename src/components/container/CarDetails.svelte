@@ -58,6 +58,10 @@ Car :
 {car.trim}
 <li>{car.engine.hp} HP</li>
 <li>{car.weight} KG</li>
+<li>{car.gearRatio}</li>
+<li>{car.driveRatio} Drive Ratio</li>
+<li>{car.gearTransfer ? car.gearTransfer[0] : 1} Transfer Ratio</li>
+
 <UPlotGearing car={car}></UPlotGearing>
 <UPlotTorque cars={[car]}></UPlotTorque>
 

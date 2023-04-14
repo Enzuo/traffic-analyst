@@ -9,6 +9,19 @@ export function getEngineRpmForSpeed(speed, speedForGear, minRpm=0){
   return Math.max(rpm, minRpm)
 }
 
+/**
+ * 
+ * @param {number} speed {m/s}
+ * @param {number} ratio between engine rpm and wheel rpm (gearRatio * transferRatio (H-L) * driveRatio)
+ * @param {number} wheelDiameter {cm} wheel diameter
+ */
+export function getEngineRPMForSpeed(speed, ratio, wheelDiameter = 63){
+  const wheelRPS = speed / (wheelDiameter/100 * Math.PI)
+  const engineRPS = wheelRPS * ratio
+  const engineRPM =  engineRPS * 60
+  return engineRPM
+}
+
 
 export function getSpeedForRPM(rpm, gearRatio, driveRatio, wheelDiameter = 63){
   let rps = rpm/60
@@ -24,7 +37,7 @@ export function getSpeedForRPM(rpm, gearRatio, driveRatio, wheelDiameter = 63){
  * @returns {number} efficiency ratio between 0 and 1
  */
 export function getTransmissionEfficiency(gearRatio, gearBoxType){
-  return gearRatio > 1 ? 0.85 : 0.96
+  return gearRatio >= 1 ? 0.85 : 0.96
 }
 
 /**
@@ -105,19 +118,29 @@ export function getPowerRequiredForSpeed(speed, weight, scx){
 
 /**
  * 
- * @param {number} torque nm
- * @param {number} driveRatio 
- * @param {number} gearRatio 
- * @param {number} wheelDiameter cm
- * @returns {number} Force (N)
+ * @param {number} torque {nm} engine torque
+ * @param {number} finalRatio ratio between engine rotation and wheels rotation
+ * @param {number} efficiency typically between 0.86 - 0.94
+ * @param {number} wheelDiameter {cm}
+ * @returns {number} Force {N}
  */
-export function getEngineForceFromTorque(torque, driveRatio, gearRatio, wheelDiameter = 63){
+export function getEngineForceFromTorque(torque, finalRatio, efficiency, wheelDiameter = 63){
   if(!torque) return null
-  let transmissionEfficiency = getTransmissionEfficiency(gearRatio)
-  let torqueAtWheel = torque * transmissionEfficiency * driveRatio * gearRatio
+  let transmissionEfficiency = efficiency || mockEfficiency(finalRatio) // getTransmissionEfficiency(gearRatio)
+  let torqueAtWheel = torque * transmissionEfficiency * finalRatio
   let wheelRadius = (wheelDiameter/100)/2
   let forceAtWheel = torqueAtWheel / wheelRadius
   return forceAtWheel
+}
+
+function mockEfficiency(finalRatio){
+  const highBound = 20
+  const lowBound = 5
+  const lowEfficiency = 0.85
+  const highEfficiency = 0.96
+  let r = (highEfficiency - lowEfficiency) / (highBound - lowBound)
+  let e = (finalRatio - lowBound) * r
+  return highEfficiency - e
 }
 
 /**
