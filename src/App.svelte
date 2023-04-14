@@ -10,7 +10,7 @@
     <img src="title.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <Cars/>
+  <Car/>
 </main>
 
 <style>

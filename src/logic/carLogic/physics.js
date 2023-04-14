@@ -4,7 +4,7 @@
  * @param {number} speedForGear km/h at 1000rpm
  * @param {number} minRpm 
  */
-export function getEngineRpmForSpeed(speed, speedForGear, minRpm=0){
+export function getEngineRpmForSpeedFromGearSpeed(speed, speedForGear, minRpm=0){
   let rpm = speed / (speedForGear/3.6/1000)
   return Math.max(rpm, minRpm)
 }

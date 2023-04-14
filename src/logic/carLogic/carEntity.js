@@ -6,7 +6,7 @@ import {
   getEngineForceFromPower,
   getTorqueForRPM, 
   torqueToKW, 
-  getEngineRpmForSpeed
+  getEngineRPMForSpeed
 } from './physics'
 
 let uniqueId = 0
@@ -35,7 +35,7 @@ export function updateForces(car, dt){
   let dts = dt/1000
   // const coefWheelDrag = 0.0025
   const gravity = 9.81
-  const {engine, gearRatio, driveRatio, gearSpeed, weight, dragCoef, dragArea, brakePadsForce, wheelDiameter} = car.props
+  const {engine, gearRatio, driveRatio, gearSpeed, gearTransfer, weight, dragCoef, dragArea, brakePadsForce, wheelDiameter} = car.props
   const {speed, engineRpm, throttleInput, brakeInput, gearInput} = car.state
 
   // wheel drag force
@@ -55,15 +55,15 @@ export function updateForces(car, dt){
 
   // let transmissionEfficiency = getTransmissionEfficiency(gearRatio[gearInput])
   // let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
-
-  let thrustForce = getEngineForceFromTorque(torque, driveRatio, gearRatio[gearInput], wheelDiameter)
+  let finalRatio = driveRatio * gearRatio[gearInput] * (gearTransfer ? gearTransfer[0] : 1)
+  let thrustForce = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
 
   let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass
   let deltaV = acceleration * dts
 
   let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
   let minRPM = engine.minRPM || 1000
-  let rpmForSpeed = getEngineRpmForSpeed(speed, currentGearSpeed, minRPM)
+  let rpmForSpeed = Math.max(getEngineRPMForSpeed(speed, finalRatio, wheelDiameter), minRPM)
 
   let newState = {
     speed : speed + (deltaV ? deltaV : 0),
