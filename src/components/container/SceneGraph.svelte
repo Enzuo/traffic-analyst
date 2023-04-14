@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte"
   import { SingleCarSceneGraph } from "@/logic/3DsceneGraph/sceneGraph"
-  import { createCar } from '@/logic/carLogic/carEntity'
+  import { createCarEntity } from '@/logic/carLogic/carEntity'
   
   export let car
 
@@ -9,7 +9,7 @@
   let sceneGraph
   
   onMount(() => {
-    let carEntity = createCar(car)
+    let carEntity = createCarEntity(car)
     sceneGraph = SingleCarSceneGraph(carEntity)
     sceneGraphContainer.appendChild(sceneGraph.element)
   })
@@ -18,7 +18,7 @@
 
   function updateGraph(car){
     // TODO might want to delete this confusion between car and carEntity, merge the 2
-    let carEntity = createCar(car)
+    let carEntity = createCarEntity(car)
     if(sceneGraph){
       sceneGraph.updateData(carEntity)
     }

@@ -1,4 +1,16 @@
 /**
+ *               _____ _           _         
+ *              |  _  | |_ _ _ ___|_|___ ___ 
+ *              |   __|   | | |_ -| |  _|_ -|
+ *              |__|  |_|_|_  |___|_|___|___|
+ *                        |___|       
+ * 
+ * Standalone file describing the various physics calculations involved with cars
+ * 
+ */
+
+
+/**
  * 
  * @param {number} speed m/s
  * @param {number} speedForGear km/h at 1000rpm

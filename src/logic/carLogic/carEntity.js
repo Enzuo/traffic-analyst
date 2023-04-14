@@ -11,7 +11,17 @@ import {
 
 let uniqueId = 0
 
-export function createCar(props){
+/**
+ * @typedef {import('../cardata').Car} Car
+ * @typedef {object} CarEntity 
+ */
+/**
+ * 
+ * @param {Car} props 
+ * @returns {CarEntity}
+ */
+
+export function createCarEntity(props){
   return {
     id: uniqueId++,
     props,
@@ -30,7 +40,12 @@ export function createCar(props){
   }
 }
 
-
+/**
+ * 
+ * @param {CarEntity} car 
+ * @param {number} dt {ms} time elapsed
+ * @returns 
+ */
 export function updateForces(car, dt){
   let dts = dt/1000
   // const coefWheelDrag = 0.0025

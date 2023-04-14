@@ -1,8 +1,8 @@
 import { getCar } from '@/logic/cardata';
-import { createCar, updateForces } from '../logic/carLogic/carEntity'
+import { createCarEntity, updateForces } from '../logic/carLogic/carEntity'
 
 test('functional updateForces', () => {
-  let zoe = createCar(getCar('renault_zoe'))
+  let zoe = createCarEntity(getCar('renault_zoe'))
   let zoeBefore = zoe
   let zoeAfter = updateForces(zoe)
   expect(zoe).toBe(zoeBefore);

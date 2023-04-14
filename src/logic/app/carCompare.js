@@ -18,7 +18,7 @@ export function carCompare(carIds){
         carSpecs = cardata.getCar(carIds[i])
       }
       
-      let carEntity = Car.createCar(carSpecs)
+      let carEntity = Car.createCarEntity(carSpecs)
       carEntity.state.throttleInput = 1
       carEntities.push(carEntity)
     }
