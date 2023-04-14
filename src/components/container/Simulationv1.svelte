@@ -1,6 +1,6 @@
 <script>
   import RealTimeGraph from '@/components/container/RealTimeGraph.svelte'
-  import {Simulation} from '@/logic/simulation'
+  import {Simulation} from '@/logic/simulationv1/simulation'
   import RoadGraph from './RoadGraph.svelte'
   
   const my_sim = Simulation()

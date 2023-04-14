@@ -2,7 +2,7 @@
   import Cars from '@/components/container/Cars.svelte'
   import Car from '@/components/container/Car.svelte'
   import Tools from '@/components/container/Tools.svelte'
-  import Simulation from '@/components/container/Simulation.svelte'
+  import Simulation from '@/components/container/Simulationv1.svelte'
 </script>
 
 <main>
@@ -10,7 +10,7 @@
     <img src="title.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <Car/>
+  <Simulation/>
 </main>
 
 <style>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte"
   // import { SVG } from '@svgdotjs/svg.js'
-  import realtimegraph from '@/logic/realTimeGraph'
+  import realtimegraph from '@/logic/simulationv1/realTimeGraph'
   import { watchResize } from "svelte-watch-resize";
 
 
