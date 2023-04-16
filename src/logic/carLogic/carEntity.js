@@ -13,7 +13,12 @@ let uniqueId = 0
 
 /**
  * @typedef {import('../cardata').Car} Car
+ * 
+ * 
  * @typedef {object} CarEntity 
+ * @property {number} id
+ * @property {object} props
+ * @property {object} state
  */
 /**
  * 

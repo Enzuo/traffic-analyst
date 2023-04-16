@@ -3,6 +3,7 @@
   import Car from '@/components/container/Car.svelte'
   import Tools from '@/components/container/Tools.svelte'
   import Simulation from '@/components/container/Simulationv1.svelte'
+  import TrafficSim from '@/components/container/TrafficSim.svelte'
 </script>
 
 <main>
@@ -10,7 +11,7 @@
     <img src="title.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <Simulation/>
+  <TrafficSim/>
 </main>
 
 <style>
