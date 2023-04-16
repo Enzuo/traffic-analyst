@@ -24,6 +24,8 @@ engines :
 # -------------
 gearName : 
 gearRatio : []
+gearReverse :
+gearTransfer : 
 driveRatio : 
 gearSpeed : 
 wheelDiameter : # 63cm

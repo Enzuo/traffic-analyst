@@ -9,8 +9,8 @@ year : 1967
 engine :  
   name : 1.6L B4 type1 h-code VW 1600 engine
   hp: 48
-  torqueY: [70  , 85  , 102  , 104 , 94  , 84  , 75] # 104nm@2200 47hp@4000
-  torqueX: [1000, 1400, 2000, 2200, 3000, 4000, 4200] # https://www.volkszone.com/threads/maximum-revs-on-a-t2.281423/
+  torqueY: [70  , 85  , 102 , 104 , 102 , 97  , 84  , 75] # 104nm@2200 47hp@4000
+  torqueX: [1000, 1400, 2000, 2200, 2500, 3000, 4000, 4200] # https://www.volkszone.com/threads/maximum-revs-on-a-t2.281423/
   type : petrol
   layout : b4
   displacement : 1584
