@@ -25,7 +25,6 @@
   }
 
   function setupGraph (observed) {
-    console.log("setupGrahp", observed, chartElement)
     if(observed && chartElement){
       chart = createGraph({title, units, key, transformFn, colors}, observed, chartElement)
     }
@@ -38,4 +37,3 @@
 </script>
 
 <div bind:this={chartElement}></div>
-{observed}

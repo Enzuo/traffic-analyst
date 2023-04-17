@@ -33,7 +33,6 @@
 
 <div class="graph" on:carClick={handleCarClick} bind:this={container}></div>
 
-{cars}
 <UPlotRealtime 
   title="Speed" 
   key="speed" 
