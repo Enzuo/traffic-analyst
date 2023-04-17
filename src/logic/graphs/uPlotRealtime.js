@@ -73,10 +73,10 @@ export function createGraph(opts, observed, element){
     setData : (data) => {
       plotChart.setData(data)
     },
-    updateData : (t, observed) => {
+    updateData : (t, data) => {
       chartData[0].push(t/1000)
-      for(let i=0; i<observed.length; i++){
-        let value = transformFn ? transformFn(observed[i].state[key]) : observed[i].state[key]
+      for(let i=0; i<data.length; i++){
+        let value = data[i]
         chartData[i+1].push(value)
         
       }

@@ -38,7 +38,7 @@ export function createTrafficGraph (container, cars) {
           .move(-carLength/2 * SCALE, -carWidth/2 * SCALE)
 
         group.click(function() {
-          selectedCarId = car.id
+          handleCarClick(car)
           // onCarClick(car.id)
           selectCircle.fill({ color: 'rgba(255, 255, 0, 0.30)' })
         })
@@ -56,6 +56,15 @@ export function createTrafficGraph (container, cars) {
 
       carEntity.group.move(car.state.position*SCALE, 5)
     })
+  }
+
+  function handleCarClick(car){
+    selectedCarId = car.id  
+    container.dispatchEvent(new CustomEvent('carClick',{
+      detail: {
+        id: selectedCarId,
+      },
+    }))
   }
 
   let cancelLoopHandler
