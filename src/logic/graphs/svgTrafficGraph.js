@@ -3,7 +3,7 @@ import { SVG } from '@svgdotjs/svg.js'
 
 export function createTrafficGraph (container, cars) {
   const SCALE = 2
-  const carEntities = {}
+  const carObjects = []
   let selectedCarId
 
 
@@ -22,9 +22,9 @@ export function createTrafficGraph (container, cars) {
 
   function animate () {
     cars.forEach((car) => {
-      let carEntity = carEntities[car.id]
+      let carObject = carObjects.find(c => c.id === car.id)
 
-      if(!carEntity){
+      if(!carObject){
         const circleSize = 10
         const carLength = 4.1
         const carWidth = 1.8
@@ -43,19 +43,32 @@ export function createTrafficGraph (container, cars) {
           selectCircle.fill({ color: 'rgba(255, 255, 0, 0.30)' })
         })
 
-        carEntity = carEntities[car.id] = {group, carBox, selectCircle}
+        carObject = {id : car.id, group, carBox, selectCircle}
+        carObjects.push(carObject)
       }
 
       // variable color
       let red = 125 + Math.floor(125 * car.state.brakeInput)
       let green = 125 + Math.floor(255 * car.state.throttleInput)
-      carEntity.carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
+      carObject.carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
       if(car.id !== selectedCarId){
-        carEntity.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.03)'})
+        carObject.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.03)'})
       }
 
-      carEntity.group.move(car.state.position*SCALE, 5)
+      carObject.group.move(car.state.position*SCALE, 5)
     })
+
+    // REMOVE
+    if(cars.length !== carObjects.length){
+      // find cars that was deleted
+      let index = carObjects.findIndex(o => {
+        let i = cars.findIndex(c => c.id === o.id)
+        return i === -1
+      })
+
+      carObjects[index].group.remove()
+      carObjects.splice(index, 1)
+    }
   }
 
   function handleCarClick(car){

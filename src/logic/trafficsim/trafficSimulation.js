@@ -4,20 +4,37 @@ import { createCarEntity, updateForces } from "@/logic/carLogic/carEntity";
 
 export default function trafficSimumlation () {
 
-  let cars = [createCar(20), createCar(0), createCar(-10), createCar(-20), createCar(-40)]
-  let drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25), createDriver(cars[3], 25, DRIVER_PROFILES.DEFENSIVE), createDriver(cars[4], 25, DRIVER_PROFILES.AGGRESSIVE)]
+  const cars = [createCar(20), createCar(0), createCar(-10), createCar(-20), createCar(-40)]
+  const drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25), createDriver(cars[3], 25, DRIVER_PROFILES.DEFENSIVE), createDriver(cars[4], 25, DRIVER_PROFILES.AGGRESSIVE)]
 
-  let simulation = Simulation()
+  const carCreator = createIntervalTicker(4000)
+  const DELETE_DISTANCE = 200
+
+  const simulation = Simulation()
   simulation.subscribeTick((t, dt) => {
+
+    carCreator.tickAtInterval(t, () => {
+      let car = createCar(-50, 20)
+      let driver = createDriver(car)
+      cars.push(car)
+      drivers.push(driver)
+    })
 
     drivers.forEach((driver) => {
       driver.think(t, dt, cars)
     })
 
-    cars.forEach((car) => {
+    cars.forEach((car, index) => {
       updateForces(car, dt)
       let speed = car.state.speed
       car.state.position += speed * (dt / 1000)
+
+      //
+      if(car.state.position > DELETE_DISTANCE){
+        // TODO improve delete
+        cars.shift()
+        drivers.shift()
+      }
     })
 
 
@@ -35,6 +52,16 @@ function createCar(position=0, speed=0){
   return car
 }
 
+function findCarDriver(car, drivers){
+  return drivers.findIndex(d => {
+    return d.car.id === car.id
+  })
+}
+
+
+
+
+
 let DRIVER_PROFILES = {
   AGGRESSIVE : {
     MIN_TIME_TO_CONTACT : 0.6,
@@ -45,7 +72,7 @@ let DRIVER_PROFILES = {
   NORMAL : {
     ANTICIPATION_DISTANCE_TIME : 3,
     MIN_DISTANCE : 3,
-    MAX_THROTTLE : 0.8
+    MAX_THROTTLE : 0.6
   },
   DEFENSIVE : {
     MIN_TIME_TO_CONTACT : 3,
@@ -68,7 +95,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
   let shouldStopCar = false
   let shouldStopCarTime
-  let conciousThink = createIntervalTicker(1000)
+  const conciousThink = createIntervalTicker(1000)
   let carInFront
   let time
   
@@ -87,7 +114,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       return
     }
     if (carInFront) {
-      let distanceToCarInFront = getDistanceBetweenCar(carInFront.car, car)
+      let distanceToCarInFront = carInFront.distance // getDistanceBetweenCar(carInFront.car, car)
       let timeToContact = distanceToCarInFront / currentSpeed
       let timeToIntercept = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
       // if(id === 2) console.log("distanceTime", distanceTime, car.state.speed, carInFront)
@@ -110,7 +137,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     }
 
     if(currentSpeed < targetSpeed) {
-      applyThrottle(0.1, MAX_THROTTLE)
+      applyThrottle(0.05, MAX_THROTTLE)
     }
     if(currentSpeed > targetSpeed) {
       applyThrottle(-0.1, MAX_THROTTLE)
