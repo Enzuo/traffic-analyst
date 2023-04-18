@@ -40,22 +40,33 @@ function createDriver(car, targetSpeed=15){
 
   const id = UNIQUE_DRIVERID++
 
-  const ANTICIPATION_DISTANCE_TIME = 2.5
+  const ANTICIPATION_DISTANCE_TIME = 1
   const MIN_DISTANCE = 8
+  const MIN_TIME_TO_CONTACT = 1.5
   
   function think(t, dt, cars){
+    const currentSpeed = car.state.speed
+
     let carInFront = detectCarInFront(car, cars)
     if (carInFront) {
       let distanceTime = carInFront.distance / car.state.speed
-      let distanceTimeRelativeSpeed = carInFront.distance / Math.max((car.state.speed - carInFront.car.state.speed), 1)
+      let timeToContact = carInFront.distance / Math.max((car.state.speed - carInFront.car.state.speed), 1)
       // if(id === 2) console.log("distanceTime", distanceTime, car.state.speed, carInFront)
+      if(timeToContact < MIN_TIME_TO_CONTACT){
+        applyBrake(0.2)
+        return
+      }
       if(carInFront.distance < MIN_DISTANCE){
         applyBrake(0.1)
         return
       }
+      if(distanceTime < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed){
+        applyThrottle(-0.1)
+        return
+      }
+
     }
 
-    const currentSpeed = car.state.speed
     if(currentSpeed < targetSpeed) {
       applyThrottle(0.1)
     }
@@ -109,7 +120,7 @@ function detectCarInFront(car, cars){
       nearestCarDistance = distanceToCar
     }
   }
-  return nearestCar ? {car: nearestCar, distance: nearestCarDistance} : null
+  return nearestCar ? {car: nearestCar, distance: nearestCarDistance, speed : nearestCar.state.speed} : null
 }
 
 
