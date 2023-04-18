@@ -2,7 +2,7 @@ import { SVG } from '@svgdotjs/svg.js'
 
 
 export function createTrafficGraph (container, cars) {
-  const SCALE = 3
+  const SCALE = 2
   const carEntities = {}
   let selectedCarId
 

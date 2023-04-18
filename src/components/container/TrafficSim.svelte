@@ -1,4 +1,5 @@
 <script>
+  import { updateForces } from "@/logic/carLogic/carEntity";
   import { createTrafficGraph } from "@/logic/graphs/svgTrafficGraph"
   import trafficSimulation from "@/logic/trafficsim/trafficSimulation";
   import { onMount } from "svelte"
@@ -8,10 +9,14 @@
   let container
   let time
   let cars
+  let drivers
+
+  $: drivers = updateDrivers(time)
 
   onMount(() => {
     let sim = trafficSimulation()
     cars = sim.cars
+    drivers = sim.drivers
     console.log('traffic sim cars', cars)
     createTrafficGraph(container, cars)
     container.addEventListener('carClick', handleCarClick)
@@ -19,6 +24,10 @@
       time = t
     })
   })
+
+  function updateDrivers(time){
+    return drivers
+  }
 
   function handleCarClick(car) {
     console.log('click', car)
@@ -40,6 +49,18 @@
   time={time}
   observed={cars}
 ></UPlotRealtime>
+
+{#if drivers}
+  {#each drivers as d}
+  <li>
+    {#if d.frontCar}
+      Distance to car in front : {Math.round(d.distance)} - {Math.round(d.distanceTTC)} - {Math.round(d.TTC)}
+    {:else}
+      Distance --
+    {/if}
+  </li>
+  {/each}
+{/if}
 
 
 <style>

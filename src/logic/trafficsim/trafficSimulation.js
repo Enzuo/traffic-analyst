@@ -4,8 +4,8 @@ import { createCarEntity, updateForces } from "@/logic/carLogic/carEntity";
 
 export default function trafficSimumlation () {
 
-  let cars = [createCar(20), createCar(0)]
-  let drivers = [createDriver(cars[0]), createDriver(cars[1], 25)]
+  let cars = [createCar(20), createCar(0), createCar(-20)]
+  let drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25)]
 
   let simulation = Simulation()
   simulation.subscribeTick((t, dt) => {
@@ -25,7 +25,7 @@ export default function trafficSimumlation () {
 
   simulation.start()
 
-  return {simulation, cars}
+  return {simulation, cars, drivers}
 }
 
 function createCar(position=0, speed=0){
@@ -43,24 +43,31 @@ function createDriver(car, targetSpeed=15){
   const ANTICIPATION_DISTANCE_TIME = 1
   const MIN_DISTANCE = 8
   const MIN_TIME_TO_CONTACT = 1.5
+  const MAX_THROTTLE = 0.8
+
+  let conciousThink = createIntervalTicker(1000)
+  let carInFront 
   
   function think(t, dt, cars){
     const currentSpeed = car.state.speed
 
-    let carInFront = detectCarInFront(car, cars)
+    conciousThink.tickAtInterval(t, () => {
+      carInFront = detectCarInFront(car, cars)
+    })
     if (carInFront) {
-      let distanceTime = carInFront.distance / car.state.speed
-      let timeToContact = carInFront.distance / Math.max((car.state.speed - carInFront.car.state.speed), 1)
+      let distanceToCarInFront = getDistanceBetweenCar(carInFront.car, car)
+      let distanceTime = distanceToCarInFront / currentSpeed
+      let timeToContact = distanceToCarInFront / Math.max((car.state.speed - carInFront.speed), 1)
       // if(id === 2) console.log("distanceTime", distanceTime, car.state.speed, carInFront)
       if(timeToContact < MIN_TIME_TO_CONTACT){
         applyBrake(0.2)
         return
       }
-      if(carInFront.distance < MIN_DISTANCE){
+      if(distanceToCarInFront < MIN_DISTANCE){
         applyBrake(0.1)
         return
       }
-      if(distanceTime < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed){
+      if(distanceTime < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed && car.state.acceleration > 0.1){
         applyThrottle(-0.1)
         return
       }
@@ -68,10 +75,10 @@ function createDriver(car, targetSpeed=15){
     }
 
     if(currentSpeed < targetSpeed) {
-      applyThrottle(0.1)
+      applyThrottle(0.1, MAX_THROTTLE)
     }
     if(currentSpeed > targetSpeed) {
-      applyThrottle(-0.1)
+      applyThrottle(-0.1, MAX_THROTTLE)
     }
   }
 
@@ -87,18 +94,23 @@ function createDriver(car, targetSpeed=15){
     car.state.brakeInput = currentBrake
   }
 
-  function applyThrottle(val){
+  function applyThrottle(val, maxVal=1){
     currentBrake = 0
     car.state.brakeInput = 0
     
     currentThrottle = currentThrottle + val
-    currentThrottle = Math.min(Math.max(currentThrottle, 0), 1)
+    currentThrottle = Math.min(Math.max(currentThrottle, 0), maxVal)
     car.state.throttleInput = currentThrottle
   }
   
   
   return {
-    think
+    think, 
+    get frontCar() { return carInFront }, 
+    get car() { return car },
+    get distance() { return getDistanceBetweenCar(carInFront.car, car)},
+    get distanceTTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
+    get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
   }
 }
 
@@ -109,7 +121,7 @@ function detectCarInFront(car, cars){
     if(cars[i].id === car.id) {
       continue
     }
-    let distanceToCar = cars[i].state.position - car.state.position
+    let distanceToCar = getDistanceBetweenCar(cars[i], car)
     // if(!nearestCar){
     //   nearestCar = cars[i]
     //   nearestCarDistance = distanceToCar
@@ -123,13 +135,23 @@ function detectCarInFront(car, cars){
   return nearestCar ? {car: nearestCar, distance: nearestCarDistance, speed : nearestCar.state.speed} : null
 }
 
+/**
+ * 
+ * @param {CarEntity} firstCar 
+ * @param {CarEntity} secondCar 
+ * @returns 
+ */
+function getDistanceBetweenCar(firstCar, secondCar){
+  return firstCar.state.position - secondCar.state.position
+}
 
 
-function createIntervalTicker() {
+
+function createIntervalTicker(interval) {
   let lastTick = 0
   return {
-    tickAtInterval : (interval, t, cb) => {
-      if(t - lastTick >= interval){
+    tickAtInterval : (t, cb) => {
+      if (t - lastTick >= interval) {
         lastTick = t
         if(cb) {
           cb()
