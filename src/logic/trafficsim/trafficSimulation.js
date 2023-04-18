@@ -5,7 +5,7 @@ import { createCarEntity, updateForces } from "@/logic/carLogic/carEntity";
 export default function trafficSimumlation () {
 
   let cars = [createCar(20), createCar(0), createCar(-20)]
-  let drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25)]
+  let drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25, DRIVER_PROFILES.AGGRESSIVE)]
 
   let simulation = Simulation()
   simulation.subscribeTick((t, dt) => {
@@ -35,29 +35,58 @@ function createCar(position=0, speed=0){
   return car
 }
 
+let DRIVER_PROFILES = {
+  AGGRESSIVE : {
+    ANTICIPATION_DISTANCE_TIME : 2,
+    MIN_DISTANCE : 2,
+    MAX_THROTTLE : 1
+  },
+  NORMAL : {
+    ANTICIPATION_DISTANCE_TIME : 3,
+    MIN_DISTANCE : 3,
+    MAX_THROTTLE : 0.8
+  },
+  DEFENSIVE : {
+    ANTICIPATION_DISTANCE_TIME : 6,
+    MIN_DISTANCE : 6,
+    MAX_THROTTLE : 0.6
+  }
+}
+
 let UNIQUE_DRIVERID = 1
-function createDriver(car, targetSpeed=15){
+function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
   const id = UNIQUE_DRIVERID++
 
-  const ANTICIPATION_DISTANCE_TIME = 1
-  const MIN_DISTANCE = 8
-  const MIN_TIME_TO_CONTACT = 1.5
-  const MAX_THROTTLE = 0.8
+  const MIN_TIME_TO_CONTACT = 2.5
+  const ANTICIPATION_DISTANCE_TIME = profile.ANTICIPATION_DISTANCE_TIME
+  const MIN_DISTANCE = profile.MIN_DISTANCE
+  const MAX_THROTTLE = profile.MAX_THROTTLE
 
+  let shouldStopCar = false
+  let shouldStopCarTime
   let conciousThink = createIntervalTicker(1000)
   let carInFront 
+  let time
   
   function think(t, dt, cars){
+    time = t
     const currentSpeed = car.state.speed
 
     conciousThink.tickAtInterval(t, () => {
+      if(shouldStopCar && t > (shouldStopCarTime + 2000)){
+        shouldStopCar = false
+      }
       carInFront = detectCarInFront(car, cars)
     })
+    if(shouldStopCar){
+      applyBrake(0.2)
+      return
+    }
     if (carInFront) {
       let distanceToCarInFront = getDistanceBetweenCar(carInFront.car, car)
       let distanceTime = distanceToCarInFront / currentSpeed
-      let timeToContact = distanceToCarInFront / Math.max((car.state.speed - carInFront.speed), 1)
+      let timeToContact = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
       // if(id === 2) console.log("distanceTime", distanceTime, car.state.speed, carInFront)
       if(timeToContact < MIN_TIME_TO_CONTACT){
         applyBrake(0.2)
@@ -102,10 +131,16 @@ function createDriver(car, targetSpeed=15){
     currentThrottle = Math.min(Math.max(currentThrottle, 0), maxVal)
     car.state.throttleInput = currentThrottle
   }
+
+  function stopCar(){
+    shouldStopCar = true
+    shouldStopCarTime = time
+  }
   
   
   return {
     think, 
+    stopCar,
     get frontCar() { return carInFront }, 
     get car() { return car },
     get distance() { return getDistanceBetweenCar(carInFront.car, car)},
@@ -142,7 +177,7 @@ function detectCarInFront(car, cars){
  * @returns 
  */
 function getDistanceBetweenCar(firstCar, secondCar){
-  return firstCar.state.position - secondCar.state.position
+  return (firstCar.state.position - firstCar.props.length/2000) - (secondCar.state.position + secondCar.props.length/2000)
 }
 
 

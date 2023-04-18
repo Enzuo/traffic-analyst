@@ -86,7 +86,7 @@ export function updateForces(car, dt){
   let rpmForSpeed = Math.max(getEngineRPMForSpeed(speed, finalRatio, wheelDiameter), minRPM)
 
   let newState = {
-    speed : speed + (deltaV ? deltaV : 0),
+    speed : Math.max(speed + (deltaV ? deltaV : 0), 0),
     engineRpm : rpmForSpeed,
     acceleration, thrustForce, aeroDragForce, torque, power
   }

@@ -37,6 +37,10 @@
     return ms * 3.6
   }
 
+  function handleStopCar() {
+    drivers[0].stopCar()
+  }
+
 
 </script>
 
@@ -49,6 +53,8 @@
   time={time}
   observed={cars}
 ></UPlotRealtime>
+
+<button on:click={handleStopCar}> stop first car</button>
 
 {#if drivers}
   {#each drivers as d}
