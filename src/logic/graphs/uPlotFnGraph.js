@@ -7,8 +7,8 @@ export function createGraph(fn, element, rangeX=[0,5], rangeY=[0,50]){
   let graphData = [[], []]
 
   const options = {
-    width: 150,
-    height: 150,
+    width: 50,
+    height: 50,
     cursor: {
       drag: {
         setScale: false,
@@ -35,10 +35,10 @@ export function createGraph(fn, element, rangeX=[0,5], rangeY=[0,50]){
     },
     axes: [
       {
-        // show: false,
+        show: false,
       },
       {
-        // show: false,
+        show: false,
         space: 60,
         scale: 'y',
         values: (u, vals, space) => vals.map(v => +v.toFixed(0)),

@@ -88,7 +88,7 @@
 	.graph { width: 100%; height: 200px; }
 
   .graph-placeholder {
-    height:150px;
-    width:150px;
+    height:50px;
+    width:50px;
   }
 </style>
