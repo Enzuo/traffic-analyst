@@ -1,0 +1,78 @@
+name : model T
+brand : ford
+trim :
+year :
+price : $850
+
+# -------------
+# ENGINE
+# -------------
+engine :  
+  name :  
+  hp:
+  torqueY: []
+  torqueX: []
+  type : # petrol, diesel, hybrid, electric
+  layout : # boxer2, l4, v6
+  displacement :
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : 
+gearRatio : []
+gearReverse :
+gearTransfer : 
+driveRatio : 
+gearSpeed : 
+wheelDiameter : # 63cm
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 
+length: 
+width: 
+height:
+dragCoef : 
+dragArea :
+
+wheelbase:
+trunk: 
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100: 
+vmax: 
+avgConsumption : 
+energyTank :
+autonomy : 
+turningCircle : 
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model: 
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims : 
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options: 
+  - name :

@@ -152,7 +152,7 @@ function mockEfficiency(finalRatio){
   const highEfficiency = 0.96
   let r = (highEfficiency - lowEfficiency) / (highBound - lowBound)
   let e = (finalRatio - lowBound) * r
-  return highEfficiency - e
+  return Math.max(highEfficiency - e, lowEfficiency)
 }
 
 /**
