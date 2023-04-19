@@ -1,24 +1,25 @@
 import { Simulation } from "@/logic/simulation2";
 import { getCar } from "../cardata";
 import { createCarEntity, updateForces } from "@/logic/carLogic/carEntity";
+import { is_function } from "svelte/internal";
 
 export default function trafficSimumlation () {
 
-  const cars = [createCar(20), createCar(0), createCar(-10), createCar(-20), createCar(-40)]
-  const drivers = [createDriver(cars[0]), createDriver(cars[1], 25), createDriver(cars[2], 25), createDriver(cars[3], 25, DRIVER_PROFILES.DEFENSIVE), createDriver(cars[4], 25, DRIVER_PROFILES.AGGRESSIVE)]
+  const cars = [createCar(20), createCar(0)]
+  const drivers = [createDriver(cars[0]), createDriver(cars[1], 25, DRIVER_PROFILES.NORMAL)]
 
   const carCreator = createIntervalTicker(4000)
-  const DELETE_DISTANCE = 200
+  const DELETE_DISTANCE = 2000
 
   const simulation = Simulation()
   simulation.subscribeTick((t, dt) => {
 
-    carCreator.tickAtInterval(t, () => {
-      let car = createCar(-50, 20)
-      let driver = createDriver(car)
-      cars.push(car)
-      drivers.push(driver)
-    })
+    // carCreator.tickAtInterval(t, () => {
+    //   let car = createCar(-50, 20)
+    //   let driver = createDriver(car)
+    //   cars.push(car)
+    //   drivers.push(driver)
+    // })
 
     drivers.forEach((driver) => {
       driver.think(t, dt, cars)
@@ -59,7 +60,13 @@ function findCarDriver(car, drivers){
 }
 
 
-
+/**                        
+ *      ____      _                 
+ *     |    \ ___|_|_ _ ___ ___ ___ 
+ *     |  |  |  _| | | | -_|  _|_ -|
+ *     |____/|_| |_|\_/|___|_| |___|
+ *                                  
+ */
 
 
 let DRIVER_PROFILES = {
@@ -76,8 +83,8 @@ let DRIVER_PROFILES = {
   },
   DEFENSIVE : {
     MIN_TIME_TO_CONTACT : 3,
-    ANTICIPATION_DISTANCE_TIME : 20,
-    MIN_DISTANCE : 9,
+    ANTICIPATION_DISTANCE_TIME : 30,
+    MIN_DISTANCE : 6,
     MAX_THROTTLE : 0.6
   }
 }
@@ -93,23 +100,36 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   const MIN_DISTANCE = profile.MIN_DISTANCE
   const MAX_THROTTLE = profile.MAX_THROTTLE
 
-  let shouldStopCar = false
-  let shouldStopCarTime
+  let hasStopCarInstruction = false
+  let hasStopCarInstructionTime
   const conciousThink = createIntervalTicker(1000)
-  let carInFront
   let time
+  let carInFront
+  let plannedSpeedCurve
   
   function think(t, dt, cars){
     time = t
     const currentSpeed = car.state.speed
 
     conciousThink.tickAtInterval(t, () => {
-      if(shouldStopCar && t > (shouldStopCarTime + 2000)){
-        shouldStopCar = false
+      if(hasStopCarInstruction && t > (hasStopCarInstructionTime + 2000)){
+        hasStopCarInstruction = false
       }
       carInFront = detectCarInFront(car, cars)
+      
+      if(carInFront){
+        let distanceToCarInFront = carInFront.distance
+        let timeToContact = distanceToCarInFront / currentSpeed
+
+        if(timeToContact < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed){
+          plannedSpeedCurve = createLinearCurve(timeToContact, MIN_TIME_TO_CONTACT, currentSpeed, carInFront.speed)
+        }
+        else {
+          plannedSpeedCurve = null
+        }
+      }
     })
-    if(shouldStopCar){
+    if(hasStopCarInstruction){
       applyBrake(0.2)
       return
     }
@@ -130,9 +150,16 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         applyThrottle(-0.05)
         return
       }
-      if(timeToContact < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed && car.state.acceleration > 0.1){
-        applyThrottle(-0.1)
-        return
+      if(plannedSpeedCurve){
+        let targetSpeed = plannedSpeedCurve.getYForX(currentSpeed)
+        if(currentSpeed < targetSpeed){
+          applyThrottle(0.1)
+          return
+        }
+        if(currentSpeed > targetSpeed){
+          reduceSpeed(0.1)
+          return
+        }
       }
     }
 
@@ -165,9 +192,18 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     car.state.throttleInput = currentThrottle
   }
 
+  function reduceSpeed(val){
+    if(car.state.throttleInput === 0){
+      car.state.brakeInput = Math.min(car.state.brakeInput + val, 1)
+    }
+    else {
+      car.state.throttleInput = Math.max(car.state.throttleInput - val, 0)
+    }
+  }
+
   function stopCar(){
-    shouldStopCar = true
-    shouldStopCarTime = time
+    hasStopCarInstruction = true
+    hasStopCarInstructionTime = time
   }
   
   
@@ -179,6 +215,20 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     get distance() { return getDistanceBetweenCar(carInFront.car, car)},
     get distanceTTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
     get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
+    get plannedSpeedCurve() { return plannedSpeedCurve}
+  }
+}
+
+
+function createLinearCurve(fromX, toX, fromY, toY){
+  return {
+    getYForX(x){
+      let distTotalX = fromX - toX
+      let distX = fromX - x
+      let ratioX = (distX/distTotalX)
+      let distTotalY = fromY - toY
+      return fromY - ratioX * distTotalY
+    }
   }
 }
 
