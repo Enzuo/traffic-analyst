@@ -2,7 +2,7 @@ import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'  
 
 
-export function createGraph(fn, element, rangeX=[0,10], rangeY=[0,50]){
+export function createGraph(fn, element, rangeX=[0,5], rangeY=[0,50]){
 
   let graphData = [[], []]
 
@@ -48,7 +48,7 @@ export function createGraph(fn, element, rangeX=[0,10], rangeY=[0,50]){
     ],
   }
 
-  for(var x=rangeX[0]; x <= rangeX[1]; x++){
+  for(var x=rangeX[0]; x <= rangeX[1]; x+=0.1){
     let y = fn(x)
     graphData[0].push(x)
     graphData[1].push(y)

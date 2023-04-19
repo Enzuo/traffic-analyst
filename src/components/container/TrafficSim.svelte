@@ -45,7 +45,7 @@
   }
 
   function handleSimStop() {
-    simulation.stop()
+    simulation.isPlaying ? simulation.stop() : simulation.start()
   }
 
 
@@ -69,7 +69,7 @@
   {#each drivers as d}
   <li>
     {#if d.frontCar}
-      Distance to car in front : {Math.round(d.distance)} - {Math.round(d.distanceTTC)} - {Math.round(d.TTC)}
+      Distance to car in front : {Math.round(d.distance)} - {(d.TTC).toFixed(1)} - {Math.round(d.TTI)}
     {:else}
       Distance --
     {/if}

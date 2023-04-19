@@ -95,8 +95,9 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   const id = UNIQUE_DRIVERID++
 
   const MIN_TIME_TO_INTERCEPT = 2.5 // time to reach object taking into account object speed
-  const MIN_TIME_TO_CONTACT = profile.MIN_TIME_TO_CONTACT || 1 // time to reach object if it was not moving
-  const ANTICIPATION_DISTANCE_TIME = profile.ANTICIPATION_DISTANCE_TIME
+  const MIN_TIME_TO_CONTACT = profile.MIN_TIME_TO_CONTACT || 0.5 // time to reach object if it was not moving
+  const IDEAL_TTC = 1
+  const ANTICIPATION_TTC = profile.TTC || 5
   const MIN_DISTANCE = profile.MIN_DISTANCE
   const MAX_THROTTLE = profile.MAX_THROTTLE
 
@@ -121,8 +122,9 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         let distanceToCarInFront = carInFront.distance
         let timeToContact = distanceToCarInFront / currentSpeed
 
-        if(timeToContact < ANTICIPATION_DISTANCE_TIME && carInFront.speed < currentSpeed){
-          plannedSpeedCurve = createLinearCurve(timeToContact, MIN_TIME_TO_CONTACT, currentSpeed, carInFront.speed)
+        if(timeToContact < ANTICIPATION_TTC){
+          // shouldEaseToSpeedOfTraffic
+          plannedSpeedCurve = createLinearCurve(IDEAL_TTC, ANTICIPATION_TTC, carInFront.speed, targetSpeed)
         }
         else {
           plannedSpeedCurve = null
@@ -151,13 +153,17 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         return
       }
       if(plannedSpeedCurve){
-        let targetSpeed = plannedSpeedCurve.getYForX(currentSpeed)
+        let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
+        if(!targetSpeed){
+          applyThrottle(0.1)
+          return
+        }
         if(currentSpeed < targetSpeed){
           applyThrottle(0.1)
           return
         }
         if(currentSpeed > targetSpeed){
-          reduceSpeed(0.1)
+          reduceSpeed(0.2)
           return
         }
       }
@@ -213,8 +219,8 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     get frontCar() { return carInFront }, 
     get car() { return car },
     get distance() { return getDistanceBetweenCar(carInFront.car, car)},
-    get distanceTTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
-    get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
+    get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
+    get TTI() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
     get plannedSpeedCurve() { return plannedSpeedCurve}
   }
 }
@@ -223,6 +229,9 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 function createLinearCurve(fromX, toX, fromY, toY){
   return {
     getYForX(x){
+      // if(x < fromX || x > toX) return null
+      if(x < fromX) return fromY
+      if(x > toX ) return toY
       let distTotalX = fromX - toX
       let distX = fromX - x
       let ratioX = (distX/distTotalX)
