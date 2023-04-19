@@ -2,20 +2,20 @@ import { SVG } from '@svgdotjs/svg.js'
 
 
 export function createTrafficGraph (container, cars) {
-  const SCALE = 2
+  const SCALE = 3
   const carObjects = []
   let selectedCarId
 
 
   let canvasWidth = container.offsetWidth
   let canvasHeight = container.offsetHeight
-  let svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight)
+  let svggraph = SVG().addTo(container).size(canvasWidth, canvasHeight).viewbox(0,0,canvasWidth/SCALE,canvasHeight/SCALE)
 
   // background grid
   let background = svggraph.rect(canvasWidth, canvasHeight)
   const gridSize = 25 
-  var pattern = svggraph.pattern(gridSize*SCALE,canvasHeight, function(add) {
-    add.rect(gridSize*SCALE,canvasHeight).stroke('#ddd').fill('none')
+  var pattern = svggraph.pattern(gridSize,canvasHeight, function(add) {
+    add.rect(gridSize,canvasHeight).stroke('#ddd').fill('none')
   }).move(0,0)
   background.fill(pattern)
 
@@ -30,12 +30,12 @@ export function createTrafficGraph (container, cars) {
         const carWidth = 1.8
         
         let group = svggraph.group()
-        let selectCircle = group.circle(circleSize * SCALE)
+        let selectCircle = group.circle(circleSize)
           .stroke('none').fill({ color: 'red' })
-          .move(-circleSize/2 * SCALE,-circleSize/2 * SCALE)
-        let carBox = group.rect(carLength * SCALE, carWidth * SCALE)
-          .stroke('#000').fill({ color: 'red' })
-          .move(-carLength/2 * SCALE, -carWidth/2 * SCALE)
+          .move(-circleSize/2, -circleSize/2)
+        let carBox = group.rect(carLength, carWidth)
+          .stroke({color: '#000', width: 0.5}).fill({ color: 'red' })
+          .move(-carLength/2, -carWidth/2)
 
         group.click(function() {
           handleCarClick(car)
@@ -55,7 +55,7 @@ export function createTrafficGraph (container, cars) {
         carObject.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.03)'})
       }
 
-      carObject.group.move(car.state.position*SCALE, 5)
+      carObject.group.move(car.state.position, 5)
     })
 
     // REMOVE
