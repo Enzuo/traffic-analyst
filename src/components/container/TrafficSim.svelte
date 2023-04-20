@@ -68,6 +68,7 @@
 {#if drivers}
   {#each drivers as d}
   <li>
+    {d.currentTask}
     {#if d.frontCar}
       Distance to car in front : {Math.round(d.distance)} - {(d.TTC).toFixed(1)} - {Math.round(d.TTI)}
     {:else}
@@ -77,7 +78,7 @@
       {d.plannedSpeedCurve}
       <UPlotFnGraph fn={d.plannedSpeedCurve.getYForX}></UPlotFnGraph>
     {:else}
-      <div class="graph-placeholder"></div>
+      <UPlotFnGraph></UPlotFnGraph>
     {/if}
   </li>
   {/each}

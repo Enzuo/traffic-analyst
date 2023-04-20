@@ -2,7 +2,7 @@
   import { createGraph } from "@/logic/graphs/uPlotFnGraph"
 
 
-  export let fn
+  export let fn = null
   let lastFn
   let graphElement
 
@@ -12,7 +12,7 @@
     createGraph(fn, graphElement)
   }
 
-  $ : if(graphElement && fn !== lastFn) setupGraph()
+  $ : if(graphElement && fn && fn !== lastFn) setupGraph()
 
 
 </script>

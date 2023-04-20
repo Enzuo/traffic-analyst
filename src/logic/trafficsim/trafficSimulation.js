@@ -9,7 +9,7 @@ export default function trafficSimumlation () {
   const drivers = [
     createDriver(cars[0]), 
     // createDriver(cars[1], 25, DRIVER_PROFILES.NORMAL),
-    createDriver(cars[1], 25, DRIVER_PROFILES.NORMAL),
+    createDriver(cars[1], 25, DRIVER_PROFILES.AGGRESSIVE),
   ]
 
   const carCreator = createIntervalTicker(4000)
@@ -76,6 +76,7 @@ function findCarDriver(car, drivers){
 let DRIVER_PROFILES = {
   AGGRESSIVE : {
     MIN_TIME_TO_CONTACT : 0.5,
+    UNEASY_TTI : 3.5,
     IDEAL_TTC : 0.7,
     ANTICIPATION_TTC : 1,
     MIN_DISTANCE : 2,
@@ -83,6 +84,7 @@ let DRIVER_PROFILES = {
   },
   NORMAL : {
     MIN_TIME_TO_CONTACT : 0.5,
+    UNEASY_TTI : 4,
     IDEAL_TTC : 1,
     ANTICIPATION_TTC : 3,
     MIN_DISTANCE : 3,
@@ -90,6 +92,7 @@ let DRIVER_PROFILES = {
   },
   DEFENSIVE : {
     MIN_TIME_TO_CONTACT : 2,
+    UNEASY_TTI : 5,
     IDEAL_TTC : 4,
     ANTICIPATION_TTC : 30,
     MIN_DISTANCE : 5,
@@ -103,6 +106,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   const id = UNIQUE_DRIVERID++
 
   const MIN_TIME_TO_INTERCEPT = 2.5 // time to reach object taking into account object speed
+  const UNEASY_TTI = profile.UNEASY_TTI || 4
   const MIN_TIME_TO_CONTACT = profile.MIN_TIME_TO_CONTACT || 0.5 // time to reach object if it was not moving
   const IDEAL_TTC = profile.IDEAL_TTC || 1
   const ANTICIPATION_TTC = profile.ANTICIPATION_TTC || 5
@@ -111,13 +115,19 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
   let hasStopCarInstruction = false
   let hasStopCarInstructionTime
+
   const conciousThink = createIntervalTicker(1000)
   let time
   let carInFront
+  let currentTask
+  let footOn
+
   let plannedSpeedCurve
+  let plannedBrakeCurve
   
   function think(t, dt, cars){
     time = t
+    const dts = dt / 1000
     const currentSpeed = car.state.speed
     const currentAcceleration = car.state.acceleration
 
@@ -130,75 +140,94 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       if(carInFront){
         let distanceToCarInFront = carInFront.distance
         let timeToContact = distanceToCarInFront / currentSpeed
+        let timeToIntercept = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
+        let isCarInFrontGettingCloser = (carInFront.speed + 3 )< currentSpeed
 
-        if(timeToContact < ANTICIPATION_TTC){
-          // shouldEaseToSpeedOfTraffic
-          plannedSpeedCurve = createLinearCurve(IDEAL_TTC, ANTICIPATION_TTC, carInFront.speed, targetSpeed)
+        if(timeToIntercept < UNEASY_TTI){
+          currentTask = 'cuttingSpeed'
+          footOn = 'brake'
+          plannedBrakeCurve = createLinearCurve(UNEASY_TTI, MIN_TIME_TO_INTERCEPT, 0.05, 0.4)
+          return
         }
-        else {
-          plannedSpeedCurve = null
+        if(distanceToCarInFront < MIN_DISTANCE){
+          currentTask = 'cuttingDistance'
+          footOn = 'brake'
+          plannedBrakeCurve = createLinearCurve(MIN_DISTANCE + 2, MIN_DISTANCE, 0, 0.2)
+          return
+        }
+        if(timeToContact < MIN_TIME_TO_CONTACT){
+          currentTask = 'increasingTTC'
+          footOn = 'throttle'
+          plannedSpeedCurve = createLinearCurve(IDEAL_TTC, MIN_TIME_TO_CONTACT, carInFront.speed, carInFront.speed - 5)
+          return
+        }
+        if(timeToContact < ANTICIPATION_TTC){
+          currentTask = 'easingToTrafficSpeed'
+          footOn = 'throttle'
+          plannedSpeedCurve = createLinearCurve(IDEAL_TTC, ANTICIPATION_TTC, carInFront.speed, targetSpeed)
+          return
         }
       }
+      currentTask = 'travelingToWantedSpeed'
+      footOn = 'throttle'
     })
+
     if(hasStopCarInstruction){
       applyBrake(0.2)
       return
     }
+
+    if(footOn === 'throttle' && currentBrake > 0){
+      applyBrake(-3*dts)
+      return
+    }
+
     if (carInFront) {
-      let distanceToCarInFront = carInFront.distance // getDistanceBetweenCar(carInFront.car, car)
+      let distanceToCarInFront = getDistanceBetweenCar(carInFront.car, car)
       let timeToContact = distanceToCarInFront / currentSpeed
       let timeToIntercept = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
-      // if(id === 2) console.log("distanceTime", distanceTime, car.state.speed, carInFront)
+
       if(timeToIntercept < MIN_TIME_TO_INTERCEPT){
+        currentTask = 'avoidingCrash'
+        footOn = 'brake'
         applyBrake(0.2)
         return
       }
-      if(distanceToCarInFront < (MIN_DISTANCE*(1+currentSpeed/20))){
-        applyBrake(0.1)
-        return
-      }
-      if(timeToContact < MIN_TIME_TO_CONTACT){
-        applyBrake(0.05)
-        return
-      }
-      // if(timeToContact < IDEAL_TTC){
-      //   applyThrottle(-0.05)
-      //   // return
-      // }
-      if(plannedSpeedCurve){
-        let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
-        if(!targetSpeed){
-          applyThrottle(0.1)
-          return
-        }
-        if(currentSpeed < targetSpeed ){
-          applyThrottle(0.1)
-          return
-        }
-        if(currentSpeed > targetSpeed + 2){
-          reduceSpeed(0.1)
-          return
-        }
-      }
-    }
 
-    if(currentSpeed < targetSpeed) {
-      applyThrottle(0.05, MAX_THROTTLE)
+      if(currentTask === 'cuttingSpeed'){
+        let targetBrake = plannedBrakeCurve.getYForX(timeToIntercept)
+        applyBrake(0.1, targetBrake)
+      }
+      
+      if(currentTask === 'cuttingDistance'){
+        let targetBrake = plannedBrakeCurve.getYForX(distanceToCarInFront)
+        applyBrake(0.02, targetBrake)
+      }
+
+      if(currentTask === 'increasingTTC'){
+        let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
+        applyThrottleForTargetSpeed(currentSpeed, targetSpeed)
+      }
+
+      if(currentTask === 'easingToTrafficSpeed'){
+        let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
+        applyThrottleForTargetSpeed(currentSpeed, targetSpeed) 
+      }
     }
-    if(currentSpeed > targetSpeed) {
-      applyThrottle(-0.1, MAX_THROTTLE)
+    if(currentTask === 'travelingToWantedSpeed'){
+      applyThrottleForTargetSpeed(currentSpeed, targetSpeed) 
     }
   }
 
 
   let currentBrake = 0
   let currentThrottle = 0
-  function applyBrake(val){
+  function applyBrake(val, maxVal=1){
     currentThrottle = 0
     car.state.throttleInput = 0
 
     currentBrake = currentBrake + val
-    currentBrake = Math.min(Math.max(currentBrake, 0), 1)
+    currentBrake = Math.min(Math.max(currentBrake, 0), maxVal)
     car.state.brakeInput = currentBrake
   }
 
@@ -211,12 +240,12 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     car.state.throttleInput = currentThrottle
   }
 
-  function reduceSpeed(val){
-    if(car.state.throttleInput === 0){
-      car.state.brakeInput = Math.min(car.state.brakeInput + val, 0.2)
+  function applyThrottleForTargetSpeed(currentSpeed, targetSpeed){
+    if(currentSpeed < targetSpeed){
+      applyThrottle(0.05, MAX_THROTTLE)
     }
-    else {
-      car.state.throttleInput = Math.max(car.state.throttleInput - val, 0)
+    if(currentSpeed > targetSpeed){
+      applyThrottle(-0.05, MAX_THROTTLE)
     }
   }
 
@@ -231,6 +260,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     stopCar,
     get frontCar() { return carInFront }, 
     get car() { return car },
+    get currentTask() { return currentTask },
     get distance() { return getDistanceBetweenCar(carInFront.car, car)},
     get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
     get TTI() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
