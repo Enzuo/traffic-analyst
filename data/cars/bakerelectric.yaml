@@ -32,7 +32,7 @@ type : #AWD, RWD, FWD
 # -------------
 # DIMENSIONS
 # -------------
-weight : 
+weight : 950
 length: 3200
 width: 1549
 height: 2250
@@ -50,8 +50,8 @@ seats: 4
 acc0100: 
 vmax: 35
 avgConsumption : 
-energyTank :
-autonomy : 
+energyTank : 12 # 6x 6V battery
+autonomy : 160 # might be at 20km/h
 turningCircle : 
 wheelType :
 
@@ -61,12 +61,6 @@ wheelType :
 model: 
 modelWheel:
 modelMisc:
-
-# -------------
-# TRIMS
-# -------------
-trims : 
-  - trim :
 
 # -------------
 # OPTIONS (available on all trims)
