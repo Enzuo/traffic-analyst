@@ -122,6 +122,10 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   let currentTask
   let footOn
 
+  let currentBrake = 0
+  let currentThrottle = 0
+  let throttleGuess
+
   let plannedSpeedCurve
   let plannedBrakeCurve
   
@@ -162,8 +166,20 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
           return
         }
         if(timeToContact < ANTICIPATION_TTC){
-          currentTask = 'easingToTrafficSpeed'
           footOn = 'throttle'
+          let urgency = createLinearCurve(ANTICIPATION_TTC, IDEAL_TTC, 0, 1).getYForX(timeToContact)
+          console.log('urgency', urgency)
+          if(currentSpeed > carInFront.speed){
+            currentTask = 'easingToTrafficSpeed'
+            throttleGuess = reduceThrottleGuess(currentThrottle, urgency, currentAcceleration)
+            console.log('dec throttle guess', currentThrottle, throttleGuess)
+
+          }
+          if(currentSpeed < carInFront.speed){
+            currentTask = 'acceleratingToTrafficSpeed'
+            throttleGuess = addThrottleGuess(currentThrottle, 1-urgency, currentAcceleration)
+            console.log('acc throttle guess', currentThrottle, throttleGuess)
+          }
           plannedSpeedCurve = createLinearCurve(IDEAL_TTC, ANTICIPATION_TTC, carInFront.speed, targetSpeed)
           return
         }
@@ -210,8 +226,10 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       }
 
       if(currentTask === 'easingToTrafficSpeed'){
-        let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
-        applyThrottleForTargetSpeed(currentSpeed, targetSpeed) 
+        applyThrottleTo(throttleGuess)
+      }
+      if(currentTask === 'acceleratingToTrafficSpeed'){
+        applyThrottleTo(throttleGuess)
       }
     }
     if(currentTask === 'travelingToWantedSpeed'){
@@ -220,8 +238,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   }
 
 
-  let currentBrake = 0
-  let currentThrottle = 0
+
   function applyBrake(val, maxVal=1){
     currentThrottle = 0
     car.state.throttleInput = 0
@@ -249,6 +266,32 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     }
   }
 
+  function reduceThrottleGuess(currentThrottle, urgency, currentAcceleration){
+    return currentThrottle - (0.15 + 0.1 * Math.random()) * urgency
+  }
+
+  function addThrottleGuess(currentThrottle, urgency, currentAcceleration){
+    return currentThrottle + (0.15 + 0.1 * Math.random()) * urgency
+  }
+
+  function applyThrottleTo(throttleValue){
+    if((currentThrottle + 0.01) < throttleValue){
+      return applyThrottle(0.02)
+    }
+    if((currentThrottle - 0.01) > throttleValue){
+      return applyThrottle(-0.02)
+    }
+  }
+
+
+
+
+  /**
+   * 
+   *     User instruction
+   * 
+   */
+
   function stopCar(){
     hasStopCarInstruction = true
     hasStopCarInstructionTime = time
@@ -270,10 +313,20 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
 
 function createLinearCurve(fromX, toX, fromY, toY){
+  if(fromX > toX){
+    let tmpFromX = fromX
+    fromX = toX
+    toX = tmpFromX
+
+    let tmpFromY = fromY
+    fromY = toY
+    toY = tmpFromY
+  }
   return {
     getYForX(x){
       // if(x < fromX || x > toX) return null
       // if(x < fromX) return fromY
+      if(x < fromX ) return fromY
       if(x > toX ) return toY
       let distTotalX = fromX - toX
       let distX = fromX - x
