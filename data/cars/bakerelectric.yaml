@@ -26,7 +26,7 @@ gearReverse :
 gearTransfer : 
 driveRatio : 10
 gearSpeed : 
-wheelDiameter : 80
+wheelDiameter : 91
 type : #AWD, RWD, FWD
 
 # -------------
@@ -58,8 +58,8 @@ wheelType :
 # -------------
 # 3D
 # -------------
-model: 
-modelWheel:
+model: bakerElectric1909
+modelWheel: wheelBaker
 modelMisc:
 
 # -------------
