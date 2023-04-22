@@ -143,24 +143,26 @@ class AnimationRotation extends Animation {
     /** @type {Promise<THREE.Object3D|void>} */
     this.removeAnimation = Promise.resolve()
     this.currentRotation = 0
+    this.ANIM_SPEED = 150
   }
 
 
-  setCar(carObject) {
-    this.removeAnimation.then(() => {
-      this.scene.add(carObject)
-      this.carObject = carObject
 
-      setTimeoutPromise(() => {
-        this.isChangingCar = false
-      }, 150)
-    })
+  async setCar(carObject) {
+    await this.removeAnimation
+    this.scene.add(carObject)
+    this.carObject = carObject
+
+    this.removeAnimation = setTimeoutPromise(() => {
+      this.isChangingCar = false
+    }, this.ANIM_SPEED)
   }
 
-  removeCar() {
+  async removeCar() {
+    await this.removeAnimation
     this.isChangingCar = true
     let carToRemove = this.carObject
-    this.removeAnimation = setTimeoutPromise(() => carToRemove, 150)
+    this.removeAnimation = setTimeoutPromise(() => carToRemove, this.ANIM_SPEED)
     return this.removeAnimation
   }
 
