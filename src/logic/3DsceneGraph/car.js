@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { getWheelTurns } from '@/logic/carLogic/physics'
 import {loadModel} from './loader'
 import {changeTextureColor} from './texture'
+import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper.js'
+
 
 
 
@@ -48,8 +50,6 @@ export function createCarObject(car, positionX = 0, color){
     console.log('loaded model', gltf)
 
     carObject = gltf.scene ? gltf.scene : gltf
-    // carObject.castShadow = true
-    // scene.add( carObject )
 
     let wheelDiameter = car.props.wheelDiameter || 63
 
@@ -174,7 +174,8 @@ async function loadDefaultCarModelProc(car){
   // const carObject = glb.scene
   // console.log('MODEL PROC : ',carObject)
   // return glb
-  const {length, height} = car.props
+  const {length, height, wheelDiameter} = car.props
+  const archSize = parseFloat(wheelDiameter) + 5
   const geometry = new THREE.BufferGeometry()
   const indices = []
   const vertices = []
@@ -182,8 +183,12 @@ async function loadDefaultCarModelProc(car){
   const colors = []
 
   const mainFrame = createMainFrame(length, height)
-  vertices.push(...mainFrame.vertices.reduce((arr, v) => arr.concat(...v), []))
-  indices.push(...mainFrame.faces)
+  const wheelArch = createWheelArch(archSize, [-1,0,0], mainFrame.vertices, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+  const verticesArr = wheelArch.vertices
+  const facesArr = mainFrame.faces.concat(wheelArch.faces)
+  console.log("vertices Array", verticesArr)
+  vertices.push(...verticesArr.reduce((arr, v) => arr.concat(...v), []))
+  indices.push(...facesArr)
   
   geometry.setIndex( indices );
   geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
@@ -195,7 +200,10 @@ async function loadDefaultCarModelProc(car){
   let material = new THREE.MeshBasicMaterial({ color: 0xaa3377, vertexColors: false })
   let mesh = new THREE.Mesh(geometry, material)
   let group = new THREE.Group()
+
+  const helper = new VertexNormalsHelper( mesh, 1, 0xff0000 )
   group.add(mesh)
+  group.add(helper)
   console.log('MODEL PROC : ',group)
   return group
 }
@@ -218,7 +226,7 @@ function createMainFrame(length, height){
   /**
    * 
    *       0----1
-   *     / |   / \
+   *     / | \ / \
    *    2--3--4--5--6
    *    |     |     |
    *    7     8     9
@@ -241,4 +249,40 @@ function createMainFrame(length, height){
     vertices : [topRear, topFront, midRear, midTrunk, midMid, midHood, midFront, botRear, botMid, botFront],
     faces : [0,2,3, 0,3,1, 1,3,4, 1,4,5],
   }
+}
+
+function createWheelArch(size, position, vertices, frameVerticeIndex){
+  /**
+   *       
+   *     2 3 4
+   *   1       5 
+   *  0         6
+   * 
+   */
+  const VERTICESNB = 6
+  const archVerticesIndex = []
+  for(let i=0; i<=VERTICESNB; i++){
+    let x = -Math.cos(i * Math.PI/VERTICESNB) * size/100 + position[0]
+    let y = Math.sin(i * Math.PI/VERTICESNB) * size/100 + position[1]
+    let z = 0
+
+    archVerticesIndex.push(vertices.push([x, y, z])-1)
+  }
+
+  // rear wheel faces
+  const faces = [
+    frameVerticeIndex[7], archVerticesIndex[0], archVerticesIndex[1],
+    frameVerticeIndex[7], archVerticesIndex[1], frameVerticeIndex[2],
+    frameVerticeIndex[2], archVerticesIndex[1], archVerticesIndex[2],
+    frameVerticeIndex[2], archVerticesIndex[2], frameVerticeIndex[3],
+    frameVerticeIndex[3], archVerticesIndex[2], archVerticesIndex[3],
+
+    frameVerticeIndex[3], archVerticesIndex[3], archVerticesIndex[4],
+    frameVerticeIndex[3], archVerticesIndex[4], frameVerticeIndex[4],
+    frameVerticeIndex[4], archVerticesIndex[4], archVerticesIndex[5],
+    frameVerticeIndex[4], archVerticesIndex[5], frameVerticeIndex[8],
+    frameVerticeIndex[8], archVerticesIndex[5], archVerticesIndex[6],
+  ]
+
+  return {vertices, faces}
 }
