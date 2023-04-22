@@ -4,6 +4,7 @@ import {loadModel} from './loader'
 import {changeTextureColor} from './texture'
 
 
+
 /**
  * @typedef {import('./sceneGraph').AnimatedObject} AnimatedObject
  *
@@ -41,12 +42,12 @@ export function createCarObject(car, positionX = 0, color){
   .then(() => {
     return loadModel(carModelName)
   }).catch(() => {
-    return loadDefaultCarModel(car)
+    return loadDefaultCarModelProc(car)
   }).then((gltf) => {
 
     console.log('loaded model', gltf)
 
-    carObject = gltf.scene
+    carObject = gltf.scene ? gltf.scene : gltf
     // carObject.castShadow = true
     // scene.add( carObject )
 
@@ -168,3 +169,76 @@ function loadDefaultCarModel(car){
   })
 }
 
+async function loadDefaultCarModelProc(car){
+  // const glb = await loadModel('_defaultcar')
+  // const carObject = glb.scene
+  // console.log('MODEL PROC : ',carObject)
+  // return glb
+  const {length, height} = car.props
+  const geometry = new THREE.BufferGeometry()
+  const indices = []
+  const vertices = []
+  const normals = []
+  const colors = []
+
+  const mainFrame = createMainFrame(length, height)
+  vertices.push(...mainFrame.vertices.reduce((arr, v) => arr.concat(...v), []))
+  indices.push(...mainFrame.faces)
+  
+  geometry.setIndex( indices );
+  geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+  // geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
+  // geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+
+  geometry.computeVertexNormals()
+
+  let material = new THREE.MeshBasicMaterial({ color: 0xaa3377, vertexColors: false })
+  let mesh = new THREE.Mesh(geometry, material)
+  let group = new THREE.Group()
+  group.add(mesh)
+  console.log('MODEL PROC : ',group)
+  return group
+}
+
+
+/**
+ * 
+ * Procedural model
+ * 
+ */
+
+function createMainFrame(length, height){
+  const halfLength = length/2 /1000
+  const halfHeight = height/2 /1000
+  const frameHeight = height/1000
+  const trunkSize = halfLength/2
+  const hoodSize = halfLength/2
+
+
+  /**
+   * 
+   *       0----1
+   *     / |   / \
+   *    2--3--4--5--6
+   *    |     |     |
+   *    7     8     9
+   * 
+   */
+  const botMid = [0,0,0]
+  const botRear = [-halfLength,0,0]
+  const botFront = [halfLength,0,0]
+
+  const midRear  = [-halfLength          , halfHeight,0]
+  const midTrunk = [-halfLength+trunkSize, halfHeight,0]
+  const midMid   = [0                    , halfHeight,0]
+  const midHood  = [halfLength-hoodSize  , halfHeight,0]
+  const midFront = [halfLength           , halfHeight,0]
+
+  const topFront = [0,frameHeight, 0] 
+  const topRear = [-halfLength, frameHeight, 0]
+
+  return {
+    vertices : [topRear, topFront, midRear, midTrunk, midMid, midHood, midFront, botRear, botMid, botFront],
+    faces : [0,2,3, 0,3,1, 1,3,4, 1,4,5],
+  }
+}
