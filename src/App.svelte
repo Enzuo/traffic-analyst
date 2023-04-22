@@ -4,6 +4,7 @@
   import Tools from '@/components/container/Tools.svelte'
   import Simulation from '@/components/container/Simulationv1.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
+  import TestProcedural from './components/container/TestProcedural.svelte';
 </script>
 
 <main>
@@ -11,7 +12,7 @@
     <img src="title.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <TrafficSim/>
+  <TestProcedural/>
 </main>
 
 <style>
