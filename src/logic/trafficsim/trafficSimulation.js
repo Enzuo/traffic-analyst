@@ -9,21 +9,21 @@ export default function trafficSimumlation () {
   const drivers = [
     createDriver(cars[0]), 
     // createDriver(cars[1], 25, DRIVER_PROFILES.NORMAL),
-    createDriver(cars[1], 25, DRIVER_PROFILES.AGGRESSIVE),
+    createDriver(cars[1], 25, DRIVER_PROFILES.DEFENSIVE),
   ]
 
-  const carCreator = createIntervalTicker(4000)
+  const carCreator = createIntervalTicker(2000)
   const DELETE_DISTANCE = 2000
 
   const simulation = Simulation()
   simulation.subscribeTick((t, dt) => {
 
-    // carCreator.tickAtInterval(t, () => {
-    //   let car = createCar(-50, 20)
-    //   let driver = createDriver(car)
-    //   cars.push(car)
-    //   drivers.push(driver)
-    // })
+    carCreator.tickAtInterval(t, () => {
+      let car = createCar(-50, 20)
+      let driver = createDriver(car)
+      cars.push(car)
+      drivers.push(driver)
+    })
 
     drivers.forEach((driver) => {
       driver.think(t, dt, cars)
@@ -80,7 +80,7 @@ let DRIVER_PROFILES = {
     IDEAL_TTC : 0.7,
     ANTICIPATION_TTC : 1,
     MIN_DISTANCE : 2,
-    MAX_THROTTLE : 1
+    MAX_ACCELERATION : 10
   },
   NORMAL : {
     MIN_TIME_TO_CONTACT : 0.5,
@@ -88,7 +88,7 @@ let DRIVER_PROFILES = {
     IDEAL_TTC : 1,
     ANTICIPATION_TTC : 3,
     MIN_DISTANCE : 3,
-    MAX_THROTTLE : 0.6
+    MAX_ACCELERATION : 2
   },
   DEFENSIVE : {
     MIN_TIME_TO_CONTACT : 2,
@@ -96,7 +96,7 @@ let DRIVER_PROFILES = {
     IDEAL_TTC : 4,
     ANTICIPATION_TTC : 30,
     MIN_DISTANCE : 5,
-    MAX_THROTTLE : 0.6
+    MAX_ACCELERATION : 1
   }
 }
 
@@ -111,6 +111,8 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   const IDEAL_TTC = profile.IDEAL_TTC || 1
   const ANTICIPATION_TTC = profile.ANTICIPATION_TTC || 5
   const MIN_DISTANCE = profile.MIN_DISTANCE
+  // TODO replace by max acc
+  const MAX_ACCELERATION = profile.MAX_ACCELERATION || 1
   const MAX_THROTTLE = profile.MAX_THROTTLE
 
   let hasStopCarInstruction = false
@@ -125,6 +127,8 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   let currentBrake = 0
   let currentThrottle = 0
   let throttleGuess
+  // TODO add throttle sensitivity guess by assessing the effect of a throttle guess and the corresponding acc
+  // cause throttle input won't have the same effect at all speed with all cars
 
   let plannedSpeedCurve
   let plannedBrakeCurve
@@ -184,6 +188,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
           return
         }
       }
+      // TODO use the throttle guess to get something less robotic and some variation in speed
       currentTask = 'travelingToWantedSpeed'
       footOn = 'throttle'
     })
@@ -222,7 +227,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
       if(currentTask === 'increasingTTC'){
         let targetSpeed = plannedSpeedCurve.getYForX(timeToContact)
-        applyThrottleForTargetSpeed(currentSpeed, targetSpeed)
+        applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration)
       }
 
       if(currentTask === 'easingToTrafficSpeed'){
@@ -233,7 +238,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       }
     }
     if(currentTask === 'travelingToWantedSpeed'){
-      applyThrottleForTargetSpeed(currentSpeed, targetSpeed) 
+      applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration) 
     }
   }
 
@@ -257,21 +262,21 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     car.state.throttleInput = currentThrottle
   }
 
-  function applyThrottleForTargetSpeed(currentSpeed, targetSpeed){
-    if(currentSpeed < targetSpeed){
-      applyThrottle(0.05, MAX_THROTTLE)
+  function applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration){
+    if(currentSpeed < targetSpeed && currentAcceleration < MAX_ACCELERATION ){
+      applyThrottle(0.05)
     }
     if(currentSpeed > targetSpeed){
-      applyThrottle(-0.05, MAX_THROTTLE)
+      applyThrottle(-0.05)
     }
   }
 
   function reduceThrottleGuess(currentThrottle, urgency, currentAcceleration){
-    return currentThrottle - (0.15 + 0.1 * Math.random()) * urgency
+    return currentThrottle - (0.3 + 0.2 * Math.random()) * urgency
   }
 
   function addThrottleGuess(currentThrottle, urgency, currentAcceleration){
-    return currentThrottle + (0.15 + 0.1 * Math.random()) * urgency
+    return currentThrottle + (0.3 + 0.2 * Math.random()) * urgency
   }
 
   function applyThrottleTo(throttleValue){
