@@ -37,6 +37,7 @@ dragCoef : 0.44 # https://vw-camper.fr/t/quel-est-le-cx-dun-bus/7829/3
 dragArea : 3.4
 
 wheelbase: 2400
+bodyType: bus
 trunk: 
 trunkMax:
 seats: 7

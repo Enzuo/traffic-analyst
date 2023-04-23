@@ -31,6 +31,7 @@ dragCoef : 0.23
 dragArea : 2.45
 
 wheelbase: 2960
+bodyType: liftback
 trunk : 895
 trunkMax: 1645
 seats: 5

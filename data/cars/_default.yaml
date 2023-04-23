@@ -38,10 +38,12 @@ weight :
 length: 
 width: 
 height:
-dragCoef : 
-dragArea :
+dragCoef: 
+dragArea:
 
 wheelbase:
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
 trunk: 
 trunkMax:
 seats:
