@@ -19,7 +19,7 @@
   <li>Height : <input bind:value={car.height}/></li>
   <li>Clearance : <input bind:value={car.clearance}/></li>
   <li>Wheel size : <input bind:value={car.wheelDiameter}></li> 
-  <li>Body type : <input bind:value={car.bodyType}/> (Van, Hatchback, Sedan)</li> 
+  <li>Body type : <input bind:value={car.bodyType}/> (Bus, Van, Hatchback, Sedan, Monospace, Box)</li> 
   {car.length}
 </ul>
 

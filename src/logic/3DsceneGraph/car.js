@@ -210,8 +210,8 @@ async function loadDefaultCarModelProc(car){
 
 
   const faces = Array().concat(
-    createFacesForFrame(viFrame), 
-    createFacesForFrame(viFrame2, true), 
+    createFacesForFrame(viFrame, false, bodyType), 
+    createFacesForFrame(viFrame2, true, bodyType), 
     createFacesForWheelArch(viWFront, [8,4,5,6,9]),
     createFacesForWheelArch(viWRear, [7,2,3,4,8]),
     createFacesForWheelArch(viWFront2, [
@@ -228,7 +228,7 @@ async function loadDefaultCarModelProc(car){
       viFrame2[4],
       viFrame2[8]
     ], true),
-    createFacesBetweenFrames(viFrame,viFrame2, viWRear,viWRear2, viWFront,viWFront2)
+    createFacesBetweenFrames(viFrame,viFrame2, viWRear,viWRear2, viWFront,viWFront2, bodyType)
   )
   console.log("vertices Array", vertices, faces)
   
@@ -283,8 +283,8 @@ function addMainFrame(vertices, position, length, height, bottom, type='hatchbac
   const halfLength = length/2 
   const halfHeight = height*0.6
   const frameHeight = height
-  const trunkSize = halfLength/2
-  const hoodSize = halfLength/2
+  const trunkSize = Math.min(1,halfLength/2)
+  const hoodSize = Math.min(2,halfLength/2)
 
   // slanded roof
   let topY = Math.abs(position[2])
@@ -292,11 +292,13 @@ function addMainFrame(vertices, position, length, height, bottom, type='hatchbac
   topY = topY * Math.sign(position[2])
 
   let topRear = halfLength
+  let topFront = 0.3*halfLength
   if(type === 'hatchback'){
     topRear = Math.max(0.8*halfLength, halfLength-0.3)
   }
-  if(type === 'van'){
+  if(type === 'bus'){
     topRear = Math.max(0.9*halfLength, halfLength-0.1)
+    topFront = Math.max(0.9*halfLength, halfLength-0.1)
   }
   if(type === 'sedan'){
     topRear = Math.max(0.4*halfLength, halfLength-1.2)
@@ -314,7 +316,7 @@ function addMainFrame(vertices, position, length, height, bottom, type='hatchbac
   const verticesFrame = [
     // TOP
     [-topRear             , frameHeight, topY],
-    [0                    , frameHeight, topY] ,
+    [topFront             , frameHeight, topY] ,
     
     // MID SECTION
     [-halfLength          , halfHeight, position[2]],
@@ -339,13 +341,20 @@ function addMainFrame(vertices, position, length, height, bottom, type='hatchbac
 }
 
 
-function createFacesForFrame(vi, isInverted=false){
+function createFacesForFrame(vi, isInverted=false, type){
   const faces = [
-    vi[0],vi[2],vi[3], 
     vi[0],vi[3],vi[1], 
     vi[1],vi[3],vi[4], 
     vi[1],vi[4],vi[5],
   ]
+  let hasTrunk = type === 'sedan'
+  if(!hasTrunk){
+    faces.push(vi[0],vi[2],vi[3])
+  }
+  let hasHood = type !== 'bus'
+  if(!hasHood){
+    faces.push(vi[1],vi[5],vi[6])
+  }
   if(isInverted){
     let invertedFaces = []
     for(var i=0; i<faces.length; i+=3){
@@ -356,22 +365,13 @@ function createFacesForFrame(vi, isInverted=false){
   return faces
 }
 
-function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2){
+function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2, type){
   const faces = [
     viF1[7], viF1[2], viF2[7],
     viF2[7], viF1[2], viF2[2],
 
-    viF1[2], viF1[0], viF2[2],
-    viF2[2], viF1[0], viF2[0],
-
     viF1[0], viF1[1], viF2[0],
     viF2[0], viF1[1], viF2[1],
-
-    viF1[1], viF1[5], viF2[1],
-    viF2[1], viF1[5], viF2[5],
-
-    viF1[5], viF1[6], viF2[5],
-    viF2[5], viF1[6], viF2[6],
 
     viF1[6], viF1[9], viF2[6],
     viF2[6], viF1[9], viF2[9],
@@ -390,6 +390,42 @@ function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2){
     viF1[9] , viWF2[6], viF2[9],
     // Arch
   ]
+
+  const hasTrunk = type === 'sedan'
+  // rear trunk
+  if(hasTrunk){
+    faces.push(
+      viF1[2], viF1[3], viF2[2],
+      viF1[3], viF2[3], viF2[2],
+  
+      viF1[3], viF1[0], viF2[3],
+      viF1[0], viF2[0], viF2[3],
+    )
+  }
+  else {
+    // rear hatch
+    faces.push(
+      viF1[2], viF1[0], viF2[2],
+      viF2[2], viF1[0], viF2[0],
+    )
+  }
+
+  const hasHood = type !== 'bus'
+  if(hasHood){
+    faces.push(
+      viF1[1], viF1[5], viF2[1],
+      viF2[1], viF1[5], viF2[5],
+
+      viF1[5], viF1[6], viF2[5],
+      viF2[5], viF1[6], viF2[6],
+    )
+  }
+  else {
+    faces.push(
+      viF1[1], viF1[6], viF2[1],
+      viF2[1], viF1[6], viF2[6],
+    )
+  }
 
   return faces
 }
