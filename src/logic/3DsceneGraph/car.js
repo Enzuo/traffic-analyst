@@ -31,8 +31,16 @@ export function createCarObject(car, positionX = 0, color){
   let wheelModelName = car.props.modelWheel
   
   let promiseObject = loadModel(wheelModelName)
-  .catch((e) => {
-    return loadModel('wheel')
+  .catch(async (e) => {
+    const wheelScene = await loadModel('wheel')
+
+    // scale default wheel
+    const defaultWheelDiameter = 63
+    const wheelDiameter = car.props.wheelDiameter
+    let r = wheelDiameter/defaultWheelDiameter
+    wheelScene.scene.children[0].scale.set(r, r, r)
+
+    return wheelScene
   })
   .then((wheelScene) => {
     wheelModel = wheelScene.scene.children[0]
@@ -188,7 +196,7 @@ async function loadDefaultCarModelProc(car){
   // return glb
   const {length, height, width, wheelbase, clearance, bodyType} = car.props
   const wheelDiameter = car.props.wheelDiameter * 10
-  const archSize = (wheelDiameter + 50 )
+  const archSize = (wheelDiameter + 100 )
   const MAX_wheelbase = length - archSize - 0.05
 
   const frameClearance = clearance || wheelDiameter/2
@@ -247,7 +255,7 @@ async function loadDefaultCarModelProc(car){
   let group = new THREE.Group()
   
   // wheels
-  const wheelWidth = 80
+  const wheelWidth = wheelDiameter/7
   group.add(createWheelEmpty('Wheel1L', [frameWidth/2-wheelWidth,0,frameWheelBase/2]))
   group.add(createWheelEmpty('Wheel2R', [-frameWidth/2+wheelWidth,0,frameWheelBase/2]))
   group.add(createWheelEmpty('Wheel3L', [frameWidth/2-wheelWidth,0,-frameWheelBase/2]))
