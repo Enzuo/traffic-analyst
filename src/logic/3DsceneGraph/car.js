@@ -171,55 +171,71 @@ function loadDefaultCarModel(car){
 
 
 
+/**
+ * 
+ *  _____                   _             _                _     _ 
+ * |  _  |___ ___ ___ ___ _| |_ _ ___ ___| |   _____ ___ _| |___| |
+ * |   __|  _| . |  _| -_| . | | |  _| .'| |  |     | . | . | -_| |
+ * |__|  |_| |___|___|___|___|___|_| |__,|_|  |_|_|_|___|___|___|_|                                                               
+ * 
+ */
+
+
 async function loadDefaultCarModelProc(car){
   // const glb = await loadModel('_defaultcar')
   // const carObject = glb.scene
   // console.log('MODEL PROC : ',carObject)
   // return glb
-  const {length, height, width, wheelDiameter} = car.props
-  const archSize = parseFloat(wheelDiameter) + 5
-  const geometry = new THREE.BufferGeometry()
-  const indices = []
-  // const vertices = []
-  const normals = []
-  const colors = []
-  const halfWidth = width/2 / 1000
+  const {length, height, width, wheelbase, clearance, bodyType} = car.props
+  const wheelDiameter = car.props.wheelDiameter * 10
+  const archSize = (wheelDiameter + 50 )
+  const MAX_wheelbase = length - archSize - 0.05
+
+  const frameClearance = clearance || wheelDiameter/2
+  const frameBottom = frameClearance - wheelDiameter/2
+  const frameHeight = height - frameClearance
+  const frameLength = length
+  const frameWidth = width
+  const frameWheelBase = Math.min(MAX_wheelbase, wheelbase)
+
+  const halfWidth = width/2
 
   const vertices = []
-  const viFrame = addMainFrame(vertices, [0,0,halfWidth],length, height)
-  const viWheelArchRear = addWheelArch(vertices, [-1,0,halfWidth], archSize)
-  const viWheelArchFront = addWheelArch(vertices, [1,0,halfWidth], archSize)
-  const viFrame2 = addMainFrame(vertices, [0,0,-halfWidth],length, height)
-  const viWheelArchRear2 = addWheelArch(vertices, [-1,0,-halfWidth], archSize)
-  const viWheelArchFront2 = addWheelArch(vertices, [1,0,-halfWidth], archSize)
+  const viFrame = addMainFrame(vertices, [0,0,halfWidth], frameLength, frameHeight, frameBottom, bodyType)
+  const viWRear = addWheelArch(vertices, [-frameWheelBase/2,0,halfWidth], archSize, frameBottom)
+  const viWFront = addWheelArch(vertices, [frameWheelBase/2,0,halfWidth], archSize, frameBottom)
+  const viFrame2 = addMainFrame(vertices, [0,0,-halfWidth], frameLength, frameHeight, frameBottom, bodyType)
+  const viWRear2 = addWheelArch(vertices, [-frameWheelBase/2,0,-halfWidth], archSize, frameBottom)
+  const viWFront2 = addWheelArch(vertices, [frameWheelBase/2,0,-halfWidth], archSize, frameBottom)
 
 
   const faces = Array().concat(
     createFacesForFrame(viFrame), 
-    createFacesForFrame(viFrame2), 
-    createFacesForWheelArch(viWheelArchFront, [8,4,5,6,9]),
-    createFacesForWheelArch(viWheelArchRear, [7,2,3,4,8]),
-    createFacesForWheelArch(viWheelArchFront2, [
+    createFacesForFrame(viFrame2, true), 
+    createFacesForWheelArch(viWFront, [8,4,5,6,9]),
+    createFacesForWheelArch(viWRear, [7,2,3,4,8]),
+    createFacesForWheelArch(viWFront2, [
       viFrame2[8],
       viFrame2[4],
       viFrame2[5],
       viFrame2[6],
       viFrame2[9]
-    ]),
-    createFacesForWheelArch(viWheelArchRear2, [
+    ], true),
+    createFacesForWheelArch(viWRear2, [
       viFrame2[7],
       viFrame2[2],
       viFrame2[3],
       viFrame2[4],
       viFrame2[8]
-    ]),
-    createFacesBetweenFrames(viFrame, viFrame2)
+    ], true),
+    createFacesBetweenFrames(viFrame,viFrame2, viWRear,viWRear2, viWFront,viWFront2)
   )
   console.log("vertices Array", vertices, faces)
-  const verticesBuffer = vertices.reduce((arr, v) => arr.concat(...v), [])
   
+
+  const geometry = new THREE.BufferGeometry()
   geometry.setIndex( faces );
-  geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( verticesBuffer, 3 ) );
+  geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices.flat(), 3 ) );
   // geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
   // geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
@@ -229,6 +245,13 @@ async function loadDefaultCarModelProc(car){
   let material = new THREE.MeshBasicMaterial({ color: 0xaa3377, vertexColors: false })
   let mesh = new THREE.Mesh(geometry, material)
   let group = new THREE.Group()
+  
+  // wheels
+  const wheelWidth = 80
+  group.add(createWheelEmpty('Wheel1L', [frameWidth/2-wheelWidth,0,frameWheelBase/2]))
+  group.add(createWheelEmpty('Wheel2R', [-frameWidth/2+wheelWidth,0,frameWheelBase/2]))
+  group.add(createWheelEmpty('Wheel3L', [frameWidth/2-wheelWidth,0,-frameWheelBase/2]))
+  group.add(createWheelEmpty('Wheel4R', [-frameWidth/2+wheelWidth,0,-frameWheelBase/2]))
 
   const helper = new VertexNormalsHelper( mesh, 1, 0xff0000 )
   group.add(mesh)
@@ -238,19 +261,46 @@ async function loadDefaultCarModelProc(car){
 }
 
 
-/**
- * 
- * Procedural model
- * 
- */
+function createWheelEmpty(name, position){
+  // convert mm to m
+  position = position.map(p => p/1000)
 
-function addMainFrame(vertices, position, length, height){
-  const halfLength = length/2 /1000
-  const halfHeight = height/2 /1000
-  const frameHeight = height/1000
+  let wheel = new THREE.Object3D()
+  wheel.position.set(position[0], position[1], position[2])
+  wheel.name = name
+  return wheel
+}
+
+
+function addMainFrame(vertices, position, length, height, bottom, type='hatchback'){
+  // convert mm to m
+  position = position.map(p => p/1000)
+  length /= 1000
+  height /= 1000
+  bottom /= 1000
+
+  // TODO use frameHeight
+  const halfLength = length/2 
+  const halfHeight = height*0.6
+  const frameHeight = height
   const trunkSize = halfLength/2
   const hoodSize = halfLength/2
 
+  // slanded roof
+  let topY = Math.abs(position[2])
+  topY = Math.max(topY*0.8, topY - 0.2)
+  topY = topY * Math.sign(position[2])
+
+  let topRear = halfLength
+  if(type === 'hatchback'){
+    topRear = Math.max(0.8*halfLength, halfLength-0.3)
+  }
+  if(type === 'van'){
+    topRear = Math.max(0.9*halfLength, halfLength-0.1)
+  }
+  if(type === 'sedan'){
+    topRear = Math.max(0.4*halfLength, halfLength-1.2)
+  }
 
   /**
    * 
@@ -263,8 +313,8 @@ function addMainFrame(vertices, position, length, height){
    */
   const verticesFrame = [
     // TOP
-    [-halfLength          , frameHeight, position[2]],
-    [0                    , frameHeight, position[2]] ,
+    [-topRear             , frameHeight, topY],
+    [0                    , frameHeight, topY] ,
     
     // MID SECTION
     [-halfLength          , halfHeight, position[2]],
@@ -274,9 +324,9 @@ function addMainFrame(vertices, position, length, height){
     [halfLength           , halfHeight, position[2]],
     
     // BOTTOM
-    [-halfLength          , 0         , position[2]],
-    [0                    , 0         , position[2]],
-    [halfLength           , 0         , position[2]],
+    [-halfLength          , bottom    , position[2]],
+    [0                    , bottom    , position[2]],
+    [halfLength           , bottom    , position[2]],
   ]
 
   const verticesIndex = []
@@ -288,17 +338,26 @@ function addMainFrame(vertices, position, length, height){
   return verticesIndex
 }
 
-function createFacesForFrame(vi){
-  return [
+
+function createFacesForFrame(vi, isInverted=false){
+  const faces = [
     vi[0],vi[2],vi[3], 
     vi[0],vi[3],vi[1], 
     vi[1],vi[3],vi[4], 
     vi[1],vi[4],vi[5],
   ]
+  if(isInverted){
+    let invertedFaces = []
+    for(var i=0; i<faces.length; i+=3){
+      invertedFaces.push(faces[i], faces[i+2], faces[i+1])
+    }
+    return invertedFaces
+  }
+  return faces
 }
 
-function createFacesBetweenFrames(viF1, viF2){
-  return [
+function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2){
+  const faces = [
     viF1[7], viF1[2], viF2[7],
     viF2[7], viF1[2], viF2[2],
 
@@ -316,8 +375,25 @@ function createFacesBetweenFrames(viF1, viF2){
 
     viF1[6], viF1[9], viF2[6],
     viF2[6], viF1[9], viF2[9],
+
+    // Bottom
+    viWR1[0], viF1[7], viF2[7],
+    viWR2[0], viWR1[0], viF2[7],
+
+    viWR1[6], viWR2[6], viF1[8],
+    viF1[8] , viWR2[6], viF2[8],
+
+    viF1[8] , viF2[8], viWF1[0],
+    viWF1[0], viF2[8], viWF2[0],
+
+    viWF1[6], viWF2[6], viF1[9],
+    viF1[9] , viWF2[6], viF2[9],
+    // Arch
   ]
+
+  return faces
 }
+
 
 /**
  *       
@@ -326,13 +402,20 @@ function createFacesBetweenFrames(viF1, viF2){
  *  0         6
  * 
  */
-function addWheelArch(vertices, position, size){
+function addWheelArch(vertices, position, size, bottom){
+  // convert mm to m
+  position = position.map(p => p/1000)
+  size /= 1000
+  bottom /= 1000
+
   const VERTICESNB = 6
   const archVerticesIndex = []
   for(let i=0; i<=VERTICESNB; i++){
-    let x = -Math.cos(i * Math.PI/VERTICESNB) * size/100 + position[0]
-    let z = Math.sin(i * Math.PI/VERTICESNB) * size/100 + position[1]
+    let x = -Math.cos(i * Math.PI/VERTICESNB) * size/2 + position[0]
+    let z = Math.sin(i * Math.PI/VERTICESNB) * size/2 + position[1]
     let y = position[2]
+
+    z = (i === 0 || i===VERTICESNB) ? bottom : Math.max(bottom, z)
 
     archVerticesIndex.push(vertices.push([x, z, y])-1)
   }
@@ -340,7 +423,7 @@ function addWheelArch(vertices, position, size){
   return archVerticesIndex
 }
 
-function createFacesForWheelArch(viArch, viFrame){
+function createFacesForWheelArch(viArch, viFrame, isInverted=false){
   const faces = [
     viFrame[0], viArch[0], viArch[1],
     viFrame[0], viArch[1], viFrame[1],
@@ -354,5 +437,14 @@ function createFacesForWheelArch(viArch, viFrame){
     viFrame[3], viArch[5], viFrame[4],
     viFrame[4], viArch[5], viArch[6],
   ]
+
+  if(isInverted){
+    let invertedFaces = []
+    for(var i=0; i<faces.length; i+=3){
+      invertedFaces.push(faces[i], faces[i+2], faces[i+1])
+    }
+    return invertedFaces
+  }
+
   return faces
 }
