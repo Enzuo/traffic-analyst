@@ -11,7 +11,7 @@ export function listCars() {
 
 
 /**
- * 
+ *
  * @param {string} carId
  * @returns {Car}
  */
@@ -29,7 +29,10 @@ export function getCar(carId, trimId=0, engineId=0) {
   car = Object.assign({}, car, trimsOptions[trimId])
 
   // regroup engines options with default engine & engines
-  const enginesOptions = [].concat({engine: car.engine}, car.engines || [])
+  const enginesOptions = [].concat(
+    {engine: car.engine},
+    car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
+  console.log('OPTIONS E', enginesOptions)
   enginesOptions.forEach((eOpts) => {
     let engine = eOpts.engine
     if(!isEngineDetailed(engine)){
@@ -87,7 +90,7 @@ function listDetailedEnginesInASingleTrim(car){
   }
 
   console.log('found engines', engines)
-  
+
   return engines
 }
 
@@ -100,6 +103,9 @@ function findDetailedEngine(engine, detailedEngine){
   if(typeof engine === 'string'){
     let engineId = engine
     return db.engine.get(engineId)
+  }
+  if(!engine || !engine.name){
+    return null
   }
   return detailedEngine.find(e => {
     return e.name === engine.name
@@ -128,7 +134,11 @@ function completeEngineData(car) {
 
 const defaultCar = {
   weight : 1000,
-  dragCoef: 0.25, 
-  dragArea: 2, 
+  height:1600,
+  width:1600,
+  length:4000,
+  wheelDiameter:63,
+  dragCoef: 0.3,
+  dragArea: 2,
   brakePadsForce: 12000,
 }

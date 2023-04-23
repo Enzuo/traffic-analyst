@@ -28,14 +28,7 @@ export function loadDefaultCarModel(car){
 
 
 
-/**
- *
- *  _____                   _             _                _     _
- * |  _  |___ ___ ___ ___ _| |_ _ ___ ___| |   _____ ___ _| |___| |
- * |   __|  _| . |  _| -_| . | | |  _| .'| |  |     | . | . | -_| |
- * |__|  |_| |___|___|___|___|___|_| |__,|_|  |_|_|_|___|___|___|_|
- *
- */
+
 
 const BODY_TYPES = {
   HATCHBACK : {
@@ -91,6 +84,24 @@ const BODY_TYPES = {
 }
 
 
+/**
+ *
+ *  _____                   _             _                _     _
+ * |  _  |___ ___ ___ ___ _| |_ _ ___ ___| |   _____ ___ _| |___| |
+ * |   __|  _| . |  _| -_| . | | |  _| .'| |  |     | . | . | -_| |
+ * |__|  |_| |___|___|___|___|___|_| |__,|_|  |_|_|_|___|___|___|_|
+ *
+ */
+
+/**
+ * @typedef {import('@/logic/carLogic/carEntity')} CarEntity
+ */
+
+/**
+ *
+ * @param {CarEntity} car
+ * @returns
+ */
 export async function loadDefaultCarModelProc(car){
 
   const {length, height, width, wheelbase, clearance} = car.props

@@ -12,7 +12,7 @@
     <img src="title.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <TestProcedural/>
+  <Cars/>
 </main>
 
 <style>
