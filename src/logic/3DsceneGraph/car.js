@@ -293,18 +293,20 @@ async function loadDefaultCarModelProc(car){
   console.log("vertices Array", vertices, faces)
 
 
-  const geometry = new THREE.BufferGeometry()
+  let geometry = new THREE.BufferGeometry()
   geometry.setIndex( faces );
   geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices.flat(), 3 ) );
   // geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
   // geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
   geometry.rotateY(-Math.PI/2)
+  geometry = geometry.toNonIndexed() // flat shading
   geometry.computeVertexNormals()
 
-  let material = new THREE.MeshBasicMaterial({ color: 0xaa3377, vertexColors: false })
-  let mesh = new THREE.Mesh(geometry, material)
-  let group = new THREE.Group()
+  const material = new THREE.MeshStandardMaterial({ color: 0xaa3377, vertexColors: false })
+  const mesh = new THREE.Mesh(geometry, material)
+  mesh.name = 'Body'
+  const group = new THREE.Group()
 
   // wheels
   const wheelWidth = wheelDiameter/7
@@ -313,10 +315,7 @@ async function loadDefaultCarModelProc(car){
   group.add(createWheelEmpty('Wheel3L', [frameWidth/2-wheelWidth,0,-frameWheelBase/2]))
   group.add(createWheelEmpty('Wheel4R', [-frameWidth/2+wheelWidth,0,-frameWheelBase/2]))
 
-  const helper = new VertexNormalsHelper( mesh, 1, 0xff0000 )
   group.add(mesh)
-  group.add(helper)
-  console.log('MODEL PROC : ',group)
   return group
 }
 
@@ -360,7 +359,7 @@ function addMainFrame(vertices, position, length, height, bottom, type){
   }
   if(type === BODY_TYPES.BUS){
     topRear = Math.max(0.9*halfLength, halfLength-0.1)
-    topFront = Math.max(0.9*halfLength, halfLength-0.1)
+    topFront = Math.max(0.85*halfLength, halfLength-0.5)
   }
   if(type === BODY_TYPES.SEDAN){
     topRear = Math.max(0.4*halfLength, halfLength-1.2)
@@ -453,8 +452,10 @@ function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2, type){
 
     viWF1[6], viWF2[6], viF1[9],
     viF1[9] , viWF2[6], viF2[9],
-    // Arch
   ]
+  // Arch
+  faces.push(...createFacesBetweenArchs(viWR1,viWR2))
+  faces.push(...createFacesBetweenArchs(viWF1,viWF2))
 
   // rear trunk
   if(type.hasTrunk){
@@ -490,6 +491,17 @@ function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2, type){
     )
   }
 
+  return faces
+}
+
+function createFacesBetweenArchs(viArch1,viArch2){
+  const faces = []
+  for(var i=0; i<viArch1.length; i++){
+    faces.push(
+      viArch1[i+1],viArch1[i],viArch2[i],
+      viArch1[i+1],viArch2[i],viArch2[i+1],
+    )
+  }
   return faces
 }
 
