@@ -4,9 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "vite build",
     "dev": "vite",
-    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "build-db": "node ./src/logic/cardata/script_loaddb.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
