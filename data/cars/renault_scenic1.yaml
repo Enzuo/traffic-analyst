@@ -1,6 +1,6 @@
-name : Megane Senic
+name : Megane Scenic
 brand : renault
-trim : megane senic p1 JA0
+trim : megane scenic phase1 JA0
 year : 1996
 price : 18000€
 
@@ -20,6 +20,10 @@ engine :
 # List additional engines
 engines :
   - engine :
+      name : K7M702/703/790 1.6
+    gearRatio : [3.909,2.143,1.360,0.972,0.731]
+    driveRatio : 3.889
+
 
 # -------------
 # TRANSMISSION
@@ -40,15 +44,15 @@ weight : 1325 # 1250 + 75
 length: 4168
 width: 1719
 height: 1609
-dragCoef: 0.32
-dragArea: 2.5
+dragCoef: 0.34
+dragArea: 2.3
 
 wheelbase: 2580
 bodyType: mpv
 clearance:
 trunk: 410
 trunkMax:
-seats:
+seats: 5
 
 # -------------
 # STATS
@@ -67,15 +71,3 @@ wheelType :
 model:
 modelWheel:
 modelMisc:
-
-# -------------
-# TRIMS
-# -------------
-trims :
-  - trim :
-
-# -------------
-# OPTIONS (available on all trims)
-# -------------
-options:
-  - name :
