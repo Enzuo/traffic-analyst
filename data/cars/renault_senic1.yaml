@@ -1,0 +1,81 @@
+name : Megane Senic
+brand : renault
+trim : megane senic p1 JA0
+year : 1996
+price : 18000€
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : K7M702/703/790 1.6
+  hp: 90
+  #137Nm@4000 90Hp@5000
+  torqueY: [50  ,110, 137,126, 100]
+  torqueX: [1000,2000,4000,5000, 5200]
+  type : petrol
+  layout : l4
+  displacement : 1598
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : JB1 918
+gearRatio : [3.727,2.048,1.321,0.967,0.795]
+gearReverse :
+gearTransfer :
+driveRatio : 4.214
+gearSpeed :
+wheelDiameter : 62
+type : FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1325 # 1250 + 75
+length: 4168
+width: 1719
+height: 1609
+dragCoef: 0.32
+dragArea: 2.5
+
+wheelbase: 2580
+bodyType: mpv
+clearance:
+trunk: 410
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 175
+avgConsumption :
+energyTank : 60
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

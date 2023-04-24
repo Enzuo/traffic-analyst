@@ -214,7 +214,7 @@ function addMainFrame(vertices, position, length, height, bottom, type){
 
   let topRear = halfLength
   let topFront = 0.3*halfLength
-  if(type === BODY_TYPES.HATCHBACK){
+  if(type === BODY_TYPES.HATCHBACK || type === BODY_TYPES.MPV){
     topRear = Math.max(0.8*halfLength, halfLength-0.3)
   }
   if(type === BODY_TYPES.BUS){

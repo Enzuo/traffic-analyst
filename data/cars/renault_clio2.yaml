@@ -2,29 +2,31 @@ name : clio 2
 brand : renault
 trim : RXT 1.6 (90) bva
 year : 1998
+price : 12600€
 
 # -------------
 # ENGINE
 # -------------
-engine :  
-  name :  
+engine :
+  name : K7M 745 1.6 8v
   hp: 90
   # 131nm @2500 90hp @5250
   torqueY: [49.4, 127.3, 128.9, 131.0, 124.1, 131.0, 130.0, 128.0, 122 , 109.4]
   torqueX: [1000, 1500 ,2000  ,2500  ,3000  ,4000  ,4500  , 5000 , 5250, 5500 ]
   minRPM: 1500
-  type : petrol 
+  type : petrol
   layout : l4
   displacement : 1598
 
 # -------------
 # TRANSMISSION
 # -------------
+gearName : DP0
 gearRatio : [3.994, 2.536, 1.581, 1]
 driveRatio : 2.815
 gearSpeed : 40
-wheelDiameter : 60 
-type : FWD 
+wheelDiameter : 60
+type : FWD
 
 # -------------
 # DIMENSIONS
@@ -48,11 +50,11 @@ acc0100: 12.9
 vmax: 175
 turningCircle : 10.3
 energyTank : 50
-autonomy : 
+autonomy :
 wheelType : 165/65 R 14 T
 
 # -------------
 # 3D
 # -------------
-model: 
+model:
 modelWheel:
