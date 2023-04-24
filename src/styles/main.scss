@@ -1,0 +1,15 @@
+// Override default variables
+$primary-hue: 335;
+
+
+
+// $primary-500: #84f403;
+// $primary-600: #84f403;
+// $primary-700: #84f403;
+
+// Import Pico
+@import "@picocss/pico/scss/pico";
+
+:root {
+  --primary: #43a047;
+}

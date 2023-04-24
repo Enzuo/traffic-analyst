@@ -27,9 +27,10 @@
 
 
 
-
-RPM <input value={rpm}>
-GearRatios <input value={gearRatios} on:input={handleRatioChange}>
-GearSpeed <input value={gearSpeed}>
-DriveRatio <input bind:value={driveRatio}>
-WheelDiameter <input bind:value={wheelSize}> cm
+<div class="grid">
+  <label for="rpm">RPM <input id="rpm" value={rpm}></label>
+  <label for="gear-ratio">GearRatios <input id="gear-ratio" value={gearRatios} on:input={handleRatioChange}></label>
+  <label for="gear-speed">GearSpeed <input id="gear-speed" value={gearSpeed}></label>
+  <label for="drive-ratio">DriveRatio <input id="drive-ratio" type="number" bind:value={driveRatio}></label>
+  <label for="wheel-diameter">WheelDiameter <input id="wheel-diameter" type="number" placeholder="cm" bind:value={wheelSize}></label>
+</div>
