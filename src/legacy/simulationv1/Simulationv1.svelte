@@ -1,8 +1,8 @@
 <script>
-  import RealTimeGraph from '@/components/container/RealTimeGraph.svelte'
-  import {Simulation} from '@/logic/simulationv1/simulation'
+  import RealTimeGraph from '@/legacy/simulationv1/RealTimeGraph.svelte'
+  import {Simulation} from '@/legacy/simulationv1/simulation'
   import RoadGraph from './RoadGraph.svelte'
-  
+
   const my_sim = Simulation()
 
   let elapsedTime = 0
@@ -10,7 +10,7 @@
   let cancelLoopHandler
   const runLoop = (t) => {
     cancelLoopHandler = window.requestAnimationFrame(runLoop)
-    
+
     my_sim.forward(t)
     elapsedTime = my_sim.getState().elapsedTime
   }
@@ -68,17 +68,17 @@
   <RoadGraph road={my_sim.getState().road} onCarClick={handleCarClick}></RoadGraph>
 
   <div class="graph-panel">
-    <RealTimeGraph 
-      title="Distance" 
-      options={{viewY: 15, viewX: 30}} 
+    <RealTimeGraph
+      title="Distance"
+      options={{viewY: 15, viewX: 30}}
       observeData={() => {
         let driverState = observedDriver.getState()
         return [elapsedTime/1000, driverState.normalizedDistance]
       }}
     />
-    <RealTimeGraph 
-      title="Aiming for speed" 
-      options={{viewY: 110, viewX: 30}} 
+    <RealTimeGraph
+      title="Aiming for speed"
+      options={{viewY: 110, viewX: 30}}
       observeData={() => {
         let driverState = observedDriver.getState()
         return [elapsedTime/1000, driverState.desiredSpeed * 3.6]
@@ -88,34 +88,34 @@
 
   {#if observedCar}
   <div class="graph-panel">
-    <RealTimeGraph 
-      title="Throttle" 
-      options={{viewY: 1, viewX: 30}} 
+    <RealTimeGraph
+      title="Throttle"
+      options={{viewY: 1, viewX: 30}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.throttle]
       }}
     />
-    <RealTimeGraph 
-      title="Brake" 
-      options={{viewY: 1, viewX: 30}} 
+    <RealTimeGraph
+      title="Brake"
+      options={{viewY: 1, viewX: 30}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.brake]
       }}
     />
-    <RealTimeGraph 
-      title="Power" 
-      options={{viewY: 100, viewX: 30}} 
+    <RealTimeGraph
+      title="Power"
+      options={{viewY: 100, viewX: 30}}
       observeData={() => {
         // if(!my_sim.getState().car) return [0,0]
         let carState = observedCar.state
         return [elapsedTime/1000, carState.power]
       }}
     />
-    <RealTimeGraph 
-      title="Speed" 
-      options={{viewY: 150, viewX: 30}} 
+    <RealTimeGraph
+      title="Speed"
+      options={{viewY: 150, viewX: 30}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.speed * 3.6]
@@ -123,33 +123,33 @@
     />
   </div>
   <div class="graph-panel">
-    <RealTimeGraph 
-      title="Acceleration" 
-      options={{viewY: 10, viewX: 30}} 
+    <RealTimeGraph
+      title="Acceleration"
+      options={{viewY: 10, viewX: 30}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.acceleration]
       }}
     />
-    <RealTimeGraph 
-      title="Torque" 
-      options={{viewY: 250, viewX: 30}} 
+    <RealTimeGraph
+      title="Torque"
+      options={{viewY: 250, viewX: 30}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.torque]
       }}
     />
-    <RealTimeGraph 
-      title="Force" 
-      options={{viewY: 7000, viewX: 30, gridY:700}} 
+    <RealTimeGraph
+      title="Force"
+      options={{viewY: 7000, viewX: 30, gridY:700}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.force]
       }}
     />
-    <RealTimeGraph 
-      title="AirDrag" 
-      options={{viewY: 7000, viewX: 30, gridY:700}} 
+    <RealTimeGraph
+      title="AirDrag"
+      options={{viewY: 7000, viewX: 30, gridY:700}}
       observeData={() => {
         let carState = observedCar.state
         return [elapsedTime/1000, carState.airDrag]

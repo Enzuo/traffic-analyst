@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte"
   // import { SVG } from '@svgdotjs/svg.js'
-  import realtimegraph from '@/logic/simulationv1/realTimeGraph'
+  import realtimegraph from '@/legacy/simulationv1/realTimeGraph'
   import { watchResize } from "svelte-watch-resize";
 
 
-  export let observeData : () => [number, number] 
+  export let observeData : () => [number, number]
   export let title : number
   export let options : object
 
@@ -15,7 +15,7 @@
 
   let graph = realtimegraph(options)
   $: graph.setOptions({margin, width})
-  
+
 
   onMount(() => {
     width = container.offsetWidth
@@ -36,5 +36,5 @@
 
 <div class="graph">
   <h1>{title}</h1>
-  <div class="graph" bind:this={container} use:watchResize={handleResize}/> 
+  <div class="graph" bind:this={container} use:watchResize={handleResize}/>
 </div>

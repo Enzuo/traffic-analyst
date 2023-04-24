@@ -1,10 +1,10 @@
 <script lang="ts">
   import Cars from '@/components/container/Cars.svelte'
   import Car from '@/components/container/Car.svelte'
-  import Tools from '@/components/container/Tools.svelte'
-  import Simulation from '@/components/container/Simulationv1.svelte'
+  import Tools from '@/components/tools/Tools.svelte'
+  import Simulation from '@/legacy/simulationv1/Simulationv1.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
-  import TestProcedural from './components/container/TestProcedural.svelte';
+  import TestProcedural from './components/tools/TestProcedural.svelte';
 </script>
 
 <main>
