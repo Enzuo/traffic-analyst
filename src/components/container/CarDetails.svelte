@@ -13,7 +13,7 @@
   let car
 
   $: resetOnChange(carId) // on car props change we reset the trim id
-  $: car = getCar(carId, trimId, engineId)
+  $: car = carId ? getCar(carId, trimId, engineId) : null
 
   function handleTrimClick(id) {
     trimId = id
@@ -32,7 +32,9 @@
 </script>
 
 
-Trims : 
+<SceneGraph car={car}></SceneGraph>
+
+Trims :
 {#each car.trims as trimlist, index}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="trim {index===trimId ? 'selected' : ''}" on:click={() => handleTrimClick(index)}>
@@ -40,7 +42,7 @@ Trims :
   </div>
 {/each}
 
-Engines : 
+Engines :
 
 {#if car.engines}
   {#each car.engines as engineList, index}
@@ -65,7 +67,7 @@ Car :
 <UPlotGearing car={car}></UPlotGearing>
 <UPlotTorque cars={[car]}></UPlotTorque>
 
-<SceneGraph car={car}></SceneGraph>
+
 
 <style>
   .selected {
