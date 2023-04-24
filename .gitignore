@@ -1,11 +1,16 @@
-/node_modules/
-/public/build/
-
+# system
 .DS_Store
-/src/logic/cardata/database.json
 
+# lib
+/node_modules/
+
+# generated
+/.svelte-kit
+/public/build/
+/src/logic/cardata/database.json
 /3d/
 /dist
 /build
 
+# misc
 /example*.js

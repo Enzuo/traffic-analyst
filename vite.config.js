@@ -1,12 +1,14 @@
 // vite.config.js
 import path from 'path'
 import { defineConfig, normalizePath } from 'vite'
+import { sveltekit } from '@sveltejs/kit/vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import watchAndRun from 'vite-plugin-watch-and-run'
 
+
+
 export default defineConfig({
-  root: './',
   build: {
     outDir: './build',
   },
@@ -25,7 +27,7 @@ export default defineConfig({
         delay: 300
       }
     ]),
-    svelte(),
+    sveltekit(),
     viteStaticCopy({
       targets: [
         {
