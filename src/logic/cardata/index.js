@@ -32,7 +32,6 @@ export function getCar(carId, trimId=0, engineId=0) {
   const enginesOptions = [].concat(
     {engine: car.engine},
     car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
-  console.log('OPTIONS E', enginesOptions)
   enginesOptions.forEach((eOpts) => {
     let engine = eOpts.engine
     if(!isEngineDetailed(engine)){
@@ -41,7 +40,6 @@ export function getCar(carId, trimId=0, engineId=0) {
     }
   })
 
-  console.log('apply engineId', engineId)
   // apply selected engine
   if(engineId >= enginesOptions.length){
     engineId = 0
@@ -88,8 +86,6 @@ function listDetailedEnginesInASingleTrim(car){
       }
     }
   }
-
-  console.log('found engines', engines)
 
   return engines
 }

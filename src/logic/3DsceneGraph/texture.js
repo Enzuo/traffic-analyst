@@ -24,7 +24,6 @@ export function changeTextureColor(texture, color) {
   // modify the hue of the canvas
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const currentPalette = getTexturePalette(imageData)
-  console.log("PALETTE", currentPalette)
   const newPalette = PALETTES[color] || DEFAULT_PALETTE
   replacePalette(imageData, currentPalette, newPalette)
   context.putImageData(imageData, 0, 0);
@@ -40,7 +39,7 @@ export function changeTextureColor(texture, color) {
 
 /**
  * Sample the palette from a texture
- * The palette is the first 5 pixel of that texture. 
+ * The palette is the first 5 pixel of that texture.
  * That palette describe colors that aren't generic and can be changed to change the car color
  */
 function getTexturePalette (imageData) {

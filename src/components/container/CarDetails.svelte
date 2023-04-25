@@ -4,30 +4,46 @@
   import SceneGraph from "./SceneGraph.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
+  import { createEventDispatcher } from "svelte"
 
 
   export let carId
   export let trimId = 0
   export let engineId = 0
 
+  const dispatch = createEventDispatcher()
+
   let car
 
-  $: resetOnChange(carId) // on car props change we reset the trim id
-  $: car = carId ? getCar(carId, trimId, engineId) : null
+  $: loadCar(carId, trimId, engineId)
 
-  function handleTrimClick(id) {
-    trimId = id
-    engineId = 0
+
+  function loadCar(carId, trimId, engineId){
+    if(carId){
+      car = getCar(carId, trimId, engineId)
+    }
+    else {
+      car = null
+    }
   }
 
-  function handleEngineClick(id) {
-    engineId = id
+
+
+  function handleTrimSelect(id) {
+    dispatch('select', {
+      trim : id,
+      engine : 0,
+    })
   }
 
-  function resetOnChange(car){
-    trimId = 0
-    engineId = 0
+  function handleEngineSelect(id) {
+    dispatch('select', {
+      trim : trimId,
+      engine : id,
+    })
   }
+
+
 
 </script>
 
@@ -37,7 +53,7 @@
 Trims :
 {#each car.trims as trimlist, index}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="trim {index===trimId ? 'selected' : ''}" on:click={() => handleTrimClick(index)}>
+  <div class="trim {index===trimId ? 'selected' : ''}" on:click={() => handleTrimSelect(index)}>
     <Icon name=truck></Icon>{trimlist.trim}
   </div>
 {/each}
@@ -47,7 +63,7 @@ Engines :
 {#if car.engines}
   {#each car.engines as engineList, index}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="trim {index===engineId ? 'selected' : ''}" on:click={() => handleEngineClick(index)}>
+    <div class="trim {index===engineId ? 'selected' : ''}" on:click={() => handleEngineSelect(index)}>
       <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp} {engineList.gearName}
     </div>
   {/each}

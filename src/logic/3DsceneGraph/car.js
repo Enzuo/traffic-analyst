@@ -20,8 +20,6 @@ import { loadDefaultCarModelProc } from './proceduralCar'
  * @returns {Promise<AnimatedObject>}
  */
 export function createCarObject(car, positionX = 0, color){
-  // const car = cars[index]
-  console.log('create Car', car)
   // MODELS
   let carObject
   let carBody
@@ -54,9 +52,6 @@ export function createCarObject(car, positionX = 0, color){
   }).catch(() => {
     return loadDefaultCarModelProc(car)
   }).then((gltf) => {
-
-    console.log('loaded model', gltf)
-
     carObject = gltf.scene ? gltf.scene : gltf
 
     let wheelDiameter = car.props.wheelDiameter || 63
@@ -85,7 +80,6 @@ export function createCarObject(car, positionX = 0, color){
       }
 
       if ( a instanceof THREE.Mesh ) {
-        console.log('set cast shadow')
         a.castShadow = true
         a.receiveShadow = false
         const texture = a.material.map;
@@ -111,8 +105,6 @@ export function createCarObject(car, positionX = 0, color){
         carBody.add(m.obj)
       }
     })
-
-    console.log("car created : ", carBody, car.id)
 
     return carObject
   })

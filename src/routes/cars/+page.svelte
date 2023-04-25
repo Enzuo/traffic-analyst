@@ -9,19 +9,36 @@
 
   let cars = cardata.listCars()
   let selectedCarId = null
+  let selectedTrimid = null
+  let selectedEngineid = null
 
   $ : updateParams(data)
 
   function updateParams(data){
-    selectedCarId = data.searchParams.id || null
+    selectedCarId = data.searchParams.id
+    selectedTrimid = data.searchParams.tid
+    selectedEngineid = data.searchParams.eid
   }
 
   function handleListClick (e) {
-    // selectedCarId = e.detail.id
+    let params = new URLSearchParams({
+      id : e.detail.id,
+    })
 
-    goto('/cars?id='+e.detail.id, {invalidateAll:false, noScroll:true})
+    goto('/cars?'+params, {invalidateAll:false, noScroll:true})
   }
 
+
+  function handleContentSelect (e) {
+    let params = new URLSearchParams({
+      id : selectedCarId,
+      tid : e.detail.trim,
+      eid : e.detail.engine,
+    })
+
+    // don't keep content change in history with replaceState:true
+    goto('/cars?'+params, {replaceState:true, noScroll:true})
+  }
 
 
 
@@ -34,7 +51,13 @@
 
     <div slot="content">
       {#if selectedCarId}
-        <CarDetails carId={selectedCarId}></CarDetails>
+        <CarDetails
+          carId={selectedCarId}
+          trimId={selectedTrimid}
+          engineId={selectedEngineid}
+          on:select={handleContentSelect}
+        >
+        </CarDetails>
       {/if}
     </div>
   </LayoutList>

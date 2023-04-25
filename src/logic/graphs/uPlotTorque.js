@@ -1,5 +1,5 @@
 import uPlot from 'uplot'
-import 'uplot/dist/uPlot.min.css'  
+import 'uplot/dist/uPlot.min.css'
 import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, torqueToKW } from '../carLogic/physics'
 
 
@@ -53,7 +53,7 @@ export function createGraph(cars, element, opts = {}){
 
   function getXFill(cars, step = 100){
     let minRPM = 0
-    let allCarsRPM = cars.map( car => { 
+    let allCarsRPM = cars.map( car => {
       let xMultiplier = car.engine.torqueXMultiplier || 1
       let maxX = car.engine.torqueX[car.engine.torqueX.length-1] * xMultiplier
       return maxX
@@ -113,7 +113,6 @@ export function createGraph(cars, element, opts = {}){
     return data
   }
   let data = prepareData(cars)
-  console.log(data)
 
 
   // uPlot chart
@@ -160,7 +159,7 @@ export function createGraph(cars, element, opts = {}){
       }
     ],
   }
-  
+
   let plotChart = new uPlot(options, data, element);
 
 }
