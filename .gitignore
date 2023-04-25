@@ -12,5 +12,9 @@
 /dist
 /build
 
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+
 # misc
 /example*.js

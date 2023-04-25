@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import Icon from '@/components/presentation/Icon.svelte'
+  import SearchBar from './SearchBar.svelte';
 
   export let cars=[]
   export let selectedCarId=null
@@ -10,12 +11,15 @@
 
   function handleCarClick (car) {
     selectedCarId = car.id
-    dispatch('click', {
+    dispatch('select', {
       id : car.id,
     })
   }
 
 </script>
+
+
+<SearchBar on:search ></SearchBar>
 
 <ul>
 	{#each cars as car}

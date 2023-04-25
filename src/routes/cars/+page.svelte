@@ -3,7 +3,7 @@
   import * as cardata from '@/logic/cardata'
   import CarList from '@/components/container/CarList.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
-  import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation"
 
   export let data
 
@@ -15,19 +15,19 @@
   $ : updateParams(data)
 
   function updateParams(data){
+    console.log('update params')
     selectedCarId = data.searchParams.id
     selectedTrimid = data.searchParams.tid
     selectedEngineid = data.searchParams.eid
   }
 
-  function handleListClick (e) {
+  function handleListSelect (e) {
     let params = new URLSearchParams({
       id : e.detail.id,
     })
 
     goto('/cars?'+params, {invalidateAll:false, noScroll:true})
   }
-
 
   function handleContentSelect (e) {
     let params = new URLSearchParams({
@@ -40,13 +40,23 @@
     goto('/cars?'+params, {replaceState:true, noScroll:true})
   }
 
+  function handleSearch(e) {
+    let searchText = e.detail.searchText
+    if(!searchText){
+      cars = cardata.listCars()
+      return
+    }
+    cars = cardata.searchCar(searchText)
+    console.log('searched', cars)
+  }
+
 
 
 </script>
 <div class="page">
   <LayoutList>
     <div slot="list">
-      <CarList cars={cars} selectedCarId={selectedCarId} on:click={handleListClick}></CarList>
+      <CarList cars={cars} selectedCarId={selectedCarId} on:select={handleListSelect} on:search={handleSearch}></CarList>
     </div>
 
     <div slot="content">

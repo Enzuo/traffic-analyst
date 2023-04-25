@@ -1,5 +1,9 @@
 import * as db from './database.js'
 
+/**
+ *
+ * @returns {Array<Car>}
+ */
 export function listCars() {
   return db.car.list()
 }
@@ -53,6 +57,14 @@ export function getCar(carId, trimId=0, engineId=0) {
   return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions})
 }
 
+/**
+ *
+ * @param {string} text
+ * @returns {Array<Car>}
+ */
+export function searchCar(text) {
+  return db.car.search(text)
+}
 
 
 
