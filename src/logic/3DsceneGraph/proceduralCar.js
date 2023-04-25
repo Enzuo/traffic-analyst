@@ -356,7 +356,7 @@ function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2, type){
 
 function createFacesBetweenArchs(viArch1,viArch2){
   const faces = []
-  for(var i=0; i<viArch1.length; i++){
+  for(var i=0; i<viArch1.length-1; i++){
     faces.push(
       viArch1[i+1],viArch1[i],viArch2[i],
       viArch1[i+1],viArch2[i],viArch2[i+1],
