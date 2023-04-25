@@ -31,3 +31,11 @@
     </li>
 	{/each}
 </ul>
+
+<style>
+
+  .selected {
+    color : red;
+  }
+
+</style>

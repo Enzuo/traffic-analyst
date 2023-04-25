@@ -3,21 +3,33 @@
   import * as cardata from '@/logic/cardata'
   import CarList from '@/components/container/CarList.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
+  import { goto } from "$app/navigation";
 
+  export let data
 
   let cars = cardata.listCars()
-  let selectedCarId
+  let selectedCarId = null
+
+  $ : updateParams(data)
+
+  function updateParams(data){
+    selectedCarId = data.searchParams.id || null
+  }
 
   function handleListClick (e) {
-    selectedCarId = e.detail.id
+    // selectedCarId = e.detail.id
+
+    goto('/cars?id='+e.detail.id, {invalidateAll:false, noScroll:true})
   }
+
+
 
 
 </script>
 <div class="page">
   <LayoutList>
     <div slot="list">
-      <CarList cars={cars} on:click={handleListClick}></CarList>
+      <CarList cars={cars} selectedCarId={selectedCarId} on:click={handleListClick}></CarList>
     </div>
 
     <div slot="content">
@@ -30,6 +42,6 @@
 
 <style>
   .page {
-    height:100vh;
+    min-height:100vh;
   }
 </style>
