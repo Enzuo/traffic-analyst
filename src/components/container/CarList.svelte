@@ -11,8 +11,11 @@
 
   function handleCarClick (car) {
     selectedCarId = car.id
+
     dispatch('select', {
       id : car.id,
+      trimId : car.trimId,
+      engineId : car.engineId,
     })
   }
 
@@ -31,6 +34,13 @@
       {car.name}
       {#if car.model}
         <Icon name=bookmark></Icon>
+      {/if}
+      {#if car.trimId}
+        {car.trim}
+      {/if}
+      {#if car.engineId}
+        {car.engine.hp}
+        {car.engine.name}
       {/if}
     </li>
 	{/each}

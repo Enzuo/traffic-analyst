@@ -22,9 +22,14 @@
   }
 
   function handleListSelect (e) {
-    let params = new URLSearchParams({
-      id : e.detail.id,
-    })
+    let paramsObj = {id : e.detail.id}
+    if(e.detail.trimId){
+      paramsObj.tid = e.detail.trimId
+    }
+    if(e.detail.engineId){
+      paramsObj.eid = e.detail.engineId
+    }
+    let params = new URLSearchParams(paramsObj)
 
     goto('/cars?'+params, {invalidateAll:false, noScroll:true})
   }
