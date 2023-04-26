@@ -25,6 +25,7 @@ export default db
 /**
  *
  * Build CompleteEnginesDatabase from cars files
+ * TODO : build it via an external script if the database ever gets too large
  *
  */
 
