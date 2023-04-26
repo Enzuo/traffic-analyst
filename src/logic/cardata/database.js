@@ -38,7 +38,6 @@ export function flattenCarFiles (data) {
     let cars = []
     cars.push(...splitCarTrimByEngine(carFile, 0))
     if(carFile.trims){
-      console.log('there are trims')
       carFile.trims.forEach((t, i) => {
         let tComplete = Object.assign({}, carFile, t)
         cars.push(...splitCarTrimByEngine(tComplete, i+1))
@@ -53,7 +52,6 @@ export function flattenCarFiles (data) {
 
 
 function splitCarTrimByEngine(car, trimId){
-  console.log('spliting car by engines', car)
   let cars = []
   let engineId = 0
   if(car.engine){
