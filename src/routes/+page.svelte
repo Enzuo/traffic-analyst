@@ -8,7 +8,7 @@
 
 <main>
   <h1>
-    <img src="title.png" alt="AutoWaves"/>
+    <img src="title7.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
   <Cars/>
@@ -44,6 +44,7 @@
     color:#E5F6FF;
     color:#C2D8F9 ;
     color:#5F5AA2 ;
+    color :#fff7de;
   }
 
   h1 img {
