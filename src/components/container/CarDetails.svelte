@@ -5,8 +5,6 @@
   import SceneGraph from "./SceneGraph.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
-  import CarTrimSelector from "@/components/presentation/CarTrimSelector.svelte"
-  import CarEngineSelector from "@/components/presentation/Selector.svelte"
   import Selector from "@/components/presentation/Selector.svelte";
 
 
@@ -57,24 +55,39 @@
 <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
 <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
 
-Car :
+<section>
+  <h3>General Infos</h3>
+  <ul>
+    <li>{car.brand} - {car.name} - {car.trim}</li>
+    <li>{car.year}</li>
+    <li>{car.price}</li>
+    <li>{car.engine.hp} HP</li>
+  </ul>
+</section>
 
-{car.brand}
-{car.name}
-{car.trim}
-<li>{car.engine.hp} HP</li>
-<li>{car.weight} KG</li>
-<li>{car.gearRatio}</li>
-<li>{car.driveRatio} Drive Ratio</li>
-<li>{car.gearTransfer ? car.gearTransfer[0] : 1} Transfer Ratio</li>
+<section>
+  <h3>Dimensions</h3>
+  <ul>
+    <li>{car.length} mm</li>
+    <li>{car.width} mm</li>
+    <li>{car.height} mm</li>
+    <li>{car.wheelbase} mm</li>
+    <li>{car.weight} KG</li>
+  </ul>
+</section>
 
-<UPlotGearing car={car}></UPlotGearing>
-<UPlotTorque cars={[car]}></UPlotTorque>
+<section>
+  <h3>Engine</h3>
+  <li>{car.engine.hp} HP</li>
+  <UPlotTorque cars={[car]}></UPlotTorque>
+</section>
 
-
-
-<style>
-  .selected {
-    color: plum;
-  }
-</style>
+<section>
+  <h3>Transmission</h3>
+  <ul>
+    <li>{car.gearRatio}</li>
+    <li>{car.driveRatio} Drive Ratio</li>
+    <li>{car.gearTransfer ? car.gearTransfer[0] : 1} Transfer Ratio</li>
+  </ul>
+  <UPlotGearing car={car}></UPlotGearing>
+</section>
