@@ -2,20 +2,130 @@ import * as data from './database.json'
 import Fuse from 'fuse.js'
 
 
-export const car = {
-  list : () => data.cars,
-  get : (id) => data.cars.find((car) => car.id === id),
-  search : (text) => search(text, data)
+
+const db = {
+  car : {
+    list : () => data.cars,
+    get : (id) => data.cars.find((car) => car.id === id),
+    search : (text) => search(text, data)
+  },
+
+  engine : {
+    get : (id) => data.engines.find((engine) => engine.id === id),
+    find : (engine) => findCompleteEngine(engine),
+  }
+}
+export default db
+
+
+
+
+
+
+/**
+ *
+ * Build CompleteEnginesDatabase from cars files
+ *
+ */
+
+let ENGINES_DATABASE = buildEnginesDatabase(db.car.list())
+console.log('ENGINES_DATABASE', ENGINES_DATABASE)
+
+
+export function isEngineComplete(engine){
+  if(!engine){
+    return false
+  }
+  if(!engine.torqueX){
+    return false
+  }
+  if(!engine.name){
+    return false
+  }
+  return true
 }
 
-export const engine = {
-  get : (id) => data.engines.find((engine) => engine.id === id)
+function buildEnginesDatabase (cars){
+  let engines = []
+  for(let i=0; i<cars.length; i++){
+    engines = engines.concat(findCompleteEnginesInCarFile(cars[i]))
+  }
+
+  return engines
 }
 
+function findCompleteEnginesInCarFile(car) {
+  let engines = []
+  let engineOrigin = {brand: car.brand, year: car.year, carId : car.id}
+
+  engines = engines.concat(findCompleteEnginesInCar(car, engineOrigin))
+
+  if(car.trims){
+    for(var i=0; i<car.trims.length; i++){
+      let trim = car.trims[i]
+      engines = engines.concat(findCompleteEnginesInCar(trim, engineOrigin))
+    }
+  }
+
+  return engines
+}
+
+function findCompleteEnginesInCar(car, _engineOrigin){
+  const engines = []
+  if(car.engine && isEngineComplete(car.engine)){
+    engines.push(Object.assign({}, car.engine, {_engineOrigin}))
+  }
+
+  if(car.engines){
+    for(var i=0; i<car.engines.length; i++){
+      let engine = car.engines[i].engine
+      if(isEngineComplete(engine)){
+        engines.push(Object.assign({}, engine, {_engineOrigin}))
+      }
+    }
+  }
+
+  return engines
+}
+
+
+function findCompleteEngine(engine) {
+  // engine is a string id , TODO deprecated data
+  if(typeof engine === 'string'){
+    let engineId = engine
+    return db.engine.get(engineId)
+  }
+
+  if(!engine || !engine.name){
+    return null
+  }
+
+  let matchingEngines = ENGINES_DATABASE.filter(e => {
+    return e.name === engine.name
+  })
+  if(matchingEngines.length < 1 ){
+    return engine
+  }
+  if(matchingEngines.length > 1){
+    // TODO pick the best match
+  }
+
+  return matchingEngines[0]
+}
+
+
+
+
+
+/**
+ *
+ * Fuzzy search
+ *
+ */
 
 
 export function search(text, data) {
-  let carsData = flattenCarFiles(data.cars)
+  let carsData = flattenCarData(data.cars)
   let fuse = new Fuse(carsData, {
     includeScore: true,
     // Search in `author` and in `tags` array
@@ -32,7 +142,7 @@ export function search(text, data) {
   return fuse.search(text).map(r => r.item)
 }
 
-export function flattenCarFiles (data) {
+export function flattenCarData (data) {
   // map cars to a searchable string
   let cars = data.reduce((arr, carFile) => {
     let cars = []

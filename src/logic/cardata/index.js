@@ -1,4 +1,4 @@
-import * as db from './database.js'
+import db from './database.js'
 
 /**
  *
@@ -24,8 +24,6 @@ export function getCar(carId, trimId=0, engineId=0) {
   let car = db.car.get(carId)
   if (!car) throw Error('car not found')
 
-  const detailedEngines = listDetailedEngines(car)
-
   // regroup base trim with additionals trims
   const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims || [])
   // apply selected trim
@@ -39,7 +37,7 @@ export function getCar(carId, trimId=0, engineId=0) {
   enginesOptions.forEach((eOpts) => {
     let engine = eOpts.engine
     if(!isEngineDetailed(engine)){
-      let detailedEngine = findDetailedEngine(engine, detailedEngines)
+      let detailedEngine = db.engine.find(engine)
       eOpts.engine = detailedEngine
     }
   })
@@ -50,10 +48,11 @@ export function getCar(carId, trimId=0, engineId=0) {
   }
   car = Object.assign({}, car, enginesOptions[engineId])
 
+  // TODO move to complete engine database
   car = completeEngineData(car)
 
 
-
+  // return car with its available trims and engines options
   return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions})
 }
 
@@ -69,63 +68,9 @@ export function searchCar(text) {
 
 
 
-function listDetailedEngines(car) {
-  let engines = []
-
-  engines = engines.concat(listDetailedEnginesInASingleTrim(car))
-
-  if(car.trims){
-    for(var i=0; i<car.trims.length; i++){
-      let trim = car.trims[i]
-      engines = engines.concat(listDetailedEnginesInASingleTrim(trim))
-    }
-  }
-
-  return engines
-}
-
-function listDetailedEnginesInASingleTrim(car){
-  const engines = []
-  if(car.engine && isEngineDetailed(car.engine)){
-    engines.push(car.engine)
-  }
-
-  if(car.engines){
-    for(var i=0; i<car.engines.length; i++){
-      let engine = car.engines[i].engine
-      if(isEngineDetailed(engine)){
-        engines.push(engine)
-      }
-    }
-  }
-
-  return engines
-}
-
 function isEngineDetailed(engine){
   return engine ? !!engine.torqueX : false
 }
-
-function findDetailedEngine(engine, detailedEngine){
-  // get linked engine
-  if(typeof engine === 'string'){
-    let engineId = engine
-    return db.engine.get(engineId)
-  }
-  if(!engine || !engine.name){
-    return null
-  }
-  let newEngine = detailedEngine.find(e => {
-    return e.name === engine.name
-  })
-
-  if(newEngine){
-    return newEngine
-  }
-  return engine
-}
-
-
 
 
 function completeEngineData(car) {
