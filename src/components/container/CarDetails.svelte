@@ -6,7 +6,8 @@
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
   import CarTrimSelector from "@/components/presentation/CarTrimSelector.svelte"
-  import CarEngineSelector from "@/components/presentation/CarEngineSelector.svelte"
+  import CarEngineSelector from "@/components/presentation/Selector.svelte"
+  import Selector from "@/components/presentation/Selector.svelte";
 
 
   export let carId
@@ -53,9 +54,8 @@
 
 <SceneGraph car={car}></SceneGraph>
 
-<CarTrimSelector trims={car.trims} selectedId={trimId} on:select={(e) => handleTrimSelect(e.detail.id)}/>
-
-<CarEngineSelector engines={car.engines} selectedId={engineId} on:select={(e) => handleEngineSelect(e.detail.id)}/>
+<Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
+<Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
 
 Car :
 
