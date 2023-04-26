@@ -1,10 +1,12 @@
 <script>
+  import { createEventDispatcher } from "svelte"
   import { getCar } from "@/logic/cardata"
-  import Icon from "../presentation/Icon.svelte"
+  import Icon from "@/components/presentation/Icon.svelte"
   import SceneGraph from "./SceneGraph.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
-  import { createEventDispatcher } from "svelte"
+  import CarTrimSelector from "@/components/presentation/CarTrimSelector.svelte"
+  import CarEngineSelector from "@/components/presentation/CarEngineSelector.svelte"
 
 
   export let carId
@@ -19,6 +21,7 @@
 
 
   function loadCar(carId, trimId, engineId){
+    console.log('trim', typeof trimId, trimId)
     if(carId){
       car = getCar(carId, trimId, engineId)
     }
@@ -50,24 +53,9 @@
 
 <SceneGraph car={car}></SceneGraph>
 
-Trims :
-{#each car.trims as trimlist, index}
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="trim {index===trimId ? 'selected' : ''}" on:click={() => handleTrimSelect(index)}>
-    <Icon name=truck></Icon>{trimlist.trim}
-  </div>
-{/each}
+<CarTrimSelector trims={car.trims} selectedId={trimId} on:select={(e) => handleTrimSelect(e.detail.id)}/>
 
-Engines :
-
-{#if car.engines}
-  {#each car.engines as engineList, index}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <div class="trim {index===engineId ? 'selected' : ''}" on:click={() => handleEngineSelect(index)}>
-      <Icon name=cog></Icon>{engineList.engine.name} {engineList.engine.hp} {engineList.gearName}
-    </div>
-  {/each}
-{/if}
+<CarEngineSelector engines={car.engines} selectedId={engineId} on:select={(e) => handleEngineSelect(e.detail.id)}/>
 
 Car :
 
