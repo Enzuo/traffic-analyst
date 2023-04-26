@@ -1,0 +1,77 @@
+name : Yaris III
+brand : Toyota
+trim : HSD
+year : 2011
+price : 18500€
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.5 Hybrid
+  hp: 100
+  torqueY: [169,169, 169, 152, 146] # 169nm 61hp  -- petrol : 111nm@3600-4600 75@4800
+  torqueX: [500,1000,3600,4600,4800] # electric engine contribution to torque must decrease with speed
+  type : hybrid
+  layout : l4
+  displacement : 1497
+
+# List additional engines
+engines :
+  - engine :
+      name : petrol
+    driveRatio : 3.9
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : e-cvt
+gearRatio : [2.636, 0.426] # 0.886] for 195 max speed (if electric engine was pushing all the way)
+gearReverse : 2.636
+driveRatio : 3.190
+wheelDiameter : 61
+type : FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 1150 # 1055 empty
+length: 3945
+width: 1695
+height: 1510
+dragCoef: 0.286
+dragArea: 2.15
+
+wheelbase: 2510
+bodyType: hatchback
+clearance:
+trunk: 286
+trunkMax:
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100: 11.8
+acc050: 4
+vmax: 165
+avgConsumption : 3.3 # 4.8 real
+energyTank : 36
+autonomy :
+turningCircle : 9.4
+wheelType : 175/65R15
+suspension : MacPherson, torsion
+brakes : hydraulique et régénératif
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
