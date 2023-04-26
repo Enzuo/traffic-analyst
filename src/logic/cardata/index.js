@@ -115,9 +115,14 @@ function findDetailedEngine(engine, detailedEngine){
   if(!engine || !engine.name){
     return null
   }
-  return detailedEngine.find(e => {
+  let newEngine = detailedEngine.find(e => {
     return e.name === engine.name
   })
+
+  if(newEngine){
+    return newEngine
+  }
+  return engine
 }
 
 

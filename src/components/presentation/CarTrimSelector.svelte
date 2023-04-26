@@ -24,6 +24,7 @@
     on:keydown={() => handleTrimSelect(index)}
   >
     <Icon name=truck></Icon>{trim.trim}
+    <input name="trim" type="radio" value={index} checked={index===selectedId}>
   </div>
   {/each}
 </div>
@@ -31,5 +32,14 @@
 <style>
   .selected {
     color: var(--primary);
+  }
+
+  .grid:focus-within {
+    border:1px solid var(--primary)
+  }
+
+  input {
+    position:absolute;
+    left:-9999px;
   }
 </style>

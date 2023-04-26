@@ -42,7 +42,7 @@
     })
 
     // don't keep content change in history with replaceState:true
-    goto('/cars?'+params, {replaceState:true, noScroll:true})
+    goto('/cars?'+params, {replaceState:true, noScroll:true, keepFocus:true})
   }
 
   function handleSearch(e) {
