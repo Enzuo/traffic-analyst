@@ -55,6 +55,15 @@
     console.log('searched', cars)
   }
 
+  function handleCompare(){
+    let params = new URLSearchParams([
+      ['id', 'test1'],
+      ['id', 'test2'],
+    ])
+
+    goto('/compare?'+params)
+  }
+
 
 
 </script>
@@ -62,6 +71,7 @@
   <LayoutList>
     <div slot="list">
       <CarList cars={cars} selectedCarId={selectedCarId} on:select={handleListSelect} on:search={handleSearch}></CarList>
+      <button on:click={handleCompare}>goto compare</button>
     </div>
 
     <div slot="content">
