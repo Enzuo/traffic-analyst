@@ -1,0 +1,81 @@
+name : Truck T
+brand : Renault
+trim :
+year : 2013
+price : 80000€
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Eu6 DTI 13 440
+  hp: 440
+  torqueY: [1500, 1750, 2200, 2200, 1670, 800]
+  torqueX: [400 , 700 , 800 , 1400, 1800, 2200]
+  type : diesel
+  layout : l6
+  displacement : 12.8L
+  weight : 1150
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : Optidriver 12
+gearRatio : [14.70, 11.70, 9.24, 7.35, 5.81, 4.61, 3.66, 2.91, 2.30, 1.82, 1.44, 1]
+gearReverse :
+gearTransfer :
+driveRatio : 2.64
+gearSpeed :
+wheelDiameter : 101
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 8262
+length: 6145
+width: 2499
+height: 3900
+dragCoef: 0.37
+dragArea: 7.5
+
+wheelbase: 3800
+bodyType: semitruck
+clearance:
+trunk:
+trunkMax:
+seats: 2
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption : 30
+energyTank : 1475
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

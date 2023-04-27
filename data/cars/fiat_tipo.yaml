@@ -48,6 +48,8 @@ engines :
     weight : 1295
     avgConsumption : 3.7
     vmax : 200
+  - engine :
+      name : 1.3 Multijet
 
 
 # -------------

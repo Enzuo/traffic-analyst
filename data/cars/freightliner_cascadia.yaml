@@ -1,0 +1,80 @@
+name : Cascadia
+brand : Freightliner
+trim :
+year : 2007
+price : $160.000 - $240.000
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : DD13
+  hp: 450
+  torqueY: [1230, 1310, 2330, 2375, 2330, 2135, 600] #2375nm@1000 450hp@1500
+  torqueX: [500, 600 , 900 , 1000, 1300, 1500, 1900]
+  type : diesel
+  layout : l6
+  displacement : 12800
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : Allison 4000 auto
+gearRatio : [3.51, 1.91, 1.43, 1.00, 0.74, 0.64]
+gearReverse :
+gearTransfer :
+driveRatio : 2.85
+gearSpeed :
+wheelDiameter : 101
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 15000
+length: 9600
+width: 2600
+height: 4200
+dragCoef: 0.38
+dragArea: 10
+
+wheelbase: 6900
+bodyType: semitruckus
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption :
+energyTank :
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

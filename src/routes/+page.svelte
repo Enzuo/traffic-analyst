@@ -11,7 +11,7 @@
     <img src="title7.png" alt="AutoWaves"/>
   </h1>
   <Tools></Tools>
-  <Cars/>
+  <TestProcedural/>
 </main>
 
 <style>

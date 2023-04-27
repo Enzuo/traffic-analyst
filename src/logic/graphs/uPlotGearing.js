@@ -1,5 +1,5 @@
 import uPlot from 'uplot'
-import 'uplot/dist/uPlot.min.css'  
+import 'uplot/dist/uPlot.min.css'
 import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, getEngineRPMForSpeed } from '../carLogic/physics'
 
 
@@ -9,7 +9,7 @@ export function createGraph(car, element){
 
 
   let gearSeries = []
-  const colors = ["blue", "red", "orange", "green", "purple", "grey", "grey", "grey"]
+  const colors = ["blue", "red", "orange", "green", "purple", "grey", "grey", "grey", "grey", "grey", "grey", "grey"]
   for(let i = 0; i < car.gearRatio.length; i++){
     gearSeries.push({
       label: (i+1),
@@ -89,7 +89,7 @@ export function createGraph(car, element){
       }
     ],
   }
-  
+
   let plotChart = new uPlot(options, graphData, element);
   return { setData : (data) => {
     plotChart.setData(data)

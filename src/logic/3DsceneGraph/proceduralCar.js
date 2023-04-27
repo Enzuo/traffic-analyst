@@ -32,42 +32,46 @@ export function loadDefaultCarModel(car){
 
 const BODY_TYPES = {
   HATCHBACK : {
-    id : 1,
     hasTrunk : false,
     hasHood : true,
     regex:/hatchback/i,
   },
   BUS : {
-    id : 2,
     hasTrunk : false,
     hasHood : false,
     regex:/bus/i,
   },
   MPV : { // van, monospace
-    id : 3,
     hasTrunk : false,
     hasHood : false,
     regex:/van|monospace|mpv/i,
   },
   SEDAN : {
-    id : 4,
     hasTrunk : true,
     hasHood : true,
     regex:/sedan/i,
   },
   FASTBACK : {
-    id: 5,
     hasHood: true,
     hasTrunk: false,
     regex:/liftback|fastback/i,
   },
   BOX : {
-    id: 6,
     hasHood: true,
     hasTrunk: false,
     regex:/box/i,
+  },
+  SEMITRUCKUS : {
+    hasHood : true,
+    hasBed : true,
+    regex:/semitruckus/i
+  },
+  SEMITRUCK : {
+    hasHood : false,
+    hasBed : true,
+    regex:/semitruck|truck/i
+  },
 
-  }
 
 }
 
@@ -200,32 +204,52 @@ function addMainFrame(vertices, position, length, height, bottom, type){
   height /= 1000
   bottom /= 1000
 
-  // TODO use frameHeight
   const halfLength = length/2
-  const halfHeight = height*0.6
+  let halfHeight = height*0.6
+  let bedHeight = halfHeight
+  let hoodHeight = halfHeight
   const frameHeight = height
   const trunkSize = Math.min(1,halfLength/2)
-  const hoodSize = Math.min(2,halfLength/2)
+  const hoodSize = Math.min(1.7,halfLength/2)
+  let middle = 0
+  let MAX_CABIN_LENGTH = 2
 
   // slanded roof
   let topY = Math.abs(position[2])
   topY = Math.max(topY*0.8, topY - 0.2)
   topY = topY * Math.sign(position[2])
 
-  let topRear = halfLength
+  let topRear = -halfLength
   let topFront = 0.3*halfLength
   if(type === BODY_TYPES.HATCHBACK || type === BODY_TYPES.MPV){
-    topRear = Math.max(0.8*halfLength, halfLength-0.3)
+    topRear = -Math.max(0.8*halfLength, halfLength-0.3)
   }
   if(type === BODY_TYPES.BUS){
-    topRear = Math.max(0.9*halfLength, halfLength-0.1)
+    topRear = -Math.max(0.9*halfLength, halfLength-0.1)
     topFront = Math.max(0.85*halfLength, halfLength-0.5)
   }
   if(type === BODY_TYPES.SEDAN){
-    topRear = Math.max(0.4*halfLength, halfLength-1.2)
+    topRear = -Math.max(0.4*halfLength, halfLength-1.2)
   }
   if(type === BODY_TYPES.FASTBACK){
-    topRear = 0.4*halfLength
+    topRear = -0.4*halfLength
+  }
+  if(type === BODY_TYPES.SEMITRUCKUS){
+    MAX_CABIN_LENGTH = 4
+  }
+  if(type === BODY_TYPES.SEMITRUCK || type === BODY_TYPES.SEMITRUCKUS){
+
+    let cabinLength = Math.min(0.8*halfLength, MAX_CABIN_LENGTH)
+    if(type.hasHood){
+      topFront = halfLength - 0.2 * cabinLength - hoodSize
+      cabinLength += hoodSize
+    }
+    else {
+      topFront = 0.95*halfLength
+    }
+
+    middle = topRear = (halfLength-cabinLength)
+    bedHeight = 0.3*height
   }
 
   /**
@@ -239,19 +263,19 @@ function addMainFrame(vertices, position, length, height, bottom, type){
    */
   const verticesFrame = [
     // TOP
-    [-topRear             , frameHeight, topY],
+    [topRear              , frameHeight, topY],
     [topFront             , frameHeight, topY] ,
 
     // MID SECTION
-    [-halfLength          , halfHeight, position[2]],
-    [-halfLength+trunkSize, halfHeight, position[2]],
-    [0                    , halfHeight, position[2]],
-    [halfLength-hoodSize  , halfHeight, position[2]],
-    [halfLength           , halfHeight, position[2]],
+    [-halfLength          , bedHeight, position[2]],
+    [-halfLength+trunkSize, bedHeight, position[2]],
+    [middle               , bedHeight, position[2]],
+    [halfLength-hoodSize  , hoodHeight, position[2]],
+    [halfLength           , hoodHeight, position[2]],
 
     // BOTTOM
     [-halfLength          , bottom    , position[2]],
-    [0                    , bottom    , position[2]],
+    [middle               , bottom    , position[2]],
     [halfLength           , bottom    , position[2]],
   ]
 
@@ -267,12 +291,15 @@ function addMainFrame(vertices, position, length, height, bottom, type){
 
 function createFacesForFrame(vi, isInverted=false, type){
   const faces = [
-    vi[0],vi[3],vi[1],
-    vi[1],vi[3],vi[4],
+    vi[0],vi[4],vi[1],
     vi[1],vi[4],vi[5],
   ]
 
-  if(!type.hasTrunk){
+  if(!type.hasBed){
+    faces.push(vi[0],vi[3],vi[4])
+  }
+
+  if(!type.hasTrunk && !type.hasBed){
     faces.push(vi[0],vi[2],vi[3])
   }
   if(!type.hasHood){
@@ -325,6 +352,18 @@ function createFacesBetweenFrames(viF1, viF2, viWR1, viWR2, viWF1, viWF2, type){
 
       viF1[3], viF1[0], viF2[3],
       viF1[0], viF2[0], viF2[3],
+    )
+  }
+  else if(type.hasBed){
+    faces.push(
+      viF1[2], viF1[3], viF2[2],
+      viF1[3], viF2[3], viF2[2],
+
+      viF1[3], viF1[4], viF2[3],
+      viF1[4], viF2[4], viF2[3],
+
+      viF1[4], viF1[0], viF2[4],
+      viF1[0], viF2[0], viF2[4],
     )
   }
   else {
