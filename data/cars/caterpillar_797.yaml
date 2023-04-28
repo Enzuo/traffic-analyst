@@ -1,0 +1,80 @@
+name : 797
+brand : Caterpillar
+trim : 797B
+year : 2002 # 797 1998
+price : $3,400,000
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 3524B HD EUI
+  hp: 3550 hp # flywheel 3370 hp
+  torqueY: [16535,16300,16000, 14200, 11500]
+  torqueX: [260  ,500  ,1500 , 1750 , 1900]
+  type : # petrol, diesel, hybrid, electric
+  layout : 2xl12
+  displacement : 117100
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [5.98, 4.45, 3.30, 2.44,1.82, 1.35, 1]
+gearReverse :
+gearTransfer :
+driveRatio : 21.09
+gearSpeed :
+wheelDiameter : 402
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 265003
+length: 14530
+width: 9761
+height: 7083
+dragCoef: 0.6
+dragArea: 66
+
+wheelbase: 7224
+bodyType: haultruck
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 68km/h
+avgConsumption : 753
+energyTank : 6813
+autonomy :
+turningCircle :
+wheelType : 59/80R63 # 80000$
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

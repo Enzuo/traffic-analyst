@@ -61,6 +61,10 @@ const BODY_TYPES = {
     hasTrunk: false,
     regex:/box/i,
   },
+  DUMPTRUCK : {
+    hasHood:false,
+    regex:/haultruck|dumptruck|tombereau/i,
+  },
   SEMITRUCKUS : {
     hasHood : true,
     hasBed : true,
@@ -224,7 +228,7 @@ function addMainFrame(vertices, position, length, height, bottom, type){
   if(type === BODY_TYPES.HATCHBACK || type === BODY_TYPES.MPV){
     topRear = -Math.max(0.8*halfLength, halfLength-0.3)
   }
-  if(type === BODY_TYPES.BUS){
+  if(type === BODY_TYPES.BUS || type === BODY_TYPES.DUMPTRUCK){
     topRear = -Math.max(0.9*halfLength, halfLength-0.1)
     topFront = Math.max(0.85*halfLength, halfLength-0.5)
   }
