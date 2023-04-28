@@ -1,0 +1,80 @@
+name : Twingo
+brand : Renault
+trim :
+year : 1992
+price : 54000f
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.2 C3G Cléon-Fonte
+  hp: 55
+  torqueY: [70  , 81  , 90  , 81  , 72.9, 60] #90@2800 55hp@5300
+  torqueX: [1000, 1300, 2800, 4500, 5300, 5500]
+  type : petrol
+  layout : l4
+  displacement : 1239
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [3.731,2.049,1.321,0.976,0.756]
+gearReverse :
+gearTransfer :
+driveRatio : 3.73
+gearSpeed :
+wheelDiameter : 53
+type : FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 890
+length: 3430
+width: 1630
+height: 1420
+dragCoef: 0.35
+dragArea: 1.9
+
+wheelbase: 2347
+bodyType: mpv
+clearance:
+trunk: 168 - 261
+trunkMax: 1096
+seats: 4
+
+# -------------
+# STATS
+# -------------
+acc0100: 14
+vmax: 150
+avgConsumption : 6
+energyTank : 40
+autonomy :
+turningCircle :
+wheelType : 145/70R13
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

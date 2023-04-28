@@ -73,7 +73,7 @@ const BODY_TYPES = {
   SEMITRUCK : {
     hasHood : false,
     hasBed : true,
-    regex:/semitruck|truck/i
+    regex:/semitruck|truck|semitrailertruck/i
   },
 
 
