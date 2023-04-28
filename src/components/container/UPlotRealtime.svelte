@@ -9,13 +9,10 @@
   export let transformFn
 
   export let time
-  export let observed 
-  
+  export let observed
+
   let chart
   let chartElement
-  onMount(() => {
-    setupGraph
-  })
 
   const updateGraph = (t) => {
     if(chart){
@@ -24,13 +21,13 @@
     }
   }
 
-  function setupGraph (observed) {
+  function setupGraph (observed, chartElement) {
     if(observed && chartElement){
       chart = createGraph({title, units, key, transformFn, colors}, observed, chartElement)
     }
   }
 
-  $: setupGraph(observed)
+  $: setupGraph(observed, chartElement)
 
   $: updateGraph(time)
 
