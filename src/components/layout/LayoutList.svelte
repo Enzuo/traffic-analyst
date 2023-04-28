@@ -7,7 +7,7 @@
 
 <div class="layout">
   <div class="side-bar">
-
+    <slot name="side-bar"></slot>
   </div>
 
 

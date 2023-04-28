@@ -53,7 +53,7 @@ export function getCar(carId, trimId=0, engineId=0) {
 
 
   // return car with its available trims and engines options
-  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions})
+  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions}, {trimId, engineId})
 }
 
 /**
