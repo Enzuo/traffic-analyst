@@ -54,19 +54,19 @@ seats:
 # -------------
 # STATS
 # -------------
-acc0100:
+acc0100: # 0-30mph(48) times of about 27 seconds on 797F
 vmax: 68km/h
-avgConsumption : 753
+avgConsumption : 753 # 0.3 mpg
 energyTank : 6813
 autonomy :
-turningCircle : 37.4
-wheelType : 59/80R63 # 80000$
+turningCircle : 40.5
+wheelType : 59/80R63 #  $42500-80000$
 
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: caterpillar797b
+modelWheel: wheel797b
 modelMisc:
 
 # -------------
