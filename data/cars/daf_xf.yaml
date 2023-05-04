@@ -1,0 +1,80 @@
+name : xf
+brand : daf
+trim : xf480 4x2 36
+year : 2017
+price : 100000€
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : PACCAR MX-11 330
+  hp: 449
+  torqueY: [1900, 2300, 2300, 2200, 1970, 1580] # 2300nm@900->1125 449hp@1600
+  torqueX: [800 , 900 , 1125, 1400, 1600, 1800]
+  type : diesel
+  layout : l6
+  displacement : 10800
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : ZF TraXon 12tx
+gearRatio : [12.92, 9.98, 7.69, 5.94, 4.57, 3.53, 2.83, 2.19, 1.68, 1.30, 1, 0.77] # 16.69, 1
+gearReverse : [12.03, 9.29, 2.64, 2.04]
+gearTransfer :
+driveRatio : 2.21
+gearSpeed :
+wheelDiameter : 92.6 # 63cm
+type : RWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 7020 # 6945 3.6m super space cab
+length: 5960
+width: 2500
+height: 3910
+dragCoef: 0.4
+dragArea: 7.5
+
+wheelbase: 3600
+bodyType: semi
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption : 28
+energyTank : 863 # + 80adblue
+autonomy :
+turningCircle :
+wheelType : 295/60R22.5
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
