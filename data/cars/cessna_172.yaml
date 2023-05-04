@@ -1,0 +1,82 @@
+name : cessna 172
+brand : cessna
+trim : 172s
+year : 1998
+price : 155,000$
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Lycoming IO-360-L2A
+  hp: 180
+  torqueY: [26, 280, 468]
+  torqueX: [800, 2000, 2700]
+  type : avgas
+  layout : h4
+  displacement : 5916
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [1]
+gearReverse :
+gearTransfer :
+driveRatio :
+gearSpeed :
+wheelDiameter : # 63cm
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 870 # 779
+length: 8280
+width: 11000
+height: 2720
+dragCoef:
+dragArea:
+
+wheelbase:
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk:
+trunkMax:
+seats: 4
+maxWeight: 1157
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 232 # 213 cruise 176 economy
+avgConsumption : 13.5 # 30l/h
+energyTank : 212 # 2x106
+autonomy :
+turningCircle :
+wheelType :
+propellerForce : 2090N
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
