@@ -8,20 +8,13 @@ $primary-hue: 335;
 // $primary-700: #84f403;
 
 // Import Pico
-@import "@picocss/pico/scss/pico";
+// @import "@picocss/pico/scss/pico";
 
 :root {
-  --primary: #43a047;
-}
-
-@font-face {
-  font-family: "slkscre";
-  src: url("fonts/slkscre.ttf") format('truetype');
-}
-
-@font-face {
-  font-family: "Pixelmania";
-  src: url("fonts/Pixelmania.ttf") format('truetype');
+  --primary: #f85e87;
+  --primary-inverse: #fff;
+  --primary-hover: #F7A9A8;
+  --secondary:#A2DED0;
 }
 
 @font-face {
@@ -31,7 +24,8 @@ $primary-hue: 335;
 
 
 
-.button {
+.button,
+button {
   background-color: var(--primary);
   color : var(--primary-inverse);
   border: 0.1em solid var(--primary-inverse);
@@ -44,9 +38,16 @@ $primary-hue: 335;
   font-family: "Publicpixel", courier, monospace;
   text-transform: uppercase;
   text-decoration: none;
+  outline: none;
+}
+
+button.secondary {
+  background-color: var(--primary-inverse);
+  color: var(--secondary);
 }
 
 .button:is([aria-current], :hover, :active, :focus),
+button:is([aria-current], :hover, :active, :focus),
 input[type=submit]:is([aria-current], :hover, :active, :focus),
 input[type=button]:is([aria-current], :hover, :active, :focus),
 input[type=reset]:is([aria-current], :hover, :active, :focus),
@@ -54,6 +55,7 @@ input[type=reset]:is([aria-current], :hover, :active, :focus),
   background-color: var(--primary-hover);
 }
 .button:focus,
+button:is([aria-current], :hover, :active, :focus),
 input[type=submit]:focus,
 input[type=button]:focus,
 input[type=reset]:focus,
@@ -61,4 +63,10 @@ input[type=reset]:focus,
   box-shadow: 1px 1px 0px 2px var(--primary);
   border: 0.3em solid var(--primary-inverse);
   padding : 0.8em;
+}
+
+button.secondary:is([aria-current], :hover, :active, :focus)
+{
+  background-color: var(--primary-inverse);
+  color: var(--primary);
 }

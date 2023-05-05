@@ -10,13 +10,14 @@
     <slot name="side-bar"></slot>
   </div>
 
+  <div class="layout-row">
+    <div class="list">
+      <slot name="list"></slot>
+    </div>
 
-  <div class="list">
-    <slot name="list"></slot>
-  </div>
-
-  <div class="content">
-    <slot name="content"></slot>
+    <div class="content">
+      <slot name="content"></slot>
+    </div>
   </div>
 </div>
 
@@ -24,8 +25,13 @@
 <style>
   .layout {
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
     height:100%;
+  }
+
+  .layout-row {
+    display:flex;
+    flex-direction: row;
   }
 
   .list {

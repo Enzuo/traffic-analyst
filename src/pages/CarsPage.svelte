@@ -4,6 +4,7 @@
   import CarList from '@/components/container/CarList.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
   import { goto } from "$app/navigation"
+  import CarBasket from '@/components/container/CarBasket.svelte';
 
   export let selectedCarId = null
   export let selectedTrimId = null
@@ -56,7 +57,7 @@
     goto('/compare?'+params)
   }
 
-  function handleAddToCart () {
+  function handleAddToBasket () {
     let car = cardata.getCar(selectedCarId, selectedTrimId, selectedEngineId)
     if(carsBasket.findIndex((c) => {
       return c.id === selectedCarId && c.trimId === selectedTrimId && c.engineId === selectedEngineId
@@ -71,11 +72,11 @@
 <div class="page">
   <LayoutList>
     <div slot="side-bar">
-      {#each carsBasket as car }
-        {car.name} {car.engine.hp}
-      {/each}
-      <button on:click={handleAddToCart}>Add</button>
-      <button on:click={handleCompare}>goto compare</button>
+      <CarBasket
+        carsBasket={carsBasket}
+        on:addToBasket={handleAddToBasket}
+        on:compareBasket={handleCompare}
+      ></CarBasket>
     </div>
 
     <div slot="list">
