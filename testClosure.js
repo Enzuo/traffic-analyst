@@ -11,7 +11,7 @@ function createObject () {
 
   return {
     foo,
-    setFoo, 
+    setFoo,
     get getterFoo() { return foo },
     getFoo
   }
