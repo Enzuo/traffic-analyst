@@ -9,17 +9,30 @@
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>
-  <Tools></Tools>
-  <TestProcedural/>
+  <div id="tools">
+    <Tools></Tools>
+  </div>
+  <div id="menu">
+    <a class="button" href="/cars">cars list</a>
+    <a class="button" href="/about">about</a>
+  </div>
 </main>
 
 <style>
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
+		/* max-width: 240px; */
 		margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 	}
+
+  #tools {
+    width: 100%;
+  }
+
 
 	h1 {
 		color: #ff3e00;
