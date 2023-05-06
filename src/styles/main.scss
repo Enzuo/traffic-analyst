@@ -12,6 +12,7 @@ $primary-hue: 335;
 
 :root {
   --primary: #f85e87;
+  --primary-shadow: #c5384d;
   --primary-inverse: #fff;
   --primary-hover: #F7A9A8;
   --secondary:#A2DED0;
@@ -28,45 +29,51 @@ $primary-hue: 335;
 button {
   background-color: var(--primary);
   color : var(--primary-inverse);
-  border: 0.1em solid var(--primary-inverse);
-  box-shadow: 1px 1px 0px 2px var(--secondary);
+  border: 6px solid var(--primary);
+  // box-shadow: 1px 1px 0px 2px var(--secondary);
+  border-bottom-color:var(--primary-shadow);
+  border-right-color:var(--primary-shadow);
 
   display: block;
   padding : 1em;
-  margin: .5em;
+  // margin: .5em;
 
   font-family: "Publicpixel", courier, monospace;
   text-transform: uppercase;
   text-decoration: none;
   outline: none;
+  cursor: pointer;
+
 }
 
-button.secondary {
+.button.secondary {
   background-color: var(--primary-inverse);
   color: var(--secondary);
+  border-color:var(--secondary);
 }
 
-.button:is([aria-current], :hover, :active, :focus),
-button:is([aria-current], :hover, :active, :focus),
-input[type=submit]:is([aria-current], :hover, :active, :focus),
-input[type=button]:is([aria-current], :hover, :active, :focus),
-input[type=reset]:is([aria-current], :hover, :active, :focus),
-[role=button]:is([aria-current], :hover, :active, :focus) {
+.button:is([aria-current], :hover, :active),
+button:is([aria-current], :hover, :active),
+input[type=submit]:is([aria-current], :hover, :active),
+input[type=button]:is([aria-current], :hover, :active),
+input[type=reset]:is([aria-current], :hover, :active),
+[role=button]:is([aria-current], :hover, :active) {
+  // background-color: var(--primary-shadow);
+  border-color: var(--primary);
   background-color: var(--primary-hover);
 }
 .button:focus,
-button:is([aria-current], :hover, :active, :focus),
+button:is([aria-current], :focus),
 input[type=submit]:focus,
 input[type=button]:focus,
 input[type=reset]:focus,
 [role=button]:focus {
-  box-shadow: 1px 1px 0px 2px var(--primary);
-  border: 0.3em solid var(--primary-inverse);
-  padding : 0.8em;
+  border-color: var(--primary-hover);
 }
 
-button.secondary:is([aria-current], :hover, :active, :focus)
+.button.secondary:is([aria-current], :hover, :active, :focus)
 {
   background-color: var(--primary-inverse);
   color: var(--primary);
+  border-color: var(--primary-hover);
 }

@@ -33,6 +33,11 @@
     width: 100%;
   }
 
+  .button {
+    box-shadow: 1px 1px 0px 2px var(--secondary);
+    margin:1.5em;
+  }
+
 
 	h1 {
 		color: #ff3e00;
