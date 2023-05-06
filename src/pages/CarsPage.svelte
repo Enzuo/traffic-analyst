@@ -24,7 +24,7 @@
     // TODO extract goto to routes
     let params = new URLSearchParams(paramsObj)
 
-    goto('/cars?'+params, {invalidateAll:false, noScroll:true})
+    goto('/cars?'+params, {invalidateAll:false, noScroll:true, keepFocus:true})
   }
 
   function handleContentSelect (e) {

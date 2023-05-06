@@ -56,7 +56,7 @@
 <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
 
 <section>
-  <h3>General Infos</h3>
+  <h2>{car.brand} - {car.name}</h2>
   <ul>
     <li>{car.brand} - {car.name} - {car.trim}</li>
     <li>{car.year}</li>

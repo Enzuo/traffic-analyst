@@ -20,10 +20,10 @@
 
 <ul>
 	{#each cars as car}
-		<li
+		<li><a href="#"
       on:click={() => handleCarClick(car)}
       on:keypress={() => handleCarClick(car)}
-      class={selectedCarId===car.id ? 'selected' : null}
+      class={selectedCarId===car.id ? 'button secondary selected' : 'button secondary'}
     >
       {car.name}
       {#if car.model}
@@ -36,14 +36,14 @@
         {car.engine.hp}
         {car.engine.name}
       {/if}
-    </li>
+    </a></li>
 	{/each}
 </ul>
 
 <style>
 
   .selected {
-    color : red;
+    color : var(--primary)
   }
 
 </style>

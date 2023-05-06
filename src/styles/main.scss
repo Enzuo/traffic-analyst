@@ -10,18 +10,41 @@ $primary-hue: 335;
 // Import Pico
 // @import "@picocss/pico/scss/pico";
 
+@font-face {
+  font-family: "Publicpixel";
+  src: url("fonts/PublicPixel.ttf") format('truetype');
+}
+
+
+
+
+
 :root {
   --primary: #f85e87;
   --primary-shadow: #c5384d;
   --primary-inverse: #fff;
   --primary-hover: #F7A9A8;
   --secondary:#A2DED0;
+
+  // Typography
+  font-family: "Publicpixel", courier, monospace;
+  line-height: 1.5;
+  font-size:16px;
+
+  // spaceing
+  --spacing: 1rem;
+  --typography-spacing-vertical: 1.5rem;
+  --block-spacing-vertical: calc(var(--spacing) * 2);
 }
 
-@font-face {
-  font-family: "Publicpixel";
-  src: url("fonts/PublicPixel.ttf") format('truetype');
+/**
+ * Section
+ * Responsive spacings for section
+ */
+ section {
+  margin-bottom: var(--block-spacing-vertical);
 }
+
 
 
 
@@ -76,4 +99,39 @@ input[type=reset]:focus,
   background-color: var(--primary-inverse);
   color: var(--primary);
   border-color: var(--primary-hover);
+}
+
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  margin-bottom: var(--typography-spacing-vertical);
+
+  text-shadow: 3px 3px var(--secondary);
+  color: var(--primary);
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
 }
