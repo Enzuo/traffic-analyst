@@ -9,7 +9,8 @@
   const dispatch = createEventDispatcher()
 
 
-  function handleCarClick (car) {
+  function handleCarClick (car, e) {
+    e.preventDefault()
     dispatch('click', { car })
   }
 
@@ -21,8 +22,8 @@
 <ul>
 	{#each cars as car}
 		<li><a href="#"
-      on:click={() => handleCarClick(car)}
-      on:keypress={() => handleCarClick(car)}
+      on:click={(e) => handleCarClick(car, e)}
+      on:keypress={(e) => handleCarClick(car, e)}
       class={selectedCarId===car.id ? 'button neutral selected' : 'button neutral'}
     >
       {car.brand} {car.name}

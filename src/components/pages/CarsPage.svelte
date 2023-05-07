@@ -49,9 +49,9 @@
   }
 
   function handleCompare(){
-    let searchParams = carsBasket.map(c => {
+    let searchParams = carsBasket.length ? carsBasket.map(c => {
       return ['id', c.id]
-    })
+    }) : [['id', selectedCarId]]
     let params = new URLSearchParams(searchParams)
 
     goto('/compare?'+params)

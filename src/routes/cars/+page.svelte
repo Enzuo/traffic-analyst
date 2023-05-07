@@ -1,5 +1,5 @@
 <script>
-  import CarsPage from "@/pages/CarsPage.svelte"
+  import CarsPage from "@/components/pages/CarsPage.svelte"
 
   export let data
 
