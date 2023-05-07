@@ -20,11 +20,15 @@ $primary-hue: 335;
 
 
 :root {
+  // Colors
   --primary: #f85e87;
   --primary-shadow: #c5384d;
-  --primary-inverse: #fff;
   --primary-hover: #F7A9A8;
+  --primary-inverse: #fff;
   --secondary:#A2DED0;
+  --neutral:#a3a3a3;
+  --neutral-light:#e9e9e9;
+  --neutral-dark:#525252;
 
   // Typography
   font-family: "Publicpixel", courier, monospace;
@@ -120,6 +124,17 @@ input[type=reset]:focus,
 }
 
 .button.secondary:is([aria-current], :hover, :active, :focus)
+{
+  background-color: var(--primary-inverse);
+  color: var(--primary);
+  border-color: var(--primary-hover);
+}
+.button.neutral {
+  color:var(--neutral-dark);
+  background-color: inherit;
+  border-color:var(--neutral-light);
+}
+.button.neutral:is([aria-current], :hover, :active, :focus)
 {
   background-color: var(--primary-inverse);
   color: var(--primary);

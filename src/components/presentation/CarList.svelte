@@ -23,9 +23,9 @@
 		<li><a href="#"
       on:click={() => handleCarClick(car)}
       on:keypress={() => handleCarClick(car)}
-      class={selectedCarId===car.id ? 'button secondary selected' : 'button secondary'}
+      class={selectedCarId===car.id ? 'button neutral selected' : 'button neutral'}
     >
-      {car.name}
+      {car.brand} {car.name}
       {#if car.model}
         <Icon name=bookmark></Icon>
       {/if}

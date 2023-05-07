@@ -49,21 +49,24 @@
 
 </script>
 
-
-<SceneGraph car={car}></SceneGraph>
-
-<Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
-<Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
-
+<div class="grid">
+  <section>
+    <h2>{car.brand} - {car.name}</h2>
+    <ul>
+      <li>{car.brand} - {car.name} - {car.trim}</li>
+      <li>{car.year}</li>
+      <li>{car.price}</li>
+      <li>{car.engine.hp} HP</li>
+    </ul>
+  </section>
+  <SceneGraph car={car}></SceneGraph>
+</div>
 <section>
-  <h2>{car.brand} - {car.name}</h2>
-  <ul>
-    <li>{car.brand} - {car.name} - {car.trim}</li>
-    <li>{car.year}</li>
-    <li>{car.price}</li>
-    <li>{car.engine.hp} HP</li>
-  </ul>
+  <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
+  <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
 </section>
+
+
 
 <section>
   <h3>Dimensions</h3>
@@ -91,3 +94,9 @@
   </ul>
   <UPlotGearing car={car}></UPlotGearing>
 </section>
+
+<style>
+  section {
+    margin:1em;
+  }
+</style>

@@ -52,7 +52,7 @@ seats:
 # -------------
 # STATS
 # -------------
-acc0100:
+acc0100: # 20s 0-90 https://www.youtube.com/watch?v=gy1dh1bWCos 34s
 vmax:
 avgConsumption : 28
 energyTank : 863 # + 80adblue
