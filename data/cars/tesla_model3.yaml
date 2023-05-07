@@ -1,11 +1,12 @@
-name : tesla model 3
+name : model 3
+brand : tesla
 year : 2018
 trim : standard 285hp
 
 # -------------
 # ENGINE
 # -------------
-engine :   
+engine :
   torqueY: [400, 400 , 397 , 331 , 283 , 248 , 209 , 140  ,80]
   torqueX: [0  , 4500, 5000, 6000, 7000, 8000, 9500, 12000,16000]
   minRPM: 50
@@ -33,6 +34,7 @@ wheelbase: 2875
 trunk: 545
 trunkMax:
 seats: 5
+bodyType: sedan
 
 # -------------
 # STATS

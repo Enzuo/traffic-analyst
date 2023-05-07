@@ -1,4 +1,4 @@
-name : citroen ln
+name : ln
 brand : citroen
 year : 1976
 
@@ -32,7 +32,7 @@ dragCoef : 0.43
 dragArea : 1.73
 
 wheelbase: 2230
-trunk: 
+trunk:
 trunkMax:
 seats: 4
 

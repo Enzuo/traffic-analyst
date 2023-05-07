@@ -1,14 +1,14 @@
-name : baker electric model VI
-brand : BakerElectric
-trim :
+name : baker electric
+brand : Baker
+trim : model VI
 year : 1909
 price : $2,800
 
 # -------------
 # ENGINE
 # -------------
-engine :  
-  name : baker 8hp 
+engine :
+  name : baker 8hp
   hp: 8
   torqueY: [112,112.4,93.6,80.3,70.2,62.4,56.2,51.1,46.8,43.2,40.1,37.5,35.1,33.1,31.2,29.6,28.1,26,23,20,16,10]
   torqueX: [0  ,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000      ,2100,2200,2300,2400,2500]
@@ -20,12 +20,12 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : 
+gearName :
 gearRatio : [1]
 gearReverse :
-gearTransfer : 
+gearTransfer :
 driveRatio : 10
-gearSpeed : 
+gearSpeed :
 wheelDiameter : 91
 type : #AWD, RWD, FWD
 
@@ -40,19 +40,19 @@ dragCoef : 0.6
 dragArea : 3.4
 
 wheelbase: 2235
-trunk: 
+trunk:
 trunkMax:
 seats: 4
 
 # -------------
 # STATS
 # -------------
-acc0100: 
+acc0100:
 vmax: 35
-avgConsumption : 
+avgConsumption :
 energyTank : 12 # 6x 6V battery
 autonomy : 160 # might be at 20km/h
-turningCircle : 
+turningCircle :
 wheelType :
 
 # -------------
@@ -65,5 +65,5 @@ modelMisc:
 # -------------
 # OPTIONS (available on all trims)
 # -------------
-options: 
+options:
   - name :

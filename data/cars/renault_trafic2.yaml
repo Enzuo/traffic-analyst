@@ -1,11 +1,12 @@
-name : renault trafic 2 dci 2.0 (90)
+name : trafic 2
+brand : renault
 year : 2006
 trim : 2.0 dCi (90 Hp) L1H1
 
 # -------------
 # ENGINE
 # -------------
-engine:     
+engine:
   name : m9r dci 2.0 90
   torqueY : [140 ,240 ,240 ,240 ,200 ,190 ,160]
   torqueX : [1000,1500,2000,2500,3000,3500,4000]
@@ -42,7 +43,7 @@ vmax: 150
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim : 2.0 dCi (90 Hp) L2H2
     weight : 1885
     length : 5180

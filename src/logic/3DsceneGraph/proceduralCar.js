@@ -49,7 +49,7 @@ const BODY_TYPES = {
   SEDAN : {
     hasTrunk : true,
     hasHood : true,
-    regex:/sedan/i,
+    regex:/sedan|saloon/i,
   },
   FASTBACK : {
     hasHood: true,

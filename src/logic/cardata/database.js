@@ -5,7 +5,9 @@ import Fuse from 'fuse.js'
 
 const db = {
   car : {
-    list : () => data.cars,
+    list : () => data.cars.filter((c) => {
+      return c.id !== '_default'
+    }),
     get : (id) => data.cars.find((car) => car.id === id),
     search : (text) => search(text, data)
   },

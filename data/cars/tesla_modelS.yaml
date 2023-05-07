@@ -1,11 +1,12 @@
-name : tesla model S
+name : model S
+brand : tesla
 trim : P85
 year : 2014 #2012
 
 # -------------
 # ENGINE
 # -------------
-engine :   
+engine :
   # 421hp 310kw, max rpm 16000, 421hp @5000 to9500
   torqueY: [600,600 , 492 , 422 , 369 , 311 , 224  , 130  ]
   torqueX: [0  ,5000, 6000, 7000, 8000, 9500, 12000, 16000]
@@ -43,4 +44,4 @@ acc0100: 4.4
 vmax: 210
 turningCircle : 12.3
 energyTank : 85
-wheelType: P245/45R19 
+wheelType: P245/45R19

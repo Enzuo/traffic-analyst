@@ -1,7 +1,7 @@
 name: zoe
+brand: renault
 trim: Q90
 year: 2017
-style: hatchback
 price: 23700€
 
 # -------------
@@ -37,6 +37,7 @@ trunk: 338
 trunkMax: 1225
 clearance: 120
 seats: 5
+bodyType: hatchback
 
 # -------------
 # STATS

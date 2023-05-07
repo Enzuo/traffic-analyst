@@ -1,11 +1,11 @@
-name : citroen 2cv
+name : 2cv
 brand : citroen
 year : 1953
 
 # -------------
 # ENGINE
 # -------------
-engine : 
+engine :
   name :
   torqueY : [9.6 ,17.1,19.6,19.6,19.4,18.9,18  ,14.2]
   torqueX : [1000,1500,2000,2200,2500,3000,3500,4000]
@@ -38,9 +38,9 @@ seats: 5
 # -------------
 # STATS
 # -------------
-acc0100: 
+acc0100:
 turningCircle : 11
-energyTank: 25 
+energyTank: 25
 
 # -------------
 # 3D
@@ -51,7 +51,7 @@ modelWheel: wheel2cv
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim : 23hp
     year : 1965
     engine :
