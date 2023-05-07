@@ -27,3 +27,9 @@
     </button>
   </div>
 </form>
+
+<style>
+  input {
+    flex-grow:1;
+  }
+</style>

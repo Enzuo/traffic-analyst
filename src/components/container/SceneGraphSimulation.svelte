@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from "svelte"
+  import { onMount, onDestroy } from "svelte"
   import SceneGraph from "@/logic/3DsceneGraph/sceneGraph"
   import { createCarEntity } from '@/logic/carLogic/carEntity'
 
@@ -19,6 +19,13 @@
     console.log(width, height)
     sceneGraph.updateOpts({width : width, height:height})
   })
+
+  onDestroy(() => {
+    if(sceneGraph){
+      sceneGraph.destroy()
+    }
+  })
+
 </script>
 
 <div bind:this={sceneGraphContainer}/>

@@ -32,7 +32,7 @@
       {#if car.trimId}
         {car.trim}
       {/if}
-      {#if car.engineId}
+      {#if car.engineId && car.engine}
         {car.engine.hp}
         {car.engine.name}
       {/if}

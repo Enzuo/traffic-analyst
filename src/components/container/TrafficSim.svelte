@@ -5,6 +5,10 @@
   import { onMount } from "svelte"
   import UPlotRealtime from "./UPlotRealtime.svelte"
   import UPlotFnGraph from "@/components/container/UPlotFnGraph.svelte"
+  import { onDestroy } from 'svelte';
+
+
+  export let showUI = false
 
 
   let container
@@ -28,6 +32,12 @@
     })
   })
 
+  onDestroy(() => {
+    if(simulation){
+      simulation.stop()
+    }
+  })
+
   function updateDrivers(time){
     return drivers
   }
@@ -49,15 +59,17 @@
   }
 
 
+
 </script>
 
 <div class="graph" on:carClick={handleCarClick} bind:this={container}></div>
 
+{#if showUI}
 <button on:click={handleSimStop}>Stop Simulation</button>
 
-<UPlotRealtime 
-  title="Speed" 
-  key="speed" 
+<UPlotRealtime
+  title="Speed"
+  key="speed"
   transformFn={mstokmh}
   time={time}
   observed={cars}
@@ -83,7 +95,7 @@
   </li>
   {/each}
 {/if}
-
+{/if}
 
 <style>
 	.graph { width: 100%; height: 200px; }

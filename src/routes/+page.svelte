@@ -6,6 +6,7 @@
 </script>
 
 <main>
+  <TrafficSim></TrafficSim>
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>

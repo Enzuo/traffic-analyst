@@ -251,8 +251,12 @@ export function SingleCarSceneGraph(car) {
     createCarObject(car).then((c) => animation.setCar(c.object))
   }
 
+  function destroy () {
+    animation.stop()
+  }
 
-  return {element, updateData}
+
+  return {element, updateData, destroy}
 }
 
 /**
@@ -303,8 +307,12 @@ export default function SceneGraph (cars, simulation, colors) {
     camera.updateProjectionMatrix()
   }
 
+  function destroy() {
+    animation.stop()
+  }
 
-  return {element, updateOpts}
+
+  return {element, updateOpts, destroy}
 }
 
 

@@ -98,5 +98,6 @@
 <style>
   section {
     margin:1em;
+    flex-grow: 1;
   }
 </style>
