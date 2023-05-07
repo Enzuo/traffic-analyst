@@ -1,0 +1,1 @@
+function a({url:e}){return{searchParams:{id:e.searchParams.get("id"),tid:parseFloat(e.searchParams.get("tid")||"0"),eid:parseFloat(e.searchParams.get("eid")||"0")}}}const t=Object.freeze(Object.defineProperty({__proto__:null,load:a},Symbol.toStringTag,{value:"Module"}));export{t as _,a as l};
