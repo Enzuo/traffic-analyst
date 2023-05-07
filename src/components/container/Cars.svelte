@@ -1,6 +1,6 @@
 <script>
   import * as cardata from '@/logic/cardata'
-  import SceneGraph from './SceneGraph.svelte';
+  import SceneGraphCar from './SceneGraphCar.svelte';
   import Icon from '../presentation/Icon.svelte';
   import CarDetails from './CarDetails.svelte';
   let cars = cardata.listCars()

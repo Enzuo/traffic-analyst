@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte"
   import { getCar } from "@/logic/cardata"
   import Icon from "@/components/presentation/Icon.svelte"
-  import SceneGraph from "./SceneGraph.svelte"
+  import SceneGraphCar from "./SceneGraphCar.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
   import Selector from "@/components/presentation/Selector.svelte";
@@ -59,7 +59,7 @@
       <li>{car.engine.hp} HP</li>
     </ul>
   </section>
-  <SceneGraph car={car}></SceneGraph>
+  <SceneGraphCar car={car}></SceneGraphCar>
 </div>
 <section>
   <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>

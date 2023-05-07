@@ -5,6 +5,7 @@
   import UPlotGearing from '@/components/container/UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from '@/components/container/UPlotTorque.svelte'
+  import SceneGraphSimulation from '@/components/container/SceneGraphSimulation.svelte';
 
   export let data
   // let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
@@ -37,14 +38,9 @@
   function mstokmh(ms){
     return ms * 3.6
   }
-  let sceneGraphContainer
-  onMount( () => {
-    const element = setup3Dsimulation(colors)
-    sceneGraphContainer.appendChild(element);
-  })
 
 </script>
-<div bind:this={sceneGraphContainer}/>
+<SceneGraphSimulation carEntities={carEntities} simulation={simulation} colors={colors}></SceneGraphSimulation>
 {#each carEntities as carEntity}
   Car : {carEntity.props.name} {carEntity.props.trim}
 {/each}

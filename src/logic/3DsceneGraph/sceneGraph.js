@@ -15,7 +15,7 @@ function createScene () {
 
   const renderer = new THREE.WebGLRenderer();
   renderer.physicallyCorrectLights = true; // much better colors (https://github.com/donmccurdy/three-gltf-viewer/blob/main/src/viewer.js)
-  renderer.outputEncoding = THREE.sRGBEncoding; 
+  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.useLegacyLights = false;
   renderer.setClearColor( 0xf8d0a3 );
   renderer.setSize( 300, 300 );
@@ -67,7 +67,7 @@ function createCamera (renderer) {
     const ratio = 1 // window.innerWidth / window.innerHeight
     const camera = new THREE.PerspectiveCamera( 75, ratio, 0.1, 1000 );
     camera.position.z = 10;
-  
+
     const cameraControls = new CameraControls( camera, renderer.domElement );
     cameraControls.dollySpeed = 0.1
 
@@ -76,15 +76,15 @@ function createCamera (renderer) {
 
 
 /***
- * 
-           _   _ _____ __  __       _______ _____ ____  _   _ 
+ *
+           _   _ _____ __  __       _______ _____ ____  _   _
      /\   | \ | |_   _|  \/  |   /\|__   __|_   _/ __ \| \ | |
     /  \  |  \| | | | | \  / |  /  \  | |    | || |  | |  \| |
    / /\ \ | . ` | | | | |\/| | / /\ \ | |    | || |  | | . ` |
   / ____ \| |\  |_| |_| |  | |/ ____ \| |   _| || |__| | |\  |
  /_/    \_\_| \_|_____|_|  |_/_/    \_\_|  |_____\____/|_| \_|
-                                                              
-                                                              
+
+
  */
 
 /**
@@ -95,14 +95,14 @@ function createCamera (renderer) {
  */
 
 /***
- * 
- * 
- * 
+ *
+ *
+ *
  *              CLASS ANIMATION
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  */
 
 class Animation {
@@ -182,7 +182,7 @@ class AnimationRotation extends Animation {
 class AnimationSimulation extends Animation {
   constructor (scene, camera, renderer, CameraControls, simulation) {
     super(scene, camera, renderer, CameraControls)
-    
+
     this.simulation = simulation
     /** @type {Array.<AnimatedObject>} */
     this.animated = []
@@ -199,8 +199,8 @@ class AnimationSimulation extends Animation {
   }
 
   /**
-   * 
-   * @param {AnimatedObject} aObj 
+   *
+   * @param {AnimatedObject} aObj
    */
   addAnimatedObject (aObj) {
     this.animated.push(aObj)
@@ -217,21 +217,21 @@ function setTimeoutPromise(fn, delay) {
 }
 
 /***
- * 
-   _____  _____ ______ _   _ ______ _____ _____            _____  _    _ 
+ *
+   _____  _____ ______ _   _ ______ _____ _____            _____  _    _
   / ____|/ ____|  ____| \ | |  ____/ ____|  __ \     /\   |  __ \| |  | |
  | (___ | |    | |__  |  \| | |__ | |  __| |__) |   /  \  | |__) | |__| |
   \___ \| |    |  __| | . ` |  __|| | |_ |  _  /   / /\ \ |  ___/|  __  |
   ____) | |____| |____| |\  | |___| |__| | | \ \  / ____ \| |    | |  | |
  |_____/ \_____|______|_| \_|______\_____|_|  \_\/_/    \_\_|    |_|  |_|
-                                                                         
-                                                                         
+
+
  */
 
 export function SingleCarSceneGraph(car) {
   const {element, scene, renderer} = createScene()
   const lights = createLights(scene)
-  const {camera, cameraControls} = createCamera(renderer) 
+  const {camera, cameraControls} = createCamera(renderer)
   const animation = new AnimationRotation(scene, camera, renderer, cameraControls)
 
   createEnvMap(scene, renderer)
@@ -256,18 +256,18 @@ export function SingleCarSceneGraph(car) {
 }
 
 /**
- * 
- * @param {*} cars 
- * @param {*} simulation 
- * @param {*} colors 
- * @returns 
+ *
+ * @param {*} cars
+ * @param {*} simulation
+ * @param {*} colors
+ * @returns
  */
 
 export default function SceneGraph (cars, simulation, colors) {
 
   const {element, scene, renderer} = createScene()
   const lights = createLights(scene)
-  const {camera, cameraControls} = createCamera(renderer) 
+  const {camera, cameraControls} = createCamera(renderer)
 
   const animation = new AnimationSimulation(scene, camera, renderer, cameraControls, simulation)
 
@@ -295,8 +295,16 @@ export default function SceneGraph (cars, simulation, colors) {
     })
   })
 
+  function updateOpts (opts) {
+    // canvas.width !== width || canvas.height !== height
+    const {width, height} = opts
+    renderer.setSize(width, height)
+    camera.aspect = width / height
+    camera.updateProjectionMatrix()
+  }
 
-  return element
+
+  return {element, updateOpts}
 }
 
 
@@ -317,7 +325,7 @@ function updateCameraDistance(camera, cameraControls, cars){
   let carMinX = Math.min(...positions)
   const distanceBetweenCar = 3
   let distanceMaxBetweenCar = Math.max(carMaxX - carMinX, (cars.length) * distanceBetweenCar)
-  
+
   let distanceCameraMin = distanceMaxBetweenCar / 2
   let cameraPosX = (carMaxX + carMinX) / 2
   cameraPosX = cameraPosX ? cameraPosX : 0
@@ -330,8 +338,8 @@ function updateCameraDistance(camera, cameraControls, cars){
 }
 
 /**
- * 
- * @param {THREE.Scene} scene 
+ *
+ * @param {THREE.Scene} scene
  * @returns {AnimatedObject}
  */
 function createCube (scene) {

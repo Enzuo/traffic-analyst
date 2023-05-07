@@ -1,6 +1,6 @@
 <script>
   import { getCar } from "@/logic/cardata";
-  import SceneGraph from "@/components/container/SceneGraph.svelte";
+  import SceneGraphCar from "@/components/container/SceneGraphCar.svelte";
 
   let car = getCar('volkswagen_kombi')
 
@@ -10,7 +10,7 @@
 
 </script>
 
-<SceneGraph car={car}></SceneGraph>
+<SceneGraphCar car={car}></SceneGraphCar>
 
 <ul>
   <li>Wheelbase : <input bind:value={car.wheelbase}/></li>

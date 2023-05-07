@@ -17,7 +17,7 @@ export function carCompare(carIds){
       else {
         carSpecs = cardata.getCar(carIds[i])
       }
-      
+
       let carEntity = Car.createCarEntity(carSpecs)
       carEntity.state.throttleInput = 1
       carEntities.push(carEntity)
@@ -50,32 +50,5 @@ export function carCompare(carIds){
     }
   })
 
-
-
-
-  // create 3d representation
- function setup3Dsimulation (colors) {
-    // create scene
-    let element = SceneGraph(carEntities, simulation, colors)
-    
-    // loading
-    // await threeD.loadMaterials()
-
-    // create cars
-    // let cars = []
-    // for(let i=0; i<carEntities.length; i++){
-    //   let car = threeD.createCar(threeAnimation, carEntities[i], i, carEntities.length, colors[i])
-    //   cars.push(car)
-    // }
-    
-    // simulation.subscribeTick((t, dt) => {
-    //   for(let i=0; i<cars.length; i++){
-    //     cars[i].update(dt, carEntities[i])
-    //   }
-    // })
-
-    return element
-  }
-
-  return {carEntities, simulation, setup3Dsimulation}
+  return {carEntities, simulation}
 }

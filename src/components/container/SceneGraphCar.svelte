@@ -2,12 +2,12 @@
   import { onMount } from "svelte"
   import { SingleCarSceneGraph } from "@/logic/3DsceneGraph/sceneGraph"
   import { createCarEntity } from '@/logic/carLogic/carEntity'
-  
+
   export let car
 
   let sceneGraphContainer
   let sceneGraph
-  
+
   onMount(() => {
     let carEntity = createCarEntity(car)
     sceneGraph = SingleCarSceneGraph(carEntity)
