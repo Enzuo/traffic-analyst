@@ -31,6 +31,7 @@
 
   #tools {
     width: 100%;
+    display:none;
   }
 
   .button {

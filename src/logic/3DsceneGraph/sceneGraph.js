@@ -66,7 +66,7 @@ function createCamera (renderer) {
     // CAMERA
     const ratio = 1 // window.innerWidth / window.innerHeight
     const camera = new THREE.PerspectiveCamera( 75, ratio, 0.1, 1000 );
-    camera.position.z = 10;
+    camera.position.z = 5;
 
     const cameraControls = new CameraControls( camera, renderer.domElement );
     cameraControls.dollySpeed = 0.1
