@@ -399,7 +399,7 @@ function createEnvMap(scene, renderer){
   // ENV MAP 2
   let pmremGenerator = new THREE.PMREMGenerator( renderer );
   pmremGenerator.compileEquirectangularShader();
-  let path = '/models/env/venice_sunset_1k.hdr'
+  let path = 'models/env/venice_sunset_1k.hdr'
   new RGBELoader()
       .load( path, ( texture ) => {
 

@@ -13,8 +13,8 @@
     <Tools></Tools>
   </div>
   <div id="menu">
-    <a class="button" href="/cars">cars list</a>
-    <a class="button" href="/about">about</a>
+    <a class="button" href="cars">cars list</a>
+    <a class="button" href="about">about</a>
   </div>
 </main>
 

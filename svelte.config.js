@@ -13,6 +13,9 @@ const config = {
 		adapter: adapterStatic({
       fallback: 'index.html',
     }),
+    paths: {
+      base: process.env.NODE_ENV === "production" ? "/traffic-analyst" : "",
+    },
 	},
 
   // Consult https://svelte.dev/docs#compile-time-svelte-preprocess

@@ -3,7 +3,7 @@
   import LayoutList from "@/components/layout/LayoutList.svelte"
   import CarList from '@/components/container/CarList.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
-  import { goto } from "$app/navigation"
+  import { createEventDispatcher } from 'svelte'
   import CarBasket from '@/components/container/CarBasket.svelte';
 
   export let selectedCarId = null
@@ -13,29 +13,22 @@
   let cars = cardata.listCars()
   let carsBasket = []
 
-  function handleListSelect (e) {
-    let paramsObj = {id : e.detail.id}
-    if(e.detail.trimId){
-      paramsObj.tid = e.detail.trimId
-    }
-    if(e.detail.engineId){
-      paramsObj.eid = e.detail.engineId
-    }
-    // TODO extract goto to routes
-    let params = new URLSearchParams(paramsObj)
+  let dispatch = createEventDispatcher()
 
-    goto('/cars?'+params, {invalidateAll:false, noScroll:true, keepFocus:true})
+  function handleListSelect (e) {
+    dispatch('carSelect', {
+      id : e.detail.id,
+      trimId : e.detail.trimId,
+      engineId : e.detail.engineId,
+    })
   }
 
   function handleContentSelect (e) {
-    let params = new URLSearchParams({
+    dispatch('contentSelect', {
       id : selectedCarId,
-      tid : e.detail.trim,
-      eid : e.detail.engine,
+      trimId : e.detail.trimId,
+      engineId : e.detail.engineId,
     })
-
-    // don't keep content change in history with replaceState:true
-    goto('/cars?'+params, {replaceState:true, noScroll:true, keepFocus:true})
   }
 
   function handleSearch(e) {
@@ -49,12 +42,17 @@
   }
 
   function handleCompare(){
-    let searchParams = carsBasket.length ? carsBasket.map(c => {
-      return ['id', c.id]
-    }) : [['id', selectedCarId]]
-    let params = new URLSearchParams(searchParams)
-
-    goto('/compare?'+params)
+    let carsToCompare = [{id : selectedCarId, trimId: selectedTrimId, engineId: selectedEngineId}]
+    if(carsBasket.length){
+      carsToCompare =  carsBasket.map(c => ({
+        id : c.id,
+        trimId : c.trimId,
+        engineId : c.engineId,
+      }))
+    }
+    dispatch('compare', {
+      cars : carsToCompare
+    })
   }
 
   function handleAddToBasket () {

@@ -33,15 +33,15 @@
 
   function handleTrimSelect(id) {
     dispatch('select', {
-      trim : id,
-      engine : 0,
+      trimId : id,
+      engineId : 0,
     })
   }
 
   function handleEngineSelect(id) {
     dispatch('select', {
-      trim : trimId,
-      engine : id,
+      trimId : trimId,
+      engineId : id,
     })
   }
 

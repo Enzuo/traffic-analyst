@@ -5,7 +5,7 @@ const loader = new GLTFLoader()
 // load materials
 let clayMaterial
 export const loadMaterials = () => new Promise ((resolve, reject) => {
-  loader.load('/models/clay.glb', function (gltf) {
+  loader.load('models/clay.glb', function (gltf) {
     console.log('material', gltf)
 
     gltf.scene.traverse( function( object ) {
@@ -18,11 +18,11 @@ export const loadMaterials = () => new Promise ((resolve, reject) => {
   })
 })
 
-export function loadModel(filePath) { 
+export function loadModel(filePath) {
   return new Promise((resolve, reject) => {
     if(!filePath) reject(Error('no file specified'))
 
-    loader.load('/3dmodels/' + filePath + '.glb', function(glb) {
+    loader.load('3dmodels/' + filePath + '.glb', function(glb) {
       // console.log(glb)
       resolve(glb)
     }, (progress) => {
@@ -31,4 +31,4 @@ export function loadModel(filePath) {
       reject(e)
     })
   })
-} 
+}
