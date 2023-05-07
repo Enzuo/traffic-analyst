@@ -13,11 +13,11 @@ CameraControls.install( { THREE: THREE } )
 function createScene () {
   const scene = new THREE.Scene();
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.physicallyCorrectLights = true; // much better colors (https://github.com/donmccurdy/three-gltf-viewer/blob/main/src/viewer.js)
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.useLegacyLights = false;
-  renderer.setClearColor( 0xf8d0a3 );
+  renderer.setClearColor( 0xffffff, 0);
   renderer.setSize( 300, 300 );
 
   renderer.toneMappingExposure = 0.1;

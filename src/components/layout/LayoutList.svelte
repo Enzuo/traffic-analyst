@@ -41,7 +41,6 @@
   }
 
   .content {
-    background:#fefff2;
     height:100%;
     flex-grow:1;
   }

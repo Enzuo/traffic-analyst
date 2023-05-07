@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Cars from '@/components/container/Cars.svelte'
   import Tools from '@/components/tools/Tools.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
