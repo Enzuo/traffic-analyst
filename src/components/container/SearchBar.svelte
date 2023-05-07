@@ -19,9 +19,11 @@
 
 <form>
 
-  <input type="search" bind:value={searchText} placeholder={placeholder}/>
-  <button type="submit" on:submit={handleSubmit} on:click={handleSubmit}>
-    Search
-    <Icon name="search"></Icon>
-  </button>
+  <div class="grid">
+    <input type="search" bind:value={searchText} placeholder={placeholder}/>
+    <button type="submit" on:submit={handleSubmit} on:click={handleSubmit}>
+      Search
+      <Icon name="search"></Icon>
+    </button>
+  </div>
 </form>

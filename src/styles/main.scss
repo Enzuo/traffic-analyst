@@ -35,6 +35,8 @@ $primary-hue: 335;
   --spacing: 1rem;
   --typography-spacing-vertical: 1.5rem;
   --block-spacing-vertical: calc(var(--spacing) * 2);
+  --form-element-spacing-vertical: 0.75rem;
+  --form-element-spacing-horizontal: 1rem;
 }
 
 /**
@@ -45,6 +47,29 @@ $primary-hue: 335;
   margin-bottom: var(--block-spacing-vertical);
 }
 
+
+.grid {
+  display: flex;
+  flex-direction: row;
+}
+
+/**
+ * Form elements
+ *
+ */
+input[type=search] {
+  font-family: "Publicpixel", courier, monospace;
+  padding-inline-start: calc(var(--form-element-spacing-horizontal) + 1.75rem);
+  border: 6px solid var(--primary);
+  padding:1em;
+  outline: none;
+}
+
+input[type=search]:focus {
+  // text-decoration: none;
+  border: 6px solid var(--primary-hover);
+  color: var(--primary);
+}
 
 
 
