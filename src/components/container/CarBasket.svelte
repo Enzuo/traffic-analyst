@@ -17,17 +17,29 @@
   function handleCompare () {
     dispatch('compareBasket')
   }
+  function handleClick(car, e){
+    e.preventDefault()
+    dispatch('click', {
+      id : car.id,
+      trimId : car.trimId,
+      engineId : car.engineId,
+    })
+  }
 </script>
 
 
 
 <div class="basket-bar">
+  <ul>
   {#each reversedCarBasket as car }
-    <a href="#" class="button secondary">
-      <div class="name">{car.name}</div>
-      <div class="hp">{car.engine.hp}</div>
-    </a>
+    <li>
+      <a href="#" on:click={(e) => handleClick(car, e)} title={`${car.brand} ${car.name} - ${car.engine.hp}hp`}>
+        <div class="name">{car.name}</div>
+        <div class="hp">{car.engine.hp}</div>
+      </a>
+    </li>
   {/each}
+  </ul>
   <button on:click={handleAddToBasket}>Add</button>
   <button on:click={handleCompare}><Icon name="stats-dots"></Icon></button>
 </div>
@@ -51,7 +63,7 @@
     margin:5px;
   }
 
-  button {
+  li {
     display: inline-block;
     /* border-left:3px solid var(--secondary); */
     /* margin:0; */

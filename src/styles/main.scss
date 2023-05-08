@@ -107,7 +107,7 @@ button {
   font-family: "Publicpixel", courier, monospace;
   text-transform: uppercase;
   text-decoration: none;
-  outline: none;
+  // outline: none;
   cursor: pointer;
 
 }
@@ -128,13 +128,20 @@ input[type=reset]:is([aria-current], :hover, :active),
   border-color: var(--primary);
   background-color: var(--primary-hover);
 }
+
 .button:focus,
+li a:focus,
 button:is([aria-current], :focus),
 input[type=submit]:focus,
 input[type=button]:focus,
 input[type=reset]:focus,
 [role=button]:focus {
-  border-color: var(--primary-hover);
+  // border-color: var(--primary-hover);
+  outline-color:var(--primary-hover);
+  outline-width:6px;
+  outline-style:solid;
+  outline-offset: -6px;
+  z-index:5;
 }
 
 .button.secondary:is([aria-current], :hover, :active, :focus)
@@ -154,6 +161,26 @@ input[type=reset]:focus,
   color: var(--primary);
   border-color: var(--primary-hover);
 }
+
+// List
+li a {
+  color:var(--neutral-dark);
+
+  display: block;
+  padding : 1em;
+  border-bottom:6px solid var(--neutral-light);
+
+  text-decoration: none;
+  outline: none;
+}
+
+li a:is([aria-current], :hover, :active)
+{
+  color:var(--primary);
+}
+
+
+
 
 
 // Headings

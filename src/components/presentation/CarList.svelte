@@ -24,7 +24,7 @@
 		<li><a href="#"
       on:click={(e) => handleCarClick(car, e)}
       on:keypress={(e) => handleCarClick(car, e)}
-      class={selectedCarId===car.id ? 'button neutral selected' : 'button neutral'}
+      class={selectedCarId===car.id ? 'neutral selected' : 'neutral'}
     >
       {car.brand} {car.name}
       {#if car.model}

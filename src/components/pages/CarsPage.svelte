@@ -1,7 +1,7 @@
 <script>
   import * as cardata from '@/logic/cardata'
   import LayoutList from "@/components/layout/LayoutList.svelte"
-  import CarList from '@/components/container/CarList.svelte'
+  import CarListSearch from '@/components/container/CarListSearch.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
   import { createEventDispatcher } from 'svelte'
   import CarBasket from '@/components/container/CarBasket.svelte';
@@ -64,6 +64,16 @@
     }
   }
 
+  function handleBasketClick(e) {
+    if(e.detail.id !== selectedCarId){
+      dispatch('carSelect', {
+        id : e.detail.id,
+        trimId : e.detail.trimId,
+        engineId : e.detail.engineId,
+      })
+    }
+  }
+
 </script>
 
 
@@ -74,11 +84,12 @@
         carsBasket={carsBasket}
         on:addToBasket={handleAddToBasket}
         on:compareBasket={handleCompare}
+        on:click={handleBasketClick}
       ></CarBasket>
     </div>
 
     <div slot="list">
-      <CarList cars={cars} selectedCarId={selectedCarId} on:select={handleListSelect} on:search={handleSearch}></CarList>
+      <CarListSearch cars={cars} selectedCarId={selectedCarId} on:select={handleListSelect} on:search={handleSearch}></CarListSearch>
     </div>
 
     <div slot="content">
