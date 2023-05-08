@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte'
   import {createGraph} from '@/logic/graphs/uPlotGearing'
 
   export let car
@@ -7,7 +6,7 @@
 
   $ : if(chartElement) {
     chartElement.innerHTML = ''
-    createGraph(car, chartElement, )
+    createGraph(car, chartElement)
   }
 
 </script>

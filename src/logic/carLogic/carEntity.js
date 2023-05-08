@@ -1,11 +1,11 @@
 import {
-  getAirDragForce, 
-  getRollingResistanceForce, 
-  getEngineForceFromTorque, 
+  getAirDragForce,
+  getRollingResistanceForce,
+  getEngineForceFromTorque,
   getTransmissionEfficiency,
   getEngineForceFromPower,
-  getTorqueForRPM, 
-  torqueToKW, 
+  getTorqueForRPM,
+  torqueToKW,
   getEngineRPMForSpeed
 } from './physics'
 
@@ -13,16 +13,16 @@ let uniqueId = 0
 
 /**
  * @typedef {import('../cardata').Car} Car
- * 
- * 
- * @typedef {object} CarEntity 
+ *
+ *
+ * @typedef {object} CarEntity
  * @property {number} id
  * @property {object} props
  * @property {object} state
  */
 /**
- * 
- * @param {Car} props 
+ *
+ * @param {Car} props
  * @returns {CarEntity}
  */
 
@@ -34,10 +34,10 @@ export function createCarEntity(props){
       speed : 0, // m/s
       engineRpm : 0,
       enginePower : 0, // Kw
-      engineTorque : 0, 
+      engineTorque : 0,
       force : 0,
       acceleration : 0,
-      airDrag : 0,  
+      airDrag : 0,
       throttleInput : 0,
       brakeInput : 0,
       gearInput : 0,
@@ -46,10 +46,10 @@ export function createCarEntity(props){
 }
 
 /**
- * 
- * @param {CarEntity} car 
+ *
+ * @param {CarEntity} car
  * @param {number} dt {ms} time elapsed
- * @returns 
+ * @returns
  */
 export function updateForces(car, dt){
   let dts = dt/1000
@@ -78,12 +78,22 @@ export function updateForces(car, dt){
   let finalRatio = driveRatio * gearRatio[gearInput] * (gearTransfer ? gearTransfer[0] : 1)
   let thrustForce = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
 
-  let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass
-  let deltaV = acceleration * dts
-
   let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
   let minRPM = engine.minRPM || 1000
   let rpmForSpeed = Math.max(getEngineRPMForSpeed(speed, finalRatio, wheelDiameter), minRPM)
+
+  if(car.props.type === 'plane'){
+    rpmForSpeed = 2700 // * throttleInput
+    const propellerRatio = 5.325 // torque to thurst ratio
+    const propellerDiameter = 200
+    torque = getTorqueForRPM(engine.torqueCurve, engineRpm)
+    thrustForce = getEngineForceFromTorque(torque, propellerRatio, 1, propellerDiameter)
+  }
+
+  let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass
+  let deltaV = acceleration * dts
+
+
 
   let newState = {
     speed : Math.max(speed + (deltaV ? deltaV : 0), 0),

@@ -373,7 +373,7 @@ function createGround (scene) {
   // const groundGeometry = new THREE.PlaneBufferGeometry(10000, 10000)
   // const groundMaterial = new THREE.ShadowMaterial();
   // groundMaterial.opacity = 0.5; // set the opacity of the shadow material
-  const groundGeometry = new THREE.PlaneGeometry(10, 10);
+  const groundGeometry = new THREE.PlaneGeometry(10, 600);
   const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
   const ground = new THREE.Mesh(groundGeometry, groundMaterial);
   // ground.position.y = -1; // position the plane at y = -1 so that it is below other objects in the scene

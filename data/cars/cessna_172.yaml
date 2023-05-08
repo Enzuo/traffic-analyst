@@ -27,10 +27,10 @@ gearName :
 gearRatio : [1]
 gearReverse :
 gearTransfer :
-driveRatio :
+driveRatio : 1
 gearSpeed :
 wheelDiameter : # 63cm
-type : #AWD, RWD, FWD
+type : plane
 
 # -------------
 # DIMENSIONS
@@ -39,11 +39,11 @@ weight: 870 # 779
 length: 8280
 width: 11000
 height: 2720
-dragCoef:
-dragArea:
+dragCoef: 0.39 # random for vmax 232
+dragArea: 2.3
 
 wheelbase:
-bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+bodyType: plane
 clearance:
 trunk:
 trunkMax:
@@ -54,6 +54,8 @@ maxWeight: 1157
 # STATS
 # -------------
 acc0100:
+groundRoll: 293m
+takeOffSpeed : 115 # 62kt
 vmax: 232 # 213 cruise 176 economy
 avgConsumption : 13.5 # 30l/h
 energyTank : 212 # 2x106
