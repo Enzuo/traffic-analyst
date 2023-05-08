@@ -23,6 +23,7 @@ export function createCarObject(car, positionX = 0, color){
   // MODELS
   let carObject
   let carBody
+  let propeller
   let wheelObjects = []
   let wheelModel
   let carModelName = car.props.model
@@ -91,6 +92,10 @@ export function createCarObject(car, positionX = 0, color){
       if(a.name.indexOf('Body') >= 0){
         carBody = a
       }
+
+      if(a.name.indexOf('Propeller') >= 0){
+        propeller = a
+      }
     })
 
     miscObjects.forEach((m) => {
@@ -112,7 +117,7 @@ export function createCarObject(car, positionX = 0, color){
   function animate(dt){
     if(!carObject) return
 
-    let {speed, acceleration} = car.state
+    const {speed, acceleration} = car.state
     let {wheelDiameter} = car.props
     let wheelTurnsPerS = getWheelTurns(speed, wheelDiameter)
     let wheelTurnOverDt = wheelTurnsPerS * (dt/1000) * Math.PI * 2
@@ -120,7 +125,7 @@ export function createCarObject(car, positionX = 0, color){
 
     for(let i=0; i<wheelObjects.length; i++){
       let wheel = wheelObjects[i]
-      wheel.rotation.x += Math.min(maxRotationSpeed,wheelTurnOverDt)
+      wheel.rotation.x += Math.min(maxRotationSpeed, wheelTurnOverDt)
     }
 
     carObject.position.z += speed * dt / 1000
@@ -128,6 +133,14 @@ export function createCarObject(car, positionX = 0, color){
     // Add body tilt
     let tilt = (acceleration / 4) * (Math.PI/180)
     carBody.rotation.x = -tilt
+
+    // Turn propeller
+    if (propeller) {
+      const {engineRpm} = car.state
+      let propellerTurnOverDt = engineRpm / 60 * (dt/1000) * Math.PI * 2
+      // TODO rotate in object own rotation matrix
+      propeller.rotation.z +=  Math.min(maxRotationSpeed, propellerTurnOverDt)
+    }
   }
 
   return promiseObject.then((object) => {return { animate , object}})

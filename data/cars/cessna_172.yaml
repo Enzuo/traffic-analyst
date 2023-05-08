@@ -29,7 +29,7 @@ gearReverse :
 gearTransfer :
 driveRatio : 1
 gearSpeed :
-wheelDiameter : # 63cm
+wheelDiameter : 42 # 63cm
 type : plane
 
 # -------------
@@ -67,8 +67,8 @@ propellerForce : 2090N
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: cessna172
+modelWheel: wheelCessna
 modelMisc:
 
 # -------------
