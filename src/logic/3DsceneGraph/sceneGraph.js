@@ -39,7 +39,7 @@ function createLights (scene) {
   let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
   const targetObject = new THREE.Object3D();
   targetObject.position.set(0, 0, 0)
-  directionalLight.position.set(0, 5, 0)
+  directionalLight.position.set(0, 10, 0)
   directionalLight.target = targetObject;
   directionalLight.castShadow = true;
   scene.add(targetObject);
@@ -55,6 +55,11 @@ function createLights (scene) {
   directionalLight.shadow.mapSize.height = 512; // default
   directionalLight.shadow.camera.near = 0.5; // default
   directionalLight.shadow.camera.far = 500; // default
+
+  // directionalLight.shadow.camera.left = -128;
+  // directionalLight.shadow.camera.right = 128;
+  // directionalLight.shadow.camera.top = 128;
+  // directionalLight.shadow.camera.bottom = -128;
 
 
   // const helper = new THREE.CameraHelper( directionalLight.shadow.camera );
@@ -373,7 +378,7 @@ function createGround (scene) {
   // const groundGeometry = new THREE.PlaneBufferGeometry(10000, 10000)
   // const groundMaterial = new THREE.ShadowMaterial();
   // groundMaterial.opacity = 0.5; // set the opacity of the shadow material
-  const groundGeometry = new THREE.PlaneGeometry(10, 600);
+  const groundGeometry = new THREE.PlaneGeometry(10, 3600);
   const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
   const ground = new THREE.Mesh(groundGeometry, groundMaterial);
   // ground.position.y = -1; // position the plane at y = -1 so that it is below other objects in the scene

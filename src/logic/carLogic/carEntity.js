@@ -83,11 +83,17 @@ export function updateForces(car, dt){
   let rpmForSpeed = Math.max(getEngineRPMForSpeed(speed, finalRatio, wheelDiameter), minRPM)
 
   if(car.props.type === 'plane'){
-    rpmForSpeed = 2700 // * throttleInput
-    const propellerRatio = 5.325 // torque to thurst ratio
-    const propellerDiameter = 200
-    torque = getTorqueForRPM(engine.torqueCurve, engineRpm)
-    thrustForce = getEngineForceFromTorque(torque, propellerRatio, 1, propellerDiameter)
+    if(car.props.engine.thrust){
+      thrustForce = car.props.engine.thrust * throttleInput
+      console.log(thrustForce)
+    }
+    else {
+      rpmForSpeed = 2700 // * throttleInput
+      const propellerRatio = 5.325 // torque to thrust ratio
+      const propellerDiameter = 200
+      torque = getTorqueForRPM(engine.torqueCurve, engineRpm)
+      thrustForce = getEngineForceFromTorque(torque, propellerRatio, 1, propellerDiameter)
+    }
   }
 
   let acceleration = (thrustForce - aeroDragForce - rollingResistanceForce - brakeForce) / mass

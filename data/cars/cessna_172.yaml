@@ -39,8 +39,8 @@ weight: 870 # 779
 length: 8280
 width: 11000
 height: 2720
-dragCoef: 0.39 # random for vmax 232
-dragArea: 2.3
+dragCoef: 0.35 # random for vmax 232
+dragArea: 2.8
 
 wheelbase:
 bodyType: plane

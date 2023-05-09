@@ -1,0 +1,79 @@
+name : 737
+brand : Boeing
+trim : 737-100
+year : 1968
+price : 3,700,000$
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 2x Pratt & Whitney JT8D-7 Turbofan
+  hp: 40000
+  thrust : 128000 # 64000N x 2
+  torqueY: []
+  torqueX: []
+  type :
+  layout : # boxer2, l4, v6
+  displacement :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [1]
+gearReverse :
+gearTransfer :
+driveRatio :
+gearSpeed :
+wheelDiameter : # 63cm
+type : plane
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 49895
+length: 28650
+width: 28350
+height: 11230
+dragCoef: 0.35
+dragArea: 11.1
+
+wheelbase:
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk: 18400
+trunkMax:
+seats: 124
+
+# -------------
+# STATS
+# -------------
+acc0100:
+groundRoll: 1800
+takeOffSpeed: 280 # 260-280
+vmax: 852
+avgConsumption :
+energyTank : 17867
+autonomy : 3185
+turningCircle :
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

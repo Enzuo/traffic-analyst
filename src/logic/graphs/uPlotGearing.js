@@ -32,21 +32,28 @@ export function createGraph(car, element){
 
 
   const speedIncrement = 2
-  const maxSpeed = 200
+  const maxSpeed = 900
   let speed = 0
   while(speed <= maxSpeed){
     graphData[0].push(speed)
     let speedms = speed / 3.6
 
     // TODO tmp debug cessna
-    if(car.id === 'cessna_172'){
-      let torque = getTorqueForRPM(car.engine.torqueCurve, 2700)
-      let thrust = getEngineForceFromTorque(torque, 5.325, 1, 200)
+    if(car.type === 'plane'){
+      let thrust
+      if(car.engine.thrust){
+        thrust = car.engine.thrust
+      }
+      else {
+        let torque = getTorqueForRPM(car.engine.torqueCurve, 2700)
+        thrust = getEngineForceFromTorque(torque, 5.325, 1, 200)
+      }
       graphData[1].push(thrust)
       graphData[graphData.length-1].push(getResistanceForceAtSpeed(speedms, car.weight, car.dragArea * car.dragCoef))
       speed += speedIncrement
       continue
     }
+
     for(let i = 0; i < car.gearRatio.length; i++){
       let finalRatio = car.gearRatio[i] * car.driveRatio * (car.gearTransfer ? car.gearTransfer[0] : 1)
       let rpm = getEngineRPMForSpeed(speedms, finalRatio, car.wheelDiameter)
