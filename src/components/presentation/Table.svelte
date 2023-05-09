@@ -1,6 +1,6 @@
 <script>
 
-  /** @type {Array<{label:string, units:string}>}  */
+  /** @type {Array<{label:string, units?:string}>}  */
   export let rows
   /** @type {Array<{label:string}>}  */
   export let columns
@@ -27,7 +27,7 @@
 				{#each data as col}
 					<td>{col[index]}</td>
 				{/each}
-        <td>{row.units}</td>
+        <td>{row.units ? row.units : ''}</td>
       </tr>
 		{/each}
 	</tbody>

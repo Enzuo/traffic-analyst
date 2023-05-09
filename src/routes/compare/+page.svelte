@@ -5,8 +5,9 @@
   import UPlotGearing from '@/components/container/UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from '@/components/container/UPlotTorque.svelte'
-  import SceneGraphSimulation from '@/components/container/SceneGraphSimulation.svelte';
-  import Table from '@/components/presentation/Table.svelte';
+  import SceneGraphSimulation from '@/components/container/SceneGraphSimulation.svelte'
+  import Table from '@/components/presentation/Table.svelte'
+  import _get from 'lodash.get'
 
   export let data
   // let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
@@ -26,6 +27,18 @@
   let time = 0
   let speed = 0
 
+
+  // General infos table
+  let generalInfosTableRows = [
+    {label: 'brand'},
+    {label: 'name'},
+    {label: 'trim'},
+    {label: 'year'},
+    {label: 'power', units : 'hp', key : 'engine.hp'},
+    {label: 'price'},
+  ]
+  let [generalInfosTableHeader, generalInfosTableData] = getTableData(carEntities, generalInfosTableRows)
+
   // Dimensions table
   let dimensionsTableRows = [
     {label: 'weight', units : 'kg'},
@@ -34,15 +47,21 @@
     {label: 'height', units : 'mm'},
     {label: 'wheelbase', units : 'mm'},
   ]
-  let dimensionsTableColumns = carEntities.map((c) => ({label : c.props.name}))
-  let dimensionsDataTable = carEntities.map((c) => {
-    let data = []
-    dimensionsTableRows.forEach((r) => {
-      let key = r.key || r.label
-      data.push(c.props[key])
+  let [dimensionsTableColumns, dimensionsDataTable] = getTableData(carEntities, dimensionsTableRows)
+
+
+  function getTableData(data, rows){
+    let columnsHead = data.map((c) => ({label : c.props.name}))
+    let dataTable = data.map((c) => {
+      let data = []
+      rows.forEach((r) => {
+        let key = r.key || r.label
+        data.push(_get(c.props, key))
+      })
+      return data
     })
-    return data
-  })
+    return [columnsHead, dataTable]
+  }
 
   // simulation observe
   simulation.subscribeTick((t, dt) => {
@@ -97,6 +116,11 @@
   colors={colors}
   observed={carEntities}
 ></UPlotRealtime>
+
+<section>
+  <h3>General infos</h3>
+  <Table rows={generalInfosTableRows} columns={generalInfosTableHeader} data={generalInfosTableData}></Table>
+</section>
 
 <section>
   <h3>Dimensions</h3>
