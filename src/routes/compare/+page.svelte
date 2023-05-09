@@ -6,6 +6,7 @@
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from '@/components/container/UPlotTorque.svelte'
   import SceneGraphSimulation from '@/components/container/SceneGraphSimulation.svelte';
+  import Table from '@/components/presentation/Table.svelte';
 
   export let data
   // let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
@@ -20,9 +21,29 @@
 
 
 
+
   let { carEntities, simulation, setup3Dsimulation } = carCompare(carIds)
   let time = 0
   let speed = 0
+
+  // Dimensions table
+  let dimensionsTableRows = [
+    {label: 'weight', units : 'kg'},
+    {label: 'length', units : 'mm', key : 'length'},
+    {label: 'width', units : 'mm'},
+    {label: 'height', units : 'mm'},
+    {label: 'wheelbase', units : 'mm'},
+  ]
+  let dimensionsTableColumns = carEntities.map((c) => ({label : c.props.name}))
+  let dimensionsDataTable = carEntities.map((c) => {
+    let data = []
+    dimensionsTableRows.forEach((r) => {
+      let key = r.key || r.label
+      data.push(c.props[key])
+    })
+    return data
+  })
+
   // simulation observe
   simulation.subscribeTick((t, dt) => {
     time = t
@@ -76,6 +97,11 @@
   colors={colors}
   observed={carEntities}
 ></UPlotRealtime>
+
+<section>
+  <h3>Dimensions</h3>
+  <Table rows={dimensionsTableRows} columns={dimensionsTableColumns} data={dimensionsDataTable}></Table>
+</section>
 <!-- <GraphRtUplot
   title="Power"
   units="kw"
