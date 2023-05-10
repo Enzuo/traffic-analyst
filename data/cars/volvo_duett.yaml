@@ -1,0 +1,93 @@
+name : duett
+brand : volvo
+trim : pv445
+year : 1953
+unitsProduced : 97200 # 29 409 unités (PV445), 60 100 unités (P210)
+price : $900 # 6200Krona
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : B16
+  hp: 44 - 51 - 68
+  torqueY: []
+  torqueX: []
+  type : petrol
+  layout : l4
+  displacement : 1500
+
+# List additional engines
+engines :
+  - engine :
+      name : B18A 1.8L
+      hp : 75
+      displacement : 1780
+      torqueY: [137,117]
+      torqueX: [2800,4500]
+      weight: 155
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : M40
+gearRatio : [3.13, 1.99, 1.36, 1]
+gearReverse : 3.25
+gearTransfer :
+driveRatio : 4.55
+gearSpeed :
+wheelDiameter : # 63cm
+type : RWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1100
+length: 4400
+width: 1600
+height: 1700
+dragCoef:
+dragArea:
+
+wheelbase:
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption : 12 # 1.2l/mil swedish mil
+energyTank : 35
+autonomy :
+turningCircle : 10.8
+wheelType :
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : P210
+    year : 1960
+    acc0100: 19
+    vmax: 145
+    avgConsumption : 8-13 #0.8 - 1.3
+
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
