@@ -61,11 +61,19 @@ turningCircle :
 wheelType :
 
 # -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+
+# -------------
 # 3D
 # -------------
 model:
 modelWheel:
 modelMisc:
+wheelScale:
 
 # -------------
 # TRIMS

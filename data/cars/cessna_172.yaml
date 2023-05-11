@@ -3,6 +3,7 @@ brand : cessna
 trim : 172s
 year : 1998
 price : 155,000$
+unitsProduced : 44,000
 
 # -------------
 # ENGINE
@@ -54,15 +55,20 @@ maxWeight: 1157
 # STATS
 # -------------
 acc0100:
-groundRoll: 293m
-takeOffSpeed : 115 # 62kt
 vmax: 232 # 213 cruise 176 economy
 avgConsumption : 13.5 # 30l/h
 energyTank : 212 # 2x106
 autonomy :
 turningCircle :
 wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll: 293m
+takeOffSpeed : 115 # 62kt
 propellerForce : 2090N
+
 
 # -------------
 # 3D

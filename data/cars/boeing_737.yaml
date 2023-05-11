@@ -1,8 +1,9 @@
 name : 737
 brand : Boeing
 trim : 737-100
-year : 1968
+year : 1967
 price : 3,700,000$
+unitsProduced : 30
 
 # -------------
 # ENGINE
@@ -26,7 +27,7 @@ gearReverse :
 gearTransfer :
 driveRatio :
 gearSpeed :
-wheelDiameter : # 63cm
+wheelDiameter : 102
 type : plane
 
 # -------------
@@ -39,32 +40,38 @@ height: 11230
 dragCoef: 0.35
 dragArea: 11.1
 
-wheelbase:
+wheelbase: 10460
 bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
 clearance:
 trunk: 18400
 trunkMax:
-seats: 124
+seats: 85 / 96, max. 124
 
 # -------------
 # STATS
 # -------------
 acc0100:
-groundRoll: 1800
-takeOffSpeed: 280 # 260-280
 vmax: 852
 avgConsumption :
 energyTank : 17867
 autonomy : 3185
-turningCircle :
+turningCircle : 34.40
 wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll: 1800
+takeOffSpeed: 280 # 260-280
+wingArea : 102
 
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: boeing737100
+modelWheel: wheelBoeing737
 modelMisc:
+wheelScale: [0.605,0.605,1,1,1,1]
 
 # -------------
 # TRIMS

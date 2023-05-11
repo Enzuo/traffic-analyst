@@ -74,8 +74,14 @@ export function createCarObject(car, positionX = 0, color){
       }
 
       // WHEELS
-      if(a.name.indexOf('Wheel') >= 0){
+      let matchWheel = a.name.match(/Wheel(\d+)/)
+      if(matchWheel){
+        let wheelIndex = matchWheel[1]
         let carWheel = cloneWheel(wheelModel, a, false)
+        if(car.props.wheelScale){
+          let scale = car.props.wheelScale[wheelIndex-1] || 1
+          carWheel.scale.set(scale,scale,scale)
+        }
         carObject.add(carWheel)
         wheelObjects.push(carWheel)
       }
