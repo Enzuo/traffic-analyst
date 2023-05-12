@@ -7,7 +7,7 @@ export default function trafficSimumlation () {
 
   const cars = [createCar(20), createCar(-20)]
   const drivers = [
-    createDriver(cars[0]), 
+    createDriver(cars[0]),
     // createDriver(cars[1], 25, DRIVER_PROFILES.NORMAL),
     createDriver(cars[1], 25, DRIVER_PROFILES.DEFENSIVE),
   ]
@@ -16,10 +16,14 @@ export default function trafficSimumlation () {
   const DELETE_DISTANCE = 2000
 
   const simulation = Simulation()
+
+  let lastCreatedCar
   simulation.subscribeTick((t, dt) => {
 
     carCreator.tickAtInterval(t, () => {
-      let car = createCar(-50, 20)
+      let position = Math.min(-20, lastCreatedCar ? lastCreatedCar.state.position - 10 : - 20)
+      let car = createCar(position, lastCreatedCar ? lastCreatedCar.state.speed : 20)
+      lastCreatedCar = car
       let driver = createDriver(car)
       cars.push(car)
       drivers.push(driver)
@@ -64,12 +68,12 @@ function findCarDriver(car, drivers){
 }
 
 
-/**                        
- *      ____      _                 
- *     |    \ ___|_|_ _ ___ ___ ___ 
+/**
+ *      ____      _
+ *     |    \ ___|_|_ _ ___ ___ ___
  *     |  |  |  _| | | | -_|  _|_ -|
  *     |____/|_| |_|\_/|___|_| |___|
- *                                  
+ *
  */
 
 
@@ -132,7 +136,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
   let plannedSpeedCurve
   let plannedBrakeCurve
-  
+
   function think(t, dt, cars){
     time = t
     const dts = dt / 1000
@@ -144,7 +148,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         hasStopCarInstruction = false
       }
       carInFront = detectCarInFront(car, cars)
-      
+
       if(carInFront){
         let distanceToCarInFront = carInFront.distance
         let timeToContact = distanceToCarInFront / currentSpeed
@@ -219,7 +223,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         let targetBrake = plannedBrakeCurve.getYForX(timeToIntercept)
         applyBrake(0.1, targetBrake)
       }
-      
+
       if(currentTask === 'cuttingDistance'){
         let targetBrake = plannedBrakeCurve.getYForX(distanceToCarInFront)
         applyBrake(0.02, targetBrake)
@@ -238,7 +242,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       }
     }
     if(currentTask === 'travelingToWantedSpeed'){
-      applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration) 
+      applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration)
     }
   }
 
@@ -256,7 +260,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
   function applyThrottle(val, maxVal=1){
     currentBrake = 0
     car.state.brakeInput = 0
-    
+
     currentThrottle = currentThrottle + val
     currentThrottle = Math.min(Math.max(currentThrottle, 0), maxVal)
     car.state.throttleInput = currentThrottle
@@ -292,21 +296,21 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
 
 
   /**
-   * 
+   *
    *     User instruction
-   * 
+   *
    */
 
   function stopCar(){
     hasStopCarInstruction = true
     hasStopCarInstructionTime = time
   }
-  
-  
+
+
   return {
-    think, 
+    think,
     stopCar,
-    get frontCar() { return carInFront }, 
+    get frontCar() { return carInFront },
     get car() { return car },
     get currentTask() { return currentTask },
     get distance() { return getDistanceBetweenCar(carInFront.car, car)},
@@ -364,10 +368,10 @@ function detectCarInFront(car, cars){
 }
 
 /**
- * 
- * @param {CarEntity} firstCar 
- * @param {CarEntity} secondCar 
- * @returns 
+ *
+ * @param {CarEntity} firstCar
+ * @param {CarEntity} secondCar
+ * @returns
  */
 function getDistanceBetweenCar(firstCar, secondCar){
   return (firstCar.state.position - firstCar.props.length/2000) - (secondCar.state.position + secondCar.props.length/2000)
