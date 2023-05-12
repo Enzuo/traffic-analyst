@@ -1,15 +1,15 @@
 name : 2cv
 brand : citroen
 year : 1953
-price: 350000fr
+price: 5000fr
 unitsProduced : 5,114,961 # peak 232.551 en 1964 remplacé progressivement par Dyane
 
 # -------------
 # ENGINE
 # -------------
 engine :
-  name :
-  torqueY : [9.6 ,17.1,19.6,19.6,19.4,18.9,18  ,14.2] # 9 BHP @ 3500 t/mn
+  name : A
+  torqueY : [9.6 ,17.1,19.6,19.6,19.4,18.9,18  ,14.2] #19.6nm@2000 9cv@3500
   torqueX : [1000,1500,2000,2200,2500,3000,3500,4000]
   layout : boxer 2
   displacement : 375
@@ -42,8 +42,10 @@ seats: 5
 # STATS
 # -------------
 acc0100:
-turningCircle : 11
+turningCircle : 10.5
 energyTank: 25
+vmax: 65
+avgConsumption: 4-5l/100
 
 # -------------
 # 3D
@@ -56,29 +58,45 @@ modelWheel: wheel2cv
 # -------------
 trims :
   - trim : Azam
-    year : 1965
+    year : 1963
     engine :
+      name : A79/0
       hp : 18
-      torqueY : [13.3,26.2,34.9,39.5,40.1,40.1,39  ,36.6,32.9,26.6] # 18 BHP @ 5 000 t/mn
-      torqueX : [1000,1500,2000,2500,2700,3000,3500,4000,4500,5000]
+      torqueY : [13.3,26  ,28  ,29  ,26.6,25.3] # 29Nm@3500 18BHP@5000
+      torqueX : [1000,2000,3000,3500,4000,5000]
       displacement : 425
-    gearRatio : [7.411,3.573,2.133,1.474]
-    driveRatio : 3.625
-    gearSpeed : 21.3
+    gearRatio : [6.757, 3.257, 1.938, 1.475]
+    gearReverse : 7.3
+    driveRatio : 3.620
+    vmax: 95
     weight : 715 # 610 + 75 + 30
 
   - trim : 2cv 4
     year : 1970
     engine :
+      name : A79/1
       hp : 23
-      torqueY : [13.3,26.2,34.9,39.5,40.1,40.1,39  ,36.6,32.9,26.6] # 26 BHP @ 6 750 t/mn
-      torqueX : [1000,1500,2000,2500,2700,3000,3500,4000,4500,5000]
-      displacement : 602
-    gearRatio : [7.411,3.573,2.133,1.474]
-    driveRatio : 3.625
-    gearSpeed : 21.3
+      torqueY : [13.3,28,24] # 28Nm@4000 23BHP@6750
+      torqueX : [1000,4000,6750]
+      displacement : 425
+    gearRatio : [5.202,2.656,1.785,1.315]
+    gearReverse : 5.202
+    driveRatio : 4.125
     weight : 715 # 610 + 75 + 30
     vmax : 102
     avgConsumption : 5.3
+
+  - trim : 2cv 6
+    year : 1971
+    engine :
+      name : M28
+      hp : 33
+      torqueY : [13  , 23  ,38  , 37  , 41  , 40  , 37 ] # 41Nm@4000 33@5750
+      torqueX : [1000, 2000,2500, 3500, 4000, 5750, 6000]
+      displacement : 602
+    gearRatio : [5.202,2.656,1.785,1.315]
+    gearReverse : 5.202
+    driveRatio : 4.125
+    weight : 715 # 610 + 75 + 30
 
 

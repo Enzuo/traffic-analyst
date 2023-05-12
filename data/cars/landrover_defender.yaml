@@ -1,12 +1,13 @@
-name : Defender 90
+name : Defender
 brand : Land Rover
-trim : defender90
+trim : defender 90
 year : 1984
+unitsProduced : 665,000 # peak 39000 in 1997
 
 # -------------
 # ENGINES
 # -------------
-engine :  
+engine :
   name : NA2.5D 67hp
   hp: 67
   torqueY: [89.4, 140 , 154 , 148 , 128 , 118 , 78.6] # 154Nm @1800 67hp @4000
@@ -16,18 +17,18 @@ engine :
   displacement : 2495
 
 engines :
-  - engine :   
+  - engine :
       name : 2.3P 74hp
       hp: 74
       torqueY: [80  , 150 , 163  , 132 , 100] # 162nm@2000 74hp@4000
       torqueX: [1000, 1500, 2000 , 4000, 4500]
       type : petrol
-      layout : l4 
+      layout : l4
       displacement : 2286
     year : 1983
     weight : 1675
 
-  - engine :   
+  - engine :
       name :  2.5P
       hp: 83
       torqueY: [85, 160  , 175 , 142 , 110] # 175Nm@2000 80hp@4000
@@ -37,9 +38,9 @@ engines :
       displacement : 2495
     vmax: 120
     year : 1985
-    weight : 1675 
+    weight : 1675
 
-  - engine : 
+  - engine :
       name : V8 3.5L
       hp: 114
       torqueY: [85, 160  , 175 ,  251, 200 , 170] # 251Nm@2500 114hp@4000
@@ -53,7 +54,7 @@ engines :
     gearTransfer: [1.336, 3.32]
     gearSpeed: 30.3
 
-  - engine : 
+  - engine :
       name : V8 3.5L
     gearName : LT85
     gearRatio : [3.650, 2.180, 1.436, 1.000, 0.7951]
@@ -98,8 +99,8 @@ acc0100: 25
 vmax: 113 # 100 https://www.lrukforums.com/threads/2-25d-max-speed.249575/
 avgConsumption : 11
 energyTank : 60
-autonomy : 
-turningCircle : 
+autonomy :
+turningCircle :
 wheelType : 205R16
 
 # -------------
@@ -113,20 +114,20 @@ modelMisc: Wheel1B
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   # -----------------------
   #
   #       DEFENDER 110
   #
   # -----------------------
-  - trim : defender110
+  - trim : defender 110
     year : 1983
     length : 4600
     wheelbase : 2794
     weight : 1806
     seats : 9
     model : landroverDefender110
-    engine : 
+    engine :
       name : 2.3D 60hp
       hp: 60
       torqueY: [89.4, 128  , 136 , 135 , 134 , 132  , 117 , 106, 78.6] # 136Nm @1800 60hp @4000
@@ -136,8 +137,8 @@ trims :
     driveRatio : 4.7
     gearSpeed: 24.2
 
-    engines : 
-      - engine : 
+    engines :
+      - engine :
           name : 2.3P 74hp
         weight : 1787
 
@@ -153,7 +154,7 @@ trims :
         weight : 1762
 
 
-      
+
 
 
 
@@ -161,7 +162,7 @@ trims :
 # -------------
 # OPTIONS
 # -------------
-options: 
+options:
 
 
 

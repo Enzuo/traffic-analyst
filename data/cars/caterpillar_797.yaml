@@ -3,6 +3,7 @@ brand : Caterpillar
 trim : 797B
 year : 2002 # 797 1998
 price : $3,400,000
+unitsProduced: 1190
 
 # -------------
 # ENGINE

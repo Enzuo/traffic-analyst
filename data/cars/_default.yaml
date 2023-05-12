@@ -66,6 +66,7 @@ wheelType :
 groundRoll:
 takeOffSpeed:
 wingArea:
+liftDragRatio:
 
 # -------------
 # 3D

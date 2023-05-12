@@ -68,6 +68,7 @@ wheelType :
 groundRoll: 293m
 takeOffSpeed : 115 # 62kt
 propellerForce : 2090N
+liftDragRatio : 10
 
 
 # -------------

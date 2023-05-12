@@ -3,7 +3,7 @@ brand : Boeing
 trim : 737-100
 year : 1967
 price : 3,700,000$
-unitsProduced : 30
+unitsProduced : 10600 # 30 for 737-100
 
 # -------------
 # ENGINE
@@ -64,6 +64,8 @@ wheelType :
 groundRoll: 1800
 takeOffSpeed: 280 # 260-280
 wingArea : 102
+liftDragoRatio: 13.5
+
 
 # -------------
 # 3D

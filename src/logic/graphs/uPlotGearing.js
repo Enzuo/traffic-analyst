@@ -32,7 +32,7 @@ export function createGraph(car, element){
 
 
   const speedIncrement = 2
-  const maxSpeed = 900
+  const maxSpeed = 200
   let speed = 0
   while(speed <= maxSpeed){
     graphData[0].push(speed)
