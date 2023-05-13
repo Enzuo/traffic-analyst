@@ -69,7 +69,7 @@ trims :
     gearReverse : 7.3
     driveRatio : 3.620
     vmax: 95
-    weight : 715 # 610 + 75 + 30
+    weight : 665 # 560 + 75 + 30
 
   - trim : 2cv 4
     year : 1970
@@ -82,9 +82,9 @@ trims :
     gearRatio : [5.202,2.656,1.785,1.315]
     gearReverse : 5.202
     driveRatio : 4.125
-    weight : 715 # 610 + 75 + 30
+    weight : 665 # 560 + 75 + 30
     vmax : 102
-    avgConsumption : 5.3
+    avgConsumption : 5.4
 
   - trim : 2cv 6
     year : 1971
@@ -97,6 +97,8 @@ trims :
     gearRatio : [5.202,2.656,1.785,1.315]
     gearReverse : 5.202
     driveRatio : 4.125
-    weight : 715 # 610 + 75 + 30
+    weight : 665 # 560 + 75 + 30
+    vmax : 110
+    avgConsumption: 6.1
 
 
