@@ -208,7 +208,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     }
 
     if (carInFront) {
-      let distanceToCarInFront = getDistanceBetweenCar(carInFront.car, car)
+      let [,distanceToCarInFront] = getDistanceBetweenCar(carInFront.car, car)
       let timeToContact = distanceToCarInFront / currentSpeed
       let timeToIntercept = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
 
@@ -313,9 +313,9 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     get frontCar() { return carInFront },
     get car() { return car },
     get currentTask() { return currentTask },
-    get distance() { return getDistanceBetweenCar(carInFront.car, car)},
-    get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/car.state.speed : null},
-    get TTI() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)/Math.max((car.state.speed - carInFront.speed), 1) : null},
+    get distance() { return getDistanceBetweenCar(carInFront.car, car)[1]},
+    get TTC() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)[1]/car.state.speed : null},
+    get TTI() { return carInFront ? getDistanceBetweenCar(carInFront.car, car)[1]/Math.max((car.state.speed - carInFront.speed), 1) : null},
     get plannedSpeedCurve() { return plannedSpeedCurve}
   }
 }
@@ -349,11 +349,12 @@ function createLinearCurve(fromX, toX, fromY, toY){
 function detectCarInFront(car, cars){
   let nearestCar
   let nearestCarDistance = 10000
+  let nearestCarDistanceBB = 10000
   for(var i = 0; i<cars.length; i++){
     if(cars[i].id === car.id) {
       continue
     }
-    let distanceToCar = getDistanceBetweenCar(cars[i], car)
+    let [distanceToCar, distanceBB] = getDistanceBetweenCar(cars[i], car)
     // if(!nearestCar){
     //   nearestCar = cars[i]
     //   nearestCarDistance = distanceToCar
@@ -362,9 +363,10 @@ function detectCarInFront(car, cars){
     if(distanceToCar > 0 && distanceToCar < nearestCarDistance){
       nearestCar = cars[i]
       nearestCarDistance = distanceToCar
+      nearestCarDistanceBB = distanceBB
     }
   }
-  return nearestCar ? {car: nearestCar, distance: nearestCarDistance, speed : nearestCar.state.speed} : null
+  return nearestCar ? {car: nearestCar, distance: nearestCarDistanceBB, speed : nearestCar.state.speed} : null
 }
 
 /**
@@ -374,7 +376,9 @@ function detectCarInFront(car, cars){
  * @returns
  */
 function getDistanceBetweenCar(firstCar, secondCar){
-  return (firstCar.state.position - firstCar.props.length/2000) - (secondCar.state.position + secondCar.props.length/2000)
+  let distance = firstCar.state.position - secondCar.state.position
+  let distanceBumperToBumper = distance - firstCar.props.length/2000 - secondCar.props.length/2000
+  return [distance, distanceBumperToBumper]
 }
 
 
