@@ -16,6 +16,7 @@
   let cars
   let drivers
   let simulation
+  let selectedCar
 
   $: drivers = updateDrivers(time)
 
@@ -42,8 +43,10 @@
     return drivers
   }
 
-  function handleCarClick(car) {
-    console.log('click', car)
+  function handleCarClick(e) {
+    console.log('click', e)
+    let car = e.detail
+    selectedCar = cars.find(c => c.id === car.id)
   }
 
   function mstokmh(ms){
@@ -66,18 +69,20 @@
 
 {#if showUI}
 <button on:click={handleSimStop}>Stop Simulation</button>
+<button on:click={handleStopCar}> stop first car</button>
 
+{#if selectedCar}
+Selected Car : {selectedCar.id}
 <UPlotRealtime
   title="Speed"
   key="speed"
   transformFn={mstokmh}
   time={time}
-  observed={cars}
+  observed={[selectedCar]}
 ></UPlotRealtime>
+{/if}
 
-<button on:click={handleStopCar}> stop first car</button>
-
-{#if drivers}
+{#if drivers && true === false}
   {#each drivers as d}
   <li>
     {d.currentTask}

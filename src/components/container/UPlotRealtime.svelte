@@ -23,6 +23,7 @@
 
   function setupGraph (observed, chartElement) {
     if(observed && chartElement){
+      chartElement.innerHTML = ''
       chart = createGraph({title, units, key, transformFn, colors}, observed, chartElement)
     }
   }
