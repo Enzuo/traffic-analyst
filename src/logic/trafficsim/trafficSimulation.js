@@ -51,7 +51,7 @@ export default function trafficSimumlation () {
 
   simulation.start()
 
-  return {simulation, cars, drivers}
+  return {simulation, cars, drivers, findCarDriver}
 }
 
 function createCar(position=0, speed=0){
@@ -192,9 +192,14 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
           return
         }
       }
-      // TODO use the throttle guess to get something less robotic and some variation in speed
       currentTask = 'travelingToWantedSpeed'
       footOn = 'throttle'
+      if(currentSpeed < targetSpeed){
+        throttleGuess = addThrottleGuess(currentThrottle, 0.5, currentAcceleration)
+      }
+      if(currentSpeed > targetSpeed){
+        throttleGuess = reduceThrottleGuess(currentThrottle, 0.5, currentAcceleration)
+      }
     })
 
     if(hasStopCarInstruction){
@@ -242,7 +247,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       }
     }
     if(currentTask === 'travelingToWantedSpeed'){
-      applyThrottleForTargetSpeed(currentSpeed, targetSpeed, currentAcceleration)
+      applyThrottleTo(throttleGuess)
     }
   }
 

@@ -10,18 +10,19 @@
 
   export let showUI = false
 
-
+  let tsim
   let container
   let time
   let cars
   let drivers
   let simulation
   let selectedCar
+  let selectedDriverIndex
 
   $: drivers = updateDrivers(time)
 
   onMount(() => {
-    let tsim = trafficSimulation()
+    tsim = trafficSimulation()
     cars = tsim.cars
     drivers = tsim.drivers
     simulation = tsim.simulation
@@ -47,6 +48,8 @@
     console.log('click', e)
     let car = e.detail
     selectedCar = cars.find(c => c.id === car.id)
+    let driverIndex = tsim.findCarDriver(selectedCar, drivers)
+    selectedDriverIndex = driverIndex
   }
 
   function mstokmh(ms){
@@ -95,6 +98,13 @@ Selected Car : {selectedCar.id}
   ></UPlotRealtime>
 </div>
 {/if}
+{#if selectedDriverIndex}
+Driver
+task : {drivers[selectedDriverIndex].currentTask}
+tti : {(drivers[selectedDriverIndex].TTI).toFixed(1)}
+ttc : {(drivers[selectedDriverIndex].TTC).toFixed(1)}
+{/if}
+
 
 {#if drivers && true === false}
   {#each drivers as d}
