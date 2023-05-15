@@ -73,13 +73,27 @@
 
 {#if selectedCar}
 Selected Car : {selectedCar.id}
-<UPlotRealtime
+<div class="grid">
+  <UPlotRealtime
   title="Speed"
   key="speed"
   transformFn={mstokmh}
   time={time}
   observed={[selectedCar]}
-></UPlotRealtime>
+  ></UPlotRealtime>
+  <UPlotRealtime
+  title="Brake"
+  key="brakeInput"
+  time={time}
+  observed={[selectedCar]}
+  ></UPlotRealtime>
+  <UPlotRealtime
+  title="Throttle"
+  key="throttleInput"
+  time={time}
+  observed={[selectedCar]}
+  ></UPlotRealtime>
+</div>
 {/if}
 
 {#if drivers && true === false}

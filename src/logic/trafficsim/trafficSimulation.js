@@ -203,7 +203,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     }
 
     if(footOn === 'throttle' && currentBrake > 0){
-      applyBrake(-3*dts)
+      applyBrake(-2*dts)
       return
     }
 
