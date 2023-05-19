@@ -194,12 +194,7 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       }
       currentTask = 'travelingToWantedSpeed'
       footOn = 'throttle'
-      if(currentSpeed < targetSpeed){
-        throttleGuess = addThrottleGuess(currentThrottle, 0.5, currentAcceleration)
-      }
-      if(currentSpeed > targetSpeed){
-        throttleGuess = reduceThrottleGuess(currentThrottle, 0.5, currentAcceleration)
-      }
+      throttleGuess = getThrottleToReachSpeed(targetSpeed, currentSpeed, currentThrottle, currentAcceleration)
     })
 
     if(hasStopCarInstruction){
@@ -295,6 +290,26 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
     if((currentThrottle - 0.01) > throttleValue){
       return applyThrottle(-0.02)
     }
+  }
+
+  function getThrottleToReachSpeed(targetSpeed, currentSpeed, currentThrottle, currentAcceleration, maxAcceleration=4){
+    let throttleValue
+
+    let accCurve = currentSpeed > targetSpeed ?
+      createLinearCurve(currentSpeed, targetSpeed, -maxAcceleration, 0)
+      : createLinearCurve(0, targetSpeed, maxAcceleration, 0)
+    // let accCurve = createLinearCurve(0, targetSpeed, maxAcceleration, 0)
+    let targetAcceleration = accCurve.getYForX(currentSpeed)
+
+    if(currentAcceleration > targetAcceleration){
+      throttleValue = reduceThrottleGuess(currentThrottle, 0.5, currentAcceleration)
+    }
+
+    if(currentAcceleration < targetAcceleration){
+      throttleValue = addThrottleGuess(currentThrottle, 0.5, currentAcceleration)
+    }
+
+    return throttleValue
   }
 
 
