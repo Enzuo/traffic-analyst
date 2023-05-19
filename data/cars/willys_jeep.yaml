@@ -1,0 +1,66 @@
+name : Jeep
+brand : Willys
+trim : CJ2A
+year : 1945
+unitsProduced: 1,018,000
+price : $1090
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Go-Devil L4-134
+  hp: 54
+  torqueY: [100, 142.2, 105] # 14.5mkg@1800 54ch@3600 (60 gross)
+  torqueX: [1000, 1800, 3600]
+  type : petrol
+  layout : l4
+  displacement : 2199
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : Warner T90
+gearRatio : [2.80, 1.55, 1]
+gearReverse : 3.80
+gearTransfer : [1, 2.43]
+driveRatio : 5.38
+wheelDiameter : 71.3
+type : AWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1188 # 1113 + 75
+length: 3127 # 3328 avec pare choc
+width: 1451 # 1575 avec roue de secour
+height: 1625
+dragCoef: 0.65
+dragArea: 2.25
+
+wheelbase: 2032
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance: 223
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 105
+avgConsumption :
+energyTank : 57
+autonomy : 480
+turningCircle :
+wheelType : 600x16
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
