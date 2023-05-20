@@ -2,6 +2,7 @@ name: zoe
 brand: renault
 trim: Q90
 year: 2017
+unitsProduced : 284,791
 price: 23700€
 
 # -------------

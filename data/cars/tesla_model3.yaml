@@ -1,6 +1,8 @@
 name : model 3
 brand : tesla
 year : 2018
+price : 41990€
+unitsProduced : 420,000+
 trim : standard 285hp
 
 # -------------
