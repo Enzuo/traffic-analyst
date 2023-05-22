@@ -1,0 +1,89 @@
+import * as THREE from 'three'
+import CameraControls from 'camera-controls'
+
+CameraControls.install( { THREE: THREE } )
+
+
+
+
+class Scene3D {
+
+  public scene : THREE.Scene
+  public renderer : THREE.WebGLRenderer
+  public sceneElement : HTMLElement
+
+  public camera : THREE.PerspectiveCamera
+  public animation
+
+
+
+  constructor () {
+
+    this.scene = new THREE.Scene();
+
+    this.renderer = new THREE.WebGLRenderer({ alpha: true });
+    this.renderer.physicallyCorrectLights = true; // much better colors (https://github.com/donmccurdy/three-gltf-viewer/blob/main/src/viewer.js)
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+    this.renderer.useLegacyLights = false;
+    this.renderer.setClearColor( 0xffffff, 0);
+    this.renderer.setSize( 300, 300 );
+
+    this.renderer.toneMappingExposure = 0.1;
+
+
+    // SHADOWS
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    this.sceneElement = this.renderer.domElement
+
+
+    // MAIN CAMERA
+    const ratio = 1 // window.innerWidth / window.innerHeight
+    this.camera = new THREE.PerspectiveCamera( 75, ratio, 0.1, 1000 );
+    this.camera.position.z = 5;
+
+    const cameraControls = new CameraControls( this.camera, this.renderer.domElement );
+    cameraControls.dollySpeed = 0.1
+
+    //CUBE
+    // let {scene} = ThreeAnimation
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cube = new THREE.Mesh( geometry, material );
+    cube.position.y = 2
+    cube.castShadow = true
+    this.scene.add( cube );
+    cube.position.z = 0;
+    cube.position.x = 0
+
+    //
+    this.renderer.render(this.scene, this.camera );
+    // this.animation =
+
+  }
+
+  updateSceneOpts(opts) {
+    const {width, height} = opts
+    this.renderer.setSize(width, height)
+    this.camera.aspect = width / height
+    this.camera.updateProjectionMatrix()
+  }
+
+}
+
+
+export class GameWorld extends Scene3D {
+
+
+
+
+  constructor () {
+    super()
+  }
+
+
+
+
+
+}

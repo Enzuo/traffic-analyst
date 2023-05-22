@@ -37,6 +37,7 @@
     "@picocss/pico": "^1.5.10",
     "@svgdotjs/svg.js": "^3.1.2",
     "camera-controls": "^1.38.2",
+    "cannon": "^0.6.2",
     "fuse.js": "^6.6.2",
     "lodash.get": "^4.4.2",
     "nes.css": "^2.3.0",
