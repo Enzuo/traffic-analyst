@@ -1,9 +1,15 @@
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
+import { Animation } from './sceneGraph'
 
 CameraControls.install( { THREE: THREE } )
 
 
+class AnimationWorld extends Animation {
+  constructor (scene, camera, renderer, CameraControls) {
+    super(scene, camera, renderer, CameraControls)
+  }
+}
 
 
 class Scene3D {
@@ -59,8 +65,8 @@ class Scene3D {
 
     //
     this.renderer.render(this.scene, this.camera );
-    // this.animation =
-
+    this.animation = new Animation(this.scene, this.camera, this.renderer, cameraControls)
+    this.animation.start()
   }
 
   updateSceneOpts(opts) {

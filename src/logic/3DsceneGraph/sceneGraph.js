@@ -110,13 +110,14 @@ function createCamera (renderer) {
  *
  */
 
-class Animation {
+export class Animation {
   constructor (scene, camera, renderer, cameraControls) {
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
     this.cameraControls = cameraControls
     this.clock = new THREE.Clock()
+    this.animationFrame
   }
 
   start() {
