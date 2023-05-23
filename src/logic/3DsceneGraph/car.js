@@ -33,11 +33,15 @@ export function createCarObject(car, positionX = 0, color){
   .catch(async (e) => {
     const wheelScene = await loadModel('wheel')
 
+    console.log('car props', car.props)
+
     // scale default wheel
     const defaultWheelDiameter = 63
     const wheelDiameter = car.props.wheelDiameter
-    let r = wheelDiameter/defaultWheelDiameter
-    wheelScene.scene.children[0].scale.set(r, r, r)
+    if(wheelDiameter){
+      let r = wheelDiameter/defaultWheelDiameter
+      wheelScene.scene.children[0].scale.set(r, r, r)
+    }
 
     return wheelScene
   })
@@ -117,6 +121,8 @@ export function createCarObject(car, positionX = 0, color){
       }
     })
 
+    console.log('wheels', wheelObjects)
+
     return carObject
   })
 
@@ -149,7 +155,7 @@ export function createCarObject(car, positionX = 0, color){
     }
   }
 
-  return promiseObject.then((object) => {return { animate , object}})
+  return promiseObject.then((object) => {return { animate , object, carBody, wheelObjects}})
 }
 
 function cloneWheel(wheel, empty, useRotation=true){

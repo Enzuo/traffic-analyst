@@ -121,6 +121,7 @@ export class Animation {
   }
 
   start() {
+    cancelAnimationFrame(this.animationFrame)
     this.animationLoop()
   }
 

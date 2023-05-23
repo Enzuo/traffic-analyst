@@ -1,6 +1,11 @@
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import { Animation } from './sceneGraph'
+import CANNON from 'cannon'
+import db from '@/logic/cardata/database'
+import { createCarEntity } from '../carLogic/carEntity'
+import { createCarObject } from './car'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -43,6 +48,29 @@ class Scene3D {
 
     this.sceneElement = this.renderer.domElement
 
+    // LIGHTS
+    let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    const targetObject = new THREE.Object3D();
+    targetObject.position.set(0, 0, 0)
+    directionalLight.position.set(0, 10, 0)
+    directionalLight.target = targetObject;
+    directionalLight.castShadow = true;
+    this.scene.add(targetObject);
+    this.scene.add( directionalLight );
+
+    // ENV
+    let pmremGenerator = new THREE.PMREMGenerator( this.renderer );
+    pmremGenerator.compileEquirectangularShader();
+    let path = 'models/env/venice_sunset_1k.hdr'
+    new RGBELoader()
+        .load( path, ( texture ) => {
+
+          const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
+          pmremGenerator.dispose();
+          this.scene.environment = envMap
+          this.scene.background = null // envMap
+        })
+
 
     // MAIN CAMERA
     const ratio = 1 // window.innerWidth / window.innerHeight
@@ -76,16 +104,45 @@ class Scene3D {
     this.camera.updateProjectionMatrix()
   }
 
+  start() {
+    this.animation.start()
+  }
+
+  stop() {
+    this.animation.stop()
+  }
+
 }
 
 
 export class GameWorld extends Scene3D {
 
+  public physicsWorld: CANNON.World;
 
 
 
   constructor () {
     super()
+
+
+    // Physics
+		this.physicsWorld = new CANNON.World();
+		this.physicsWorld.gravity.set(0, -9.81, 0);
+		this.physicsWorld.broadphase = new CANNON.SAPBroadphase(this.physicsWorld);
+		this.physicsWorld.solver.iterations = 10;
+		this.physicsWorld.allowSleep = true;
+
+
+    // Car
+    const car = db.car.get('renault_zoe')
+    const carEntity = createCarEntity(car)
+    const carObject = createCarObject(carEntity)
+    carObject.then((aObj) => {
+      console.log(aObj)
+      this.scene.add(aObj.object)
+    })
+
+
   }
 
 
