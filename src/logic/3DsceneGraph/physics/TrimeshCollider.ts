@@ -1,4 +1,4 @@
-import * as CANNON from 'cannon'
+import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
 import type {Object3D} from 'three'
 // import { threeToCannon } from '@/logic/lib/three-to-cannon'
