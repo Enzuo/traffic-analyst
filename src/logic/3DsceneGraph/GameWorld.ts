@@ -64,7 +64,7 @@ export class GameWorld extends Scene3D {
     carObject.then((aObj) => {
       console.log(aObj)
       this.scene.add(aObj.object)
-      let physics = new CarPhysics (this.physicsWorld, aObj.carBody)
+      let physics = new CarPhysics (this.physicsWorld, aObj.carBody, aObj.wheelObjects)
       this.animation.addAnimated(physics)
     })
 
@@ -112,9 +112,14 @@ export class GameWorld extends Scene3D {
 class CarPhysics {
   public bodyMesh
   public physicsBody
+  public rayCastVehicle: CANNON.RaycastVehicle;
+  public wheels
 
-  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh) {
+  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : THREE.Mesh[]) {
     this.bodyMesh = carBody
+    this.wheels = carWheels
+
+
 
     console.log(carBody)
     // Calc bounding box
@@ -122,6 +127,7 @@ class CarPhysics {
     let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
 
     //
+
 
     const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
     const mass = 1
@@ -132,11 +138,67 @@ class CarPhysics {
     this.physicsBody.angularVelocity.set(0,10,0)
     this.physicsBody.angularDamping = 0.5
     this.physicsBody.position.y = 5
-    physicsWorld.addBody(this.physicsBody)
+
+
+    this.rayCastVehicle = new CANNON.RaycastVehicle({
+			chassisBody: this.physicsBody,
+			indexUpAxis: 1,
+			indexRightAxis: 0,
+			indexForwardAxis: 2
+		});
+
+    this.wheels.forEach((wheel) => {
+      console.log(wheel)
+
+      const handlingSetup = {
+        radius: 0.25,
+        suspensionStiffness: 20,
+        suspensionRestLength: 0.35,
+        maxSuspensionTravel: 1,
+        frictionSlip: 0.8,
+        dampingRelaxation: 2,
+        dampingCompression: 2,
+        rollInfluence: 0.8
+      }
+      handlingSetup.chassisConnectionPointLocal = new CANNON.Vec3(),
+      handlingSetup.axleLocal = new CANNON.Vec3(-1, 0, 0);
+      handlingSetup.directionLocal = new CANNON.Vec3(0, -1, 0);
+      handlingSetup.chassisConnectionPointLocal.set(wheel.position.x + 0.1, wheel.position.y + 0.2, wheel.position.z - 0.1);
+			const index = this.rayCastVehicle.addWheel(handlingSetup);
+			wheel.rayCastWheelInfoIndex = index;
+    })
+
+
+    this.rayCastVehicle.addToWorld(physicsWorld);
+
+    // physicsWorld.addBody(this.physicsBody)
   }
 
   animate(delta) {
     this.bodyMesh.position.copy(this.physicsBody.position)
     this.bodyMesh.quaternion.copy(this.physicsBody.quaternion)
+
+    for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++)
+		{
+			this.rayCastVehicle.updateWheelTransform(i);
+			let transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
+
+			let wheelObject = this.wheels[i];
+			wheelObject.position.copy(threeVector(transform.position));
+			wheelObject.quaternion.copy(threeQuat(transform.quaternion));
+
+			let upAxisWorld = new CANNON.Vec3();
+			this.rayCastVehicle.getVehicleAxisWorld(this.rayCastVehicle.indexUpAxis, upAxisWorld);
+		}
   }
+}
+
+function threeVector(vec: CANNON.Vec3): THREE.Vector3
+{
+	return new THREE.Vector3(vec.x, vec.y, vec.z);
+}
+
+function threeQuat(quat: CANNON.Quaternion): THREE.Quaternion
+{
+	return new THREE.Quaternion(quat.x, quat.y, quat.z, quat.w);
 }
