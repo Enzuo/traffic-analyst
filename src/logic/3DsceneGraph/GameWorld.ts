@@ -4,13 +4,13 @@ import { Animation } from './Animation'
 import * as CANNON from 'cannon-es'
 import db from '@/logic/cardata/database'
 import { createCarEntity } from '../carLogic/carEntity'
-import { createCarObject } from './car'
 import { TrimeshCollider } from './physics/TrimeshCollider'
 import CannonDebugger from 'cannon-es-debugger'
 import { Scene3D } from './Scene3D'
 import { CarEntity3D, WheelTypes, createCarEntity3D } from './CarEntity3D'
 import { loadCarModel, loadWheelModel } from './loader'
 import type {Wheel} from './CarEntity3D'
+import { getCar } from '../cardata'
 
 
 class AnimationWorld extends Animation {
@@ -61,16 +61,14 @@ export class GameWorld extends Scene3D {
 
 
     // Car
-    const car = db.car.get('renault_zoe')
+    const car = getCar('renault_zoe')
     const carEntity = createCarEntity(car)
-    // const carObject = new CarEntity3D(carEntity)
     createCarEntity3D(carEntity).then((carEntity3D) => {
-      this.scene.add(carEntity3D.objectGroup)
+      console.log('carEntity3D', carEntity3D)
+      this.scene.add(carEntity3D.object)
       let physics = new CarPhysics (this.physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
       this.animation.addAnimated(physics)
     })
-    // const carObject = createCarObject(carEntity)
-
 
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
@@ -134,7 +132,7 @@ class CarPhysics {
 
 
     const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
-    const mass = 1
+    const mass = 1500
     this.physicsBody = new CANNON.Body({
       mass
     });
@@ -152,8 +150,6 @@ class CarPhysics {
 		});
 
     this.wheels.forEach((wheel) => {
-      console.log(wheel)
-
       const handlingSetup = {
         radius: 0.25,
         suspensionStiffness: 20,
@@ -173,16 +169,15 @@ class CarPhysics {
     })
 
     this.wheels.forEach((wheel) => {
-      console.log('wheel', wheel)
       if(wheel.wheelType === WheelTypes.Front) {
-        this.rayCastVehicle.setSteeringValue(0.5, wheel.rayCastWheelInfoIndex)
-        this.rayCastVehicle.setSteeringValue(0.5, wheel.rayCastWheelInfoIndex)
+        this.rayCastVehicle.setSteeringValue(0.8, wheel.rayCastWheelInfoIndex)
+        this.rayCastVehicle.setSteeringValue(0.8, wheel.rayCastWheelInfoIndex)
       }
     })
 
     // this.rayCastVehicle.setSteeringValue(0.3, 0)
     // this.rayCastVehicle.setSteeringValue(0.3, 1)
-    // this.rayCastVehicle.applyEngineForce(-1, 0)
+    // this.rayCastVehicle.applyEngineForce(-1500, 0)
 
 
     this.rayCastVehicle.addToWorld(physicsWorld);

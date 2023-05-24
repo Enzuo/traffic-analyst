@@ -157,7 +157,7 @@ function calcWheelScale(wheelDiameter, wheel){
 }
 
 
-export async function createCarEntity3D (carEntity : CarEntity, color) {
+export async function createCarEntity3D (carEntity : CarEntity, color?) {
   let wheelModel
   const car = carEntity.props
   return loadWheelModel(car.modelWheel)

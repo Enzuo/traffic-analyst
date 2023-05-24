@@ -5,7 +5,6 @@ import * as THREE from 'three'
                            // 'three/examples/jsm/controls/OrbitControls.js'
 import CameraControls from 'camera-controls'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-import { createCarObject } from './car'
 import { AnimationRotation, AnimationSimulation } from './Animation'
 import { Scene3D } from './Scene3D'
 import { createCarEntity3D } from './CarEntity3D'
@@ -63,7 +62,7 @@ export class SceneGraph extends Scene3D {
 
     // CUBE
     const animatedCube = createCube(this.scene)
-    this.animation.addAnimatedObject(animatedCube)
+    this.animation.addAnimated(animatedCube)
 
     // GROUND
     createGround(this.scene)
