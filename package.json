@@ -38,6 +38,8 @@
     "@svgdotjs/svg.js": "^3.1.2",
     "camera-controls": "^1.38.2",
     "cannon": "^0.6.2",
+    "cannon-es": "^0.20.0",
+    "cannon-es-debugger": "^1.0.0",
     "fuse.js": "^6.6.2",
     "lodash.get": "^4.4.2",
     "nes.css": "^2.3.0",
@@ -45,6 +47,7 @@
     "sirv-cli": "^1.0.14",
     "svelte-watch-resize": "^1.0.3",
     "three": "^0.140.2",
+    "three-to-cannon": "^4.3.0",
     "uplot": "^1.6.24"
   },
   "jest": {

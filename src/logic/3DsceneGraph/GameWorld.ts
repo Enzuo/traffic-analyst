@@ -1,25 +1,30 @@
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import { Animation } from './sceneGraph'
-import CANNON from 'cannon'
+import * as CANNON from 'cannon-es'
 import db from '@/logic/cardata/database'
 import { createCarEntity } from '../carLogic/carEntity'
 import { createCarObject } from './car'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import { TrimeshCollider } from './physics/TrimeshCollider'
+import CannonDebugger from 'cannon-es-debugger'
+
 
 CameraControls.install( { THREE: THREE } )
 
 
 class AnimationWorld extends Animation {
   public physicsWorld : CANNON.World
-  constructor (scene, camera, renderer, CameraControls, physicsWorld) {
+  public physicsDebugger
+  constructor (scene, camera, renderer, CameraControls, physicsWorld, physicsDebugger) {
     super(scene, camera, renderer, CameraControls)
     this.physicsWorld = physicsWorld
+    this.physicsDebugger = physicsDebugger
   }
 
   animate (delta) {
     this.physicsWorld.step(delta/1000)
+    this.physicsDebugger.update()
   }
 }
 
@@ -124,6 +129,7 @@ class Scene3D {
 export class GameWorld extends Scene3D {
 
   public physicsWorld: CANNON.World
+  public physicsDebugger
 
 
 
@@ -136,9 +142,6 @@ export class GameWorld extends Scene3D {
 		this.physicsWorld.broadphase = new CANNON.SAPBroadphase(this.physicsWorld);
 		this.physicsWorld.solver.iterations = 10;
 		this.physicsWorld.allowSleep = true;
-
-    // Animation
-    this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld)
 
 
     // Car
@@ -160,17 +163,12 @@ export class GameWorld extends Scene3D {
     ground.rotation.x = -Math.PI / 2; // rotate the plane to lie flat on the x-z plane
     ground.receiveShadow = true; // enable the plane to receive shadows
     this.scene.add(ground);
-    let phys = new TrimeshCollider(ground, {})
-    this.physicsWorld.addBody(phys.body);
+    // let phys = new TrimeshCollider(ground, {})
+    // this.physicsWorld.addBody(phys.body);
 
 		let mat = new CANNON.Material('boxMat');
 		mat.friction = 0.3
-		// mat.restitution = 0.7;
-
 		let shape = new CANNON.Box(new CANNON.Vec3(10, 0.01, 10))
-		// shape.material = mat;
-
-		// Add phys sphere
 		let physBox = new CANNON.Body({
 			mass: 0,
 			position: new CANNON.Vec3(0, 0, 0),
@@ -179,6 +177,16 @@ export class GameWorld extends Scene3D {
 
 		physBox.material = mat
     this.physicsWorld.addBody(physBox)
+
+    // DEBUGGER
+    this.physicsDebugger = new CannonDebugger(this.scene, this.physicsWorld, {
+      // options...
+    })
+
+
+
+    // Animation
+    this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld, this.physicsDebugger)
 
 
 
