@@ -11,8 +11,14 @@ CameraControls.install( { THREE: THREE } )
 
 
 class AnimationWorld extends Animation {
-  constructor (scene, camera, renderer, CameraControls) {
+  public physicsWorld : CANNON.World
+  constructor (scene, camera, renderer, CameraControls, physicsWorld) {
     super(scene, camera, renderer, CameraControls)
+    this.physicsWorld = physicsWorld
+  }
+
+  animate (delta) {
+    this.physicsWorld.step(delta/1000)
   }
 }
 
@@ -22,9 +28,9 @@ class Scene3D {
   public scene : THREE.Scene
   public renderer : THREE.WebGLRenderer
   public sceneElement : HTMLElement
-
   public camera : THREE.PerspectiveCamera
-  public animation
+  public cameraControls : CameraControls
+  public animation : Animation
 
 
 
@@ -77,8 +83,8 @@ class Scene3D {
     this.camera = new THREE.PerspectiveCamera( 75, ratio, 0.1, 1000 );
     this.camera.position.z = 5;
 
-    const cameraControls = new CameraControls( this.camera, this.renderer.domElement );
-    cameraControls.dollySpeed = 0.1
+    this.cameraControls = new CameraControls( this.camera, this.renderer.domElement );
+    this.cameraControls.dollySpeed = 0.1
 
     //CUBE
     // let {scene} = ThreeAnimation
@@ -93,8 +99,7 @@ class Scene3D {
 
     //
     this.renderer.render(this.scene, this.camera );
-    this.animation = new Animation(this.scene, this.camera, this.renderer, cameraControls)
-    this.animation.start()
+    this.animation = new Animation(this.scene, this.camera, this.renderer, this.cameraControls)
   }
 
   updateSceneOpts(opts) {
@@ -117,12 +122,14 @@ class Scene3D {
 
 export class GameWorld extends Scene3D {
 
-  public physicsWorld: CANNON.World;
+  public physicsWorld: CANNON.World
 
 
 
   constructor () {
     super()
+
+
 
 
     // Physics
@@ -132,6 +139,9 @@ export class GameWorld extends Scene3D {
 		this.physicsWorld.solver.iterations = 10;
 		this.physicsWorld.allowSleep = true;
 
+    // Animation
+    this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld)
+
 
     // Car
     const car = db.car.get('renault_zoe')
@@ -140,13 +150,37 @@ export class GameWorld extends Scene3D {
     carObject.then((aObj) => {
       console.log(aObj)
       this.scene.add(aObj.object)
+      let physics = new CarPhysics (this.physicsWorld, aObj.carBody)
+      this.animation.addAnimated(physics)
     })
 
 
+
+    // Start world
+    this.start()
+  }
+}
+
+class CarPhysics {
+  public bodyMesh
+  public physicsBody
+
+  constructor(physicsWorld, carBody) {
+    this.bodyMesh = carBody
+
+    const shape = new CANNON.Box(new CANNON.Vec3(1,1,1))
+    const mass = 1
+    this.physicsBody = new CANNON.Body({
+      mass
+    });
+    this.physicsBody.addShape(shape)
+    this.physicsBody.angularVelocity.set(0,10,0)
+    this.physicsBody.angularDamping = 0.5
+    physicsWorld.addBody(this.physicsBody)
   }
 
-
-
-
-
+  animate(delta) {
+    this.bodyMesh.position.copy(this.physicsBody.position)
+    this.bodyMesh.quaternion.copy(this.physicsBody.quaternion)
+  }
 }
