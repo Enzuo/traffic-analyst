@@ -103,17 +103,18 @@ const BODY_TYPES = {
 
 /**
  * @typedef {import('@/logic/carLogic/carEntity')} CarEntity
+ * @typedef {import('@/logic/cardata')} Car
  */
 
 /**
  *
- * @param {CarEntity} car
+ * @param {Car} car
  * @returns {Promise<THREE.Group>}
  */
 export async function loadDefaultCarModelProc(car){
 
-  const {length, height, width, wheelbase, clearance} = car.props
-  const wheelDiameter = car.props.wheelDiameter * 10
+  const {length, height, width, wheelbase, clearance} = car
+  const wheelDiameter = car.wheelDiameter * 10
   const archSize = (wheelDiameter + 100 )
   const MAX_wheelbase = length - archSize - 0.05
 
@@ -126,7 +127,7 @@ export async function loadDefaultCarModelProc(car){
 
   const halfWidth = width/2
 
-  const bodyType = getBodyType(car.props.bodyType)
+  const bodyType = getBodyType(car.bodyType)
 
   const vertices = []
   const viFrame = addMainFrame(vertices, [0,0,halfWidth], frameLength, frameHeight, frameBottom, bodyType)

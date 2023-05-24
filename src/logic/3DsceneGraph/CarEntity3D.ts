@@ -26,12 +26,21 @@ export class CarEntity3D {
   public wheels : Wheel[]
   public propeller : THREE.Mesh
 
-  constructor (car: CarEntity, {group, body, wheels, propeller}, color?) {
+  constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?) {
     this.carEntity = car
     this.objectGroup = group
     this.carBody = body
-    this.wheels = wheels
     this.propeller = propeller
+
+    //Create wheels
+    this.wheels = []
+    wheels.forEach((w) => {
+      let scale = car.props.wheelScale ? car.props.wheelScale[w.index-1] : 1
+      let wheel = new Wheel(w.obj, wheelModel, scale, w.index, w.isRight)
+      this.wheels.push(wheel)
+      this.objectGroup.add(wheel.object)
+    })
+
   }
 
 
@@ -80,9 +89,9 @@ export class Wheel {
   public index
   public wheelType : WheelTypes
 
-  constructor(model : THREE.Object3D, empty : THREE.Object3D, scale, index) {
+  constructor(empty : THREE.Object3D, model : THREE.Object3D, scale, index, isRightWheel) {
     this.object = cloneWheel(model, empty, false)
-    this.object.scale.set(scale,scale,scale)
+    this.object.scale.set(isRightWheel ? -scale : scale, scale, scale)
     this.index = index
     if(index <= 2){
       this.wheelType = WheelTypes.Front
@@ -95,128 +104,20 @@ export class Wheel {
 
 
 function cloneWheel(wheel, empty, useRotation=true){
+  console.log('empty', empty)
   let carWheel = wheel.clone()
   carWheel.position.copy(empty.position)
   if(useRotation){
     carWheel.rotation.copy(empty.rotation)
   }
-  if(!!empty.name.match(/R$/g)){
-    carWheel.scale.x *= -1
-  }
+  // if(!!empty.name.match(/R$/g)){
+  //   carWheel.scale.x *= -1
+  // }
   return carWheel
 }
 
 
 
-export function loadCarModel(car, color) {
-  // MODELS
-  let carObject
-  let body
-  let propeller
-  let wheels = []
-  let wheelModel : THREE.Object3D
-  let carModelName = car.props.model
-  let wheelModelName = car.props.modelWheel
-
-  let promiseObject =
-  loadWheelModel(car)
-  .then((model) => {
-    wheelModel = model
-  })
-  .then(() => loadModel(carModelName))
-  .catch(() => loadDefaultCarModelProc(car))
-  .then((gltf) => {
-    carObject = gltf.scene ? gltf.scene : gltf
-
-    let wheelDiameter = car.props.wheelDiameter || 63
-
-    // Initial position
-    // carObject.position.x = positionX
-    carObject.position.y += wheelDiameter/250
 
 
-    const miscObjects = []
 
-    carObject.traverse((a) => {
-
-      // MISC
-      const miscObj = a.name.match(/^misc(\w*)/i)
-      if(miscObj){
-        miscObjects.push({obj: a, name: miscObj[1]})
-        return
-      }
-
-      // WHEELS
-      let matchWheel = a.name.match(/Wheel(\d+)/)
-      if(matchWheel){
-        let wheelIndex = matchWheel[1]
-        let scale = 1
-        if(car.props.wheelScale){
-          scale = car.props.wheelScale[wheelIndex-1] || 1
-        }
-        let wheel = new Wheel(wheelModel, a, scale, wheelIndex)
-        carObject.add(wheel.object)
-        wheels.push(wheel)
-      }
-
-      if ( a instanceof THREE.Mesh ) {
-        a.castShadow = true
-        a.receiveShadow = false
-        const texture = a.material.map;
-        const newTexture = changeTextureColor(texture, color)
-        a.material.map = newTexture
-      }
-
-      // body
-      if(a.name.indexOf('Body') >= 0){
-        body = a
-      }
-
-      if(a.name.indexOf('Propeller') >= 0){
-        propeller = a
-      }
-    })
-
-    miscObjects.forEach((m) => {
-      carObject.remove(m.obj)
-      const miscName = new RegExp(m.name, 'i')
-      if(car.props.modelMisc && miscName.test(car.props.modelMisc)){
-        let isWheel = m.name.indexOf('Wheel') >= 0
-        if(isWheel){
-          body.add(cloneWheel(wheelModel, m.obj))
-          return
-        }
-        body.add(m.obj)
-      }
-    })
-
-    return carObject
-  })
-
-  return promiseObject.then((object) => {return {group : object, body, wheels, propeller}})
-}
-
-
-async function loadWheelModel (car : CarEntity) : Promise<THREE.Object3D> {
-  const wheelName = car.props.modelWheel
-
-  return loadModel(wheelName)
-  .catch(async (e) => {
-    const wheelScene = await loadModel('wheel')
-
-    // scale default wheel
-    const defaultWheelDiameter = 63
-    const wheelDiameter = car.props.wheelDiameter
-    if(wheelDiameter){
-      let r = wheelDiameter/defaultWheelDiameter
-      wheelScene.scene.children[0].scale.set(r, r, r)
-    }
-
-    return wheelScene
-  })
-  .then((wheelScene) => {
-    const wheelModel = wheelScene.scene.children[0]
-    wheelModel.material.color = new THREE.Color(0x333333)
-    return wheelModel
-  })
-}

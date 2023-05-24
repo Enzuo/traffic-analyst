@@ -8,7 +8,8 @@ import { createCarObject } from './car'
 import { TrimeshCollider } from './physics/TrimeshCollider'
 import CannonDebugger from 'cannon-es-debugger'
 import { Scene3D } from './Scene3D'
-import { CarEntity3D, WheelTypes, loadCarModel } from './CarEntity3D'
+import { CarEntity3D, WheelTypes } from './CarEntity3D'
+import { loadCarModel, loadWheelModel } from './loader'
 import type {Wheel} from './CarEntity3D'
 
 
@@ -63,8 +64,12 @@ export class GameWorld extends Scene3D {
     const car = db.car.get('renault_zoe')
     const carEntity = createCarEntity(car)
     // const carObject = new CarEntity3D(carEntity)
-    loadCarModel(carEntity).then((modelObjects) => {
-      const carEntity3D = new CarEntity3D(carEntity, modelObjects)
+    let wheelModel
+    loadWheelModel(car.modelWheel)
+    .then((m) => wheelModel = m).then()
+    loadCarModel(car)
+    .then((carModel) => {
+      const carEntity3D = new CarEntity3D(carEntity, carModel, wheelModel)
       this.scene.add(carEntity3D.objectGroup)
       let physics = new CarPhysics (this.physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
       this.animation.addAnimated(physics)
@@ -182,7 +187,7 @@ class CarPhysics {
 
     // this.rayCastVehicle.setSteeringValue(0.3, 0)
     // this.rayCastVehicle.setSteeringValue(0.3, 1)
-    this.rayCastVehicle.applyEngineForce(-1, 0)
+    // this.rayCastVehicle.applyEngineForce(-1, 0)
 
 
     this.rayCastVehicle.addToWorld(physicsWorld);
