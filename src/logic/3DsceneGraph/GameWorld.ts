@@ -6,6 +6,7 @@ import db from '@/logic/cardata/database'
 import { createCarEntity } from '../carLogic/carEntity'
 import { createCarObject } from './car'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import { TrimeshCollider } from './physics/TrimeshCollider'
 
 CameraControls.install( { THREE: THREE } )
 
@@ -129,9 +130,6 @@ export class GameWorld extends Scene3D {
   constructor () {
     super()
 
-
-
-
     // Physics
 		this.physicsWorld = new CANNON.World();
 		this.physicsWorld.gravity.set(0, -9.81, 0);
@@ -153,6 +151,17 @@ export class GameWorld extends Scene3D {
       let physics = new CarPhysics (this.physicsWorld, aObj.carBody)
       this.animation.addAnimated(physics)
     })
+
+    // Ground
+    const groundGeometry = new THREE.PlaneGeometry(10, 3600);
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    // ground.position.y = -1; // position the plane at y = -1 so that it is below other objects in the scene
+    ground.rotation.x = -Math.PI / 2; // rotate the plane to lie flat on the x-z plane
+    ground.receiveShadow = true; // enable the plane to receive shadows
+    this.scene.add(ground);
+    let phys = new TrimeshCollider(ground, {})
+    this.physicsWorld.addBody(phys.body);
 
 
 
