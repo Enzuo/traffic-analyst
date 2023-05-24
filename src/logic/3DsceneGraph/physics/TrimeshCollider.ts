@@ -1,7 +1,9 @@
 import * as CANNON from 'cannon'
 import * as THREE from 'three'
 import type {Object3D} from 'three'
-import { threeToCannon } from '@/logic/lib/three-to-cannon'
+// import { threeToCannon } from '@/logic/lib/three-to-cannon'
+import { threeToCannon, ShapeType } from 'three-to-cannon'
+
 
 export class TrimeshCollider
 {
@@ -27,7 +29,7 @@ export class TrimeshCollider
 		mat.friction = options.friction;
 		// mat.restitution = 0.7;
 
-		let shape = threeToCannon(this.mesh, {type: threeToCannon.Type.MESH});
+		let {shape} = threeToCannon(this.mesh, {type: ShapeType.MESH});
 		// shape['material'] = mat;
 
 		// Add phys sphere

@@ -153,7 +153,7 @@ export class GameWorld extends Scene3D {
     })
 
     // Ground
-    const groundGeometry = new THREE.PlaneGeometry(10, 3600);
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
     const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     // ground.position.y = -1; // position the plane at y = -1 so that it is below other objects in the scene
@@ -162,6 +162,24 @@ export class GameWorld extends Scene3D {
     this.scene.add(ground);
     let phys = new TrimeshCollider(ground, {})
     this.physicsWorld.addBody(phys.body);
+
+		let mat = new CANNON.Material('boxMat');
+		mat.friction = 0.3
+		// mat.restitution = 0.7;
+
+		let shape = new CANNON.Box(new CANNON.Vec3(10, 0.01, 10))
+		// shape.material = mat;
+
+		// Add phys sphere
+		let physBox = new CANNON.Body({
+			mass: 0,
+			position: new CANNON.Vec3(0, 0, 0),
+			shape
+		});
+
+		physBox.material = mat
+    this.physicsWorld.addBody(physBox)
+
 
 
 
@@ -174,17 +192,25 @@ class CarPhysics {
   public bodyMesh
   public physicsBody
 
-  constructor(physicsWorld, carBody) {
+  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh) {
     this.bodyMesh = carBody
 
-    const shape = new CANNON.Box(new CANNON.Vec3(1,1,1))
+    console.log(carBody)
+    // Calc bounding box
+    let heightY = carBody.geometry.boundingBox.max.y - carBody.geometry.boundingBox.min.y
+    let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
+
+    //
+
+    const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
     const mass = 1
     this.physicsBody = new CANNON.Body({
       mass
     });
-    this.physicsBody.addShape(shape)
+    this.physicsBody.addShape(shape, new CANNON.Vec3(0, offsetY, 0))
     this.physicsBody.angularVelocity.set(0,10,0)
     this.physicsBody.angularDamping = 0.5
+    this.physicsBody.position.y = 5
     physicsWorld.addBody(this.physicsBody)
   }
 
