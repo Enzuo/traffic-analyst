@@ -108,7 +108,7 @@ const BODY_TYPES = {
 /**
  *
  * @param {CarEntity} car
- * @returns
+ * @returns {Promise<THREE.Group>}
  */
 export async function loadDefaultCarModelProc(car){
 

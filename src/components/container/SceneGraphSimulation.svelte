@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
-  import SceneGraph from "@/logic/3DsceneGraph/sceneGraph"
+  import { SceneGraph } from "@/logic/3DsceneGraph/SceneGraph"
   import { createCarEntity } from '@/logic/carLogic/carEntity'
 
   export let carEntities
@@ -11,13 +11,13 @@
   let sceneGraph
 
   onMount(() => {
-    sceneGraph = SceneGraph(carEntities, simulation, colors)
-    sceneGraphContainer.appendChild(sceneGraph.element)
+    sceneGraph = new SceneGraph(carEntities, simulation, colors)
+    sceneGraphContainer.appendChild(sceneGraph.domElement)
 
     const width = sceneGraphContainer.clientWidth
     const height = sceneGraphContainer.clientHeight
     console.log(width, height)
-    sceneGraph.updateOpts({width : width, height:height})
+    sceneGraph.updateSceneOpts({width : width, height:height})
   })
 
   onDestroy(() => {

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
-import { Animation } from './sceneGraph'
+import { Animation } from './Animation'
 import * as CANNON from 'cannon-es'
 import db from '@/logic/cardata/database'
 import { createCarEntity } from '../carLogic/carEntity'
@@ -8,9 +8,6 @@ import { createCarObject } from './car'
 import { TrimeshCollider } from './physics/TrimeshCollider'
 import CannonDebugger from 'cannon-es-debugger'
 import { Scene3D } from './Scene3D'
-
-
-CameraControls.install( { THREE: THREE } )
 
 
 class AnimationWorld extends Animation {
@@ -48,6 +45,16 @@ export class GameWorld extends Scene3D {
 		this.physicsWorld.broadphase = new CANNON.SAPBroadphase(this.physicsWorld);
 		this.physicsWorld.solver.iterations = 10;
 		this.physicsWorld.allowSleep = true;
+
+    //CUBE
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    const cube = new THREE.Mesh( geometry, material );
+    cube.position.y = 2
+    cube.castShadow = true
+    this.scene.add( cube );
+    cube.position.z = 0;
+    cube.position.x = 0
 
 
     // Car

@@ -8,7 +8,7 @@
   onMount(() => {
 
     gameWorld = new GameWorld()
-    elementContainer.appendChild(gameWorld.sceneElement)
+    elementContainer.appendChild(gameWorld.domElement)
 
 
 

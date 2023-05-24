@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
-  import { SingleCarSceneGraph } from "@/logic/3DsceneGraph/sceneGraph"
+  import { SingleCarSceneGraph } from "@/logic/3DsceneGraph/SceneGraph"
   import { createCarEntity } from '@/logic/carLogic/carEntity'
 
   export let car
@@ -10,8 +10,8 @@
 
   onMount(() => {
     let carEntity = createCarEntity(car)
-    sceneGraph = SingleCarSceneGraph(carEntity)
-    sceneGraphContainer.appendChild(sceneGraph.element)
+    sceneGraph = new SingleCarSceneGraph(carEntity)
+    sceneGraphContainer.appendChild(sceneGraph.domElement)
   })
 
   onDestroy(() => {
