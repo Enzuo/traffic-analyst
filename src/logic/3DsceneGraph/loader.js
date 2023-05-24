@@ -75,7 +75,7 @@ function parseCarScene(scene){
     const miscObj = a.name.match(/^misc(\w*)/i)
     if(miscObj){
       let isWheel = a.name.indexOf('Wheel') >= 0
-      misc.push({obj: a, name: miscObj[1]}, isWheel)
+      misc.push({obj: a, name: miscObj[1], isWheel})
       return
     }
 
@@ -127,6 +127,8 @@ function parseCarScene(scene){
   //     body.add(m.obj)
   //   }
   // })
+
+  console.log('MISC', misc)
 
   return {group: scene, body, wheels, misc, propellers}
 }

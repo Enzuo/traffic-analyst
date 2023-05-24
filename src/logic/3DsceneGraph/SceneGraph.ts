@@ -8,6 +8,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { createCarObject } from './car'
 import { AnimationRotation, AnimationSimulation } from './Animation'
 import { Scene3D } from './Scene3D'
+import { createCarEntity3D } from './CarEntity3D'
 
 /***
  *
@@ -23,6 +24,8 @@ import { Scene3D } from './Scene3D'
 
 export class SingleCarSceneGraph extends Scene3D {
 
+  declare public animation : AnimationRotation
+
   constructor(car){
     super()
 
@@ -31,7 +34,7 @@ export class SingleCarSceneGraph extends Scene3D {
     this.animation = new AnimationRotation(this.scene, this.camera, this.renderer, this.cameraControls)
     this.animation.start()
 
-    createCarObject(car).then((c) => this.animation.setCar(c.object))
+    createCarEntity3D(car).then((c) => this.animation.setCar(c.object))
   }
 
   // --------
@@ -40,7 +43,8 @@ export class SingleCarSceneGraph extends Scene3D {
     this.animation.removeCar().then((obj) => {
       if(obj) this.scene.remove(obj)
     })
-    createCarObject(car).then((c) => this.animation.setCar(c.object))
+
+    createCarEntity3D(car).then((c) => this.animation.setCar(c.object))
   }
 }
 
@@ -68,10 +72,10 @@ export class SceneGraph extends Scene3D {
     cars.forEach((car, index) => {
       const distanceBetweenCar = 3
       const position = index*distanceBetweenCar - ((cars.length-1) * distanceBetweenCar/2)
-      const carObject = createCarObject(car, position, colors[index])
-      carObject.then((aObj) => {
-        this.scene.add(aObj.object)
-        this.animation.addAnimatedObject(aObj)
+      const carObject = createCarEntity3D(car, colors[index]).then((carEntity3D) => {
+        this.scene.add(carEntity3D.object)
+        carEntity3D.object.position.x = position
+        this.animation.addAnimatedObject(carEntity3D)
       })
     })
   }
