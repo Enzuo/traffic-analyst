@@ -37,9 +37,9 @@ export class CarEntity3D {
     wheels.forEach((w) => {
       let scale = car.props.wheelScale ? car.props.wheelScale[w.index-1] : 1
       const wheelDiameter = car.props.wheelDiameter
-      let wheel = new Wheel(w.obj, wheelModel, wheelDiameter * scale, w.index, w.isRight, )
+      let wheel = new Wheel(w.obj, wheelModel, wheelDiameter * scale, w.index, w.isRight, false)
       this.wheels.push(wheel)
-      this.object.add(wheel.object)
+      this.object.add(wheel)
     })
 
 
@@ -57,7 +57,7 @@ export class CarEntity3D {
         if(m.isWheel){
           const wheelDiameter = car.props.wheelDiameter
           let wheel = new Wheel(m.obj, wheelModel, wheelDiameter)
-          this.carBody.add(wheel.object)
+          this.carBody.add(wheel)
         }
         else {
           this.carBody.add(m.obj)
@@ -89,7 +89,7 @@ export class CarEntity3D {
 
     for(let i=0; i<this.wheels.length; i++){
       let wheel = this.wheels[i]
-      wheel.object.rotateX(Math.min(maxRotationSpeed, wheelTurnOverDt))
+      wheel.rotateX(Math.min(maxRotationSpeed, wheelTurnOverDt))
     }
 
     this.object.position.z += speed * dt / 1000
@@ -114,26 +114,28 @@ export enum WheelTypes {
   Spare,
 }
 
-export class Wheel {
+export class Wheel extends THREE.Object3D{
   public object : THREE.Object3D
-  public rotation : THREE.Euler
-  public position : THREE.Vector3
-  public quaternion : THREE.Quaternion
   public side
   public wheelIndex : number
   public wheelType : WheelTypes
 
-  constructor(empty : THREE.Object3D, model : THREE.Object3D, wheelDiameter, wheelIndex?, isRightWheel?) {
-    this.object = cloneWheel(model, empty, true)
-    let scale = calcWheelScale(wheelDiameter, model)
-    this.object.scale.set(isRightWheel ? -scale : scale, scale, scale)
+  constructor(empty : THREE.Object3D, wheelModel : THREE.Object3D, wheelDiameter, wheelIndex?, isRightWheel?, useRotation=true) {
+    super()
+
+    this.position.copy(empty.position)
+    if(useRotation){
+      this.rotation.copy(empty.rotation)
+    }
+
+    this.object = wheelModel.clone()
+    let scale = calcWheelScale(wheelDiameter, wheelModel)
+    this.object.scale.multiply(new THREE.Vector3(isRightWheel ? -scale : scale, scale, scale))
     this.wheelIndex = wheelIndex
     if(wheelIndex <= 2){
       this.wheelType = WheelTypes.Front
     }
-    this.rotation = this.object.rotation
-    this.position = this.object.position
-    this.quaternion = this.object.quaternion
+    this.add(this.object)
   }
 }
 
