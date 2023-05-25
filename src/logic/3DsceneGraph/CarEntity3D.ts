@@ -50,15 +50,19 @@ export class CarEntity3D {
 
     // Hide misc
     misc.forEach((m) => {
-
-      // Create spare wheels
-      if(m.isWheel){
-        const wheelDiameter = car.props.wheelDiameter
-        let wheel = new Wheel(m.obj, wheelModel, wheelDiameter)
-        console.log('adding spare wheel', wheel)
-        this.carBody.add(wheel.object)
+      this.object.remove(m.obj)
+      const miscName = new RegExp(m.name, 'i')
+      if(car.props.modelMisc && miscName.test(car.props.modelMisc)){
+        // Create spare wheels
+        if(m.isWheel){
+          const wheelDiameter = car.props.wheelDiameter
+          let wheel = new Wheel(m.obj, wheelModel, wheelDiameter)
+          this.carBody.add(wheel.object)
+        }
+        else {
+          this.carBody.add(m.obj)
+        }
       }
-
     })
 
 
@@ -85,7 +89,7 @@ export class CarEntity3D {
 
     for(let i=0; i<this.wheels.length; i++){
       let wheel = this.wheels[i]
-      wheel.rotation.x += Math.min(maxRotationSpeed, wheelTurnOverDt)
+      wheel.object.rotateX(Math.min(maxRotationSpeed, wheelTurnOverDt))
     }
 
     this.object.position.z += speed * dt / 1000

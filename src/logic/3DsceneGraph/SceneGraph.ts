@@ -53,6 +53,8 @@ export class SingleCarSceneGraph extends Scene3D {
 
 export class SceneGraph extends Scene3D {
 
+  declare public animation : AnimationSimulation
+
   constructor(cars, simulation, colors){
     super()
 
@@ -71,7 +73,7 @@ export class SceneGraph extends Scene3D {
     cars.forEach((car, index) => {
       const distanceBetweenCar = 3
       const position = index*distanceBetweenCar - ((cars.length-1) * distanceBetweenCar/2)
-      const carObject = createCarEntity3D(car, colors[index]).then((carEntity3D) => {
+      createCarEntity3D(car, colors[index]).then((carEntity3D) => {
         this.scene.add(carEntity3D.object)
         carEntity3D.object.position.x = position
         this.animation.addAnimatedObject(carEntity3D)

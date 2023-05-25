@@ -41,20 +41,6 @@ export function loadModel(filePath) {
 
 
 export function loadCarModel(car) {
-  // MODELS
-  // let carObject
-  // let body
-  // let propeller
-  // let wheels = []
-  // let wheelModel
-  // let carModelName = car.props.model
-  // let wheelModelName = car.props.modelWheel
-
-  // let promiseObject =
-  // loadWheelModel(car)
-  // .then((model) => {
-  //   wheelModel = model
-  // })
   return loadModel(car.model)
   .catch(() => loadDefaultCarModelProc(car))
   .then((gltf) => {
@@ -85,23 +71,7 @@ function parseCarScene(scene){
       let isRight = a.name.match(/R$/g) ? true : false
       wheels.push({obj : a, name : a.name, index : matchWheel[1], isRight})
       return
-      // let wheelIndex = matchWheel[1]
-      // let scale = 1
-      // if(car.props.wheelScale){
-      //   scale = car.props.wheelScale[wheelIndex-1] || 1
-      // }
-      // let wheel = new Wheel(wheelModel, a, scale, wheelIndex)
-      // carObject.add(wheel.object)
-      // wheels.push(wheel)
     }
-
-    // if ( a instanceof THREE.Mesh ) {
-    //   a.castShadow = true
-    //   a.receiveShadow = false
-    //   const texture = a.material.map;
-    //   const newTexture = changeTextureColor(texture, color)
-    //   a.material.map = newTexture
-    // }
 
     // body
     if(a.name.indexOf('Body') >= 0){
@@ -115,43 +85,14 @@ function parseCarScene(scene){
     }
   })
 
-  // miscObjects.forEach((m) => {
-  //   carObject.remove(m.obj)
-  //   const miscName = new RegExp(m.name, 'i')
-  //   if(car.props.modelMisc && miscName.test(car.props.modelMisc)){
-  //     let isWheel = m.name.indexOf('Wheel') >= 0
-  //     if(isWheel){
-  //       body.add(cloneWheel(wheelModel, m.obj))
-  //       return
-  //     }
-  //     body.add(m.obj)
-  //   }
-  // })
-
-  console.log('MISC', misc)
-
   return {group: scene, body, wheels, misc, propellers}
 }
 
 
 
 export async function loadWheelModel (wheelName) {
-  // const wheelName = car.props.modelWheel
-
   return loadModel(wheelName)
-  .catch(async (e) => {
-    const wheelScene = await loadModel('wheel')
-
-    // scale default wheel
-    // const defaultWheelDiameter = 63
-    // const wheelDiameter = car.props.wheelDiameter
-    // if(wheelDiameter){
-    //   let r = wheelDiameter/defaultWheelDiameter
-    //   wheelScene.scene.children[0].scale.set(r, r, r)
-    // }
-
-    return wheelScene
-  })
+  .catch(() => loadModel('wheel'))
   .then((wheelScene) => {
     const wheelModel = wheelScene.scene.children[0]
     wheelModel.material.color = new THREE.Color(0x333333)
