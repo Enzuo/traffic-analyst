@@ -85,6 +85,12 @@ export function createTrafficGraph (container, cars) {
 
   runLoop()
   // animate()
+
+  function destroy() {
+    window.cancelAnimationFrame(cancelLoopHandler)
+  }
+
+  return {destroy}
 }
 
 function createCar(car, svggraph) {

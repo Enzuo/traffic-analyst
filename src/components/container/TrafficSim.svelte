@@ -18,6 +18,7 @@
   let simulation
   let selectedCar
   let selectedDriverIndex
+  let tgraph
 
   $: drivers = updateDrivers(time)
 
@@ -27,7 +28,7 @@
     drivers = tsim.drivers
     simulation = tsim.simulation
     console.log('traffic sim cars', cars)
-    createTrafficGraph(container, cars)
+    tgraph = createTrafficGraph(container, cars)
     container.addEventListener('carClick', handleCarClick)
     tsim.simulation.subscribeTick((t, dt) => {
       time = t
@@ -37,6 +38,9 @@
   onDestroy(() => {
     if(simulation){
       simulation.stop()
+    }
+    if(tgraph){
+      tgraph.destroy()
     }
   })
 
