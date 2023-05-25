@@ -209,6 +209,14 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
       let timeToContact = distanceToCarInFront / currentSpeed
       let timeToIntercept = distanceToCarInFront / Math.max((car.state.speed - carInFront.car.state.speed), 1)
 
+
+      if(timeToIntercept < MIN_TIME_TO_INTERCEPT/3){
+        currentTask = 'godBrake'
+        footOn = 'brake'
+        applyBrake(3, 3)
+        return
+      }
+
       if(timeToIntercept < MIN_TIME_TO_INTERCEPT){
         currentTask = 'avoidingCrash'
         footOn = 'brake'
