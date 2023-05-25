@@ -176,17 +176,14 @@ function createDriver(car, targetSpeed=15, profile=DRIVER_PROFILES.NORMAL){
         if(timeToContact < ANTICIPATION_TTC){
           footOn = 'throttle'
           let urgency = createLinearCurve(ANTICIPATION_TTC, IDEAL_TTC, 0, 1).getYForX(timeToContact)
-          console.log('urgency', urgency)
           if(currentSpeed > carInFront.speed){
             currentTask = 'easingToTrafficSpeed'
             throttleGuess = reduceThrottleGuess(currentThrottle, urgency, currentAcceleration)
-            console.log('dec throttle guess', currentThrottle, throttleGuess)
 
           }
           if(currentSpeed < carInFront.speed){
             currentTask = 'acceleratingToTrafficSpeed'
             throttleGuess = addThrottleGuess(currentThrottle, 1-urgency, currentAcceleration)
-            console.log('acc throttle guess', currentThrottle, throttleGuess)
           }
           plannedSpeedCurve = createLinearCurve(IDEAL_TTC, ANTICIPATION_TTC, carInFront.speed, targetSpeed)
           return

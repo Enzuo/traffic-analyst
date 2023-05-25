@@ -1,11 +1,11 @@
 import { SVG } from '@svgdotjs/svg.js'
-import zoeSvg from './zoe.svg?dataurl'
+import zoeSvg from './zoe.svg?src'
 console.log(zoeSvg)
 
 
 
 export function createTrafficGraph (container, cars) {
-  const SCALE = 5
+  const SCALE = 6
   const carObjects = []
   let selectedCarId
 
@@ -19,7 +19,7 @@ export function createTrafficGraph (container, cars) {
   let background = svggraph.rect(canvasWidth, canvasHeight)
   const gridSize = 25
   var pattern = svggraph.pattern(gridSize,canvasHeight, function(add) {
-    add.rect(gridSize,canvasHeight).stroke('#ddd').fill('none')
+    add.rect(gridSize,canvasHeight).stroke({color:'#eee', width: 0.1}).fill('none')
   }).move(0,0)
   background.fill(pattern)
 
@@ -40,6 +40,9 @@ export function createTrafficGraph (container, cars) {
       }
 
       // variable color
+      if(carObject.rearLight){
+        carObject.rearLight.css(car.state.brakeInput > 0 ? { fill: 'red', stroke : 'red'} : {fill:'#386d9b', stroke:'#202e37'})
+      }
       let red = 125 + Math.floor(125 * car.state.brakeInput)
       let green = 125 + Math.floor(255 * car.state.throttleInput)
       carObject.carBox.fill({ color: 'rgb('+ red +',' + green +',0)' })
@@ -111,14 +114,11 @@ function createCarZoe(car, svggraph) {
   .stroke('none').fill({ color: 'red' })
   .move(-circleSize/2, -circleSize/2)
 
-  let carBox = group.image(zoeSvg)
-  carBox.move(carLength/1.5, carWidth/2)
-  carBox.scale(0.011)
-  carBox.rotate(180)
-
-  console.log('childs', carBox.children())
+  let svggroup = group.group()
+  let carBox = svggroup.svg(zoeSvg)
+  carBox.scale(0.14)
+  let rearLight = group.find("path")[5]
 
 
-
-  return {id : car.id, group, carBox, selectCircle}
+  return {id : car.id, group, carBox, selectCircle, rearLight}
 }
