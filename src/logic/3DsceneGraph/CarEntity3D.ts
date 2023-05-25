@@ -130,7 +130,7 @@ export class Wheel extends THREE.Object3D{
 
     this.object = wheelModel.clone()
     let scale = calcWheelScale(wheelDiameter, wheelModel)
-    this.object.scale.multiply(new THREE.Vector3(isRightWheel ? -scale : scale, scale, scale))
+    this.object.scale.set(isRightWheel ? -scale : scale, scale, scale)
     this.wheelIndex = wheelIndex
     if(wheelIndex <= 2){
       this.wheelType = WheelTypes.Front
