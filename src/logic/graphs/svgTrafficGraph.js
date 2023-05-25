@@ -117,6 +117,7 @@ function createCarZoe(car, svggraph) {
   let svggroup = group.group()
   let carBox = svggroup.svg(zoeSvg)
   carBox.scale(0.14)
+  carBox.move(-carLength*6, -carWidth*5) // recenter hack
   let rearLight = group.find("path")[5]
 
 

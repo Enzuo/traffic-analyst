@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { version } from '$app/environment'
+
   import Tools from '@/components/tools/Tools.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
@@ -15,6 +17,9 @@
   <div id="menu">
     <a class="button" href="cars">cars list</a>
     <a class="button" href="about">about</a>
+  </div>
+  <div id="footer">
+    v {version}
   </div>
 </main>
 
@@ -37,6 +42,10 @@
   .button {
     box-shadow: 1px 1px 0px 2px var(--secondary);
     margin:1.5em;
+  }
+
+  #footer {
+    color:var(--secondary);
   }
 
 
