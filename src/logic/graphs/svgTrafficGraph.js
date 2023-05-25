@@ -36,6 +36,8 @@ export function createTrafficGraph (container, cars) {
           carObject.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.30)' })
         })
 
+        carObject.positionY = Math.random()
+
         carObjects.push(carObject)
       }
 
@@ -50,7 +52,7 @@ export function createTrafficGraph (container, cars) {
         carObject.selectCircle.fill({ color: 'rgba(255, 255, 0, 0.03)'})
       }
 
-      carObject.group.move(car.state.position, 5)
+      carObject.group.move(car.state.position, 5 + carObject.positionY)
     })
 
     // REMOVE
