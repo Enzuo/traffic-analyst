@@ -11,6 +11,7 @@ import { CarEntity3D, WheelTypes, createCarEntity3D } from './CarEntity3D'
 import { loadCarModel, loadWheelModel } from './loader'
 import type {Wheel} from './CarEntity3D'
 import { getCar } from '../cardata'
+import { InputManager } from './InputManager'
 
 
 class AnimationWorld extends Animation {
@@ -36,6 +37,8 @@ export class GameWorld extends Scene3D {
 
   public physicsWorld: CANNON.World
   public physicsDebugger
+  public inputManager : InputManager
+  public carPhysic
 
 
 
@@ -66,8 +69,11 @@ export class GameWorld extends Scene3D {
     createCarEntity3D(carEntity).then((carEntity3D) => {
       console.log('carEntity3D', carEntity3D)
       this.scene.add(carEntity3D.object)
-      let physics = new CarPhysics (this.physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
-      this.animation.addAnimated(physics)
+      this.carPhysic = new CarPhysics (this.physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
+      this.animation.addAnimated(this.carPhysic)
+
+      // Input controls
+      this.inputManager.inputReceiver = this.carPhysic
     })
 
     // Ground
@@ -103,7 +109,8 @@ export class GameWorld extends Scene3D {
     // Animation
     this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld, this.physicsDebugger)
 
-
+    // Input Controls
+    this.inputManager = new InputManager(this.domElement)
 
 
     // Start world
@@ -116,6 +123,9 @@ class CarPhysics {
   public physicsBody
   public rayCastVehicle: CANNON.RaycastVehicle;
   public wheels
+
+  // controls
+  public steeringValue = 0
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
     this.bodyMesh = carBody
@@ -168,12 +178,7 @@ class CarPhysics {
 			wheel.rayCastWheelInfoIndex = index;
     })
 
-    this.wheels.forEach((wheel) => {
-      if(wheel.wheelType === WheelTypes.Front) {
-        this.rayCastVehicle.setSteeringValue(0.8, wheel.rayCastWheelInfoIndex)
-        this.rayCastVehicle.setSteeringValue(0.8, wheel.rayCastWheelInfoIndex)
-      }
-    })
+
 
     // this.rayCastVehicle.setSteeringValue(0.3, 0)
     // this.rayCastVehicle.setSteeringValue(0.3, 1)
@@ -183,6 +188,16 @@ class CarPhysics {
     this.rayCastVehicle.addToWorld(physicsWorld);
 
     // physicsWorld.addBody(this.physicsBody)
+  }
+
+  steerWheels (value){
+    // console.log('steer', value)
+    this.wheels.forEach((wheel) => {
+      if(wheel.wheelType === WheelTypes.Front) {
+        this.rayCastVehicle.setSteeringValue(value, wheel.rayCastWheelInfoIndex)
+        this.rayCastVehicle.setSteeringValue(value, wheel.rayCastWheelInfoIndex)
+      }
+    })
   }
 
   animate(delta) {
@@ -201,6 +216,21 @@ class CarPhysics {
 			let upAxisWorld = new CANNON.Vec3();
 			this.rayCastVehicle.getVehicleAxisWorld(this.rayCastVehicle.indexUpAxis, upAxisWorld);
 		}
+
+    // Controls :
+    this.steerWheels(this.steeringValue)
+  }
+
+  triggerAction(action, isPressed, value) {
+    console.log('triggeraction', this)
+    switch(action){
+      case 'left':
+        this.steeringValue = 0.8
+        break
+        case 'right':
+        this.steeringValue = -0.8
+        break
+    }
   }
 }
 
