@@ -118,6 +118,12 @@ export class GameWorld extends Scene3D {
   }
 }
 
+
+
+
+
+
+
 class CarPhysics {
   public bodyMesh
   public physicsBody
@@ -125,7 +131,8 @@ class CarPhysics {
   public wheels
 
   // controls
-  public steeringValue = 0
+  public steeringControl = new SteeringControl()
+  public throttle = 0
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
     this.bodyMesh = carBody
@@ -218,21 +225,59 @@ class CarPhysics {
 		}
 
     // Controls :
-    this.steerWheels(this.steeringValue)
+    this.steeringControl.update(delta)
+    this.steerWheels(this.steeringControl.steeringValue)
+    this.rayCastVehicle.applyEngineForce(this.throttle*-1500, 0)
+
   }
 
+  // TODO disociate controls from physics class
   triggerAction(action, isPressed, value) {
-    console.log('triggeraction', this)
     switch(action){
       case 'left':
-        this.steeringValue = 0.8
+        this.steeringControl.steer(isPressed ? 'left' : 'center')
         break
-        case 'right':
-        this.steeringValue = -0.8
+      case 'right':
+        this.steeringControl.steer(isPressed ? 'right' : 'center')
         break
+      case 'up':
+        this.throttle = isPressed ? 1 : 0
     }
   }
 }
+
+class SteeringControl {
+  public steeringValue = 0
+  public steeringAmplitude = 0.8
+  public steeringDirection = 0
+
+
+  update(delta){
+    // add steering in direction
+    let newSteeringValue = (this.steeringValue + 0.1 * this.steeringDirection)
+    this.steeringValue = Math.min(Math.max(newSteeringValue, -this.steeringAmplitude), this.steeringAmplitude)
+  }
+
+  steer(direction) {
+    switch(direction){
+      case 'left':
+        this.steeringDirection = 1
+        break
+      case 'right':
+        this.steeringDirection = -1
+        break
+      case 'center':
+        this.steeringDirection = 0
+        break;
+    }
+  }
+}
+
+
+
+
+
+
 
 function threeVector(vec: CANNON.Vec3): THREE.Vector3
 {
