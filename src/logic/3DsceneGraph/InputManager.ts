@@ -14,8 +14,6 @@ export class InputManager {
 
   onInput(event, isPressed=true){
 
-    console.log('got event', event, isPressed)
-
     let actionName
     let value
 
@@ -38,7 +36,6 @@ export class InputManager {
 
 
     if(this.inputReceiver){
-      console.log('got inputreceiver')
       this.inputReceiver.triggerAction(actionName, isPressed, value)
     }
   }

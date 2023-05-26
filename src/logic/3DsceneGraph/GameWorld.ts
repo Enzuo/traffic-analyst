@@ -39,6 +39,7 @@ export class GameWorld extends Scene3D {
   public physicsDebugger
   public inputManager : InputManager
   public carPhysic
+  public carControls
 
 
 
@@ -73,7 +74,9 @@ export class GameWorld extends Scene3D {
       this.animation.addAnimated(this.carPhysic)
 
       // Input controls
-      this.inputManager.inputReceiver = this.carPhysic
+      this.carControls = new CarControlable(this.carPhysic)
+      this.inputManager.inputReceiver = this.carControls
+      this.animation.addAnimated(this.carControls)
     })
 
     // Ground
@@ -118,6 +121,42 @@ export class GameWorld extends Scene3D {
   }
 }
 
+class CarControlable {
+
+  public carPhysic : CarPhysics
+
+  // controls
+  public steeringControl = new SteeringControl()
+  public throttle = 0
+
+  constructor(carPhysic) {
+    this.carPhysic = carPhysic
+
+  }
+
+  animate(delta) {
+
+    this.steeringControl.update(delta)
+    this.carPhysic.steeringValue = this.steeringControl.steeringValue
+    this.carPhysic.throttleValue = this.throttle
+
+
+  }
+
+  triggerAction(action, isPressed, value) {
+    switch(action){
+      case 'left':
+        this.steeringControl.steer(isPressed ? 'left' : 'center')
+        break
+      case 'right':
+        this.steeringControl.steer(isPressed ? 'right' : 'center')
+        break
+      case 'up':
+        this.throttle = isPressed ? 1 : 0
+    }
+  }
+}
+
 
 
 
@@ -131,21 +170,17 @@ class CarPhysics {
   public wheels
 
   // controls
-  public steeringControl = new SteeringControl()
-  public throttle = 0
+  public steeringValue = 0
+  public throttleValue = 0
+  public brakeValue = 0
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
     this.bodyMesh = carBody
     this.wheels = carWheels
 
-
-
-    console.log(carBody)
     // Calc bounding box
     let heightY = carBody.geometry.boundingBox.max.y - carBody.geometry.boundingBox.min.y
     let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
-
-    //
 
 
     const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
@@ -225,24 +260,10 @@ class CarPhysics {
 		}
 
     // Controls :
-    this.steeringControl.update(delta)
-    this.steerWheels(this.steeringControl.steeringValue)
-    this.rayCastVehicle.applyEngineForce(this.throttle*-1500, 0)
+    this.steerWheels(this.steeringValue)
+    this.rayCastVehicle.applyEngineForce(this.throttleValue*-1500, 0)
+    // this.rayCastVehicle.setBrake()
 
-  }
-
-  // TODO disociate controls from physics class
-  triggerAction(action, isPressed, value) {
-    switch(action){
-      case 'left':
-        this.steeringControl.steer(isPressed ? 'left' : 'center')
-        break
-      case 'right':
-        this.steeringControl.steer(isPressed ? 'right' : 'center')
-        break
-      case 'up':
-        this.throttle = isPressed ? 1 : 0
-    }
   }
 }
 
