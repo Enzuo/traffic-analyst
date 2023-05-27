@@ -155,6 +155,25 @@ class CarControlable {
         this.throttle = isPressed ? 1 : 0
     }
   }
+
+  updateActions(actions) {
+    if(actions['left']){
+      this.steeringControl.steer('left')
+    }
+    else if(actions['right']){
+      this.steeringControl.steer('right')
+    }
+    else {
+      this.steeringControl.steer('center')
+    }
+
+    if(actions['up']){
+      this.throttle = 1
+    }
+    else {
+      this.throttle = 0
+    }
+  }
 }
 
 
