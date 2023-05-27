@@ -23,7 +23,7 @@ export class InputManager {
       );
       const gp = navigator.getGamepads()[e.gamepad.index];
       this.gamepads.push(gp)
-      console.log('buttons', gp.buttons)
+      console.log('buttons', gp.buttons, gp.axes)
 
       // Start input loop
       if(!this.animationFrameHandler){
@@ -50,6 +50,12 @@ export class InputManager {
       gp.buttons.forEach((b,index) => {
         let val = gamePadButtonPressed(b, index)
         if(val) this.updateGampepadInputMap(index, val)
+      })
+      gp.axes.forEach((a, index) => {
+        this.updateGamepadAxesInputMap(index, a)
+        // if(a > 0.5){
+        //   console.log(index, a)
+        // }
       })
     })
     if(this.inputReceiver){
@@ -90,15 +96,46 @@ export class InputManager {
     let actionName
     let value
 
+
     switch(buttonIndex){
       case 7 :
       case 12 :
         actionName = 'up'
         value = val
         break;
+      case 14 :
+        actionName = 'left'
+        value = true
+        break;
+      case 15 :
+        actionName = 'right'
+        value = true
+        break;
+    }
+    if(actionName){
+      this.gamepadInputMap[actionName] = value
+    }
+  }
+
+  updateGamepadAxesInputMap(axeIndex, val){
+    let actionName
+    let value
+
+    if(axeIndex === 0){
+      // console.log(val)
+      if(val > 0.05){
+        actionName = 'right'
+        value = val
+      }
+      if(val < -0.05){
+        actionName = 'left'
+        value = -val
+      }
     }
 
-    this.gamepadInputMap[actionName] = value
+    if(actionName){
+      this.gamepadInputMap[actionName] = value
+    }
   }
 }
 

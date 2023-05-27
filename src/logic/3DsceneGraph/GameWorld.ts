@@ -24,7 +24,8 @@ class AnimationWorld extends Animation {
   }
 
   animate (delta) {
-    this.physicsWorld.step(delta/1000)
+    const MAX_PHYSIC_STEP = 50 // avoid physic jump when there is a long delta, sending cars flying everywhere
+    this.physicsWorld.step(Math.min(delta, MAX_PHYSIC_STEP)/1000)
     this.physicsDebugger.update()
   }
 }
@@ -158,10 +159,10 @@ class CarControlable {
 
   updateActions(actions) {
     if(actions['left']){
-      this.steeringControl.steer('left')
+      this.steeringControl.steer('left', actions['left'])
     }
     else if(actions['right']){
-      this.steeringControl.steer('right')
+      this.steeringControl.steer('right', actions['right'])
     }
     else {
       this.steeringControl.steer('center')
@@ -298,7 +299,12 @@ class SteeringControl {
     this.steeringValue = Math.min(Math.max(newSteeringValue, -this.steeringAmplitude), this.steeringAmplitude)
   }
 
-  steer(direction) {
+  steer(direction, value=null) {
+    if(typeof value === 'number' && value > 0){
+      this.steeringValue = direction === 'left' ? value : -value;
+      this.steeringDirection = 0
+      return
+    }
     switch(direction){
       case 'left':
         this.steeringDirection = 1
