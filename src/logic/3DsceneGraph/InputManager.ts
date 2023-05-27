@@ -5,6 +5,8 @@ export class InputManager {
   public gamepads = []
   public gamepadInputMap
   public animationFrameHandler
+  public keyboardActionsMap = {}
+  public gamepadActionsMap = {}
 
   constructor(domElement : HTMLElement) {
 
@@ -34,38 +36,28 @@ export class InputManager {
 
   inputLoop() {
     this.animationFrameHandler = requestAnimationFrame(() => this.inputLoop())
-
-
     const gamepads = navigator.getGamepads();
     if (!gamepads) {
       return;
     }
 
-    // console.log(gamepads)
-
     // check gamepads button press
-    this.gamepadInputMap = {}
+    this.gamepadActionsMap = {}
     gamepads.forEach((gp) => {
       if(!gp) return
       gp.buttons.forEach((b,index) => {
-        let val = gamePadButtonPressed(b, index)
-        if(val) this.updateGampepadInputMap(index, val)
+        if(b.pressed) this.updateGampepadInputMap(index, b.value)
       })
       gp.axes.forEach((a, index) => {
         this.updateGamepadAxesInputMap(index, a)
-        // if(a > 0.5){
-        //   console.log(index, a)
-        // }
       })
     })
     if(this.inputReceiver){
-      this.inputReceiver.updateActions(this.gamepadInputMap)
+      this.inputReceiver.updateActions(Object.assign({}, this.keyboardActionsMap, this.gamepadActionsMap))
     }
-
   }
 
   onKeyboardInput(event, isPressed=true){
-
     let actionName
     let value
 
@@ -85,17 +77,14 @@ export class InputManager {
         break
     }
 
-
-
-    if(this.inputReceiver){
-      this.inputReceiver.triggerAction(actionName, isPressed, value)
+    if(actionName){
+      this.keyboardActionsMap[actionName] = isPressed
     }
   }
 
   updateGampepadInputMap(buttonIndex, val) {
     let actionName
     let value
-
 
     switch(buttonIndex){
       case 7 :
@@ -113,7 +102,7 @@ export class InputManager {
         break;
     }
     if(actionName){
-      this.gamepadInputMap[actionName] = value
+      this.gamepadActionsMap[actionName] = value
     }
   }
 
@@ -134,7 +123,7 @@ export class InputManager {
     }
 
     if(actionName){
-      this.gamepadInputMap[actionName] = value
+      this.gamepadActionsMap[actionName] = value
     }
   }
 }

@@ -144,18 +144,18 @@ class CarControlable {
 
   }
 
-  triggerAction(action, isPressed, value) {
-    switch(action){
-      case 'left':
-        this.steeringControl.steer(isPressed ? 'left' : 'center')
-        break
-      case 'right':
-        this.steeringControl.steer(isPressed ? 'right' : 'center')
-        break
-      case 'up':
-        this.throttle = isPressed ? 1 : 0
-    }
-  }
+  // triggerAction(action, isPressed, value) {
+  //   switch(action){
+  //     case 'left':
+  //       this.steeringControl.steer(isPressed ? 'left' : 'center')
+  //       break
+  //     case 'right':
+  //       this.steeringControl.steer(isPressed ? 'right' : 'center')
+  //       break
+  //     case 'up':
+  //       this.throttle = isPressed ? 1 : 0
+  //   }
+  // }
 
   updateActions(actions) {
     if(actions['left']){
