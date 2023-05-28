@@ -28,10 +28,10 @@ export class InputManager {
       console.log('buttons', gp.buttons, gp.axes)
 
       // Start input loop
-      if(!this.animationFrameHandler){
-        this.inputLoop()
-      }
+      // if(!this.animationFrameHandler){
+        // }
     });
+    this.inputLoop()
   }
 
   inputLoop() {

@@ -122,6 +122,7 @@ export class GameWorld extends Scene3D {
   }
 }
 
+// TODO could extend base car entity
 class CarControlable {
 
   public carPhysic : CarPhysics
@@ -139,7 +140,11 @@ class CarControlable {
 
     this.steeringControl.update(delta)
     this.carPhysic.steeringValue = this.steeringControl.steeringValue
-    this.carPhysic.throttleValue = this.throttle
+
+
+    // get engine force
+    var engineForce = 7000 * this.throttle
+    this.carPhysic.forceValue = engineForce
 
 
   }
@@ -191,8 +196,11 @@ class CarPhysics {
 
   // controls
   public steeringValue = 0
-  public throttleValue = 0
-  public brakeValue = 0
+  public forceValue = 0
+  public brakeForceValue = 0
+
+  //
+  public speed
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
     this.bodyMesh = carBody
@@ -257,8 +265,21 @@ class CarPhysics {
     this.wheels.forEach((wheel) => {
       if(wheel.wheelType === WheelTypes.Front) {
         this.rayCastVehicle.setSteeringValue(value, wheel.rayCastWheelInfoIndex)
-        this.rayCastVehicle.setSteeringValue(value, wheel.rayCastWheelInfoIndex)
       }
+    })
+  }
+
+  forceToWheels(value){
+    let tractivesWheels = this.wheels.reduce((acc, wheel) => {
+      if(wheel.wheelType === WheelTypes.Front){
+        acc.push(wheel)
+      }
+      return acc
+    }, [])
+
+    const nbTractiveWheels = tractivesWheels.length
+    tractivesWheels.forEach((wheel) => {
+      this.rayCastVehicle.applyEngineForce(-value/nbTractiveWheels, wheel.rayCastWheelInfoIndex)
     })
   }
 
@@ -281,8 +302,13 @@ class CarPhysics {
 
     // Controls :
     this.steerWheels(this.steeringValue)
-    this.rayCastVehicle.applyEngineForce(this.throttleValue*-1500, 0)
+    this.forceToWheels(this.forceValue)
     // this.rayCastVehicle.setBrake()
+
+
+		const quat = threeQuat(this.physicsBody.quaternion);
+		const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(quat);
+    this.speed = this.physicsBody.velocity.dot(cannonVector(forward));
 
   }
 }
@@ -333,4 +359,9 @@ function threeVector(vec: CANNON.Vec3): THREE.Vector3
 function threeQuat(quat: CANNON.Quaternion): THREE.Quaternion
 {
 	return new THREE.Quaternion(quat.x, quat.y, quat.z, quat.w);
+}
+
+function cannonVector(vec: THREE.Vector3): CANNON.Vec3
+{
+	return new CANNON.Vec3(vec.x, vec.y, vec.z);
 }
