@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
-  import { GameWorld } from "@/logic/3DsceneGraph/GameWorld"
+  import { GameWorld } from "@/logic/3DsceneGraph/GameWorld/GameWorld"
 
   let gameWorld
   let elementContainer
