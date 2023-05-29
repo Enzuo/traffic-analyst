@@ -75,7 +75,7 @@ export class GameWorld extends Scene3D {
       this.animation.addAnimated(this.carPhysic)
 
       // Input controls
-      this.carControls = new CarControlable(this.carPhysic)
+      this.carControls = new CarControlable(this.carPhysic, carEntity3D, this.camera)
       this.inputManager.inputReceiver = this.carControls
       this.animation.addAnimated(this.carControls)
     })
@@ -127,13 +127,26 @@ class CarControlable {
 
   public carPhysic : CarPhysics
 
+  public brakeLights : THREE.Mesh
+  public camera
+
   // controls
   public steeringControl = new SteeringControl()
   public throttle = 0
+  public brake = 0
 
-  constructor(carPhysic) {
+  constructor(carPhysic, carEntity3D, camera) {
     this.carPhysic = carPhysic
 
+    // create brakes light
+    let brakelightGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+    const brakeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const brakeLight = new THREE.Mesh(brakelightGeometry, brakeMaterial);
+    brakeLight.position.set(0, 1, -2.1)
+    this.brakeLights = brakeLight
+
+    carEntity3D.carBody.add(brakeLight);
+    this.camera = camera
   }
 
   animate(delta) {
@@ -146,6 +159,9 @@ class CarControlable {
     var engineForce = 7000 * this.throttle
     this.carPhysic.forceValue = engineForce
 
+    // update brake lights
+    this.brakeLights.quaternion.copy(this.camera.quaternion)
+    this.brakeLights.visible = this.brake > 0 ? true : false
 
   }
 
@@ -178,6 +194,13 @@ class CarControlable {
     }
     else {
       this.throttle = 0
+    }
+
+    if(actions['down']){
+      this.brake = 1
+    }
+    else {
+      this.brake = 0
     }
   }
 }
