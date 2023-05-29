@@ -4,6 +4,8 @@ import { CarEntity } from "@/logic/carLogic/CarEntity"
 import type { IControllable } from "./interfaces/IControllable"
 import { createCarEntity3D, type CarEntity3D } from "@/logic/3DsceneGraph/CarEntity3D"
 import { CarPhysics } from "./CarPhysics"
+import * as Utils from './Utils'
+
 
 export class CarEntityControllable extends CarEntity implements IControllable {
 
@@ -23,6 +25,7 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
     createCarEntity3D(this).then((carEntity3D) => {
       scene.add(carEntity3D.object)
+      this.carModel = carEntity3D
       this.carPhysic = new CarPhysics (physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
     })
 
@@ -52,6 +55,17 @@ export class CarEntityControllable extends CarEntity implements IControllable {
     // this.brakeLights.visible = this.brake > 0 ? true : false
     this.carPhysic.animate(delta)
 
+    // update model to represent the physics simulation
+    this.carModel.carBody.position.copy(Utils.threeVector(this.carPhysic.physicsBody.position))
+    this.carModel.carBody.quaternion.copy(Utils.threeQuat(this.carPhysic.physicsBody.quaternion))
+
+    this.carModel.wheels.forEach((wheel, index) => {
+      // this.carPhysic.rayCastVehicle.updateWheelTransform(index);
+			let transform = this.carPhysic.rayCastVehicle.wheelInfos[index].worldTransform;
+
+      wheel.position.copy(Utils.threeVector(transform.position));
+			wheel.quaternion.copy(Utils.threeQuat(transform.quaternion));
+    })
   }
 
   // triggerAction(action, isPressed, value) {

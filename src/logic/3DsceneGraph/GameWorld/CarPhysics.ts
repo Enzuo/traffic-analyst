@@ -6,8 +6,8 @@ import * as Utils from './Utils'
 
 
 export class CarPhysics {
-  public bodyMesh
-  public physicsBody
+  // public bodyMesh
+  public physicsBody: CANNON.Body
   public rayCastVehicle: CANNON.RaycastVehicle;
   public wheels
 
@@ -20,7 +20,7 @@ export class CarPhysics {
   public speed
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
-    this.bodyMesh = carBody
+    // this.bodyMesh = carBody
     this.wheels = carWheels
 
     // Calc bounding box
@@ -101,21 +101,18 @@ export class CarPhysics {
   }
 
   animate(delta) {
-    this.bodyMesh.position.copy(this.physicsBody.position)
-    this.bodyMesh.quaternion.copy(this.physicsBody.quaternion)
+    // for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++)
+		// {
+		// 	this.rayCastVehicle.updateWheelTransform(i);
+		// 	let transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
 
-    for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++)
-		{
-			this.rayCastVehicle.updateWheelTransform(i);
-			let transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
+		// 	let wheelObject = this.wheels[i];
+		// 	wheelObject.position.copy(Utils.threeVector(transform.position));
+		// 	wheelObject.quaternion.copy(Utils.threeQuat(transform.quaternion));
 
-			let wheelObject = this.wheels[i];
-			wheelObject.position.copy(Utils.threeVector(transform.position));
-			wheelObject.quaternion.copy(Utils.threeQuat(transform.quaternion));
-
-			let upAxisWorld = new CANNON.Vec3();
-			this.rayCastVehicle.getVehicleAxisWorld(this.rayCastVehicle.indexUpAxis, upAxisWorld);
-		}
+		// 	let upAxisWorld = new CANNON.Vec3();
+		// 	this.rayCastVehicle.getVehicleAxisWorld(this.rayCastVehicle.indexUpAxis, upAxisWorld);
+		// }
 
     // Controls :
     this.steerWheels(this.steeringValue)
