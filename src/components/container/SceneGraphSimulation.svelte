@@ -1,7 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte"
   import { SceneGraph } from "@/logic/3DsceneGraph/SceneGraph"
-  import { createCarEntity } from '@/logic/carLogic/carEntity'
 
   export let carEntities
   export let simulation
@@ -16,7 +15,6 @@
 
     const width = sceneGraphContainer.clientWidth
     const height = sceneGraphContainer.clientHeight
-    console.log(width, height)
     sceneGraph.updateSceneOpts({width : width, height:height})
   })
 

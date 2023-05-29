@@ -1,5 +1,5 @@
 import * as cardata from '@/logic/cardata'
-import * as Car from '@/logic/carLogic/carEntity'
+import {CarEntity, updateForces} from '@/logic/carLogic/CarEntity'
 import {Simulation} from '@/logic/simulation2'
 
 
@@ -16,7 +16,7 @@ export function carCompare(carIds){
         carSpecs = cardata.getCar(carIds[i])
       }
 
-      let carEntity = Car.createCarEntity(carSpecs)
+      let carEntity = new CarEntity(carSpecs)
       carEntity.state.throttleInput = 1
       carEntities.push(carEntity)
     }
@@ -31,7 +31,7 @@ export function carCompare(carIds){
   simulation.subscribeTick((t, dt) => {
     for(let i=0; i<carEntities.length; i++){
       let carEntity = carEntities[i]
-      carEntity = Car.updateForces(carEntity, dt)
+      carEntity = updateForces(carEntity, dt)
 
       // switch gear
       let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]

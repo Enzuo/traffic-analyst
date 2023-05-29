@@ -3,7 +3,7 @@ import CameraControls from 'camera-controls'
 import { Animation } from '../Animation'
 import * as CANNON from 'cannon-es'
 import db from '@/logic/cardata/database'
-import { createCarEntity } from '../../carLogic/carEntity'
+import { CarEntity } from '../../carLogic/CarEntity'
 import { TrimeshCollider } from './physics/TrimeshCollider'
 import CannonDebugger from 'cannon-es-debugger'
 import { Scene3D } from '../Scene3D'
@@ -67,7 +67,7 @@ export class GameWorld extends Scene3D {
 
     // Car
     const car = getCar('renault_zoe')
-    const carEntity = createCarEntity(car)
+    const carEntity = new CarEntity(car)
     createCarEntity3D(carEntity).then((carEntity3D) => {
       console.log('carEntity3D', carEntity3D)
       this.scene.add(carEntity3D.object)

@@ -5,7 +5,7 @@ import {changeTextureColor} from './texture'
 import { loadDefaultCarModelProc } from './proceduralCar'
 
 
-import type { CarEntity } from '@/logic/carLogic/carEntity';
+import type { CarEntity } from '@/logic/carLogic/CarEntity';
 
 /**
  * @typedef {import('./sceneGraph').AnimatedObject} AnimatedObject
@@ -21,6 +21,7 @@ import type { CarEntity } from '@/logic/carLogic/carEntity';
 export class CarEntity3D {
 
   public carEntity : CarEntity
+
   public object : THREE.Object3D
   public carBody : THREE.Mesh
   public wheels : Wheel[]

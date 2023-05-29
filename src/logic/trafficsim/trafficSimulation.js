@@ -1,6 +1,6 @@
 import { Simulation } from "@/logic/simulation2";
 import { getCar } from "../cardata";
-import { createCarEntity, updateForces } from "@/logic/carLogic/carEntity";
+import { CarEntity, updateForces } from "@/logic/carLogic/CarEntity";
 import { is_function } from "svelte/internal";
 
 export default function trafficSimumlation () {
@@ -55,7 +55,7 @@ export default function trafficSimumlation () {
 }
 
 function createCar(position=0, speed=0){
-  let car = createCarEntity(getCar('renault_zoe'))
+  let car = new CarEntity(getCar('renault_zoe'))
   car.state.position = position
   car.state.speed = speed
   return car

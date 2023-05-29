@@ -26,22 +26,25 @@ let uniqueId = 0
  * @returns {CarEntity}
  */
 
-export function createCarEntity(props){
-  return {
-    id: uniqueId++,
-    props,
-    state:{
-      speed : 0, // m/s
-      engineRpm : 0,
-      enginePower : 0, // Kw
-      engineTorque : 0,
-      force : 0,
-      acceleration : 0,
-      airDrag : 0,
-      throttleInput : 0,
-      brakeInput : 0,
-      gearInput : 0,
-    }
+export class CarEntity{
+  public id
+  public props
+  public state = {
+    speed : 0, // m/s
+    engineRpm : 0,
+    enginePower : 0, // Kw
+    engineTorque : 0,
+    force : 0,
+    acceleration : 0,
+    airDrag : 0,
+    throttleInput : 0,
+    brakeInput : 0,
+    gearInput : 0,
+  }
+
+  constructor (props) {
+    this.id = uniqueId++
+    this.props = props
   }
 }
 
