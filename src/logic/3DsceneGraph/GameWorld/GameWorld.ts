@@ -12,6 +12,7 @@ import { loadCarModel, loadWheelModel } from '../loader'
 import type {Wheel} from '../CarEntity3D'
 import { getCar } from '../../cardata'
 import { InputManager } from './InputManager'
+import { CarEntityControllable } from './CarEntityControllable'
 
 
 class AnimationWorld extends Animation {
@@ -67,18 +68,8 @@ export class GameWorld extends Scene3D {
 
     // Car
     const car = getCar('renault_zoe')
-    const carEntity = new CarEntity(car)
-    createCarEntity3D(carEntity).then((carEntity3D) => {
-      console.log('carEntity3D', carEntity3D)
-      this.scene.add(carEntity3D.object)
-      this.carPhysic = new CarPhysics (this.physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
-      this.animation.addAnimated(this.carPhysic)
+    const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
 
-      // Input controls
-      this.carControls = new CarControlable(this.carPhysic, carEntity3D, this.camera)
-      this.inputManager.inputReceiver = this.carControls
-      this.animation.addAnimated(this.carControls)
-    })
 
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
@@ -112,9 +103,12 @@ export class GameWorld extends Scene3D {
 
     // Animation
     this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld, this.physicsDebugger)
+    this.animation.addAnimated(carEntityControlled)
+
 
     // Input Controls
     this.inputManager = new InputManager(this.domElement)
+    this.inputManager.inputReceiver = carEntityControlled
 
 
     // Start world
@@ -122,269 +116,8 @@ export class GameWorld extends Scene3D {
   }
 }
 
-// TODO could extend base car entity
-class CarControlable {
-
-  public carPhysic : CarPhysics
-
-  public brakeLights : THREE.Mesh
-  public camera
-
-  // controls
-  public steeringControl = new SteeringControl()
-  public throttle = 0
-  public brake = 0
-
-  constructor(carPhysic, carEntity3D, camera) {
-    this.carPhysic = carPhysic
-
-    // create brakes light
-    let brakelightGeometry = new THREE.PlaneGeometry(0.5, 0.5);
-    const brakeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const brakeLight = new THREE.Mesh(brakelightGeometry, brakeMaterial);
-    brakeLight.position.set(0, 1, -2.1)
-    this.brakeLights = brakeLight
-
-    carEntity3D.carBody.add(brakeLight);
-    this.camera = camera
-  }
-
-  animate(delta) {
-
-    this.steeringControl.update(delta)
-    this.carPhysic.steeringValue = this.steeringControl.steeringValue
-
-
-    // get engine force
-    var engineForce = 7000 * this.throttle
-    this.carPhysic.forceValue = engineForce
-
-    // update brake lights
-    this.brakeLights.quaternion.copy(this.camera.quaternion)
-    this.brakeLights.visible = this.brake > 0 ? true : false
-
-  }
-
-  // triggerAction(action, isPressed, value) {
-  //   switch(action){
-  //     case 'left':
-  //       this.steeringControl.steer(isPressed ? 'left' : 'center')
-  //       break
-  //     case 'right':
-  //       this.steeringControl.steer(isPressed ? 'right' : 'center')
-  //       break
-  //     case 'up':
-  //       this.throttle = isPressed ? 1 : 0
-  //   }
-  // }
-
-  updateActions(actions) {
-    if(actions['left']){
-      this.steeringControl.steer('left', actions['left'])
-    }
-    else if(actions['right']){
-      this.steeringControl.steer('right', actions['right'])
-    }
-    else {
-      this.steeringControl.steer('center')
-    }
-
-    if(actions['up']){
-      this.throttle = 1
-    }
-    else {
-      this.throttle = 0
-    }
-
-    if(actions['down']){
-      this.brake = 1
-    }
-    else {
-      this.brake = 0
-    }
-  }
-}
 
 
 
 
 
-
-
-class CarPhysics {
-  public bodyMesh
-  public physicsBody
-  public rayCastVehicle: CANNON.RaycastVehicle;
-  public wheels
-
-  // controls
-  public steeringValue = 0
-  public forceValue = 0
-  public brakeForceValue = 0
-
-  //
-  public speed
-
-  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
-    this.bodyMesh = carBody
-    this.wheels = carWheels
-
-    // Calc bounding box
-    let heightY = carBody.geometry.boundingBox.max.y - carBody.geometry.boundingBox.min.y
-    let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
-
-
-    const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
-    const mass = 1500
-    this.physicsBody = new CANNON.Body({
-      mass
-    });
-    this.physicsBody.addShape(shape, new CANNON.Vec3(0, offsetY, 0))
-    this.physicsBody.angularVelocity.set(0,10,0)
-    this.physicsBody.angularDamping = 0.5
-    this.physicsBody.position.y = 5
-
-
-    this.rayCastVehicle = new CANNON.RaycastVehicle({
-			chassisBody: this.physicsBody,
-			indexUpAxis: 1,
-			indexRightAxis: 0,
-			indexForwardAxis: 2
-		});
-
-    this.wheels.forEach((wheel) => {
-      const handlingSetup = {
-        radius: 0.25,
-        suspensionStiffness: 20,
-        suspensionRestLength: 0.35,
-        maxSuspensionTravel: 1,
-        frictionSlip: 0.8,
-        dampingRelaxation: 2,
-        dampingCompression: 2,
-        rollInfluence: 0.8
-      }
-      handlingSetup.chassisConnectionPointLocal = new CANNON.Vec3(),
-      handlingSetup.axleLocal = new CANNON.Vec3(-1, 0, 0);
-      handlingSetup.directionLocal = new CANNON.Vec3(0, -1, 0);
-      handlingSetup.chassisConnectionPointLocal.set(wheel.position.x + 0.1, wheel.position.y + 0.2, wheel.position.z - 0.1);
-			const index = this.rayCastVehicle.addWheel(handlingSetup);
-			wheel.rayCastWheelInfoIndex = index;
-    })
-
-
-
-    // this.rayCastVehicle.setSteeringValue(0.3, 0)
-    // this.rayCastVehicle.setSteeringValue(0.3, 1)
-    // this.rayCastVehicle.applyEngineForce(-1500, 0)
-
-
-    this.rayCastVehicle.addToWorld(physicsWorld);
-
-    // physicsWorld.addBody(this.physicsBody)
-  }
-
-  steerWheels (value){
-    // console.log('steer', value)
-    this.wheels.forEach((wheel) => {
-      if(wheel.wheelType === WheelTypes.Front) {
-        this.rayCastVehicle.setSteeringValue(value, wheel.rayCastWheelInfoIndex)
-      }
-    })
-  }
-
-  forceToWheels(value){
-    let tractivesWheels = this.wheels.reduce((acc, wheel) => {
-      if(wheel.wheelType === WheelTypes.Front){
-        acc.push(wheel)
-      }
-      return acc
-    }, [])
-
-    const nbTractiveWheels = tractivesWheels.length
-    tractivesWheels.forEach((wheel) => {
-      this.rayCastVehicle.applyEngineForce(-value/nbTractiveWheels, wheel.rayCastWheelInfoIndex)
-    })
-  }
-
-  animate(delta) {
-    this.bodyMesh.position.copy(this.physicsBody.position)
-    this.bodyMesh.quaternion.copy(this.physicsBody.quaternion)
-
-    for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++)
-		{
-			this.rayCastVehicle.updateWheelTransform(i);
-			let transform = this.rayCastVehicle.wheelInfos[i].worldTransform;
-
-			let wheelObject = this.wheels[i];
-			wheelObject.position.copy(threeVector(transform.position));
-			wheelObject.quaternion.copy(threeQuat(transform.quaternion));
-
-			let upAxisWorld = new CANNON.Vec3();
-			this.rayCastVehicle.getVehicleAxisWorld(this.rayCastVehicle.indexUpAxis, upAxisWorld);
-		}
-
-    // Controls :
-    this.steerWheels(this.steeringValue)
-    this.forceToWheels(this.forceValue)
-    // this.rayCastVehicle.setBrake()
-
-
-		const quat = threeQuat(this.physicsBody.quaternion);
-		const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(quat);
-    this.speed = this.physicsBody.velocity.dot(cannonVector(forward));
-
-  }
-}
-
-class SteeringControl {
-  public steeringValue = 0
-  public steeringAmplitude = 0.8
-  public steeringDirection = 0
-
-
-  update(delta){
-    // add steering in direction
-    let newSteeringValue = (this.steeringValue + 0.1 * this.steeringDirection)
-    this.steeringValue = Math.min(Math.max(newSteeringValue, -this.steeringAmplitude), this.steeringAmplitude)
-  }
-
-  steer(direction, value=null) {
-    if(typeof value === 'number' && value > 0){
-      this.steeringValue = direction === 'left' ? value : -value;
-      this.steeringDirection = 0
-      return
-    }
-    switch(direction){
-      case 'left':
-        this.steeringDirection = 1
-        break
-      case 'right':
-        this.steeringDirection = -1
-        break
-      case 'center':
-        this.steeringDirection = 0
-        break;
-    }
-  }
-}
-
-
-
-
-
-
-
-function threeVector(vec: CANNON.Vec3): THREE.Vector3
-{
-	return new THREE.Vector3(vec.x, vec.y, vec.z);
-}
-
-function threeQuat(quat: CANNON.Quaternion): THREE.Quaternion
-{
-	return new THREE.Quaternion(quat.x, quat.y, quat.z, quat.w);
-}
-
-function cannonVector(vec: THREE.Vector3): CANNON.Vec3
-{
-	return new CANNON.Vec3(vec.x, vec.y, vec.z);
-}
