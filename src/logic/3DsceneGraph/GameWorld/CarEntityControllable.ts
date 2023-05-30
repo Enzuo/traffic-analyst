@@ -12,9 +12,6 @@ export class CarEntityControllable extends CarEntity implements IControllable {
   public carPhysic : CarPhysics
   public carModel : CarEntity3D
 
-  public brakeLights : THREE.Mesh
-  public camera
-
   // controls
   public steeringControl = new SteeringControl()
   public throttleInput = 0
@@ -32,7 +29,7 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
   animate(delta) {
     if(!this.carPhysic) return
-    this.steeringControl.update(delta)
+    this.steeringControl.update(delta, this.carPhysic.speed)
     this.carPhysic.steeringValue = this.steeringControl.steeringValue
 
 
@@ -112,16 +109,25 @@ class SteeringControl {
   public steeringDirection = 0
 
 
-  update(delta){
+  update(delta, carSpeed){
     // add steering in direction
     let newSteeringValue = (this.steeringValue + 0.1 * this.steeringDirection)
+
+    // auto recenter wheels
+    if(this.steeringDirection === 0 && carSpeed > 0.1){
+      let currentDirection = Math.sign(this.steeringValue)
+      let steerResetSpeed = Math.min(Math.max(carSpeed / 7, 0.1), 1)
+      newSteeringValue -= currentDirection * 0.05 * steerResetSpeed
+    }
+
+
     this.steeringValue = Math.min(Math.max(newSteeringValue, -this.steeringAmplitude), this.steeringAmplitude)
   }
 
   steer(direction, value=null) {
     if(typeof value === 'number' && value > 0){
       this.steeringValue = direction === 'left' ? value : -value;
-      this.steeringDirection = 0
+      this.steeringDirection = null
       return
     }
     switch(direction){
