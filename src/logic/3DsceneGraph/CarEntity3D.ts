@@ -29,6 +29,7 @@ export class CarEntity3D {
 
   // lights
   public brakeLights : THREE.Object3D[]
+  public reverseLights : THREE.Object3D[]
 
   constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?) {
     this.carEntity = car
@@ -48,22 +49,34 @@ export class CarEntity3D {
 
     // Lights
     this.brakeLights = []
-    const lightTexture = new THREE.TextureLoader().load( 'models/brakelight.png' );
-    lightTexture.minFilter = THREE.NearestMipmapNearestFilter
-    lightTexture.magFilter = THREE.NearestFilter
-    const material = new THREE.SpriteMaterial( { map: lightTexture } );
+    const brakeLightTexture = new THREE.TextureLoader().load( 'sprites/effects/redlight.png' )
+    brakeLightTexture.minFilter = THREE.NearestMipmapNearestFilter
+    brakeLightTexture.magFilter = THREE.NearestFilter
+    const material = new THREE.SpriteMaterial( { map: brakeLightTexture } )
 
-    const brakeLight = new THREE.Sprite( material );
+    const brakeLight = new THREE.Sprite( material )
     brakeLight.position.set(0.7, 0.7, -1.8)
     brakeLight.scale.set(0.4,0.4,0.4)
-    this.carBody.add( brakeLight );
+    this.carBody.add( brakeLight )
     this.brakeLights.push(brakeLight)
-    const brakeLight2 = new THREE.Sprite( material );
+    const brakeLight2 = new THREE.Sprite( material )
     brakeLight2.position.set(-0.7, 0.7, -1.8)
     brakeLight2.scale.set(0.4,0.4,0.4)
     brakeLight2.visible = false
-    this.carBody.add( brakeLight2 );
+    this.carBody.add( brakeLight2 )
     this.brakeLights.push(brakeLight2)
+
+    this.reverseLights = []
+    const reverseLightTexture = new THREE.TextureLoader().load( 'sprites/effects/whitelight.png' )
+    reverseLightTexture.minFilter = THREE.NearestMipmapNearestFilter
+    reverseLightTexture.magFilter = THREE.NearestFilter
+    const materialreverseLight = new THREE.SpriteMaterial( { map: reverseLightTexture } )
+    const reverseLight = new THREE.Sprite( materialreverseLight )
+    reverseLight.position.set(0.6, 0.1, -2)
+    reverseLight.scale.set(0.4,0.4,0.4)
+    reverseLight.visible = false
+    this.carBody.add( reverseLight )
+    this.reverseLights.push(reverseLight)
 
 
     // Fix position
@@ -99,12 +112,19 @@ export class CarEntity3D {
     this.carBody.receiveShadow = false
   }
 
-  updateLights(brakeInput){
+  updateLights(brakeInput, isReverse){
     if(brakeInput > 0){
       this.brakeLights.forEach(b => b.visible = true)
     }
     else {
       this.brakeLights.forEach(b => b.visible = false)
+    }
+
+    if(isReverse){
+      this.reverseLights.forEach(b => b.visible = true)
+    }
+    else {
+      this.reverseLights.forEach(b => b.visible = false)
     }
   }
 
@@ -169,18 +189,6 @@ export class Wheel extends THREE.Object3D{
     this.add(this.object)
   }
 }
-
-
-function cloneWheel(wheel, empty, useRotation=true){
-  let carWheel = wheel.clone()
-  carWheel.position.copy(empty.position)
-  if(useRotation){
-    console.log('rotation', empty.rotation)
-    carWheel.rotation.copy(empty.rotation)
-  }
-  return carWheel
-}
-
 
 /**
  *

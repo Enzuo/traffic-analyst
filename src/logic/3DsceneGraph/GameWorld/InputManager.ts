@@ -8,6 +8,9 @@ export class InputManager {
   public keyboardActionsMap = {}
   public gamepadActionsMap = {}
 
+  public lastInput
+  public lastInputTime
+
   constructor(domElement : HTMLElement) {
 
 
@@ -60,11 +63,21 @@ export class InputManager {
   onKeyboardInput(event, isPressed=true){
     let actionName
     let value
+    let isDoublePress = false
+
+    if(isPressed){
+      if(!event.repeat && event.keyCode === this.lastInput && this.lastInputTime > (event.timeStamp - 200)){
+        console.log('DOUBBLE')
+        isDoublePress = true
+      }
+      this.lastInput = event.keyCode
+      this.lastInputTime = event.timeStamp
+    }
 
     switch(event.code){
       case 'ArrowUp':
       case 'KeyW':
-        actionName = 'up'
+        actionName = isDoublePress ? 'forward' : 'up'
         break
       case 'ArrowLeft':
         actionName = 'left'
@@ -73,12 +86,20 @@ export class InputManager {
         actionName = 'right'
         break
       case 'ArrowDown':
-        actionName = 'down'
+        actionName = isDoublePress ? 'reverse' : 'down'
         break
     }
 
     if(actionName){
       this.keyboardActionsMap[actionName] = isPressed
+
+      if(actionName === 'forward'){
+        this.keyboardActionsMap['reverse'] = false
+      }
+
+      if(actionName === 'reverse'){
+        this.keyboardActionsMap['forward'] = false
+      }
     }
   }
 

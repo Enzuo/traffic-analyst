@@ -16,6 +16,7 @@ export class CarEntityControllable extends CarEntity implements IControllable {
   public steeringControl = new SteeringControl()
   public throttleInput = 0
   public brakeInput = 0
+  public isReverse = false
 
   constructor(car, scene, physicsWorld) {
     super(car)
@@ -35,14 +36,14 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
     // get engine force
     var engineForce = 7000 * this.throttleInput
-    this.carPhysic.forceValue = engineForce
+    this.carPhysic.forceValue = this.isReverse ? -engineForce : engineForce
 
     // get brake force
-    var brakeForce = 12000 * this.brakeInput
+    var brakeForce = this.props.brakePadsForce * this.brakeInput
     this.carPhysic.brakeForceValue = brakeForce
 
     // update brake lights
-    this.carModel.updateLights(this.brakeInput)
+    this.carModel.updateLights(this.brakeInput, this.isReverse)
     this.carPhysic.animate(delta)
 
     // update model to represent the physics simulation
@@ -94,6 +95,14 @@ export class CarEntityControllable extends CarEntity implements IControllable {
     }
     else {
       this.brakeInput = 0
+    }
+
+    if(actions['reverse']){
+      this.isReverse = true
+    }
+
+    if(actions['forward']){
+      this.isReverse = false
     }
   }
 }
