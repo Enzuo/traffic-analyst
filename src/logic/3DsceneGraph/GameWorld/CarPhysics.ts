@@ -19,16 +19,18 @@ export class CarPhysics {
   //
   public speed
 
-  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[]) {
+  constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[], width) {
     // this.bodyMesh = carBody
     this.wheels = carWheels
 
     // Calc bounding box
+    let widthX = width ? width : carBody.geometry.boundingBox.max.x - carBody.geometry.boundingBox.min.x
     let heightY = carBody.geometry.boundingBox.max.y - carBody.geometry.boundingBox.min.y
+    let lengthZ = carBody.geometry.boundingBox.max.z - carBody.geometry.boundingBox.min.z
     let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
 
 
-    const shape = new CANNON.Box(new CANNON.Vec3(1,heightY/2,1))
+    const shape = new CANNON.Box(new CANNON.Vec3(widthX/2,heightY/2,lengthZ/2))
     const mass = 1500
     this.physicsBody = new CANNON.Body({
       mass

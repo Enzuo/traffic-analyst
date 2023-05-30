@@ -26,7 +26,7 @@ export class CarEntityControllable extends CarEntity implements IControllable {
     createCarEntity3D(this).then((carEntity3D) => {
       scene.add(carEntity3D.object)
       this.carModel = carEntity3D
-      this.carPhysic = new CarPhysics (physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
+      this.carPhysic = new CarPhysics (physicsWorld, carEntity3D.carBody, carEntity3D.wheels, car.width/1000)
     })
   }
 

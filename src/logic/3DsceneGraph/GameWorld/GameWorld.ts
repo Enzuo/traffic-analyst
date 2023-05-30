@@ -13,6 +13,7 @@ import type {Wheel} from '../CarEntity3D'
 import { getCar } from '../../cardata'
 import { InputManager } from './InputManager'
 import { CarEntityControllable } from './CarEntityControllable'
+import { Cone } from './Cone'
 
 
 class AnimationWorld extends Animation {
@@ -70,6 +71,8 @@ export class GameWorld extends Scene3D {
     const car = getCar('renault_zoe')
     const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
 
+    // Cone
+    const cone = new Cone(this.scene, this.physicsWorld)
 
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
@@ -104,6 +107,7 @@ export class GameWorld extends Scene3D {
     // Animation
     this.animation = new AnimationWorld(this.scene, this.camera, this.renderer, this.cameraControls, this.physicsWorld, this.physicsDebugger)
     this.animation.addAnimated(carEntityControlled)
+    this.animation.addAnimated(cone)
 
 
     // Input Controls
