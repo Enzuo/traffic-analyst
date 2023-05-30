@@ -17,8 +17,8 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
   // controls
   public steeringControl = new SteeringControl()
-  public throttle = 0
-  public brake = 0
+  public throttleInput = 0
+  public brakeInput = 0
 
   constructor(car, scene, physicsWorld) {
     super(car)
@@ -28,16 +28,6 @@ export class CarEntityControllable extends CarEntity implements IControllable {
       this.carModel = carEntity3D
       this.carPhysic = new CarPhysics (physicsWorld, carEntity3D.carBody, carEntity3D.wheels)
     })
-
-    // create brakes light
-    // let brakelightGeometry = new THREE.PlaneGeometry(0.5, 0.5);
-    // const brakeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    // const brakeLight = new THREE.Mesh(brakelightGeometry, brakeMaterial);
-    // brakeLight.position.set(0, 1, -2.1)
-    // this.brakeLights = brakeLight
-
-    // carEntity3D.carBody.add(brakeLight);
-    // this.camera = camera
   }
 
   animate(delta) {
@@ -47,12 +37,15 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
 
     // get engine force
-    var engineForce = 7000 * this.throttle
+    var engineForce = 7000 * this.throttleInput
     this.carPhysic.forceValue = engineForce
 
+    // get brake force
+    var brakeForce = 12000 * this.brakeInput
+    this.carPhysic.brakeForceValue = brakeForce
+
     // update brake lights
-    // this.brakeLights.quaternion.copy(this.camera.quaternion)
-    // this.brakeLights.visible = this.brake > 0 ? true : false
+    this.carModel.updateLights(this.brakeInput)
     this.carPhysic.animate(delta)
 
     // update model to represent the physics simulation
@@ -93,17 +86,17 @@ export class CarEntityControllable extends CarEntity implements IControllable {
     }
 
     if(actions['up']){
-      this.throttle = 1
+      this.throttleInput = 1
     }
     else {
-      this.throttle = 0
+      this.throttleInput = 0
     }
 
     if(actions['down']){
-      this.brake = 1
+      this.brakeInput = 1
     }
     else {
-      this.brake = 0
+      this.brakeInput = 0
     }
   }
 }

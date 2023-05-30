@@ -100,6 +100,12 @@ export class CarPhysics {
     })
   }
 
+  brakeWheels(force){
+    this.wheels.forEach((wheel) => {
+      this.rayCastVehicle.setBrake(force/this.wheels.length, wheel.rayCastWheelInfoIndex)
+    })
+  }
+
   animate(delta) {
     // for (let i = 0; i < this.rayCastVehicle.wheelInfos.length; i++)
 		// {
@@ -117,6 +123,7 @@ export class CarPhysics {
     // Controls :
     this.steerWheels(this.steeringValue)
     this.forceToWheels(this.forceValue)
+    this.brakeWheels(this.brakeForceValue)
     // this.rayCastVehicle.setBrake()
 
 

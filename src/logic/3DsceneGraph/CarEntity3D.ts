@@ -27,13 +27,16 @@ export class CarEntity3D {
   public wheels : Wheel[]
   public propeller : THREE.Mesh
 
+  // lights
+  public brakeLights : THREE.Object3D[]
+
   constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?) {
     this.carEntity = car
     this.object = group
     this.carBody = body
     this.propeller = propeller
 
-    //Create wheels
+    // Create wheels
     this.wheels = []
     wheels.forEach((w) => {
       let scale = car.props.wheelScale ? car.props.wheelScale[w.index-1] : 1
@@ -42,6 +45,25 @@ export class CarEntity3D {
       this.wheels.push(wheel)
       this.object.add(wheel)
     })
+
+    // Lights
+    this.brakeLights = []
+    const lightTexture = new THREE.TextureLoader().load( 'models/brakelight.png' );
+    lightTexture.minFilter = THREE.NearestMipmapNearestFilter
+    lightTexture.magFilter = THREE.NearestFilter
+    const material = new THREE.SpriteMaterial( { map: lightTexture } );
+
+    const brakeLight = new THREE.Sprite( material );
+    brakeLight.position.set(0.7, 0.7, -1.8)
+    brakeLight.scale.set(0.4,0.4,0.4)
+    this.carBody.add( brakeLight );
+    this.brakeLights.push(brakeLight)
+    const brakeLight2 = new THREE.Sprite( material );
+    brakeLight2.position.set(-0.7, 0.7, -1.8)
+    brakeLight2.scale.set(0.4,0.4,0.4)
+    brakeLight2.visible = false
+    this.carBody.add( brakeLight2 );
+    this.brakeLights.push(brakeLight2)
 
 
     // Fix position
@@ -75,7 +97,15 @@ export class CarEntity3D {
     // Add shadow
     this.carBody.castShadow = true
     this.carBody.receiveShadow = false
+  }
 
+  updateLights(brakeInput){
+    if(brakeInput > 0){
+      this.brakeLights.forEach(b => b.visible = true)
+    }
+    else {
+      this.brakeLights.forEach(b => b.visible = false)
+    }
   }
 
 
