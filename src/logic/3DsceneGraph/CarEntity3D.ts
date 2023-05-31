@@ -49,32 +49,15 @@ export class CarEntity3D {
 
     // Lights
     this.brakeLights = []
-    const brakeLightTexture = new THREE.TextureLoader().load( 'sprites/effects/redlight.png' )
-    brakeLightTexture.minFilter = THREE.NearestMipmapNearestFilter
-    brakeLightTexture.magFilter = THREE.NearestFilter
-    const material = new THREE.SpriteMaterial( { map: brakeLightTexture } )
-
-    const brakeLight = new THREE.Sprite( material )
-    brakeLight.position.set(0.7, 0.7, -1.8)
-    brakeLight.scale.set(0.4,0.4,0.4)
-    this.carBody.add( brakeLight )
-    this.brakeLights.push(brakeLight)
-    const brakeLight2 = new THREE.Sprite( material )
-    brakeLight2.position.set(-0.7, 0.7, -1.8)
-    brakeLight2.scale.set(0.4,0.4,0.4)
-    brakeLight2.visible = false
+    const brakeLight1 = createLightObject('redlight', [0.7, 0.7, -1.8], [0.4, 0.4, 0.4])
+    const brakeLight2 = createLightObject('redlight', [-0.7, 0.7, -1.82], [0.4, 0.4, 0.4])
+    this.carBody.add( brakeLight1 )
+    this.brakeLights.push(brakeLight1 )
     this.carBody.add( brakeLight2 )
     this.brakeLights.push(brakeLight2)
 
     this.reverseLights = []
-    const reverseLightTexture = new THREE.TextureLoader().load( 'sprites/effects/whitelight.png' )
-    reverseLightTexture.minFilter = THREE.NearestMipmapNearestFilter
-    reverseLightTexture.magFilter = THREE.NearestFilter
-    const materialreverseLight = new THREE.SpriteMaterial( { map: reverseLightTexture } )
-    const reverseLight = new THREE.Sprite( materialreverseLight )
-    reverseLight.position.set(0.6, 0.1, -2)
-    reverseLight.scale.set(0.4,0.4,0.4)
-    reverseLight.visible = false
+    const reverseLight = createLightObject('whitelight', [0.6, 0.1, -2], [0.4, 0.4, 0.4])
     this.carBody.add( reverseLight )
     this.reverseLights.push(reverseLight)
 
@@ -199,6 +182,25 @@ export class Wheel extends THREE.Object3D{
 function calcWheelScale(wheelDiameter, wheel){
   const modelDiameter = wheel.geometry.boundingBox.max.z * 2 * 100
   return wheelDiameter ? wheelDiameter/modelDiameter : 1
+}
+
+/**
+ *
+ * @param name
+ * @param {Array} pos
+ * @param {Array} scale
+ * @returns
+ */
+function createLightObject(name, pos=[0,0,0], scale=[1,1,1]){
+  const texture = new THREE.TextureLoader().load( 'sprites/effects/'+name+'.png' )
+  texture.minFilter = THREE.NearestMipmapNearestFilter
+  texture.magFilter = THREE.NearestFilter
+  const material = new THREE.SpriteMaterial( { map: texture } )
+  const light = new THREE.Sprite( material )
+  light.position.set(pos[0], pos[1], pos[2])
+  light.scale.set(scale[0], scale[1], scale[2])
+  light.visible = false
+  return light
 }
 
 
