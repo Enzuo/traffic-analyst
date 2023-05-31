@@ -35,7 +35,9 @@ export class CarEntityControllable extends CarEntity implements IControllable {
 
 
     // get engine force
-    var engineForce = 7000 * this.throttleInput
+    this.state.speed = this.carPhysic.speed
+    this.updateEngineRPM()
+    let engineForce = this.getEndForce()
     this.carPhysic.forceValue = this.isReverse ? -engineForce : engineForce
 
     // get brake force
@@ -83,20 +85,21 @@ export class CarEntityControllable extends CarEntity implements IControllable {
       this.steeringControl.steer('center')
     }
 
-    if(actions['up']){
-      this.throttleInput = 1
+    if((!this.isReverse && actions['up']) || (this.isReverse && actions['down'])){
+      this.inputs.throttle = 1
     }
     else {
-      this.throttleInput = 0
+      this.inputs.throttle = 0
     }
 
-    if(actions['down']){
+    if((!this.isReverse && actions['down']) || (this.isReverse && actions['up'])){
       this.brakeInput = 1
     }
     else {
       this.brakeInput = 0
     }
 
+    // TODO prevent switch at higher speed
     if(actions['reverse']){
       this.isReverse = true
     }

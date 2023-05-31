@@ -1,5 +1,5 @@
 import uPlot from 'uplot'
-import 'uplot/dist/uPlot.min.css'  
+import 'uplot/dist/uPlot.min.css'
 
 
 // let plotChart
@@ -10,11 +10,11 @@ import 'uplot/dist/uPlot.min.css'
 
 
 /**
- * 
- * @param {{title:string, units:string, key:string, colors:[], transformFn:(v:number)=>number}} opts 
- * @param {[{props:object, state:object}]} observed 
- * @param {*} element 
- * @returns 
+ *
+ * @param {{title:string, units:string, key:string, colors:[], transformFn:(v:number)=>number}} opts
+ * @param {[{props:object, state:object}]} observed
+ * @param {*} element
+ * @returns
  */
 export function createGraph(opts, observed, element){
   let chartData = [[]]
@@ -52,7 +52,7 @@ export function createGraph(opts, observed, element){
         time: false,
       },
       'y': {
-        // range: [0, 150],
+        range: [0, 150],
       }
     },
     axes: [
@@ -66,10 +66,10 @@ export function createGraph(opts, observed, element){
       }
     ],
   }
-  
+
   let plotChart = new uPlot(Object.assign(options, opts), chartData, element);
   let {key, transformFn} = opts
-  return { 
+  return {
     setData : (data) => {
       plotChart.setData(data)
     },
@@ -79,7 +79,7 @@ export function createGraph(opts, observed, element){
         let value = data[i]
         if(chartData[i+1]){
           chartData[i+1].push(value)
-        } 
+        }
       }
       plotChart.setData(chartData)
     }

@@ -67,7 +67,6 @@ export class InputManager {
 
     if(isPressed){
       if(!event.repeat && event.keyCode === this.lastInput && this.lastInputTime > (event.timeStamp - 200)){
-        console.log('DOUBBLE')
         isDoublePress = true
       }
       this.lastInput = event.keyCode

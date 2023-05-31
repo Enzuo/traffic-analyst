@@ -37,15 +37,61 @@ export class CarEntity{
     force : 0,
     acceleration : 0,
     airDrag : 0,
+
+    // TODO remove
     throttleInput : 0,
     brakeInput : 0,
     gearInput : 0,
   }
 
+  public inputs = {
+    throttle : 0,
+    brake : 0,
+    gear : 0,
+    gearT : 0, // gear transfer selected
+  }
+
+
+
   constructor (props) {
     this.id = uniqueId++
     this.props = props
   }
+
+  updateEngineRPM(){
+    const { engine, wheelDiameter } = this.props
+    const state = this.state
+
+    let minRPM = engine.minRPM || 1000
+    const finalRatio = this.getTransmissionFinalRatio()
+
+    let rpmForSpeed = Math.max(getEngineRPMForSpeed(state.speed, finalRatio, wheelDiameter), minRPM)
+
+    // update STATE
+    this.state.engineRpm = rpmForSpeed
+  }
+
+  getTransmissionFinalRatio(){
+    const {gearRatio, driveRatio, gearTransfer} = this.props
+    const inputs = this.inputs
+
+    let finalRatio = driveRatio * gearRatio[inputs.gear] * (gearTransfer ? gearTransfer[inputs.gearT] : 1)
+    return finalRatio
+  }
+
+  getEndForce(){
+    const {engine, wheelDiameter} = this.props
+    const state = this.state
+    const inputs = this.inputs
+
+    const finalRatio = this.getTransmissionFinalRatio()
+    let torque = getTorqueForRPM(engine.torqueCurve, state.engineRpm) * inputs.throttle
+    let force = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
+
+    return force
+  }
+
+
 }
 
 /**

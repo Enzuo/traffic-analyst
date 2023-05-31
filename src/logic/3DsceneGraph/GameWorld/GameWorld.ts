@@ -41,8 +41,8 @@ export class GameWorld extends Scene3D {
   public physicsWorld: CANNON.World
   public physicsDebugger
   public inputManager : InputManager
-  public carPhysic
-  public carControls
+
+  public carEntityControlled : CarEntityControllable
 
 
 
@@ -70,6 +70,7 @@ export class GameWorld extends Scene3D {
     // Car
     const car = getCar('renault_zoe')
     const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
+    this.carEntityControlled = carEntityControlled
 
     // Cone
     const cone = new Cone(this.scene, this.physicsWorld)
