@@ -29,7 +29,6 @@ gearRatio : []
 gearReverse :
 gearTransfer :
 driveRatio :
-gearSpeed :
 wheelDiameter : # 63cm
 type : #AWD, RWD, FWD
 

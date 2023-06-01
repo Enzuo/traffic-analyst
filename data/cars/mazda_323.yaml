@@ -1,0 +1,89 @@
+name : 323
+brand : mazda
+trim : BJ hatchback
+year : 1998 - 2003
+unitsProduced :
+price :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 2.0 DiTD RF-T DI
+  hp: 90
+  torqueY: [150, 220 ,140] # 220nm@1800 90hp@4500
+  torqueX: [1000, 1800,4500]
+  type : diesel
+  layout : l4
+  displacement : 1998
+  weight : 210
+  features : SOHC
+  lifespan : 300,000
+
+# List additional engines
+engines :
+  - engine :
+      name : 2.0 DiTD RF-T DI RF4F
+      hp : 101
+      torqueY: [150 ,220 ,157] # 220nm@1800 101hp@4500
+      torqueX: [1000,1800,4500]
+      features : SOHC, intercooler
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
+gearReverse :
+gearTransfer :
+driveRatio : 3.3
+wheelDiameter : 58 # 63cm
+type : fwd
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1200
+length: 4200
+width: 1705
+height: 1420
+dragCoef: 0.32 # approx
+dragArea: 2.1 # approx
+
+wheelbase: 2605
+bodyType: hatchback
+clearance:
+trunk: 355
+trunkMax: 1000
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100: 12.2
+vmax: 178
+avgConsumption : 5.1
+energyTank : 50
+autonomy :
+turningCircle : 10.4
+wheelType : 175/70R13 - 185/65R14
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

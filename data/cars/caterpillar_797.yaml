@@ -30,9 +30,8 @@ gearReverse :
 gearTransfer :
 gearEfficiency : 0.949
 driveRatio : 21.09
-gearSpeed :
 wheelDiameter : 402
-type : #AWD, RWD, FWD
+type : rwd
 
 # -------------
 # DIMENSIONS
