@@ -52,7 +52,7 @@ export function createGraph(opts, observed, element){
         time: false,
       },
       'y': {
-        range: [0, 150],
+        // range: [0, 150],
       }
     },
     axes: [

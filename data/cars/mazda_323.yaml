@@ -2,7 +2,7 @@ name : 323
 brand : mazda
 trim : BJ hatchback
 year : 1998 - 2003
-unitsProduced :
+unitsProduced : 400,000 # approx europe
 price :
 
 # -------------
@@ -36,7 +36,7 @@ gearName :
 gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
 gearReverse :
 gearTransfer :
-driveRatio : 3.3
+driveRatio : 3.3 # approx
 wheelDiameter : 58 # 63cm
 type : fwd
 

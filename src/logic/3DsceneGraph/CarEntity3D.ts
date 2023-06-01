@@ -28,8 +28,8 @@ export class CarEntity3D {
   public propeller : THREE.Mesh
 
   // lights
-  public brakeLights : THREE.Object3D[]
-  public reverseLights : THREE.Object3D[]
+  public lights : {brake : THREE.Object3D[], reverse : THREE.Object3D[]}
+
 
   constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?) {
     this.carEntity = car
@@ -48,18 +48,7 @@ export class CarEntity3D {
     })
 
     // Lights
-    this.brakeLights = []
-    const brakeLight1 = createLightObject('redlight', [0.7, 0.7, -1.8], [0.4, 0.4, 0.4])
-    const brakeLight2 = createLightObject('redlight', [-0.7, 0.7, -1.82], [0.4, 0.4, 0.4])
-    this.carBody.add( brakeLight1 )
-    this.brakeLights.push(brakeLight1 )
-    this.carBody.add( brakeLight2 )
-    this.brakeLights.push(brakeLight2)
-
-    this.reverseLights = []
-    const reverseLight = createLightObject('whitelight', [0.6, 0.1, -2], [0.4, 0.4, 0.4])
-    this.carBody.add( reverseLight )
-    this.reverseLights.push(reverseLight)
+    this.lights = addLights(this.carBody, this.carEntity.props.modelLights)
 
 
     // Fix position
@@ -96,19 +85,8 @@ export class CarEntity3D {
   }
 
   updateLights(brakeInput, isReverse){
-    if(brakeInput > 0){
-      this.brakeLights.forEach(b => b.visible = true)
-    }
-    else {
-      this.brakeLights.forEach(b => b.visible = false)
-    }
-
-    if(isReverse){
-      this.reverseLights.forEach(b => b.visible = true)
-    }
-    else {
-      this.reverseLights.forEach(b => b.visible = false)
-    }
+    this.lights.brake.forEach(b => b.visible = brakeInput > 0 ? true : false)
+    this.lights.reverse.forEach(b => b.visible = isReverse ? true : false)
   }
 
 
@@ -184,6 +162,19 @@ function calcWheelScale(wheelDiameter, wheel){
   return wheelDiameter ? wheelDiameter/modelDiameter : 1
 }
 
+
+/**
+ *
+ *                    LIGHTS
+ *                   ..---..
+ *                  /       \
+ *                 |         |
+ *                  \  \~/  /
+ *                   `, Y ,'
+ *                    |_|_|
+ *                    |===|
+ *                     \_/
+ */
 /**
  *
  * @param name
@@ -202,6 +193,40 @@ function createLightObject(name, pos=[0,0,0], scale=[1,1,1]){
   light.visible = false
   return light
 }
+
+function addLights(carBody, lights){
+  const lightsObject = {brake : [], reverse : []}
+
+  const lightTypes = {
+    brake : 'redlight',
+    reverse : 'whitelight',
+  }
+
+  if(lights){
+    for (const [key, value] of Object.entries(lights)) {
+      lightsObject[key] = lights[key].map(l => {
+        let pos = [l[0], l[1], l[2]]
+        let scale = l.length > 3 ? [l[3], l[3], l[3]]: [0.4, 0.4, 0.4]
+        let lightObject = createLightObject(lightTypes[key], pos, scale)
+        carBody.add(lightObject)
+        return lightObject
+      })
+    }
+  }
+
+  return lightsObject
+}
+
+
+
+
+
+/**
+ *
+ * @param carEntity
+ * @param {string} color
+ * @returns {Promise<CarEntity3D>}
+ */
 
 
 export async function createCarEntity3D (carEntity : CarEntity, color?) {

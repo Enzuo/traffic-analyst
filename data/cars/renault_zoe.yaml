@@ -64,3 +64,6 @@ trims:
 # 3D
 # -------------
 model: renaultZoe
+modelLights :
+  brake : [[0.7, 0.7, -1.8], [-0.7, 0.7, -1.8]]
+  reverse : [[0.6, 0.1, -2]]

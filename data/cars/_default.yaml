@@ -75,6 +75,7 @@ model:
 modelWheel:
 modelMisc:
 wheelScale:
+modelLights :
 
 # -------------
 # TRIMS
