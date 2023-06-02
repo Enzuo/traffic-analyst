@@ -37,7 +37,7 @@ gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
 gearReverse :
 gearTransfer :
 driveRatio : 3.3 # approx
-wheelDiameter : 58 # 63cm
+wheelDiameter : 57 # 63cm
 type : fwd
 
 # -------------
@@ -47,7 +47,7 @@ weight : 1200
 length: 4200
 width: 1705
 height: 1420
-dragCoef: 0.32 # approx
+dragCoef: 0.34 # approx
 dragArea: 2.1 # approx
 
 wheelbase: 2605
@@ -71,10 +71,14 @@ wheelType : 175/70R13 - 185/65R14
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: mazda323
+modelWheel: wheelMazda323
 modelMisc:
 wheelScale:
+modelLights :
+  brake : [[0.7, 0.62, -2], [-0.7, 0.62, -2]]
+  reverse : [[0.7, 0.5, -2]]
+
 
 # -------------
 # TRIMS
