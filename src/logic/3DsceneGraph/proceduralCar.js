@@ -171,6 +171,7 @@ export async function loadDefaultCarModelProc(car){
   geometry.rotateY(-Math.PI/2)
   geometry = geometry.toNonIndexed() // flat shading
   geometry.computeVertexNormals()
+  geometry.computeBoundingBox()
 
   const material = new THREE.MeshStandardMaterial({ color: 0xaa3377, vertexColors: false })
   const mesh = new THREE.Mesh(geometry, material)

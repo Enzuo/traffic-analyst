@@ -31,7 +31,7 @@ export class CarEntity3D {
   public lights : {brake : THREE.Object3D[], reverse : THREE.Object3D[]}
 
 
-  constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?) {
+  constructor (car: CarEntity, {group, body, wheels, misc, propeller}, wheelModel, color?, setAtGroundLevel=true) {
     this.carEntity = car
     this.object = group
     this.carBody = body
@@ -52,8 +52,10 @@ export class CarEntity3D {
 
 
     // Fix position
-    const {wheelDiameter} = car.props
-    this.object.position.y += wheelDiameter/250
+    if(setAtGroundLevel){
+      const {wheelDiameter} = car.props
+      this.object.position.y += wheelDiameter/250
+    }
 
 
     // Hide misc
@@ -229,14 +231,14 @@ function addLights(carBody, lights){
  */
 
 
-export async function createCarEntity3D (carEntity : CarEntity, color?) {
+export async function createCarEntity3D (carEntity : CarEntity, color?, setAtGroundLevel?) {
   let wheelModel
   const car = carEntity.props
   return loadWheelModel(car.modelWheel)
   .then((m) => wheelModel = m)
   .then(() => loadCarModel(car))
   .then((carModel) => {
-    return new CarEntity3D(carEntity, carModel, wheelModel, color)
+    return new CarEntity3D(carEntity, carModel, wheelModel, color, setAtGroundLevel)
   })
 }
 

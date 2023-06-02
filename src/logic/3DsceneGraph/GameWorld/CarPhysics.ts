@@ -20,7 +20,7 @@ export class CarPhysics {
   public speed
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[], carProps) {
-    const {width, weight} = carProps
+    const {width, weight, wheelDiameter} = carProps
     // this.bodyMesh = carBody
     this.wheels = carWheels
 
@@ -28,7 +28,7 @@ export class CarPhysics {
     let widthX = width ? width/1000 : carBody.geometry.boundingBox.max.x - carBody.geometry.boundingBox.min.x
     let heightY = carBody.geometry.boundingBox.max.y - carBody.geometry.boundingBox.min.y
     let lengthZ = carBody.geometry.boundingBox.max.z - carBody.geometry.boundingBox.min.z
-    let offsetY = heightY/2 - carBody.geometry.boundingBox.min.y
+    let offsetY = heightY/2 + carBody.geometry.boundingBox.min.y
 
 
     const shape = new CANNON.Box(new CANNON.Vec3(widthX/2,heightY/2,lengthZ/2))
@@ -49,30 +49,28 @@ export class CarPhysics {
 			indexForwardAxis: 2
 		});
 
+    const suspensionRestLength = 0.35
     this.wheels.forEach((wheel) => {
       const handlingSetup = {
-        radius: 0.25,
+        radius: wheelDiameter/200,
         suspensionStiffness: 20,
-        suspensionRestLength: 0.35,
+        suspensionRestLength: suspensionRestLength,
         maxSuspensionTravel: 1,
         frictionSlip: 0.8,
         dampingRelaxation: 2,
         dampingCompression: 2,
-        rollInfluence: 0.8
+        rollInfluence: 0.8,
       }
+      // let connectionOffset = [0.1, 0.2, -0.1]
+      let connectionOffset = [0, suspensionRestLength - 0.1, 0]
       handlingSetup.chassisConnectionPointLocal = new CANNON.Vec3(),
       handlingSetup.axleLocal = new CANNON.Vec3(-1, 0, 0);
       handlingSetup.directionLocal = new CANNON.Vec3(0, -1, 0);
-      handlingSetup.chassisConnectionPointLocal.set(wheel.position.x + 0.1, wheel.position.y + 0.2, wheel.position.z - 0.1);
+      handlingSetup.chassisConnectionPointLocal.set(wheel.position.x + connectionOffset[0], wheel.position.y + connectionOffset[1], wheel.position.z + connectionOffset[2]);
 			const index = this.rayCastVehicle.addWheel(handlingSetup);
 			wheel.rayCastWheelInfoIndex = index;
     })
 
-
-
-    // this.rayCastVehicle.setSteeringValue(0.3, 0)
-    // this.rayCastVehicle.setSteeringValue(0.3, 1)
-    // this.rayCastVehicle.applyEngineForce(-1500, 0)
 
 
     this.rayCastVehicle.addToWorld(physicsWorld);
