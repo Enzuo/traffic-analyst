@@ -68,8 +68,7 @@ export class GameWorld extends Scene3D {
 
 
     // Car
-    // const car = getCar('caterpillar_797')
-    const car = getCar('mazda_323')
+    const car = getCar('renault_zoe')
     const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
     this.carEntityControlled = carEntityControlled
 
