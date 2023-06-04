@@ -1,0 +1,100 @@
+name : Bicycle
+brand :
+trim :
+year :
+unitsProduced :
+price :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : human pro
+  # hp: 0.35 # 250watt , 200watt cat5, 400watt pro
+  hp: 0.58 # 430watt
+  torqueY: [133,68,41,25] # 250watt, 500w sprint 1min, 1000w sprint 5s  -- max force 3 time body weight
+  torqueX: [0,60,100] # pro cadence : 100 amateur : 80 leisure : 60
+  type : human # petrol, diesel, hybrid, electric
+  minRPM : 1
+
+# List additional engines
+engines :
+  - engine :
+      name : human amateur
+      hp: 0.35
+      torqueY: [133,41,25,15]
+      torqueX: [0,60,100,160]
+
+  - engine :
+      name : human sprinter
+      hp: 1.4
+      torqueY: [163,163,98,61]
+      torqueX: [0,60,100,160]
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [0.933, 0.800, 	0.700, 0.600, 0.525, 0.450, 0.375, 0.325, 0.300, 0.231,	0.250] # plateau 52/30, cassette 11/28
+gearReverse :
+gearTransfer :
+driveRatio : 1
+wheelDiameter : 68 # 63cm
+type : rwd
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 100
+length: 1600
+width: 500
+height: 2000
+dragCoef: 0.88 # bike 30% of the drag, 400watt needed at 45kmh
+dragArea: 0.39 # 0.5 upright 0.39 racing 0.25 superman
+
+wheelbase: 1100
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption :
+energyTank :
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
