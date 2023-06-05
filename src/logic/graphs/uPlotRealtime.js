@@ -76,7 +76,7 @@ export function createGraph(opts, observed, element){
     updateData : (t, data) => {
       chartData[0].push(t/1000)
       for(let i=0; i<data.length; i++){
-        let value = data[i]
+        let value = data[i] || 0
         if(chartData[i+1]){
           chartData[i+1].push(value)
         }

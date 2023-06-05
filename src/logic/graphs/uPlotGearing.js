@@ -3,7 +3,7 @@ import 'uplot/dist/uPlot.min.css'
 import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, getEngineRPMForSpeed } from '../carLogic/physics'
 
 
-export function createGraph(car, element){
+export function createGraph(car, element, graphOptions = {}){
 
   let graphData = [[]]
 
@@ -34,6 +34,8 @@ export function createGraph(car, element){
   const speedIncrement = 2
   const maxSpeed = 200
   let speed = 0
+  const minRPM = car.engine.torqueCurve[0][0]
+  const maxRPM = car.engine.torqueCurve[car.engine.torqueCurve.length-1][0]
   while(speed <= maxSpeed){
     graphData[0].push(speed)
     let speedms = speed / 3.6
@@ -60,10 +62,22 @@ export function createGraph(car, element){
       let torque = getTorqueForRPM(car.engine.torqueCurve, rpm)
       let force = getEngineForceFromTorque(torque, finalRatio, null, car.wheelDiameter)
 
-      graphData[i+1].push(force)
-
+      if(graphOptions.isGearForce){
+        graphData[i+1].push(force)
+      }
+      else {
+        if(rpm > minRPM && rpm < maxRPM){
+          graphData[i+1].push(rpm)
+        }
+        else {
+          graphData[i+1].push(null)
+        }
+      }
     }
-    graphData[graphData.length-1].push(getResistanceForceAtSpeed(speedms, car.weight, car.dragArea * car.dragCoef))
+
+    if(graphOptions.isGearForce){
+      graphData[graphData.length-1].push(getResistanceForceAtSpeed(speedms, car.weight, car.dragArea * car.dragCoef))
+    }
 
     speed += speedIncrement
   }
