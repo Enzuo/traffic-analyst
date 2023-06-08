@@ -1,0 +1,98 @@
+name : 3
+brand : Mazda
+trim : BK Hatchback
+year : 2004
+unitsProduced :
+price :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.6 L MZ-CD
+  hp: 109
+  torqueY: [150, 245, 191] # 245nm@1750 109hp@4000
+  torqueX: [1000, 1750, 4000]
+  type : diesel
+  layout : l4
+  displacement : 1560
+
+# List additional engines
+engines :
+  - engine :
+      name : 1.6 MZR
+      hp : 105
+      torqueY : [100, 148, 123] #148nm@4000 105hp@6000
+      torqueX : [1000, 4000, 6000]
+      type : petrol
+      displacement : 1598
+    avgConsumption : 7.2
+    acc0100: 11
+    vmax: 182
+    weight : 1185
+
+    gearRatio: [3.31, 1.84, 1.31, 0.97, 0.76]
+    gearReverse: 3.17
+    driveRatio: 4.11
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [3.666, 2.047, 1.344, 0.921, 0.704]
+gearReverse : 3.727
+gearTransfer :
+driveRatio : 3.411
+wheelDiameter : 63
+type : fwd
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1275
+length: 4485
+width: 1755
+height: 1465
+dragCoef: 0.337 #approx
+dragArea: 2.2 #approx
+
+wheelbase: 2640
+bodyType: hatchback
+clearance:
+trunk: 300
+trunkMax:
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100: 11.6
+vmax: 182
+avgConsumption : 4.8
+energyTank : 55
+autonomy :
+turningCircle :
+wheelType : 205/55/16
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : sedan
+    weight : 1275
+    length: 4540
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

@@ -6,7 +6,7 @@
 
   $ : if(chartElement) {
     chartElement.innerHTML = ''
-    createGraph(car, chartElement)
+    createGraph(car, chartElement, {isGearForce:true})
   }
 
 </script>

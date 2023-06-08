@@ -3,6 +3,13 @@ import 'uplot/dist/uPlot.min.css'
 import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, getEngineRPMForSpeed } from '../carLogic/physics'
 
 
+/**
+ *
+ * @param {*} car
+ * @param {*} element
+ * @param {{isGearForce?:boolean}} graphOptions
+ * @returns
+ */
 export function createGraph(car, element, graphOptions = {}){
 
   let graphData = [[]]
