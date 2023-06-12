@@ -71,13 +71,13 @@ vmax: 182
 avgConsumption : 4.8
 energyTank : 55
 autonomy :
-turningCircle :
+turningCircle : 10.3
 wheelType : 205/55/16
 
 # -------------
 # 3D
 # -------------
-model:
+model: mazda3_2004
 modelWheel:
 modelMisc:
 wheelScale:

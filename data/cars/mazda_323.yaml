@@ -65,7 +65,7 @@ vmax: 178
 avgConsumption : 5.1
 energyTank : 50
 autonomy :
-turningCircle : 10.4
+turningCircle : 10.6
 wheelType : 175/70R13 - 185/65R14
 
 # -------------
