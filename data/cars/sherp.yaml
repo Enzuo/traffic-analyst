@@ -36,13 +36,13 @@ type : AWD
 # DIMENSIONS
 # -------------
 weight : 1300
-length: 3400
+length: 3430
 width: 2520
 height: 2520
 dragCoef:
 dragArea:
 
-wheelbase: 1800 # approx
+wheelbase: 1800
 bodyType: box
 clearance: 600
 trunk:
@@ -71,8 +71,8 @@ liftDragRatio:
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: sherp
+modelWheel: wheelSherp
 modelMisc:
 wheelScale:
 modelLights :
