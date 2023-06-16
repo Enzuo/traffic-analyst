@@ -1,0 +1,90 @@
+name : Pro 1000
+brand : Sherp
+trim :
+year :
+unitsProduced :
+price : $65,000
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Kubota-V1505-t / E3B
+  hp: 44.3
+  torqueY: [98,118,98, 90]  # 118nm@2000 44.3hp@3000 max@3200
+  torqueX: [1000,2000,3000, 3200]
+  type : diesel
+  layout : 4
+  displacement : 1498
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [3.636, 1.95, 1.357, 0.941, 0.69]
+gearReverse : 3.53
+gearTransfer : [8] #approx
+driveRatio : 4.1
+wheelDiameter : 160
+type : AWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1300
+length: 3400
+width: 2520
+height: 2520
+dragCoef:
+dragArea:
+
+wheelbase: 1800 # approx
+bodyType: box
+clearance: 600
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 40
+avgConsumption : # 5-8l/h
+energyTank : 56
+autonomy :
+turningCircle : 2.5
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
