@@ -76,6 +76,7 @@ modelWheel: wheelSherp
 modelMisc:
 wheelScale:
 modelLights :
+skidSteer : true
 
 # -------------
 # TRIMS

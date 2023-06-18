@@ -68,7 +68,7 @@ export class GameWorld extends Scene3D {
 
 
     // Car
-    const car = getCar('renault_zoe')
+    const car = getCar('sherp')
     const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
     this.carEntityControlled = carEntityControlled
 
@@ -89,7 +89,7 @@ export class GameWorld extends Scene3D {
     // Physic temp ground
 		let mat = new CANNON.Material('boxMat');
 		mat.friction = 0.3
-		let shape = new CANNON.Box(new CANNON.Vec3(10, 0.01, 10))
+		let shape = new CANNON.Box(new CANNON.Vec3(500, 0.01, 10))
 		let physBox = new CANNON.Body({
 			mass: 0,
 			position: new CANNON.Vec3(0, 0, 0),

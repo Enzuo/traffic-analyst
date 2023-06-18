@@ -9,18 +9,25 @@ export class CarPhysics {
   // public bodyMesh
   public physicsBody: CANNON.Body
   public rayCastVehicle: CANNON.RaycastVehicle;
-  public wheels
+  public wheels : Wheel[]
 
   // controls
   public steeringValue = 0
   public forceValue = 0
   public brakeForceValue = 0
 
+  // spec
+  public skidSteer = false
+  public transmission : string
+
   //
   public speed
 
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[], carProps) {
     const {width, weight, wheelDiameter} = carProps
+    this.skidSteer = carProps.skidSteer
+    this.transmission = carProps.type
+    console.log(this.transmission)
     // this.bodyMesh = carBody
     this.wheels = carWheels
 
@@ -79,6 +86,7 @@ export class CarPhysics {
   }
 
   steerWheels (value){
+    if(this.skidSteer) return
     // console.log('steer', value)
     this.wheels.forEach((wheel) => {
       if(wheel.wheelType === WheelTypes.Front) {
@@ -88,16 +96,29 @@ export class CarPhysics {
   }
 
   forceToWheels(value){
+    // TODO move this to init
     let tractivesWheels = this.wheels.reduce((acc, wheel) => {
-      if(wheel.wheelType === WheelTypes.Front){
+
+      if(this.transmission === 'fwd' && wheel.wheelType === WheelTypes.Front){
         acc.push(wheel)
       }
+      if(this.transmission === 'rwd' && wheel.wheelType === WheelTypes.Rear){
+        acc.push(wheel)
+      }
+      if(this.transmission.match(/awd/i)){
+        acc.push(wheel)
+      }
+
       return acc
     }, [])
 
     const nbTractiveWheels = tractivesWheels.length
     tractivesWheels.forEach((wheel) => {
-      this.rayCastVehicle.applyEngineForce(-value/nbTractiveWheels, wheel.rayCastWheelInfoIndex)
+      let force = -value/nbTractiveWheels
+      if(this.skidSteer){
+        force = wheel.isRight ? force - this.steeringValue * 5000 : force + this.steeringValue * 5000
+      }
+      this.rayCastVehicle.applyEngineForce(force, wheel.rayCastWheelInfoIndex)
     })
   }
 

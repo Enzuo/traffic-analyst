@@ -130,12 +130,14 @@ export enum WheelTypes {
 
 export class Wheel extends THREE.Object3D{
   public object : THREE.Object3D
-  public side
+  public isRight : boolean
   public wheelIndex : number
   public wheelType : WheelTypes
 
   constructor(empty : THREE.Object3D, wheelModel : THREE.Object3D, wheelDiameter, wheelIndex?, isRightWheel?, useRotation=true) {
     super()
+
+    this.isRight = isRightWheel ? true :  false
 
     this.position.copy(empty.position)
     if(useRotation){
