@@ -27,7 +27,7 @@ engines :
 gearName :
 gearRatio : [3.636, 1.95, 1.357, 0.941, 0.69]
 gearReverse : 3.53
-gearTransfer : [8] #approx
+gearTransfer : [7.2] #approx
 driveRatio : 4.1
 wheelDiameter : 160
 type : AWD

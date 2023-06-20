@@ -26,7 +26,7 @@ export class CarPhysics {
   constructor(physicsWorld : CANNON.World, carBody : THREE.Mesh, carWheels : Wheel[], carProps) {
     const {width, weight, wheelDiameter} = carProps
     this.skidSteer = carProps.skidSteer
-    this.transmission = carProps.type
+    this.transmission = carProps.type || 'fwd'
     console.log(this.transmission)
     // this.bodyMesh = carBody
     this.wheels = carWheels
