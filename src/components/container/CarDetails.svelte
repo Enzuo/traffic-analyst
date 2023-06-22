@@ -93,6 +93,7 @@
     <li>{car.gearTransfer ? car.gearTransfer[0] : 1} Transfer Ratio</li>
   </ul>
   <UPlotGearing car={car}></UPlotGearing>
+  <UPlotGearing car={car} showForce={false}></UPlotGearing>
 </section>
 
 <style>
