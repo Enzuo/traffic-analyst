@@ -5,7 +5,7 @@ import {Simulation} from '@/logic/simulation2'
 
 /**
  *
- * @param {[{id, tid, eid}]} carIds
+ * @param {{id, tid, eid}[]} carIds
  * @returns
  */
 export function carCompare(carIds){
