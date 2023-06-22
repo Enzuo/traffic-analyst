@@ -103,7 +103,9 @@ export function createGraph(car, element, graphOptions = {}){
     //   show: false,
     // },
     series : [
-      {},
+      {
+        label: 'km/h'
+      },
       ...gearSeries,
       resistanceSerie
     ],

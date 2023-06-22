@@ -3,18 +3,18 @@ import {CarEntity, updateForces} from '@/logic/carLogic/CarEntity'
 import {Simulation} from '@/logic/simulation2'
 
 
+/**
+ *
+ * @param {[{id, tid, eid}]} carIds
+ * @returns
+ */
 export function carCompare(carIds){
   const carEntities = []
   for(var i=0; i<carIds.length; i++){
     let carSpecs
     try {
 
-      if(carIds[i] instanceof Array){
-        carSpecs = cardata.getCar(carIds[i][0], carIds[i][1])
-      }
-      else {
-        carSpecs = cardata.getCar(carIds[i])
-      }
+      carSpecs = cardata.getCar(carIds[i].id, carIds[i].tid, carIds[i].eid)
 
       let carEntity = new CarEntity(carSpecs)
       carEntity.state.throttleInput = 1

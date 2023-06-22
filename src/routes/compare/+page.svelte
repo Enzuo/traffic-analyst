@@ -10,9 +10,7 @@
   import _get from 'lodash.get'
 
   export let data
-  // let carIds = ['toyota_hilux', ['toyota_hilux', '102hp']]
   export let carIds = data.carIds
-  // let carIds = ['landrover_defender', ['landrover_defender', 'defender110']]
   const colors = ["blue","red","orange","green","purple"]
 
   // function updateParams(data){

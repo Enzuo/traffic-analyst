@@ -43,9 +43,13 @@
 
   function handleCompare(e){
     const {cars} = e.detail
-    let searchParams = cars.map(c => {
-      return ['id', c.id]
-    })
+    let searchParams = cars.reduce((params, c) => {
+      params.push(['id', c.id])
+      params.push(['tid', c.trimId])
+      params.push(['eid', c.engineId])
+      return params
+    }, [])
+    console.log(searchParams)
     let params = new URLSearchParams(searchParams)
 
     goto('compare?'+params)
