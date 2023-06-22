@@ -41,8 +41,8 @@ export function createGraph(car, element, graphOptions = {}){
   const speedIncrement = 2
   const maxSpeed = 200
   let speed = 0
-  const minRPM = car.engine.torqueCurve[0][0]
-  const maxRPM = car.engine.torqueCurve[car.engine.torqueCurve.length-1][0]
+  const minRPM = car.engine.torqueCurve.length ? car.engine.torqueCurve[0][0] : 0
+  const maxRPM = car.engine.torqueCurve.length ? car.engine.torqueCurve[car.engine.torqueCurve.length-1][0] : 0
   while(speed <= maxSpeed){
     graphData[0].push(speed)
     let speedms = speed / 3.6
