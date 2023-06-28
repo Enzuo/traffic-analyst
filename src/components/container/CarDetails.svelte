@@ -62,8 +62,10 @@
   <SceneGraphCar car={car}></SceneGraphCar>
 </div>
 <section>
-  <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
-  <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
+  <div class="grid">
+    <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
+    <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
+  </div>
 </section>
 
 

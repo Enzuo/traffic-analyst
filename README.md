@@ -8,7 +8,7 @@ Traffic analyst is a simulation of a line of car traffic. It represent how traff
 npm install
 ```
 
-## Launch 
+## Launch
 
 ```
 npm run dev
@@ -22,7 +22,7 @@ npm run dev
 
 Built using svelte, typescript, jsdoc
 
-Tags : 
+Tags :
 Rule 184, stop waves
 
 Useful websites :
@@ -30,6 +30,7 @@ zeperfs.com
 www.auto-data.net
 tirecalculator.com
 taille-pneu.com
+www.auto-abc.eu/
 
 
 ## Contrib
