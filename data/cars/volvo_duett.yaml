@@ -1,5 +1,5 @@
 name : duett
-brand : volvo
+brand : Volvo
 trim : pv445
 year : 1953
 unitsProduced : 97200 # 29 409 unités (PV445), 60 100 unités (P210)
@@ -20,24 +20,48 @@ engine :
 # List additional engines
 engines :
   - engine :
+      name : B4B 1.4
+      displacement : 1414
+      spec: 103nm@3000 40hp@3800
+      year : 1947 - 1955
+
+  - engine :
+      name : B4B 1.4 boosted
+      displacement : 1414
+      spec: 103nm@3000 44hp@3800
+      year : 1947 - 1955
+
+  - engine :
+      name : B14A
+      displacement : 1414
+      spec : 103nm@3000 70hp@5000
+      year : 1955 - 1957
+
+  - engine :
+      name : B16A
+      displacement : 1582
+      spec : 115nm@2500 66hp@4500
+      year : 1957 - 1961
+
+  - engine :
       name : B18A 1.8L
       hp : 75
       displacement : 1780
       torqueY: [137,117]
       torqueX: [2800,4500]
+      year : 1961 - 1969
       weight: 155
 
 
 # -------------
 # TRANSMISSION
 # -------------
-gearName : M40
-gearRatio : [3.13, 1.99, 1.36, 1]
+gearName : M30
+gearRatio : [3.13,	1.55,	1]
 gearReverse : 3.25
 gearTransfer :
 driveRatio : 4.55
-gearSpeed :
-wheelDiameter : # 63cm
+wheelDiameter : 63 # 63cm
 type : RWD
 
 # -------------
@@ -50,8 +74,8 @@ height: 1700
 dragCoef:
 dragArea:
 
-wheelbase:
-bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+wheelbase: 2600
+bodyType: hatchback
 clearance:
 trunk:
 trunkMax:
@@ -85,9 +109,18 @@ trims :
     vmax: 145
     avgConsumption : 8-13 #0.8 - 1.3
 
+    # TRANSMISSION 4 speed introduced
+    gearName : M40
+    gearRatio : [3.13, 1.99, 1.362, 1]
+    gearReverse : 3.25
+    driveRatio : 4.1
+
+
 
 # -------------
 # OPTIONS (available on all trims)
 # -------------
 options:
   - name :
+
+# https://www.volvotips.com/index.php/pv/specifications/

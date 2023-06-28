@@ -1,12 +1,12 @@
 name : 2 (III)
-brand : mazda
+brand : Mazda
 trim :
 year : 2014
 
 # -------------
 # ENGINE
 # -------------
-engine :  
+engine :
   name : skyactiv-g 1.5 (90)
   hp: 90
   # 148nm @4000 90ch @6000
@@ -46,17 +46,17 @@ acc0100: 9.7
 vmax: 183
 turningCircle : 9.4
 energyTank : 44
-autonomy : 
+autonomy :
 wheelType : 185/65/15
 
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim :
 
 # -------------
 # 3D
 # -------------
-model: 
+model:
 modelWheel:

@@ -1,12 +1,12 @@
 name : t2 kombi
-brand : volkswagen
+brand : Volkswagen
 trim :
 year : 1967
 
 # -------------
 # ENGINE
 # -------------
-engine :  
+engine :
   name : 1.6L B4 type1 h-code VW 1600 engine
   hp: 48
   torqueY: [70  , 85  , 102 , 104 , 102 , 97  , 84  , 75] # 104nm@2200 47hp@4000
@@ -18,13 +18,13 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : 
+gearName :
 gearRatio : [3.80,2.06,1.26,0.82]
 gearReverse : 3.61
 driveRatio : 5.375
 gearSpeed : 29.1
 wheelDiameter : 68
-type : RWD 
+type : RWD
 
 # -------------
 # DIMENSIONS
@@ -38,29 +38,29 @@ dragArea : 3.4
 
 wheelbase: 2400
 bodyType: bus
-trunk: 
+trunk:
 trunkMax:
 seats: 7
 
 # -------------
 # STATS
 # -------------
-acc0100: 
+acc0100:
 vmax: 105
 avgConsumption : 10.4
 energyTank : 60
-autonomy : 
-turningCircle : 
+autonomy :
+turningCircle :
 wheelType : 215/65R16
 
 # -------------
 # 3D
 # -------------
-model: 
+model:
 modelWheel:
 
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim :

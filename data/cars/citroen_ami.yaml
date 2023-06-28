@@ -1,13 +1,13 @@
-name : ami
-brand : citroen
+name : Ami
+brand : Citroen
 trim :
 year : 2020
 
 # -------------
 # ENGINE
 # -------------
-engine :  
-  name :  
+engine :
+  name :
   hp: 8hp # 6kw
   torqueY: [625, 312, 208, 156, 125, 89 , 62  , 41  , 31  , 25  , 21  , 18  , 16  , 13  , 7   , 0]
   torqueX: [0  , 200, 300, 400, 500, 700, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 5000, 8000, 10000]
@@ -43,8 +43,8 @@ seats: 2
 # STATS
 # -------------
 acc0100: # 0-45 in about 10s
-vmax: 45 
-avgConsumption : 
+vmax: 45
+avgConsumption :
 energyTank : 5.35
 autonomy : 70
 turningCircle : 7.2
@@ -59,6 +59,6 @@ modelWheel: wheelAmi
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim :
 

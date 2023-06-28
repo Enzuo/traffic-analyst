@@ -1,5 +1,5 @@
-name : model T
-brand : ford
+name : Model T
+brand : Ford
 trim :
 year :
 price : $850
@@ -7,8 +7,8 @@ price : $850
 # -------------
 # ENGINE
 # -------------
-engine :  
-  name :  
+engine :
+  name :
   hp:
   torqueY: []
   torqueX: []
@@ -23,56 +23,56 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : 
+gearName :
 gearRatio : []
 gearReverse :
-gearTransfer : 
-driveRatio : 
-gearSpeed : 
+gearTransfer :
+driveRatio :
+gearSpeed :
 wheelDiameter : # 63cm
 type : #AWD, RWD, FWD
 
 # -------------
 # DIMENSIONS
 # -------------
-weight : 
-length: 
-width: 
+weight :
+length:
+width:
 height:
-dragCoef : 
+dragCoef :
 dragArea :
 
 wheelbase:
-trunk: 
+trunk:
 trunkMax:
 seats:
 
 # -------------
 # STATS
 # -------------
-acc0100: 
-vmax: 
-avgConsumption : 
+acc0100:
+vmax:
+avgConsumption :
 energyTank :
-autonomy : 
-turningCircle : 
+autonomy :
+turningCircle :
 wheelType :
 
 # -------------
 # 3D
 # -------------
-model: 
+model:
 modelWheel:
 modelMisc:
 
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim :
 
 # -------------
 # OPTIONS (available on all trims)
 # -------------
-options: 
+options:
   - name :
