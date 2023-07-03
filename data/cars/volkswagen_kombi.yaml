@@ -56,8 +56,8 @@ wheelType : 215/65R16
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: vwKombi
+modelWheel: wheelKombi
 
 # -------------
 # TRIMS
