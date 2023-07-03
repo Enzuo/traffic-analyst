@@ -54,8 +54,7 @@ export function createGraph(cars, element, opts = {}){
   function getXFill(cars, step = 100){
     let minRPM = 0
     let allCarsRPM = cars.map( car => {
-      let xMultiplier = car.engine.torqueXMultiplier || 1
-      let maxX = car.engine.torqueX[car.engine.torqueX.length-1] * xMultiplier
+      let maxX = car.engine.torqueCurve[car.engine.torqueCurve.length-1][0]
       return maxX
     })
     let maxRPM = Math.max(...allCarsRPM)

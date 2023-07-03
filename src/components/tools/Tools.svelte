@@ -1,8 +1,10 @@
 <script>
-  import { getSpeedForRPM } from "@/logic/carLogic/carlib@/logic/carLogic/carlib'
+  import { getSpeedForRPM } from "@/logic/carLogic/carlib"
   let gearSpeed = ''
   let driveRatio = 4
   let wheelSize = 63
+  let rpm = 0
+  let gearRatios = 0
 
   function handleRatioChange(e){
     let ratios = e.target.value

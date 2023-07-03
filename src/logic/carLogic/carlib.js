@@ -266,6 +266,5 @@ export function parseEngineSpec(specString, idleRpm=1000) {
     torqueCurve.unshift([idleRpm, maxTorque * idleTorqueX ])
   }
 
-  console.log(torqueCurve)
   return torqueCurve
 }

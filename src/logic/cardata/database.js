@@ -14,7 +14,7 @@ const db = {
 
   engine : {
     get : (id) => data.engines.find((engine) => engine.id === id),
-    find : (engine) => findCompleteEngine(engine),
+    find : (engine) => findEngine(engine),
   }
 }
 export default db
@@ -92,7 +92,7 @@ function findCompleteEnginesInCar(car, _engineOrigin){
 }
 
 
-function findCompleteEngine(engine) {
+function findEngine(engine) {
   // engine is a string id , TODO deprecated data
   if(typeof engine === 'string'){
     let engineId = engine

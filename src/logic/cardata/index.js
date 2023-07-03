@@ -1,3 +1,4 @@
+import { parseEngineSpec } from '../carLogic/carlib.js'
 import db from './database.js'
 
 /**
@@ -69,20 +70,33 @@ export function searchCar(text) {
 
 
 function isEngineDetailed(engine){
-  return engine ? !!engine.torqueX : false
+  if(!engine){
+    return false
+  }
+  if(engine.spec){
+    return true
+  }
+  if(engine.torqueX){
+    return true
+  }
+  return false
 }
 
 
 function completeEngineData(car) {
-
   // compute engine torqueCurve
   if(!car.engine.torqueCurve){
-    let curve = []
-    for(let i=0; i < car.engine.torqueX.length; i++){
-      let xMultiplier = car.engine.torqueXMultiplier ? car.engine.torqueXMultiplier : 1
-      curve.push([car.engine.torqueX[i] * xMultiplier, car.engine.torqueY[i]])
+    if(car.engine.torqueX){
+      let curve = []
+      for(let i=0; i < car.engine.torqueX.length; i++){
+        let xMultiplier = car.engine.torqueXMultiplier ? car.engine.torqueXMultiplier : 1
+        curve.push([car.engine.torqueX[i] * xMultiplier, car.engine.torqueY[i]])
+      }
+      car.engine.torqueCurve = curve
     }
-    car.engine.torqueCurve = curve
+    else if(car.engine.spec){
+      car.engine.torqueCurve = parseEngineSpec(car.engine.spec)
+    }
   }
 
   return car
