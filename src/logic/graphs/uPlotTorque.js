@@ -1,6 +1,6 @@
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'
-import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, torqueToKW } from '../carLogic/physics'
+import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, torqueToKW } from '../carLogic/carlib'
 
 
 export function createGraph(cars, element, opts = {}){

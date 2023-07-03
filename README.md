@@ -14,6 +14,14 @@ npm install
 npm run dev
 ```
 
+## Test
+
+```
+npm run test
+npm test -- src/logic/carLogic/carlib.test.js # single test
+```
+
+
 ## Screenshot
 
 ![screenshot](screenshot.png)

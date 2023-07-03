@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { getWheelTurns } from '@/logic/carLogic/physics'
+import { getWheelTurns } from '@/logic/carLogic/carlib'
 import {loadCarModel, loadModel, loadWheelModel} from './loader'
 import {changeTextureColor} from './texture'
 import { loadDefaultCarModelProc } from './proceduralCar'

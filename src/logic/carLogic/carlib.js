@@ -1,20 +1,20 @@
 /**
- *               _____ _           _         
- *              |  _  | |_ _ _ ___|_|___ ___ 
+ *               _____ _           _
+ *              |  _  | |_ _ _ ___|_|___ ___
  *              |   __|   | | |_ -| |  _|_ -|
  *              |__|  |_|_|_  |___|_|___|___|
- *                        |___|       
- * 
+ *                        |___|
+ *
  * Standalone file describing the various physics calculations involved with cars
- * 
+ *
  */
 
 
 /**
- * 
+ *
  * @param {number} speed m/s
  * @param {number} speedForGear km/h at 1000rpm
- * @param {number} minRpm 
+ * @param {number} minRpm
  */
 export function getEngineRpmForSpeedFromGearSpeed(speed, speedForGear, minRpm=0){
   let rpm = speed / (speedForGear/3.6/1000)
@@ -22,7 +22,7 @@ export function getEngineRpmForSpeedFromGearSpeed(speed, speedForGear, minRpm=0)
 }
 
 /**
- * 
+ *
  * @param {number} speed {m/s}
  * @param {number} ratio between engine rpm and wheel rpm (gearRatio * transferRatio (H-L) * driveRatio)
  * @param {number} wheelDiameter {cm} wheel diameter
@@ -43,9 +43,9 @@ export function getSpeedForRPM(rpm, gearRatio, driveRatio, wheelDiameter = 63){
 }
 
 /**
- * 
- * @param {number} gearRatio 
- * @param {*} gearBoxType 
+ *
+ * @param {number} gearRatio
+ * @param {*} gearBoxType
  * @returns {number} efficiency ratio between 0 and 1
  */
 export function getTransmissionEfficiency(gearRatio, gearBoxType){
@@ -53,7 +53,7 @@ export function getTransmissionEfficiency(gearRatio, gearBoxType){
 }
 
 /**
- * 
+ *
  * @param {number} speed  m/s
  * @param {number} power kw
  * @param {number} dts s
@@ -67,7 +67,7 @@ export function getEngineForceFromPower(speed, power, dts){
 }
 
 /**
- * 
+ *
  * @param {number} speed m/s
  * @param {number} acceleration m/s²
  * @param {number} weight kg
@@ -76,8 +76,8 @@ export function getEngineForceFromPower(speed, power, dts){
 export function getRollingResistanceForce(speed, acceleration, weight){
   const gravity = 9.81
   const tirePressure = 2.5
-  let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))    
-  
+  let coefWheelDrag = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow((speed / 28), 2))
+
   // Depending on acceleration, tires will slip which can look like an increase in rolling resistance up to 200%
   // For example, for pneumatic tires, a 5% slip can translate into a 200% increase in rolling resistance.
   // When the tractive force is about 40% of the maximum traction, the slip resistance is almost equal to the basic rolling resistance
@@ -90,7 +90,7 @@ export function getRollingResistanceForce(speed, acceleration, weight){
 
 
 /**
- * 
+ *
  * @param {number} speed m/s
  * @param {number} wheelDiameter cm
  * @returns turns/s
@@ -102,9 +102,9 @@ export function getWheelTurns(speed, wheelDiameter = 63){
 
 
 /**
- * 
- * @param {number} speed m/s 
- * @param {number} weight kg 
+ *
+ * @param {number} speed m/s
+ * @param {number} weight kg
  * @param {number} scx Cx . surface
  * @returns N
  */
@@ -115,9 +115,9 @@ export function getResistanceForceAtSpeed(speed, weight, scx){
 }
 
 /**
- * 
- * @param {number} speed m/s 
- * @param {number} weight kg 
+ *
+ * @param {number} speed m/s
+ * @param {number} weight kg
  * @param {number} scx Cx . surface
  * @returns kw
  */
@@ -129,7 +129,7 @@ export function getPowerRequiredForSpeed(speed, weight, scx){
 }
 
 /**
- * 
+ *
  * @param {number} torque {nm} engine torque
  * @param {number} finalRatio ratio between engine rotation and wheels rotation
  * @param {number} efficiency typically between 0.86 - 0.94
@@ -156,9 +156,9 @@ function mockEfficiency(finalRatio){
 }
 
 /**
- * 
+ *
  * @param {number} torque Nm
- * @param {number} rpm 
+ * @param {number} rpm
  * @returns {number} kw
  */
 export function torqueToKW(torque, rpm){
@@ -167,19 +167,27 @@ export function torqueToKW(torque, rpm){
   return (torque * rpm) / 9549
 }
 
+export function KWToTorque(power, rpm){
+  return (power * 9549) / rpm
+}
+
+export function HpToKW(power){
+  return 0.73549875 * power
+}
+
 /**
  * https://www.engineeringtoolbox.com/drag-coefficient-d_627.html
- * Fd = 1/2 ρ v2 cd A                      
+ * Fd = 1/2 ρ v2 cd A
  * where
  * Fd = drag force (N)
  * ρ = density of fluid (1.2 kg/m3 for air at NTP)
  * v = flow velocity (m/s)
  * cd = drag coefficient
  * A = characteristic frontal area of the body  (m2)
- * 
+ *
  * @param {number} speed m/s
  * @param {number} SCx Cx . Surface
- * 
+ *
  * @return {number} Force (N)
  */
 export function getAirDragForce(speed, SCx){
@@ -194,7 +202,7 @@ export function getAirDragForce(speed, SCx){
  * [[rpm, torque],[rpm, torque],...]
  * (Interpolate curve)
  * @param {number[][]} torqueCurve
- * @param {number} rpm 
+ * @param {number} rpm
  * @returns {number} Nm
  */
 export function getTorqueForRPM (torqueCurve, rpm) {
@@ -220,4 +228,44 @@ export function getTorqueForRPM (torqueCurve, rpm) {
   var distPercent = (rpm - prevTorquePoint[0]) / distRPM
   var distTorque = nextTorquePoint[1] - prevTorquePoint[1]
   return prevTorquePoint[1] + distTorque * distPercent
+}
+
+
+/**
+ *
+ * @param {string} specString ex: 100nm@1500 60hp@4000
+ * @param {string|number} idleRpm 1000
+ * @returns {number[][]} torqueCurve
+ */
+export function parseEngineSpec(specString, idleRpm=1000) {
+  if(typeof idleRpm === 'string'){
+    idleRpm = parseInt(idleRpm)
+  }
+  let maxTorque = 0
+  const regex = /(\d+)(\w+)@(\d+)/ig
+  const values = [...specString.matchAll(regex)]
+  const torqueCurve = values.map(v => {
+    const val = parseFloat(v[1])
+    const unit = v[2]
+    const rpm = parseInt(v[3])
+    let torque = val
+
+    if(/hp/.test(unit)){
+      torque = KWToTorque(HpToKW(val), rpm)
+    }
+
+    if(/kw/.test(unit)){
+      torque = KWToTorque(val, rpm)
+    }
+
+    maxTorque = Math.max(maxTorque, torque)
+    return [rpm, torque]
+  })
+  if(torqueCurve.length && torqueCurve[0][0] > idleRpm){
+    const idleTorqueX = 0.7
+    torqueCurve.unshift([idleRpm, maxTorque * idleTorqueX ])
+  }
+
+  console.log(torqueCurve)
+  return torqueCurve
 }

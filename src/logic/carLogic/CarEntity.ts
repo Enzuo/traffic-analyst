@@ -7,7 +7,7 @@ import {
   getTorqueForRPM,
   torqueToKW,
   getEngineRPMForSpeed
-} from './physics'
+} from './carlib'
 
 let uniqueId = 0
 

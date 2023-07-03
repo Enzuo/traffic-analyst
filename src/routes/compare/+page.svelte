@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import UPlotRealtime from '@/components/container/UPlotRealtime.svelte'
-  import { getPowerRequiredForSpeed } from '@/logic/carLogic/physics'
+  import { getPowerRequiredForSpeed } from '@/logic/carLogic/carlib'
   import UPlotGearing from '@/components/container/UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from '@/components/container/UPlotTorque.svelte'
