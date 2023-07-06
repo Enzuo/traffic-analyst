@@ -24,10 +24,10 @@ engines :
 # TRANSMISSION
 # -------------
 gearName :
-gearRatio : []
+gearRatio : [1]
 gearReverse :
 gearTransfer :
-driveRatio :
+driveRatio : 5
 wheelDiameter : 90
 type : #AWD, RWD, FWD
 
@@ -60,18 +60,10 @@ turningCircle :
 wheelType :
 
 # -------------
-# PLANE STATS
-# -------------
-groundRoll:
-takeOffSpeed:
-wingArea:
-liftDragRatio:
-
-# -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: tgv001
+modelWheel: wheelTgv90
 modelMisc:
 wheelScale:
 modelLights :
