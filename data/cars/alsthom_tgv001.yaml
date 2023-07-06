@@ -1,0 +1,89 @@
+name : TGV 001
+brand : Alsthom
+trim : TDu 001
+year : 1972
+unitsProduced : 1
+price :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Turmo III G # x2 par motrice (gas turbine)
+  hp:
+  spec: 940kw@7785
+  type : kerosene
+  layout : # boxer2, l4, v6
+  displacement :
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : []
+gearReverse :
+gearTransfer :
+driveRatio :
+wheelDiameter : 90
+type : #AWD, RWD, FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 185000
+length: 19000
+width: 2814
+height: 3400
+dragCoef:
+dragArea: 3
+
+wheelbase: 14000
+bodyType: tgv
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 318
+avgConsumption : 667
+energyTank : 4000
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
