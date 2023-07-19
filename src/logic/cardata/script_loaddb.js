@@ -17,7 +17,7 @@ for(let i=0; i<DATA_FOLDERS.length; i++){
   let folderPath = path.join(__dirname, '../../../data', folder)
   let folderFiles = fs.readdirSync(folderPath)
   database[folder] = []
-  
+
   for(let j=0; j<folderFiles.length; j++){
     let fileContent = fs.readFileSync(path.join(folderPath, folderFiles[j]), 'utf-8')
 
@@ -32,7 +32,7 @@ for(let i=0; i<DATA_FOLDERS.length; i++){
       database[folder].push(fileParsed)
 
       nb++
-  
+
     } catch (e) {
       console.error("Parsing error on line " + e.line + ", column " + e.column + ": " + e.message)
 
@@ -42,5 +42,5 @@ for(let i=0; i<DATA_FOLDERS.length; i++){
   }
 }
 
-console.log(`database updated with ${nb} entities ${nb_errors} errors`) 
+console.log(`database updated with ${nb} entities ${nb_errors} errors`)
 fs.writeFileSync(path.join(__dirname,  'database.json'), JSON.stringify(database, null, 2))

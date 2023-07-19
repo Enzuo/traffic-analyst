@@ -1,0 +1,89 @@
+name : Polo III
+brand : Volkswagen
+trim :
+year : 1995 - 2001
+unitsProduced :
+price :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.9 sdi
+  hp: 64
+  spec: 124nm@2000 124nm@2600 64hp@4000
+  type : diesel
+  layout : l4
+  displacement : 1896
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName : FDN02T
+gearRatio : [3.454, 1.954, 1.281, 0.926, 0.740]
+gearReverse : 3.182
+gearTransfer :
+driveRatio : 3,368
+wheelDiameter : 56
+type : FWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1082
+length: 3740
+width: 1660
+height: 1420
+dragCoef: 0.32
+dragArea: 2.1 #approx
+
+wheelbase: 2400
+bodyType: hatchback
+clearance:
+trunk: 245
+trunkMax: 975
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100: 16.9
+vmax: 160
+avgConsumption : 5.5
+energyTank : 45
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
