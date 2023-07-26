@@ -27,7 +27,7 @@ gearName : FDN02T
 gearRatio : [3.454, 1.954, 1.281, 0.926, 0.740]
 gearReverse : 3.182
 gearTransfer :
-driveRatio : 3,368
+driveRatio : 3.368
 wheelDiameter : 56
 type : FWD
 

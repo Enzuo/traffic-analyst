@@ -34,7 +34,7 @@ export function carCompare(carIds){
       carEntity = updateForces(carEntity, dt)
 
       // switch gear
-      let maxRpm = carEntity.props.engine.torqueX[carEntity.props.engine.torqueX.length-1]
+      const maxRpm = carEntity.props.engine.torqueCurve.length ? carEntity.props.engine.torqueCurve[carEntity.props.engine.torqueCurve.length-1][0] : 0
       // maxRpm = 3500
       if(carEntity.state.engineRpm >= maxRpm){
         // carEntity.state.throttleInput = 0

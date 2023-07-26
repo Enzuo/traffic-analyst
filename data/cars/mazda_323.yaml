@@ -25,22 +25,20 @@ engines :
   - engine :
       name : 2.0 DiTD RF-T DI RF4F
       hp : 101
-      torqueY: [150 ,230 ,157] # 230nm@2000 101hp@4500
-      torqueX: [1000,2000,4500]
+      spec: 230nm@2000 101hp@4500
       features : SOHC, intercooler
   - engine :
-      name : 1.3 70
-      hp : 72
-      torqueY: [90, 108, 92, 82] #108nm@4000 72hp@5500
-      torqueX: [1000,4000, 5500, 6000]
+      name : 1.3 75
+      hp : 75
+      spec : 109nm@4000 75hp@5500
       displacement : 1324
       type: petrol
     weight: 1070
     vmax: 167
     acc0100: 14.2
     avgConsumption : 7.4
-    gearRatio : [3.416,1.842,1.290,0.972,0.775] # approx
-    driveRatio : 4.4 #approx
+    gearRatio : [3.416,1.842,1.290,0.972,0.78] #approx
+    driveRatio : 4.39
   - engine :
       name : 1.6
       hp : 106
