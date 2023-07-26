@@ -19,6 +19,44 @@ engine :
 # List additional engines
 engines :
   - engine :
+      name : 1.4 60
+      hp : 60
+      spec : 120nm@3000 60hp@4700
+      type : petrol
+      layout: l4
+      displacement : 1390
+    vmax: 162
+    acc0100: 14.2
+    driveRatio : 3.875
+    weight : 985
+  - engine :
+      name : 1.4 tdi 70
+      hp : 70
+      spec: 155nm@1600 75hp@4000
+      type : diesel
+      layout : l3
+      displacement : 1422
+    vmax: 171
+    acc0100: 14.2
+  - engine :
+      name : 1.4 tdi 75
+      hp : 75
+      spec: 191nm@2200 75hp@4000
+      type : diesel
+      layout : l3
+      displacement : 1422
+    vmax: 173
+    acc0100: 12.7
+  - engine :
+      name : 1.9 tdi 100
+      hp : 100
+      spec: 240nm@1800 100hp@4000
+      type : diesel
+      layout : l4
+      displacement : 1896
+    vmax: 190
+    acc0100: 10.6
+
 
 # -------------
 # TRANSMISSION
