@@ -1,23 +1,22 @@
-name :
-brand :
-trim :
-year :
-unitsProduced :
-price :
-keywords :
+name : Grand Marquis
+brand : Mercury
+trim : 3rd gen
+year : 1998–2002
+unitsProduced : 606206
+price : 26000$
+keywords : crown victoria,
+depiction : atlanta s1&s2
 
 # -------------
 # ENGINE
 # -------------
 engine :
-  name :
-  hp:
-  spec:
-  torqueY: []
-  torqueX: []
-  type : # petrol, diesel, hybrid, electric
-  layout : # boxer2, l4, v6
-  displacement :
+  name : 4.6L Modular V8
+  hp: 215
+  spec: 386nm@3000 215hp@4250
+  type : petrol
+  layout : v8
+  displacement : 4601
 
 # List additional engines
 engines :
@@ -26,37 +25,37 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : []
-gearReverse :
+gearName : Ford 4R70W
+gearRatio : [2.84, 1.55, 1.00, 0.7]
+gearReverse : 2.32
 gearTransfer :
-driveRatio :
-wheelDiameter : # 63cm
+driveRatio : 3.27
+wheelDiameter : 67.6 # 225/60R16
 type : #AWD, RWD, FWD
 
 # -------------
 # DIMENSIONS
 # -------------
-weight :
-length:
-width:
-height:
-dragCoef:
+weight : 1870 # 1795
+length: 5382
+width: 1986
+height: 1443
+dragCoef: 0.37
 dragArea:
 
-wheelbase:
-bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+wheelbase: 2913
+bodyType: sedan
 clearance:
-trunk:
+trunk: 585
 trunkMax:
 seats:
 
 # -------------
 # STATS
 # -------------
-acc0100:
-vmax:
-avgConsumption :
+acc0100: 9
+vmax: 201
+avgConsumption : 11.3
 energyTank :
 autonomy :
 turningCircle :
