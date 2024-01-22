@@ -30,8 +30,8 @@ gearRatio : [2.84, 1.55, 1.00, 0.7]
 gearReverse : 2.32
 gearTransfer :
 driveRatio : 3.27
-wheelDiameter : 67.6 # 225/60R16
-type : #AWD, RWD, FWD
+wheelDiameter : 67.6
+type : RWD
 
 # -------------
 # DIMENSIONS
@@ -56,10 +56,10 @@ seats:
 acc0100: 9
 vmax: 201
 avgConsumption : 11.3
-energyTank :
+energyTank : 72
 autonomy :
 turningCircle :
-wheelType :
+wheelType : 225/60R16
 
 # -------------
 # PLANE STATS
