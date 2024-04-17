@@ -46,7 +46,12 @@
 
   function updateSim(n) {
     if(!acdasim) return
-    acdasim.setOptions({speed, followingDistance : distance, reactionTime : rtime, brakeApplicationTime : btime})
+    acdasim.setOptions({
+      speed : speed/3.6,
+      followingDistance : distance,
+      reactionTime : rtime,
+      brakeApplyTime : btime
+    })
   }
 
   function mstokmh(ms){
