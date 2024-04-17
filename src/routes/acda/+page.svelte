@@ -1,4 +1,5 @@
 <script>
+  import UPlotRealtime from '@/components/container/UPlotRealtime.svelte';
   import { createTrafficGraph } from '@/logic/graphs/svgTrafficGraph';
   import followingDistanceSim from '@/logic/trafficsim/followingDistanceSim';
   import {onMount, onDestroy} from 'svelte'
@@ -47,6 +48,10 @@
     if(!acdasim) return
     acdasim.setOptions({speed, followingDistance : distance, reactionTime : rtime, brakeApplicationTime : btime})
   }
+
+  function mstokmh(ms){
+    return ms * 3.6
+  }
 </script>
 
 <div class="graph" bind:this={graphContainer}></div>
@@ -64,6 +69,27 @@
 
 </ul>
 
+<div class="grid">
+  <UPlotRealtime
+    title="Brake"
+    key="brakeInput"
+    time={time}
+    observed={cars}
+  ></UPlotRealtime>
+  <UPlotRealtime
+    title="Speed"
+    key="speed"
+    transformFn={mstokmh}
+    time={time}
+    observed={cars}
+  ></UPlotRealtime>
+  <UPlotRealtime
+    title="Position"
+    key="position"
+    time={time}
+    observed={cars}
+  ></UPlotRealtime>
+</div>
 
 <style>
 	.graph { width: 100%; height: 200px; }

@@ -7,7 +7,7 @@ export default function followingDistanceSim() {
     reactionTime: 1,
     speed: 27,
     followingDistance: 40,
-    brakeApplyTime: 0.1,
+    brakeApplyTime: 0.5,
   };
 
   const simulation = Simulation();
@@ -58,8 +58,16 @@ export default function followingDistanceSim() {
     // Animate cars
     cars.forEach((car, index) => {
       updateForces(car, dt)
-      let speed = car.state.speed
+      if(car.state.brakeInput <= 0 ) {
+        car.state.speed = options.speed
+      }
+      const speed = car.state.speed
       car.state.position += speed * (dt / 1000)
+
+      //auto stop simulation
+      if(followingCar.state.speed === 0 ){
+        simulation.stop()
+      }
     })
     // detect collision
     // TODO
