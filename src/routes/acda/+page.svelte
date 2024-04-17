@@ -9,6 +9,13 @@
   let tgraph
   let graphContainer
   let time
+  let isPlaying = false
+
+  // simulation parameters
+  let speed = 90
+  let distance = 40
+  let rtime = 1
+  let btime = 0.5
 
   onMount(() => {
     acdasim = followingDistanceSim()
@@ -33,14 +40,29 @@
 
   function handleSimStop() {
     simulation.isPlaying ? simulation.stop() : simulation.start()
+    isPlaying = simulation.isPlaying
+  }
+
+  function updateSim(n) {
+    if(!acdasim) return
+    acdasim.setOptions({speed, followingDistance : distance, reactionTime : rtime, brakeApplicationTime : btime})
   }
 </script>
 
 <div class="graph" bind:this={graphContainer}></div>
 
 {#if simulation}
-<button on:click={handleSimStop}>{simulation.isPlaying ? 'Stop' : 'Start' } Simulation</button>
+<button on:click={handleSimStop}>{isPlaying ? 'Stop' : 'Start' } Simulation</button>
 {/if}
+
+<ul>
+  <li>Speed in km/h: <input type="number" bind:value={speed} on:change={updateSim}/></li>
+  <li>Distance in m: <input type="number" bind:value={distance} on:change={updateSim}/></li>
+  <li>Distance in s : {distance/(speed/3.6)}</li>
+  <li>Reaction time in s: <input type="number" bind:value={rtime} on:change={updateSim}/></li>
+  <li>Brake application time in s: <input type="number" bind:value={btime} on:change={updateSim}/></li>
+
+</ul>
 
 
 <style>

@@ -23,6 +23,7 @@ export default function followingDistanceSim() {
   function setOptions(opts) {
     options = Object.assign(options, opts);
     updateCarsDefaultStatus()
+    // TODO simulation time not reset
   }
 
   function updateCarsDefaultStatus(){
