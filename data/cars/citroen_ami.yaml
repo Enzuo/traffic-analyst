@@ -22,7 +22,7 @@ gearRatio : [1]
 driveRatio : 12
 gearSpeed : 8.8
 wheelDiameter : 56
-type : FWD #AWD, RWD, FWD
+type : FWD
 
 # -------------
 # DIMENSIONS

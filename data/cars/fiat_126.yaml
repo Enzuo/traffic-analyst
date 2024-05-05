@@ -1,0 +1,91 @@
+name : 126
+brand : Fiat
+trim :
+year : 1972-2000
+unitsProduced : 4,673,655
+price : 69000zł
+keywords :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 126 A.000
+  hp: 24
+  spec: 24hp@4500 41nm@3000
+  type : petrol
+  layout : boxer2
+  displacement : 594
+
+# List additional engines
+engines :
+  - engine :
+
+# -------------
+# TRANSMISSION
+# -------------
+gearName :
+gearRatio : [3.250, 2.066, 1.300, 0.871]
+gearReverse : 4.024
+gearTransfer :
+driveRatio : 4.875
+wheelDiameter : 52
+type : RWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 620
+length: 3054
+width: 1377
+height: 1335
+dragCoef: 0.45
+dragArea: 1.8
+
+wheelbase: 1840
+bodyType: hatchback
+clearance: 140
+trunk: 110
+trunkMax:
+seats:
+doors: 3
+
+# -------------
+# STATS
+# -------------
+acc0100: 36
+vmax: 105
+avgConsumption : 6.7
+energyTank : 21
+autonomy :
+turningCircle : 8.6
+wheelType : 135R12
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
