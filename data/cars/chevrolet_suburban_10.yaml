@@ -1,0 +1,102 @@
+name : Chevy suburban
+brand : Chevrolet
+trim :
+year : 2007-2014
+unitsProduced : 400,000 # approx based on us sales
+price : $37,000–$61,400
+keywords : gtav granger
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Vortec 5.3L (LMG)
+  hp: 320
+  spec: 320hp@5200 454nm@4000 max@6000
+  type : petrol
+  layout : v8
+  displacement : 5328
+
+# List additional engines
+engines :
+  - engine :
+      name : Vortec 6.0L V-8 FlexFuel (L96)
+      hp: 352
+      spec: 352hp@5400 518@4200 max@6000
+      type: petrol
+      layout: v8
+      displacement: 5967
+
+# -------------
+# TRANSMISSION
+# -------------
+# gearName : Hydra-Matic 6L80
+# gearRatio : [4.03, 2.36, 1.53, 1.15, 0.85, 0.67]
+# gearReverse : 3.06
+# gearTransfer :
+# driveRatio : 3.08
+# type : AWD
+
+gearName: M30
+gearRatio: [3.06, 1.63, 1.00, 0.70]
+driveRatio: 3.73
+gearReverse: 2.29
+wheelDiameter : 77
+type : AWD
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 2686
+length: 5649
+width: 2009
+height: 1951
+dragCoef: 0.36
+dragArea: 4
+
+wheelbase: 3302
+bodyType: suv
+clearance: 227
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption : 13.84
+energyTank : 119.2
+autonomy :
+turningCircle : 13.1
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
