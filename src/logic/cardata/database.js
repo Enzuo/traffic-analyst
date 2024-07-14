@@ -1,19 +1,29 @@
-import * as data from './database.json'
+import * as dataFile from './database.json'
 import Fuse from 'fuse.js'
 
+let DATABASE = dataFile
+let ENGINES_DATABASE
 
+
+function listCars () {
+  return DATABASE.cars.filter((c) => {
+    return c.id !== '_default'
+  })
+}
 
 const db = {
+  init : (cardata) => {
+    DATABASE = cardata
+    ENGINES_DATABASE = buildEnginesDatabase(listCars())
+  },
   car : {
-    list : () => data.cars.filter((c) => {
-      return c.id !== '_default'
-    }),
-    get : (id) => data.cars.find((car) => car.id === id),
-    search : (text) => search(text, data)
+    list : listCars,
+    get : (id) => DATABASE.cars.find((car) => car.id === id),
+    search : (text) => search(text, DATABASE)
   },
 
   engine : {
-    get : (id) => data.engines.find((engine) => engine.id === id),
+    get : (id) => DATABASE.engines.find((engine) => engine.id === id),
     find : (engine) => findEngine(engine),
   }
 }
@@ -31,8 +41,7 @@ export default db
  *
  */
 
-let ENGINES_DATABASE = buildEnginesDatabase(db.car.list())
-console.log('ENGINES_DATABASE', ENGINES_DATABASE)
+// console.log('ENGINES_DATABASE', ENGINES_DATABASE)
 
 
 export function isEngineComplete(engine){

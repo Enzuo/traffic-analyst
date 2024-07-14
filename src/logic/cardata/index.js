@@ -20,8 +20,8 @@ export function listCars() {
  * @param {string} carId
  * @returns {Car}
  */
-export function getCar(carId, trimId=0, engineId=0) {
-  console.log('getting car', carId, trimId, engineId)
+export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
+  console.log('getting car', carId, trimId, configId, engineId, gearboxId)
   let car = db.car.get(carId)
   if (!car) throw Error('car not found')
 
@@ -30,6 +30,11 @@ export function getCar(carId, trimId=0, engineId=0) {
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
   car = Object.assign({}, car, trimsOptions[trimId])
+
+  // apply selected conf
+  const availableConfigs = car.configs ? car.configs : generateConfigs(car)
+  var config = availableConfigs[configId]
+  car = Object.assign({}, car, config)
 
   // regroup engines options with default engine & engines
   const enginesOptions = [].concat(
@@ -53,9 +58,29 @@ export function getCar(carId, trimId=0, engineId=0) {
   car = completeEngineData(car)
 
 
-  // return car with its available trims and engines options
-  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions}, {trimId, engineId})
+  // return car with its available trims and configs
+  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, configs : availableConfigs}, {trimId, configId})
 }
+
+
+/**
+ * Generate all possible configs for a car
+ * based on engines and gearboxes directly defined in the data
+ * @param {CarData} car
+ * @returns {config[]}
+ */
+function generateConfigs(car){
+  var configs = []
+  var availableEngines = [].concat(car.engine, ...car.engines || [])
+  var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || [])
+  for(var i=0; i < availableEngines.length; i++) {
+    for(var j=0; j < availableGearboxes.length; j++) {
+      configs.push({engine: availableEngines[i], gearbox : availableGearboxes[j]})
+    }
+  }
+  return configs
+}
+
 
 /**
  *

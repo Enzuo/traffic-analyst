@@ -12,7 +12,7 @@
 * @property {engine} engine
 *
 * TRANSMISSION
-* @property {gearbox|gearbox[]} gearbox
+* @property {gearbox} gearbox
 * @property {string} type // transmission type AWD, RWD, FWD
 * @property {number} wheelDiameter // wheel diameter in cm
 *
@@ -59,8 +59,8 @@
 *
 * @property {trims[]} trims
 * @property {options[]} options
-* @property {engine[]} engines list all additional available engines
-* @property {gearbox[]} gearboxes list all additional available gearboxes
+* @property {engine[]=} engines list all additional available engines
+* @property {gearbox[]=} gearboxes list all additional available gearboxes
 * @property {string} id
 */
 
