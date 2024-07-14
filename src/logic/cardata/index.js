@@ -32,7 +32,16 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   car = Object.assign({}, car, trimsOptions[trimId])
 
   // apply selected conf
-  const availableConfigs = car.configs ? car.configs : generateConfigs(car)
+  let availableConfigs = [].concat(car.configs ? car.configs : generateConfigs(car))
+  availableConfigs = availableConfigs.map((conf) => {
+    let config = Object.assign({}, conf)
+    let engine = config.engine
+    if(!isEngineDetailed(engine)){
+      let detailedEngine = db.engine.find(engine)
+      config.engine = detailedEngine
+    }
+    return config
+  })
   var config = availableConfigs[configId]
   car = Object.assign({}, car, config)
 
@@ -67,7 +76,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
  * Generate all possible configs for a car
  * based on engines and gearboxes directly defined in the data
  * @param {CarData} car
- * @returns {config[]}
+ * @returns {CarConfig[]}
  */
 function generateConfigs(car){
   var configs = []
@@ -93,7 +102,11 @@ export function searchCar(text) {
 
 
 
-
+/**
+ *
+ * @param {*} engine engine to check
+ * @returns {boolean}
+ */
 function isEngineDetailed(engine){
   if(!engine){
     return false
@@ -110,20 +123,22 @@ function isEngineDetailed(engine){
 
 function completeEngineData(car) {
   // compute engine torqueCurve
-  if(!car.engine.torqueCurve){
-    if(car.engine.torqueX){
+  var engine = Object.assign({}, car.engine)
+  if(!engine.torqueCurve){
+    if(engine.torqueX){
       let curve = []
-      for(let i=0; i < car.engine.torqueX.length; i++){
-        let xMultiplier = car.engine.torqueXMultiplier ? car.engine.torqueXMultiplier : 1
-        curve.push([car.engine.torqueX[i] * xMultiplier, car.engine.torqueY[i]])
+      for(let i=0; i < engine.torqueX.length; i++){
+        let xMultiplier = engine.torqueXMultiplier ? engine.torqueXMultiplier : 1
+        curve.push([engine.torqueX[i] * xMultiplier, engine.torqueY[i]])
       }
-      car.engine.torqueCurve = curve
+      engine.torqueCurve = curve
     }
-    else if(car.engine.spec){
-      car.engine.torqueCurve = parseEngineSpec(car.engine.spec)
+    else if(engine.spec){
+      engine.torqueCurve = parseEngineSpec(engine.spec)
     }
   }
 
+  car.engine = engine
   return car
 }
 

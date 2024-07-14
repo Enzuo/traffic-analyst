@@ -18,7 +18,7 @@
 *
 * CONFIGS
 * list of avaiablable configs
-* @property {config[]} configs
+* @property {CarConfig[]} configs
 *
 * DIMENSIONS
 * @property {number} weight // kg
@@ -57,7 +57,7 @@
 * @property {number} wheelScale
 * @property {Array} modelLights
 *
-* @property {trims[]} trims
+* @property {CarTrim[]} trims
 * @property {options[]} options
 * @property {engine[]=} engines list all additional available engines
 * @property {gearbox[]=} gearboxes list all additional available gearboxes
@@ -86,9 +86,9 @@
 */
 
 /**
-* @typedef {object} trims
+* @typedef {object} CarTrim
 * @property {?} trim
-* @property {config[]} configs
+* @property {CarConfig[]} configs
 * ... all other values possible to ovveride
 */
 
@@ -98,7 +98,7 @@
 */
 
 /**
- * @typedef {object} config
+ * @typedef {object} CarConfig
  * @property {string} engine engine name
  * @property {string} gearbox gearbox name
  * ... and all other values possible to ovveride, default values -> trims values -> config values
