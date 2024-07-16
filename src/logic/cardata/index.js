@@ -12,12 +12,19 @@ export function listCars() {
 /**
  * @typedef {object} Car
  * @property {string} trim
+ * @property {engine} engine
+ * @property {gearbox} gearbox
+ * @property {CarConfig[]} configs -- all available configs
  */
 
 
 /**
  *
  * @param {string} carId
+ * @param {number=} trimId
+ * @param {number=} configId
+ * @param {number=} engineId override engine
+ * @param {number=} gearboxId override gearbox
  * @returns {Car}
  */
 export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
@@ -80,9 +87,12 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
  */
 function generateConfigs(car){
   var configs = []
-  var availableEngines = [].concat(car.engine, ...car.engines || [])
-  var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || [])
+  var availableEngines = [].concat(car.engine, ...car.engines || []).filter(Boolean)
+  var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || []).filter(Boolean)
   for(var i=0; i < availableEngines.length; i++) {
+    if(availableGearboxes.length === 0){
+      configs.push({engine: availableEngines[i]})
+    }
     for(var j=0; j < availableGearboxes.length; j++) {
       configs.push({engine: availableEngines[i], gearbox : availableGearboxes[j]})
     }
