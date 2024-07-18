@@ -73,7 +73,6 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   // TODO move to complete engine database
   car = completeEngineData(car)
 
-
   // return car with its available trims and configs
   return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, configs : availableConfigs}, {trimId, configId})
 }

@@ -6,15 +6,15 @@
 
   let selectedCarId = null
   let selectedTrimId = null
-  let selectedEngineId = null
+  let selectedConfigId = null
 
   $ : updateParams(data)
 
   function updateParams(data){
-    console.log('update params')
+    console.log('update params', data)
     selectedCarId = data.searchParams.id
     selectedTrimId = data.searchParams.tid
-    selectedEngineId = data.searchParams.eid
+    selectedConfigId = data.searchParams.cid
   }
 
   function handleCarSelect(e){
@@ -22,8 +22,8 @@
     if(e.detail.trimId){
       paramsObj.tid = e.detail.trimId
     }
-    if(e.detail.engineId){
-      paramsObj.eid = e.detail.engineId
+    if(e.detail.configId){
+      paramsObj.cid = e.detail.configId
     }
     let params = new URLSearchParams(paramsObj)
 
@@ -34,7 +34,7 @@
     let params = new URLSearchParams({
       id : selectedCarId,
       tid : e.detail.trimId,
-      eid : e.detail.engineId,
+      cid : e.detail.configId,
     })
 
     // don't keep content change in history with replaceState:true
@@ -46,7 +46,7 @@
     let searchParams = cars.reduce((params, c) => {
       params.push(['id', c.id])
       params.push(['tid', c.trimId])
-      params.push(['eid', c.engineId])
+      params.push(['cid', c.configId])
       return params
     }, [])
     console.log(searchParams)
@@ -62,7 +62,7 @@
 <CarsPage
   selectedCarId={selectedCarId}
   selectedTrimId={selectedTrimId}
-  selectedEngineId={selectedEngineId}
+  selectedConfigId={selectedConfigId}
   on:carSelect={handleCarSelect}
   on:contentSelect={handleContentSelect}
   on:compare={handleCompare}

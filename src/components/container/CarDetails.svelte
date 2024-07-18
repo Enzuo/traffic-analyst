@@ -10,19 +10,20 @@
 
   export let carId
   export let trimId = 0
-  export let engineId = 0
+  export let configId = 0
 
   const dispatch = createEventDispatcher()
 
   let car
 
-  $: loadCar(carId, trimId, engineId)
+  $: loadCar(carId, trimId, configId)
 
 
-  function loadCar(carId, trimId, engineId){
+  function loadCar(carId, trimId, configId){
     console.log('trim', typeof trimId, trimId)
     if(carId){
-      car = getCar(carId, trimId, engineId)
+      car = getCar(carId, trimId, configId)
+      console.log('got car', car)
     }
     else {
       car = null
@@ -34,14 +35,14 @@
   function handleTrimSelect(id) {
     dispatch('select', {
       trimId : id,
-      engineId : 0,
+      configId : 0,
     })
   }
 
-  function handleEngineSelect(id) {
+  function handleConfigSelect(id) {
     dispatch('select', {
       trimId : trimId,
-      engineId : id,
+      configId : id,
     })
   }
 
@@ -64,7 +65,7 @@
 <section>
   <div class="grid">
     <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
-    <Selector elements={car.engines} selectedId={engineId} elementType="engine" on:select={(e) => handleEngineSelect(e.detail.id)}/>
+    <Selector elements={car.configs} selectedId={configId} elementType="engine" on:select={(e) => handleConfigSelect(e.detail.id)}/>
   </div>
 </section>
 

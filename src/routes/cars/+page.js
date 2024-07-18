@@ -4,7 +4,7 @@ export function load({ url }) {
       searchParams : {
         id : url.searchParams.get('id'),
         tid : parseFloat(url.searchParams.get('tid') || '0'),
-        eid : parseFloat(url.searchParams.get('eid') || '0'),
+        cid : parseFloat(url.searchParams.get('cid') || '0'),
       }
   };
 }
