@@ -39,7 +39,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   car = Object.assign({}, car, trimsOptions[trimId])
 
   // apply selected conf
-  let availableConfigs = [].concat(car.configs ? car.configs : generateConfigs(car))
+  let availableConfigs = generateConfigs(car)
   availableConfigs = availableConfigs.map((conf) => {
     let config = Object.assign({}, conf)
     let engine = config.engine
@@ -88,6 +88,16 @@ function generateConfigs(car){
   var configs = []
   var availableEngines = [].concat(car.engine, ...car.engines || []).filter(Boolean)
   var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || []).filter(Boolean)
+
+  if(car.configs){
+    // default config with default engine/default gearbox
+    if(car.engine){
+      console.log('got default engine defined')
+      configs.push({engine: car.engine, gearbox: availableGearboxes[0]})
+    }
+    return configs.concat(car.configs)
+  }
+
   for(var i=0; i < availableEngines.length; i++) {
     if(availableGearboxes.length === 0){
       configs.push({engine: availableEngines[i]})

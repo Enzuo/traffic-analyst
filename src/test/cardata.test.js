@@ -44,6 +44,41 @@ const test_data_cars = [{
   trims : [{
     trim : 'car trim 1',
   }],
+}, {
+  id : 'car default eng',
+  weight : 1000,
+  engine : {
+    name : 'engine 0', spec : '50hp@5500'
+  },
+  engines : [
+    { name : 'engine 1', spec : '65hp@6000'},
+    { name : 'engine 2', spec : '70hp@4000'},
+  ],
+  gearboxes : [
+    { name : 'gb 1', gearRatio : [4,2,1]},
+    { name : 'gb 2', gearRatio : [5,3,1]},
+  ],
+  trims : [{
+    trim : 'car trim 1',
+  }],
+}, {
+  id : 'car default eng conf',
+  weight : 1000,
+  engine : {
+    name : 'engine 0', spec : '50hp@5500'
+  },
+  engines : [
+    { name : 'engine 1', spec : '65hp@6000'},
+  ],
+  gearboxes : [
+    { name : 'gb 1', gearRatio : [4,2,1]},
+  ],
+  configs : [
+    { engine : 'engine 1', gearbox : 'gb 1', weight:1250}
+  ],
+  trims : [{
+    trim : 'car trim 1',
+  }],
 }]
 
 const test_data_engines = [{
@@ -103,7 +138,7 @@ describe.only('car data transformation', () => {
     assert.equal(car.configs.length, 2)
   })
 
-  test('auto generate configs from engines & gearboxes', () => {
+  test('car has no default, no configs -> auto generate configs from engines & gearboxes', () => {
     var car = getCar('car multi gb', 0, 0)
     console.log(car)
     assert.equal(car.engine.name, 'engine 1')
@@ -111,6 +146,26 @@ describe.only('car data transformation', () => {
     assert.equal(car.gearbox.name, 'gb 1')
     assert.deepEqual(car.gearbox.gearRatio, [4,2,1])
     assert.equal(car.configs.length, 4)
+  })
+
+  test('car has default engine', () => {
+    var car = getCar('car default eng', 0, 0)
+    console.log(car)
+    assert.equal(car.engine.name, 'engine 0')
+    assert.equal(car.engine.spec, '50hp@5500')
+    assert.equal(car.gearbox.name, 'gb 1')
+    assert.deepEqual(car.gearbox.gearRatio, [4,2,1])
+    assert.equal(car.configs.length, 6)
+  })
+
+  test('car has default engine and configs', () => {
+    var car = getCar('car default eng conf', 0, 1)
+    console.log(car)
+    assert.equal(car.engine.name, 'engine 1')
+    assert.equal(car.engine.spec, '65hp@6000')
+    assert.equal(car.gearbox.name, 'gb 1')
+    assert.deepEqual(car.gearbox.gearRatio, [4,2,1])
+    assert.equal(car.configs.length, 2)
   })
 })
 
