@@ -10,6 +10,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "build-db": "node ./src/logic/cardata/script_loaddb.js",
+    "check-data": "node ./src/logic/cardata/script_checkdata.js",
     "test": "vitest",
     "gh-pages": "npm run build-db && npm run build && npx gh-pages -d build -t true -m \"Publishing version $npm_package_version\""
   },
