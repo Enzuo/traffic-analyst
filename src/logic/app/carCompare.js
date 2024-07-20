@@ -5,7 +5,7 @@ import {Simulation} from '@/logic/simulation2'
 
 /**
  *
- * @param {{id, tid, eid}[]} carIds
+ * @param {{id, tid, cid}[]} carIds
  * @returns
  */
 export function carCompare(carIds){
@@ -14,7 +14,7 @@ export function carCompare(carIds){
     let carSpecs
     try {
 
-      carSpecs = cardata.getCar(carIds[i].id, carIds[i].tid, carIds[i].eid)
+      carSpecs = cardata.getCar(carIds[i].id, carIds[i].tid, carIds[i].cid)
 
       let carEntity = new CarEntity(carSpecs)
       carEntity.state.throttleInput = 1
