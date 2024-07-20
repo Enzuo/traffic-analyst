@@ -8,7 +8,7 @@
 
   export let selectedCarId = null
   export let selectedTrimId = null
-  export let selectedEngineId = null
+  export let selectedConfigId = null
 
   let cars = cardata.listCars()
   let carsBasket = []
@@ -19,7 +19,7 @@
     dispatch('carSelect', {
       id : e.detail.id,
       trimId : e.detail.trimId,
-      engineId : e.detail.engineId,
+      configId : e.detail.configId,
     })
   }
 
@@ -27,7 +27,7 @@
     dispatch('contentSelect', {
       id : selectedCarId,
       trimId : e.detail.trimId,
-      engineId : e.detail.engineId,
+      configId : e.detail.configId,
     })
   }
 
@@ -42,12 +42,12 @@
   }
 
   function handleCompare(){
-    let carsToCompare = [{id : selectedCarId, trimId: selectedTrimId, engineId: selectedEngineId}]
+    let carsToCompare = [{id : selectedCarId, trimId: selectedTrimId, configId: selectedConfigId}]
     if(carsBasket.length){
       carsToCompare =  carsBasket.map(c => ({
         id : c.id,
         trimId : c.trimId,
-        engineId : c.engineId,
+        configId : c.configId,
       }))
     }
     dispatch('compare', {
@@ -56,9 +56,9 @@
   }
 
   function handleAddToBasket () {
-    let car = cardata.getCar(selectedCarId, selectedTrimId, selectedEngineId)
+    let car = cardata.getCar(selectedCarId, selectedTrimId, selectedConfigId)
     if(carsBasket.findIndex((c) => {
-      return c.id === selectedCarId && c.trimId === selectedTrimId && c.engineId === selectedEngineId
+      return c.id === selectedCarId && c.trimId === selectedTrimId && c.configId === selectedConfigId
     }) < 0){
       carsBasket = carsBasket.concat(car)
     }
@@ -69,7 +69,7 @@
       dispatch('carSelect', {
         id : e.detail.id,
         trimId : e.detail.trimId,
-        engineId : e.detail.engineId,
+        configId : e.detail.configId,
       })
     }
   }
@@ -97,7 +97,7 @@
         <CarDetails
           carId={selectedCarId}
           trimId={selectedTrimId}
-          engineId={selectedEngineId}
+          configId={selectedConfigId}
           on:select={handleContentSelect}
         >
         </CarDetails>

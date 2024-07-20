@@ -12,16 +12,23 @@ export function listCars() {
 /**
  * @typedef {object} Car
  * @property {string} trim
+ * @property {engine} engine
+ * @property {gearbox} gearbox
+ * @property {CarConfig[]} configs -- all available configs
  */
 
 
 /**
  *
  * @param {string} carId
+ * @param {number=} trimId
+ * @param {number=} configId
+ * @param {number=} engineId override engine
+ * @param {number=} gearboxId override gearbox
  * @returns {Car}
  */
-export function getCar(carId, trimId=0, engineId=0) {
-  console.log('getting car', carId, trimId, engineId)
+export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
+  console.log('getting car', carId, trimId, configId, engineId, gearboxId)
   let car = db.car.get(carId)
   if (!car) throw Error('car not found')
 
@@ -30,6 +37,20 @@ export function getCar(carId, trimId=0, engineId=0) {
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
   car = Object.assign({}, car, trimsOptions[trimId])
+
+  // apply selected conf
+  let availableConfigs = generateConfigs(car)
+  availableConfigs = availableConfigs.map((conf) => {
+    let config = Object.assign({}, conf)
+    let engine = config.engine
+    if(!isEngineDetailed(engine)){
+      let detailedEngine = db.engine.find(engine)
+      config.engine = detailedEngine
+    }
+    return config
+  })
+  var config = availableConfigs[configId]
+  car = Object.assign({}, car, config)
 
   // regroup engines options with default engine & engines
   const enginesOptions = [].concat(
@@ -52,10 +73,42 @@ export function getCar(carId, trimId=0, engineId=0) {
   // TODO move to complete engine database
   car = completeEngineData(car)
 
-
-  // return car with its available trims and engines options
-  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, engines : enginesOptions}, {trimId, engineId})
+  // return car with its available trims and configs
+  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, configs : availableConfigs}, {trimId, configId})
 }
+
+
+/**
+ * Generate all possible configs for a car
+ * based on engines and gearboxes directly defined in the data
+ * @param {CarData} car
+ * @returns {CarConfig[]}
+ */
+function generateConfigs(car){
+  var configs = []
+  var availableEngines = [].concat(car.engine, ...car.engines || []).filter(Boolean)
+  var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || []).filter(Boolean)
+
+  if(car.configs){
+    // default config with default engine/default gearbox
+    if(car.engine){
+      console.log('got default engine defined')
+      configs.push({engine: car.engine, gearbox: availableGearboxes[0]})
+    }
+    return configs.concat(car.configs)
+  }
+
+  for(var i=0; i < availableEngines.length; i++) {
+    if(availableGearboxes.length === 0){
+      configs.push({engine: availableEngines[i]})
+    }
+    for(var j=0; j < availableGearboxes.length; j++) {
+      configs.push({engine: availableEngines[i], gearbox : availableGearboxes[j]})
+    }
+  }
+  return configs
+}
+
 
 /**
  *
@@ -68,7 +121,11 @@ export function searchCar(text) {
 
 
 
-
+/**
+ *
+ * @param {*} engine engine to check
+ * @returns {boolean}
+ */
 function isEngineDetailed(engine){
   if(!engine){
     return false
@@ -85,20 +142,22 @@ function isEngineDetailed(engine){
 
 function completeEngineData(car) {
   // compute engine torqueCurve
-  if(!car.engine.torqueCurve){
-    if(car.engine.torqueX){
+  var engine = Object.assign({}, car.engine)
+  if(!engine.torqueCurve){
+    if(engine.torqueX){
       let curve = []
-      for(let i=0; i < car.engine.torqueX.length; i++){
-        let xMultiplier = car.engine.torqueXMultiplier ? car.engine.torqueXMultiplier : 1
-        curve.push([car.engine.torqueX[i] * xMultiplier, car.engine.torqueY[i]])
+      for(let i=0; i < engine.torqueX.length; i++){
+        let xMultiplier = engine.torqueXMultiplier ? engine.torqueXMultiplier : 1
+        curve.push([engine.torqueX[i] * xMultiplier, engine.torqueY[i]])
       }
-      car.engine.torqueCurve = curve
+      engine.torqueCurve = curve
     }
-    else if(car.engine.spec){
-      car.engine.torqueCurve = parseEngineSpec(car.engine.spec)
+    else if(engine.spec){
+      engine.torqueCurve = parseEngineSpec(engine.spec)
     }
   }
 
+  car.engine = engine
   return car
 }
 
@@ -113,4 +172,8 @@ const defaultCar = {
   dragCoef: 0.3,
   dragArea: 2,
   brakePadsForce: 12000,
+  gearbox: {
+    gearRatio : [4,2,1],
+    driveRatio : 4,
+  }
 }

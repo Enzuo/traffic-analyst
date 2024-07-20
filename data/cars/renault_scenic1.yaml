@@ -17,23 +17,17 @@ engine :
   layout : l4
   displacement : 1598
 
-# List additional engines
-engines :
-  - engine :
-      name : K7M702/703/790 1.6
-    gearRatio : [3.909,2.143,1.360,0.972,0.731]
-    driveRatio : 3.889
-
 
 # -------------
 # TRANSMISSION
 # -------------
-gearName : JB1 918
-gearRatio : [3.727,2.048,1.321,0.967,0.795]
-gearReverse :
-gearTransfer :
-driveRatio : 4.214
-gearSpeed :
+gearboxes:
+  - name : JB1 918
+    gearRatio : [3.727,2.048,1.321,0.967,0.795]
+    reverseRatio :
+    driveRatio : 4.214
+  - gearRatio : [3.909,2.143,1.360,0.972,0.731]
+    driveRatio : 3.889
 wheelDiameter : 62
 type : FWD
 

@@ -22,10 +22,11 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : DP0
-gearRatio : [3.994, 2.536, 1.581, 1]
-driveRatio : 2.815
-gearSpeed : 40
+gearbox:
+  name : DP0
+  gearRatio : [3.994, 2.536, 1.581, 1]
+  driveRatio : 2.815
+  gearSpeed : 40
 wheelDiameter : 60
 type : FWD
 

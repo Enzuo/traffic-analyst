@@ -1,4 +1,6 @@
-import {search, flattenCarFiles} from '@/logic/cardata/database'
+import {search, flattenCarData} from '@/logic/cardata/database'
+import { describe, it, expect, test } from 'vitest';
+
 
 
 const example_data = [{
@@ -33,7 +35,7 @@ const example_data = [{
 
 
 test.only('creating standalone cars from data files' , () => {
-  let result = flattenCarFiles(example_data)
+  let result = flattenCarData(example_data)
   console.log(result)
   // search('clio', example_data)
 })

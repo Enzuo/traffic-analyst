@@ -55,11 +55,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [3.9, 2.174, 1.345, 0.974, 0.766, 0.646]
-gearReverse : 3.818
-driveRatio : 4.923
-gearSpeed : 37.6
+gearbox:
+  gearRatio : [3.9, 2.174, 1.345, 0.974, 0.766, 0.646]
+  reverseRatio : 3.818
+  driveRatio : 4.923
+  gearSpeed : 37.6
 wheelDiameter : 63
 type : FWD
 

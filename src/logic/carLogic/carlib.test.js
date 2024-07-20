@@ -1,4 +1,6 @@
 import { parseEngineSpec } from "./carlib"
+import { describe, it, expect, test } from 'vitest';
+
 
 test('can process empty engine spec', () => {
   const spec = ''

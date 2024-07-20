@@ -17,7 +17,7 @@ engine :
   displacement : 1896
 
 # List additional engines
-engines :
+configs :
   - engine :
       name : 1.4 60
       hp : 60
@@ -61,11 +61,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : FDN02T
-gearRatio : [3.454, 1.954, 1.281, 0.926, 0.740]
-gearReverse : 3.182
-gearTransfer :
-driveRatio : 3.368
+gearbox:
+  name : FDN02T
+  gearRatio : [3.454, 1.954, 1.281, 0.926, 0.740]
+  reverseRatio : 3.182
+  driveRatio : 3.368
 wheelDiameter : 56
 type : FWD
 

@@ -7,16 +7,17 @@ unitsProduced : 665,000 # peak 39000 in 1997
 # -------------
 # ENGINES
 # -------------
-engine :
-  name : NA2.5D 67hp
-  hp: 67
-  torqueY: [89.4, 140 , 154 , 148 , 128 , 118 , 78.6] # 154Nm @1800 67hp @4000
-  torqueX: [1000, 1500, 1800, 2500, 3500, 4000, 4500]
-  type : diesel
-  layout : l4 # boxer2, l4, v6
-  displacement : 2495
-
 engines :
+  - name : NA2.5D 67hp
+    hp: 67
+    torqueY: [89.4, 140 , 154 , 148 , 128 , 118 , 78.6] # 154Nm @1800 67hp @4000
+    torqueX: [1000, 1500, 1800, 2500, 3500, 4000, 4500]
+    type : diesel
+    layout : l4 # boxer2, l4, v6
+    displacement : 2495
+
+configs :
+  - engine : NA2.5D 67hp
   - engine :
       name : 2.3P 74hp
       hp: 74
@@ -67,13 +68,18 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : LT77
-gearRatio : [3.585, 2.300, 1.5074, 1.000, 0.8314]
-gearReverse : 3.7
-# LT230R
-gearTransfer : [1.667, 3.320]
-driveRatio : 3.538
-gearSpeed : 29.2
+gearboxes:
+  - name : LT77
+    gearRatio : [3.585, 2.300, 1.5074, 1.000, 0.8314]
+    reverseRatio : 3.7
+    # LT230R
+    transferRatio : [1.667, 3.320]
+    driveRatio : 3.538
+    gearSpeed : 29.2
+  - name : LT85
+    gearRatio : [3.650, 2.180, 1.436, 1.000, 0.7951]
+    transferRatio : [1.410, 3.320]
+    driveRatio : 4.7
 wheelDiameter : 76
 type : AWD #AWD, RWD, FWD
 
@@ -133,24 +139,20 @@ trims :
       torqueY: [89.4, 128  , 136 , 135 , 134 , 132  , 117 , 106, 78.6] # 136Nm @1800 60hp @4000
       torqueX: [1000, 1500 , 1800, 2000, 2500, 3000 , 3500, 4000, 4500]
     # 4 speed manual
-    gearRatio : [3.321,1.798,1.0,0.757]
-    driveRatio : 4.7
-    gearSpeed: 24.2
+    gearbox :
+      gearRatio : [3.321,1.798,1.0,0.757]
+      driveRatio : 4.7
+      gearSpeed: 24.2
 
-    engines :
-      - engine :
-          name : 2.3P 74hp
+    configs :
+      - engine : 2.3P 74hp
         weight : 1787
 
-      - engine :
-          name : 2.5P
+      - engine : 2.5P
         weight : 1787
 
-      - engine :
-          name : V8 3.5L
-        gearName : LT85
-        gearRatio : [3.650, 2.180, 1.436, 1.000, 0.7951]
-        gearTransfer : [1.410, 3.320] # 110
+      - engine : V8 3.5L
+        gearbox : LT85
         weight : 1762
 
 

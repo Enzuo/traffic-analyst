@@ -35,11 +35,9 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [0.933, 0.800, 	0.700, 0.600, 0.525, 0.450, 0.375, 0.325, 0.300, 0.231,	0.250] # plateau 52/30, cassette 11/28
-gearReverse :
-gearTransfer :
-driveRatio : 1
+gearbox:
+  gearRatio : [0.933, 0.800, 	0.700, 0.600, 0.525, 0.450, 0.375, 0.325, 0.300, 0.231,	0.250] # plateau 52/30, cassette 11/28
+  driveRatio : 1
 wheelDiameter : 68 # 63cm
 type : rwd
 

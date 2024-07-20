@@ -25,11 +25,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : Ford 4R70W
-gearRatio : [2.84, 1.55, 1.00, 0.7]
-gearReverse : 2.32
-gearTransfer :
-driveRatio : 3.27
+gearbox:
+  name : Ford 4R70W
+  gearRatio : [2.84, 1.55, 1.00, 0.7]
+  reverseRatio : 2.32
+  driveRatio : 3.27
 wheelDiameter : 67.6
 type : RWD
 

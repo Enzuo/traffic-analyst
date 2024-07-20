@@ -20,12 +20,11 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [1]
-gearReverse :
-gearTransfer :
-driveRatio : 10
-gearSpeed :
+gearbox :
+  name :
+  gearRatio : [1]
+  reverseRatio :
+  driveRatio : 10
 wheelDiameter : 91
 type : #AWD, RWD, FWD
 

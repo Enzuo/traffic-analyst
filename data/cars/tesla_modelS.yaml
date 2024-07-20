@@ -16,9 +16,10 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [1]
-driveRatio : 9.73
-gearSpeed : 13.56
+gearbox:
+  gearRatio : [1]
+  driveRatio : 9.73
+  gearSpeed : 13.56
 wheelDiameter : 70
 
 # -------------

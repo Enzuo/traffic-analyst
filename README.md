@@ -51,6 +51,11 @@ Origin point of the car body on the wheel level and centered
 Empty for each wheel named Wheel#R or Wheel#L
 Shade smooth
 Auto Smooth around 20°
+Modeling steps :
+- Start by making a box of the size of the car
+- Align the blueprints (Front of the car is -Y)
+- Model
+- Texture
 
 #### Pixel scale
 

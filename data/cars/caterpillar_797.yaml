@@ -24,12 +24,10 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [5.98, 4.45, 3.30, 2.44,1.82, 1.35, 1]
-gearReverse :
-gearTransfer :
-gearEfficiency : 0.949
-driveRatio : 21.09
+gearbox :
+  gearRatio : [5.98, 4.45, 3.30, 2.44,1.82, 1.35, 1]
+  gearEfficiency : 0.949
+  driveRatio : 21.09
 wheelDiameter : 402
 type : rwd
 

@@ -19,20 +19,25 @@ engine :
   layout : # boxer2, l4, v6
   displacement :
 
-# List additional engines
-engines :
-  - engine :
 
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : []
-gearReverse :
-gearTransfer :
-driveRatio :
+gearbox :
+  name :
+  gearRatio : []
+  reverseRatio :
+  transferRatio :
+  driveRatio :
 wheelDiameter : # 63cm
 type : #AWD, RWD, FWD
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+    gearbox :
 
 # -------------
 # DIMENSIONS
@@ -78,6 +83,18 @@ modelWheel:
 modelMisc:
 wheelScale:
 modelLights :
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
 
 # -------------
 # TRIMS

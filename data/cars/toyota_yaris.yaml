@@ -17,7 +17,7 @@ engine :
   displacement : 1497
 
 # List additional engines
-engines :
+configs :
   - engine :
       name : petrol
     driveRatio : 3.9
@@ -25,10 +25,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : e-cvt
-gearRatio : [2.636, 0.426] # 0.886] for 195 max speed (if electric engine was pushing all the way)
-gearReverse : 2.636
-driveRatio : 3.190
+gearbox:
+  name : e-cvt
+  gearRatio : [2.636, 0.426] # 0.886] for 195 max speed (if electric engine was pushing all the way)
+  reverseRatio : 2.636
+  driveRatio : 3.190
 wheelDiameter : 61
 type : FWD
 

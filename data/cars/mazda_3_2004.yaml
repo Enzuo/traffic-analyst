@@ -38,11 +38,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [3.666, 2.047, 1.344, 0.921, 0.704]
-gearReverse : 3.727
-gearTransfer :
-driveRatio : 3.411
+gearbox:
+  gearName :
+  gearRatio : [3.666, 2.047, 1.344, 0.921, 0.704]
+  gearReverse : 3.727
+  driveRatio : 3.411
 wheelDiameter : 63
 type : fwd
 

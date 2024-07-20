@@ -1,19 +1,30 @@
-import * as data from './database.json'
+import { deepFreeze } from '../lib/utils'
+import * as dataFile from './database.json'
 import Fuse from 'fuse.js'
 
+let DATABASE = dataFile
+let ENGINES_DATABASE
 
+
+function listCars () {
+  return DATABASE.cars.filter((c) => {
+    return c.id !== '_default'
+  })
+}
 
 const db = {
+  init : (cardata) => {
+    DATABASE = cardata
+    ENGINES_DATABASE = buildEnginesDatabase(listCars())
+  },
   car : {
-    list : () => data.cars.filter((c) => {
-      return c.id !== '_default'
-    }),
-    get : (id) => data.cars.find((car) => car.id === id),
-    search : (text) => search(text, data)
+    list : listCars,
+    get : (id) => deepFreeze(DATABASE.cars.find((car) => car.id === id)),
+    search : (text) => search(text, DATABASE)
   },
 
   engine : {
-    get : (id) => data.engines.find((engine) => engine.id === id),
+    get : (id) => DATABASE.engines.find((engine) => engine.id === id),
     find : (engine) => findEngine(engine),
   }
 }
@@ -31,15 +42,15 @@ export default db
  *
  */
 
-let ENGINES_DATABASE = buildEnginesDatabase(db.car.list())
-console.log('ENGINES_DATABASE', ENGINES_DATABASE)
+ENGINES_DATABASE = buildEnginesDatabase(listCars())
+// console.log('ENGINES_DATABASE', ENGINES_DATABASE)
 
 
 export function isEngineComplete(engine){
   if(!engine){
     return false
   }
-  if(!engine.torqueX){
+  if(!engine.torqueX && !engine.spec){
     return false
   }
   if(!engine.name){
@@ -81,7 +92,7 @@ function findCompleteEnginesInCar(car, _engineOrigin){
 
   if(car.engines){
     for(var i=0; i<car.engines.length; i++){
-      let engine = car.engines[i].engine
+      let engine = car.engines[i]
       if(isEngineComplete(engine)){
         engines.push(Object.assign({}, engine, {_engineOrigin}))
       }
@@ -91,23 +102,37 @@ function findCompleteEnginesInCar(car, _engineOrigin){
   return engines
 }
 
-
+/**
+ * Find the engine best matching the given engine name
+ * @param {engine|string} engine
+ * @returns {engine|null}
+ */
 function findEngine(engine) {
-  // engine is a string id , TODO deprecated data
-  if(typeof engine === 'string'){
-    let engineId = engine
-    return db.engine.get(engineId)
-  }
+  console.log('find Engine', engine)
+  let engineName
 
-  if(!engine || !engine.name){
+  if(!engine){
     return null
   }
 
+  if(typeof engine === 'string'){
+    engineName = engine
+  }
+
+  if(typeof engine === 'object'){
+    engineName = engine.name
+  }
+
+  if(!engineName){
+    return null
+  }
+
+
   let matchingEngines = ENGINES_DATABASE.filter(e => {
-    return e.name === engine.name
+    return e.name === engineName
   })
-  if(matchingEngines.length < 1 ){
-    return engine
+  if(matchingEngines.length === 0 ){
+    return null
   }
   if(matchingEngines.length > 1){
     // TODO pick the best match

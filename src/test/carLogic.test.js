@@ -1,5 +1,7 @@
 import { getCar } from '@/logic/cardata';
 import { CarEntity, updateForces } from '../logic/carLogic/CarEntity'
+import { describe, it, expect, test } from 'vitest';
+
 
 test('functional updateForces', () => {
   let zoe = new CarEntity(getCar('renault_zoe'))

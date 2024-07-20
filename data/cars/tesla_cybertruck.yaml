@@ -1,0 +1,97 @@
+name : Cybertruck
+brand : Tesla
+year : 2023
+unitsProduced :
+price : 73500
+keywords :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  gearRatio : [1]
+  reverseRatio : # 24km/h limit
+  transferRatio :
+  driveRatio : 15
+wheelDiameter : 85
+type : #AWD, RWD, FWD
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs:
+  - trim: propulsion
+    engine:
+      hp: 297
+      spec: 297hp@18000
+    acc0100: 6.7
+    vmax: 180
+    autonomy: 402
+    price: 56000
+
+  - trim: awd
+    engine:
+      hp: 600
+      spec: 600hp@18000
+    acc0100: 4.3
+    vmax: 180
+    autonomy: 515
+    price: 73500
+    weight: 3009
+
+  - trim: cyberbeast
+    engine:
+      name: L3C
+      hp: 835
+      spec: 835hp@18000
+    acc0100: 2.7
+    vmax: 209
+    autonomy: 515
+    price: 92000
+    weight: 3113
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 3009
+length: 5682.9
+width: 2031.8
+height: 1795.8 # lowest clearance 1740.8
+dragCoef: 0.34
+dragArea: 3.4
+
+wheelbase: 3635.0
+bodyType: pickup
+clearance: 256.3 # from 201.3 to 406.3
+trunk: 1591 # + 200 frunk
+trunkMax: 3421 # total volume trunk+frunk+rear, 2 passengers
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption :
+energyTank : 123kwh
+autonomy :
+turningCircle : 13.25
+wheelType: 285/65R20
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :

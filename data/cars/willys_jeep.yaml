@@ -21,11 +21,12 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : Warner T90
-gearRatio : [2.80, 1.55, 1]
-gearReverse : 3.80
-gearTransfer : [1, 2.43]
-driveRatio : 5.38
+gearbox:
+  name : Warner T90
+  gearRatio : [2.80, 1.55, 1]
+  reverseRatio : 3.80
+  transferRatio : [1, 2.43]
+  driveRatio : 5.38
 wheelDiameter : 71.3
 type : AWD
 
