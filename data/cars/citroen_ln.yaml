@@ -16,9 +16,10 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [4.55,2.5,1.81,1.15]
-driveRatio : 4.375
-gearSpeed : 20.7
+gearbox:
+  gearRatio : [4.55,2.5,1.81,1.15]
+  driveRatio : 4.375
+  gearSpeed : 20.7
 wheelDiameter : 55
 
 

@@ -23,12 +23,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : ZF TraXon 12tx
-gearRatio : [12.92, 9.98, 7.69, 5.94, 4.57, 3.53, 2.83, 2.19, 1.68, 1.30, 1, 0.77] # 16.69, 1
-gearReverse : [12.03, 9.29, 2.64, 2.04]
-gearTransfer :
-driveRatio : 2.21
-gearSpeed :
+gearbox:
+  name : ZF TraXon 12tx
+  gearRatio : [12.92, 9.98, 7.69, 5.94, 4.57, 3.53, 2.83, 2.19, 1.68, 1.30, 1, 0.77] # 16.69, 1
+  reverseRatio : [12.03, 9.29, 2.64, 2.04]
+  driveRatio : 2.21
 wheelDiameter : 92.6 # 63cm
 type : RWD
 

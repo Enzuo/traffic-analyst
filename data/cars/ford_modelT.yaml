@@ -23,12 +23,12 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : []
-gearReverse :
-gearTransfer :
-driveRatio :
-gearSpeed :
+gearbox :
+  name :
+  gearRatio : []
+  reverseRatio :
+  transferRatio :
+  driveRatio :
 wheelDiameter : # 63cm
 type : #AWD, RWD, FWD
 

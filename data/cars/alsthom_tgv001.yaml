@@ -23,11 +23,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [1]
-gearReverse :
-gearTransfer :
-driveRatio : 5
+gearbox :
+  name :
+  gearRatio : [1]
+  reverseRatio :
+  driveRatio : 5
 wheelDiameter : 90
 type : #AWD, RWD, FWD
 
@@ -38,7 +38,7 @@ weight : 185000
 length: 19000
 width: 2814
 height: 3400
-dragCoef:
+dragCoef: 0.22
 dragArea: 3
 
 wheelbase: 14000

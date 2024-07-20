@@ -6,11 +6,11 @@ year : 2007
 # -------------
 # ENGINE
 # -------------
-engine :  
+engine :
   name : 1.3 Multijet
   hp: 75
   torqueY: [109.2, 145 , 145 , 145 , 145, 145, 145, 132, 110] # 145nm @1500 75hp @4000
-  torqueX: [1000 , 1500, 1750, 2000, 2500 , 3000 , 3500 , 4000 , 4500] 
+  torqueX: [1000 , 1500, 1750, 2000, 2500 , 3000 , 3500 , 4000 , 4500]
   type : diesel
   layout : l4
   displacement : 1248
@@ -18,9 +18,10 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [3.909, 2.158, 1.345, 0.974, 0.766]
-driveRatio : 3.44
-gearSpeed : 41.8
+gearbox:
+  gearRatio : [3.909, 2.158, 1.345, 0.974, 0.766]
+  driveRatio : 3.44
+  gearSpeed : 41.8
 wheelDiameter : 58.4 # 175/65/14
 type : FWD
 
@@ -47,7 +48,7 @@ vmax: 165
 turningCircle : 9.28
 avgConsumption : 4.2
 energyTank : 35
-autonomy : 
+autonomy :
 wheelType :
 
 # -------------
@@ -59,7 +60,7 @@ modelWheel:
 # -------------
 # TRIMS
 # -------------
-trims : 
+trims :
   - trim : 500C
     year : 2009
     trunk: 150

@@ -17,18 +17,14 @@ engine :
   layout : 4
   displacement : 1498
 
-# List additional engines
-engines :
-  - engine :
-
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [3.636, 1.95, 1.357, 0.941, 0.69]
-gearReverse : 3.53
-gearTransfer : [7.2] #approx
-driveRatio : 4.1
+gearbox:
+  gearRatio : [3.636, 1.95, 1.357, 0.941, 0.69]
+  reverseRatio : 3.53
+  gearTransfer : [7.2] #approx
+  driveRatio : 4.1
 wheelDiameter : 160
 type : AWD
 

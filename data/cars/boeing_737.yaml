@@ -21,12 +21,8 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [1]
-gearReverse :
-gearTransfer :
-driveRatio :
-gearSpeed :
+gearbox:
+  gearRatio : [1]
 wheelDiameter : 102
 type : plane
 

@@ -29,10 +29,11 @@ configs :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [4.31,2.33,1.44,1.00,0.79]
-driveRatio : 3.583
-gearSpeed : 48.6
-gearTransfer : [1,2.28]
+gearbox:
+  gearRatio : [4.31,2.33,1.44,1.00,0.79]
+  driveRatio : 3.583
+  transferRatio : [1,2.28]
+  gearSpeed : 48.6
 wheelDiameter : 73 #63cm
 type : AWD #AWD, RWD, FWD
 

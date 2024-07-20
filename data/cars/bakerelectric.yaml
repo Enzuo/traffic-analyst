@@ -24,7 +24,6 @@ gearbox :
   name :
   gearRatio : [1]
   reverseRatio :
-  transferRatio :
   driveRatio : 10
 wheelDiameter : 91
 type : #AWD, RWD, FWD

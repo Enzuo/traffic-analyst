@@ -17,9 +17,10 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [3.73, 2.05, 1.32, 0.97, 0.75]
-driveRatio : 3.87
-gearSpeed : 40.4
+gearbox:
+  gearRatio : [3.73, 2.05, 1.32, 0.97, 0.75]
+  driveRatio : 3.87
+  gearSpeed : 40.4
 wheelDiameter : 63
 type : FWD
 

@@ -24,12 +24,9 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [1]
-gearReverse :
-gearTransfer :
-driveRatio : 1
-gearSpeed :
+gearbox :
+  gearRatio : [1]
+  driveRatio : 1
 wheelDiameter : 42 # 63cm
 type : plane
 

@@ -19,9 +19,10 @@ engine:
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio: [1]
-driveRatio: 9.3
-gearSpeed: 12.6
+gearbox:
+  gearRatio: [1]
+  driveRatio: 9.3
+  gearSpeed: 12.6
 
 # -------------
 # DIMENSIONS

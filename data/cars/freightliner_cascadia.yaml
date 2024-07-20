@@ -23,12 +23,13 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : Allison 4000 auto
-gearRatio : [3.51, 1.91, 1.43, 1.00, 0.74, 0.64]
-gearReverse :
-gearTransfer :
-driveRatio : 2.85
-gearSpeed :
+gearbox:
+  name : Allison 4000 auto
+  gearRatio : [3.51, 1.91, 1.43, 1.00, 0.74, 0.64]
+  reverseRatio :
+  transferRatio :
+  driveRatio : 2.85
+  gearSpeed :
 wheelDiameter : 101
 type : #AWD, RWD, FWD
 

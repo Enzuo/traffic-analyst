@@ -17,9 +17,10 @@ engine :
 # -------------
 # TRANSMISSION
 # -------------
-gearRatio : [1]
-driveRatio : 9
-gearSpeed : 14
+gearbox:
+  gearRatio : [1]
+  driveRatio : 9
+  gearSpeed : 14
 wheelDiameter : 67
 
 # -------------

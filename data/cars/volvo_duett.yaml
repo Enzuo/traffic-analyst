@@ -56,11 +56,11 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName : M30
-gearRatio : [3.13,	1.55,	1]
-gearReverse : 3.25
-gearTransfer :
-driveRatio : 4.55
+gearbox:
+  name : M30
+  gearRatio : [3.13,	1.55,	1]
+  reverseRatio : 3.25
+  driveRatio : 4.55
 wheelDiameter : 63 # 63cm
 type : RWD
 
@@ -110,10 +110,11 @@ trims :
     avgConsumption : 8-13 #0.8 - 1.3
 
     # TRANSMISSION 4 speed introduced
-    gearName : M40
-    gearRatio : [3.13, 1.99, 1.362, 1]
-    gearReverse : 3.25
-    driveRatio : 4.1
+    gearbox:
+      name : M40
+      gearRatio : [3.13, 1.99, 1.362, 1]
+      reverseRatio : 3.25
+      driveRatio : 4.1
 
 
 

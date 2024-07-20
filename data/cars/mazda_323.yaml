@@ -21,7 +21,7 @@ engine :
   lifespan : 300,000
 
 # List additional engines
-engines :
+configs :
   - engine :
       name : 2.0 DiTD RF-T DI RF4F
       hp : 101
@@ -57,11 +57,10 @@ engines :
 # -------------
 # TRANSMISSION
 # -------------
-gearName :
-gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
-gearReverse :
-gearTransfer :
-driveRatio : 3.3 # approx
+gearbox:
+  gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
+  reverseRatio :
+  driveRatio : 3.3 # approx
 wheelDiameter : 57 # 63cm
 type : fwd
 
