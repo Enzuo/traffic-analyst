@@ -17,7 +17,7 @@ export function createGraph(car, element, graphOptions = {}){
 
   let gearSeries = []
   const colors = ["blue", "red", "orange", "green", "purple", "grey", "grey", "grey", "grey", "grey", "grey", "grey"]
-  for(let i = 0; i < car.gearRatio.length; i++){
+  for(let i = 0; i < car.gearbox.gearRatio.length; i++){
     gearSeries.push({
       label: (i+1),
       scale: "n",
@@ -63,8 +63,9 @@ export function createGraph(car, element, graphOptions = {}){
       continue
     }
 
-    for(let i = 0; i < car.gearRatio.length; i++){
-      let finalRatio = car.gearRatio[i] * car.driveRatio * (car.gearTransfer ? car.gearTransfer[0] : 1)
+    let gearbox = car.gearbox
+    for(let i = 0; i < gearbox.gearRatio.length; i++){
+      let finalRatio = gearbox.gearRatio[i] * gearbox.driveRatio * (gearbox.gearTransfer ? gearbox.gearTransfer[0] : 1)
       let rpm = getEngineRPMForSpeed(speedms, finalRatio, car.wheelDiameter)
       let torque = getTorqueForRPM(car.engine.torqueCurve, rpm)
       let force = getEngineForceFromTorque(torque, finalRatio, null, car.wheelDiameter)

@@ -91,9 +91,9 @@
 <section>
   <h3>Transmission</h3>
   <ul>
-    <li>{car.gearRatio}</li>
-    <li>{car.driveRatio} Drive Ratio</li>
-    <li>{car.gearTransfer ? car.gearTransfer[0] : 1} Transfer Ratio</li>
+    <li>{car.gearbox.gearRatio}</li>
+    <li>{car.gearbox.driveRatio} Drive Ratio</li>
+    <li>{car.gearbox.gearTransfer ? car.gearbox.gearTransfer[0] : 1} Transfer Ratio</li>
   </ul>
   <UPlotGearing car={car}></UPlotGearing>
   <UPlotGearing car={car} showForce={false}></UPlotGearing>

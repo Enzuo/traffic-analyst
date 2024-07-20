@@ -172,4 +172,8 @@ const defaultCar = {
   dragCoef: 0.3,
   dragArea: 2,
   brakePadsForce: 12000,
+  gearbox: {
+    gearRatio : [4,2,1],
+    driveRatio : 4,
+  }
 }

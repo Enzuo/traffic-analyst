@@ -38,7 +38,7 @@ export function carCompare(carIds){
       // maxRpm = 3500
       if(carEntity.state.engineRpm >= maxRpm){
         // carEntity.state.throttleInput = 0
-        let maxGear = carEntity.props.gearRatio.length - 1
+        let maxGear = carEntity.props.gearbox.gearRatio.length - 1
         if(carEntity.state.gearInput < maxGear){
           carEntity.state.gearInput += 1
         }

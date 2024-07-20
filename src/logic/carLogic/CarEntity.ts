@@ -72,7 +72,7 @@ export class CarEntity{
   }
 
   getTransmissionFinalRatio(){
-    const {gearRatio, driveRatio, gearTransfer} = this.props
+    const {gearRatio, driveRatio, gearTransfer} = this.props.gearbox
     const inputs = this.inputs
 
     let finalRatio = driveRatio * gearRatio[inputs.gear] * (gearTransfer ? gearTransfer[inputs.gearT] : 1)
@@ -104,8 +104,9 @@ export function updateForces(car, dt){
   let dts = dt/1000
   // const coefWheelDrag = 0.0025
   const gravity = 9.81
-  const {engine, gearRatio, driveRatio, gearSpeed, gearTransfer, weight, dragCoef, dragArea, brakePadsForce, wheelDiameter} = car.props
+  const {engine, gearbox, gearSpeed, weight, dragCoef, dragArea, brakePadsForce, wheelDiameter} = car.props
   const {speed, engineRpm, throttleInput, brakeInput, gearInput} = car.state
+  const {gearRatio, driveRatio, gearTransfer} = gearbox
 
   // wheel drag force
   let slope = 0
@@ -127,7 +128,7 @@ export function updateForces(car, dt){
   let finalRatio = driveRatio * gearRatio[gearInput] * (gearTransfer ? gearTransfer[0] : 1)
   let thrustForce = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
 
-  let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
+  // let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
   let minRPM = engine.minRPM || 1000
   let rpmForSpeed = Math.max(getEngineRPMForSpeed(speed, finalRatio, wheelDiameter), minRPM)
 
