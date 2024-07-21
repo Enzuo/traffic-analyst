@@ -19,13 +19,12 @@ engine :
 
 # List additional engines
 engines :
-  - engine :
-      name : Vortec 6.0L V-8 FlexFuel (L96)
-      hp: 352
-      spec: 352hp@5400 518@4200 max@6000
-      type: petrol
-      layout: v8
-      displacement: 5967
+  - name : Vortec 6.0L V-8 FlexFuel (L96)
+    hp: 352
+    spec: 352hp@5400 518@4200 max@6000
+    type: petrol
+    layout: v8
+    displacement: 5967
 
 # -------------
 # TRANSMISSION

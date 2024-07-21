@@ -65,7 +65,7 @@
 <section>
   <div class="grid">
     <Selector elements={car.trims} selectedId={trimId} elementType="trim" on:select={(e) => handleTrimSelect(e.detail.id)}/>
-    <Selector elements={car.configs} selectedId={configId} elementType="engine" on:select={(e) => handleConfigSelect(e.detail.id)}/>
+    <Selector elements={car.configs} selectedId={configId} elementType="config" on:select={(e) => handleConfigSelect(e.detail.id)}/>
   </div>
 </section>
 

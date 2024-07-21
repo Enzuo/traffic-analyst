@@ -17,7 +17,7 @@ engine :
   displacement : 1368
 
 # List additional engines
-engines :
+configs :
   - engine :
       name : 1.4 T-Jet
       hp : 120

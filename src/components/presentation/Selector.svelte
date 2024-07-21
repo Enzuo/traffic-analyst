@@ -32,6 +32,14 @@
           {element.engine.hp}hp {#if element.gearName}{element.gearName}{/if}
         </div>
       </div>
+    {:else if elementType === 'config'}
+      <Icon name=cog size={1.5}></Icon>
+      <div class="label">
+        {element.engine?.name}
+        <div class="sublabel">
+          {element.engine?.hp}hp {#if element.gearName}{element.gearName}{/if}
+        </div>
+      </div>
     {:else if elementType === 'trim'}
       <Icon name=truck size={1.5}></Icon>
       <div class="label">
