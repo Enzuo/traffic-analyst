@@ -32,11 +32,15 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   let car = db.car.get(carId)
   if (!car) throw Error('car not found')
 
+  const availableGearboxes = extractGearboxesFrom(car)
+
+
   // regroup base trim with additionals trims
   const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims || [])
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
   car = Object.assign({}, car, trimsOptions[trimId])
+
 
   // apply selected conf
   let availableConfigs = generateConfigs(car)
@@ -69,6 +73,12 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
     engineId = 0
   }
   car = Object.assign({}, car, enginesOptions[engineId])
+
+  // complete gearbox
+  if(typeof car.gearbox === 'string'){
+    let gb = availableGearboxes.find(g => g.name === car.gearbox)
+    car.gearbox = gb ? gb : defaultCar.gearbox
+  }
 
   // TODO move to complete engine database
   car = completeEngineData(car)
@@ -109,6 +119,57 @@ function generateConfigs(car){
   return configs
 }
 
+
+/**
+ * Find all defined gearboxes in cardata which could be reused someswhere else
+ * @param {*} cardata
+ * @returns {gearbox[]}
+ */
+function extractGearboxesFrom(cardata) {
+  let gearboxes = []
+
+  if(cardata.gearbox && isGearBox(cardata.gearbox)){
+    gearboxes.push(cardata.gearbox)
+  }
+
+  if(cardata.gearboxes){
+    cardata.gearboxes.forEach(gb => {
+      if(isGearBox(gb)){
+        gearboxes.push(gb)
+      }
+    })
+  }
+
+  if(cardata.configs){
+    cardata.configs.forEach(config => {
+      let gbs = extractGearboxesFrom(config)
+      gearboxes.push(...gbs)
+    })
+  }
+
+  if(cardata.trims && cardata.trims.length > 0){
+    for(var i=0; i<cardata.trims.length; i++){
+      let gbs = extractGearboxesFrom(cardata.trims[i])
+      gearboxes.push(...gbs)
+    }
+  }
+
+  return gearboxes
+}
+/**
+ * Is data a complete gearbox definition
+ */
+function isGearBox(data){
+  if(typeof data != 'object'){
+    return false
+  }
+  if(!data.name){
+    return false
+  }
+
+
+  return true
+}
 
 /**
  *

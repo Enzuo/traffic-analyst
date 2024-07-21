@@ -41,6 +41,8 @@ configs :
       type : diesel
       layout : l4
       displacement : 1769
+    #gearbox :
+    #  name : 20TB09
   - engine :
       name : TU1
       hp: 55
