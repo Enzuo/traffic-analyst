@@ -1,0 +1,119 @@
+name : C15
+brand : Citroen
+trim : C15D
+year : 1984-2006
+unitsProduced : 1,181,471
+price :
+keywords : campagne, cybertruck
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.9D DW8B
+  hp: 60
+  spec: 60hp@4600 106nm@2500
+  type : diesel
+  layout : l4
+  displacement : 1868
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : BE3/5 20TE11
+  gearRatio : [3.727, 2.158, 1.407, 1.029, 0.767]
+  reverseRatio : 3.583
+  transferRatio :
+  driveRatio : 3.867
+wheelDiameter : 53
+type : FWD
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+      name: 1.8D XUD7
+      hp: 60
+      spec: 60hp@4600 106nm@2500
+      type : diesel
+      layout : l4
+      displacement : 1769
+  - engine :
+      name : TU1
+      hp: 55
+      spec: 55hp@5600 91nm@2600
+      type : petrol
+      layout : l4
+      displacement : 1124
+    weight: 865
+    gearbox :
+      gearRatio : [3.727, 2.217, 1.469, 1.029]
+      reverseRatio: 3.818
+      driveRatio: 4.063
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 945
+length:	3995
+width: 1636
+height: 1801
+dragCoef:
+dragArea:
+
+wheelbase: 2740
+bodyType: van
+clearance:
+trunk: 2673
+trunkMax:
+seats: 2
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 135
+avgConsumption :
+energyTank : 47l
+autonomy :
+turningCircle : 11.04
+wheelType : 155R13
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+# http://www.taylor-eng.com/gearing/be_ratios.htm
+# https://forum.web-automobile.com/pdf/moteur_TU.pdf
