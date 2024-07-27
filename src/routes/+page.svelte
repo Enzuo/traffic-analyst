@@ -4,10 +4,11 @@
   import Tools from '@/components/tools/Tools.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
+  import TrafficSimPixelBanner from '@/components/container/TrafficSimPixelBanner.svelte'
 </script>
 
 <main>
-  <TrafficSim></TrafficSim>
+  <TrafficSimPixelBanner></TrafficSimPixelBanner>
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>
