@@ -3,10 +3,10 @@ const ASSETS_PATH = '2dassets/'
 /**
  *
  * @param {HTMLCanvasElement} canvas
- * @param {any[]} cars
+ * @param {TrafficSimulation} simulation
  * @return {any} TrafficScene
  */
-export function createTrafficScene(canvas, cars) {
+export function createTrafficScene(canvas, simulation) {
   let ctx = canvas.getContext('2d')
 
   let _animatables = []
@@ -15,7 +15,9 @@ export function createTrafficScene(canvas, cars) {
 
   _animatables.push(createRoad(ctx))
 
-  _animatables.push(createCar(ctx))
+  simulation.cars.forEach(c => {
+    _animatables.push(createCar(ctx, c))
+  })
 
   ctx.beginPath()
   ctx.moveTo(0, canvas.height / 2) // Start at the left side of the canvas, vertically centered
@@ -28,6 +30,15 @@ export function createTrafficScene(canvas, cars) {
   ctx.stroke()
 
   start()
+
+  // link events
+  simulation.on('car_created', handleSimulationCarCreated)
+
+  function handleSimulationCarCreated(car){
+    console.log('simulation has a new car', car)
+
+    _animatables.push(createCar(ctx, car))
+  }
 
 
   function animate(dt) {
@@ -63,7 +74,7 @@ export function createTrafficScene(canvas, cars) {
  */
 function createRoad(ctx) {
   var startPoint = { x: 0, y: 30 }
-  var length = 256
+  var length = 960
   var lanes = 3
   var lanesHeight = 12
 
@@ -118,7 +129,13 @@ function createRoad(ctx) {
 
 }
 
-function createCar(ctx) {
+/**
+ *
+ * @param {*} ctx
+ * @param {CarEntity} car
+ * @returns
+ */
+function createCar(ctx, car) {
   // Create a new image object
   var img = new Image()
 
@@ -140,8 +157,8 @@ function createCar(ctx) {
 
   function animate(dt){
     //ctx.translate(0, -0.5)
-    position.x += 1
-    ctx.drawImage(img, position.x, position.y+45-img.height)
+    position.x = car.state.position*10
+    ctx.drawImage(img, Math.floor(position.x), position.y+45-img.height)
   }
 
   return {

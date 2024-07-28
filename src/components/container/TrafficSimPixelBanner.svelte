@@ -9,7 +9,7 @@
   onMount(() => {
     traffic_sim = trafficSimulation()
 
-    createTrafficScene(canvas, [])
+    createTrafficScene(canvas, traffic_sim)
 
     // tra = new PixelTrafficGraph(canvas)
 
@@ -18,12 +18,12 @@
   })
 </script>
 
-<canvas bind:this={canvas} width="256" height="100" ></canvas>
+<canvas bind:this={canvas} width="960" height="100" ></canvas>
 
 <style>
   canvas {
     /* width: 512px; */
-    height: 400px;
+    height: 200px;
     image-rendering: pixelated;
   }
 </style>

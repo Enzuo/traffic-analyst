@@ -2,8 +2,11 @@ import { Simulation } from "@/logic/simulation2";
 import { getCar } from "../cardata";
 import { CarEntity, updateForces } from "@/logic/carLogic/CarEntity";
 import { is_function } from "svelte/internal";
+import { createEventEmitter } from "../lib/utils";
 
 export default function trafficSimumlation () {
+
+  const emitter = createEventEmitter()
 
   const cars = [createCar(20), createCar(-20)]
   const drivers = [
@@ -27,6 +30,7 @@ export default function trafficSimumlation () {
       let driver = createDriver(car)
       cars.push(car)
       drivers.push(driver)
+      emitter.emit('car_created', car)
     })
 
     drivers.forEach((driver) => {
@@ -51,7 +55,7 @@ export default function trafficSimumlation () {
 
   simulation.start()
 
-  return {simulation, cars, drivers, findCarDriver}
+  return {simulation, cars, drivers, findCarDriver, ...emitter}
 }
 
 function createCar(position=0, speed=0){
