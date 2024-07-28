@@ -5,10 +5,19 @@
   import TrafficSim from '@/components/container/TrafficSim.svelte'
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
   import TrafficSimPixelBanner from '@/components/container/TrafficSimPixelBanner.svelte'
+  import createTrafficSimulation from '@/logic/trafficsim/trafficSimulation'
+  import { onMount } from 'svelte'
+
+  let simulation = createTrafficSimulation()
+
+  onMount(() => {
+    simulation.start()
+  })
 </script>
 
 <main>
-  <TrafficSimPixelBanner></TrafficSimPixelBanner>
+  <TrafficSim traffic_sim={simulation}></TrafficSim>
+  <TrafficSimPixelBanner traffic_sim={simulation}></TrafficSimPixelBanner>
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>

@@ -4,7 +4,7 @@ import { CarEntity, updateForces } from "@/logic/carLogic/CarEntity";
 import { is_function } from "svelte/internal";
 import { createEventEmitter } from "../lib/utils";
 
-export default function trafficSimumlation () {
+export default function createTrafficSimulation () {
 
   const emitter = createEventEmitter()
 
@@ -53,9 +53,9 @@ export default function trafficSimumlation () {
 
   })
 
-  simulation.start()
+  // simulation.start()
 
-  return {simulation, cars, drivers, findCarDriver, ...emitter}
+  return {...simulation, simulation, cars, drivers, findCarDriver, ...emitter}
 }
 
 function createCar(position=0, speed=0){

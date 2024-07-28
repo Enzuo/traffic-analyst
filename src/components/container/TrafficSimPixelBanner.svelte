@@ -3,12 +3,11 @@
   import trafficSimulation from '@/logic/trafficsim/trafficSimulation'
   import { onMount } from 'svelte'
 
+  export let traffic_sim
+
   let canvas
-  let traffic_sim
 
   onMount(() => {
-    traffic_sim = trafficSimulation()
-
     createTrafficScene(canvas, traffic_sim)
 
     // tra = new PixelTrafficGraph(canvas)

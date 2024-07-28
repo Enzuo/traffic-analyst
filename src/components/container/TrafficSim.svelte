@@ -8,9 +8,10 @@
   import { onDestroy } from 'svelte';
 
 
+  export let traffic_sim
   export let showUI = false
 
-  let tsim
+  let tsim = traffic_sim
   let container
   let time
   let cars
@@ -23,7 +24,6 @@
   $: drivers = updateDrivers(time)
 
   onMount(() => {
-    tsim = trafficSimulation()
     cars = tsim.cars
     drivers = tsim.drivers
     simulation = tsim.simulation
