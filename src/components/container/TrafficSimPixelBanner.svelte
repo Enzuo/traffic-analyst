@@ -22,8 +22,8 @@
 
 <style>
   canvas {
-    width: 512px;
-    height: 200px;
+    /* width: 512px; */
+    height: 400px;
     image-rendering: pixelated;
   }
 </style>
