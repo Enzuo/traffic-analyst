@@ -33,6 +33,8 @@
     tsim.simulation.subscribeTick((t, dt) => {
       time = t
     })
+
+    window.addEventListener('keydown', handleKeydown);
   })
 
   onDestroy(() => {
@@ -66,6 +68,14 @@
 
   function handleSimStop() {
     simulation.isPlaying ? simulation.stop() : simulation.start()
+  }
+
+  function handleKeydown(event) {
+    if(event.key === "s"){
+      if(selectedDriverIndex){
+        drivers[selectedDriverIndex].stopCar()
+      }
+    }
   }
 
 
