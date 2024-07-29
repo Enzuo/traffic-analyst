@@ -30,8 +30,7 @@ export function createPerformanceGraph(canvas) {
     ctx.font = '8px Arial'
     ctx.fillStyle = 'black'
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    console.log(performanceObserver.lastMeasure)
-    ctx.fillText(performanceObserver.lastMeasure.toFixed(2), 0, 16)
+    ctx.fillText(performanceObserver.lastAvgMeasure.toFixed(2), 0, 16)
   }
 
   function start() {

@@ -6,6 +6,7 @@
   import UPlotRealtime from "./UPlotRealtime.svelte"
   import UPlotFnGraph from "@/components/container/UPlotFnGraph.svelte"
   import { onDestroy } from 'svelte';
+  import DebugPerformanceGraph from "@/debug/performance/DebugPerformanceGraph.svelte"
 
 
   export let traffic_sim
@@ -20,6 +21,7 @@
   let selectedCar
   let selectedDriverIndex
   let tgraph
+  let debugPerf
 
   $: drivers = updateDrivers(time)
 
@@ -33,6 +35,7 @@
     tsim.simulation.subscribeTick((t, dt) => {
       time = t
     })
+    debugPerf = tgraph.debug.perf
 
     window.addEventListener('keydown', handleKeydown);
   })
@@ -83,6 +86,7 @@
 </script>
 
 <div class="graph" on:carClick={handleCarClick} bind:this={container}></div>
+<DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
 
 {#if showUI}
 <button on:click={handleSimStop}>Stop Simulation</button>
