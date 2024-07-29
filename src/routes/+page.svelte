@@ -7,17 +7,21 @@
   import TrafficSimPixelBanner from '@/components/container/TrafficSimPixelBanner.svelte'
   import createTrafficSimulation from '@/logic/trafficsim/trafficSimulation'
   import { onMount } from 'svelte'
+  import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
 
   let simulation = createTrafficSimulation()
+  let debugPerf
 
   onMount(() => {
     simulation.start()
+    debugPerf = simulation.debug.perf
   })
 </script>
 
 <main>
   <TrafficSim traffic_sim={simulation}></TrafficSim>
   <TrafficSimPixelBanner traffic_sim={simulation}></TrafficSimPixelBanner>
+  <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>

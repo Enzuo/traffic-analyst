@@ -3,10 +3,12 @@ import { getCar } from "../cardata";
 import { CarEntity, updateForces } from "@/logic/carLogic/CarEntity";
 import { is_function } from "svelte/internal";
 import { createEventEmitter } from "../lib/utils";
+import { createPerformanceObserver } from "@/debug/performance/PerformanceObserver";
 
 export default function createTrafficSimulation () {
 
   const emitter = createEventEmitter()
+  const debugPerf = createPerformanceObserver()
 
   const cars = [createCar(20), createCar(-20)]
   const drivers = [
@@ -22,7 +24,7 @@ export default function createTrafficSimulation () {
 
   let lastCreatedCar
   simulation.subscribeTick((t, dt) => {
-
+    debugPerf.measureStart()
     carCreator.tickAtInterval(t, () => {
       let position = Math.min(-20, lastCreatedCar ? lastCreatedCar.state.position - 10 : - 20)
       let car = createCar(position, lastCreatedCar ? lastCreatedCar.state.speed : 20)
@@ -50,12 +52,12 @@ export default function createTrafficSimulation () {
       }
     })
 
-
+    debugPerf.measureEnd()
   })
 
   // simulation.start()
 
-  return {...simulation, simulation, cars, drivers, findCarDriver, ...emitter}
+  return {...simulation, simulation, cars, drivers, findCarDriver, ...emitter, debug : { perf : debugPerf}}
 }
 
 function createCar(position=0, speed=0){
