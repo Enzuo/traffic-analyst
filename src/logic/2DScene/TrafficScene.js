@@ -1,15 +1,19 @@
+import { createPerformanceObserver } from "@/debug/performance/PerformanceObserver"
+
 const ASSETS_PATH = '2dassets/'
 
 /**
  *
  * @param {HTMLCanvasElement} canvas
  * @param {TrafficSimulation} simulation
- * @return {any} TrafficScene
+ * @return TrafficScene
  */
 export function createTrafficScene(canvas, simulation) {
   let ctx = canvas.getContext('2d')
 
   let _animatables = []
+
+  let debugPerf = createPerformanceObserver()
 
   //ctx.scale(2, 2);  // Scale drawing operations by 2 in both x and y directions
 
@@ -42,13 +46,15 @@ export function createTrafficScene(canvas, simulation) {
 
 
   function animate(dt) {
+    debugPerf.measureStart()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     _animatables.forEach(a => {
       a.animate(dt)
     })
 
-    requestAnimationFrame(animate);
+    animationHandler = requestAnimationFrame(animate);
+    debugPerf.measureEnd()
   }
 
 
@@ -65,6 +71,9 @@ export function createTrafficScene(canvas, simulation) {
   return {
     start,
     stop,
+    debug : {
+      perf : debugPerf
+    }
   }
 }
 

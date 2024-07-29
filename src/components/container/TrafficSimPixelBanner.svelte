@@ -2,22 +2,26 @@
   import { createTrafficScene } from '@/logic/2DScene/TrafficScene'
   import trafficSimulation from '@/logic/trafficsim/trafficSimulation'
   import { onMount } from 'svelte'
+  import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
 
   export let traffic_sim
 
   let canvas
+  let debugPerf
 
   onMount(() => {
-    createTrafficScene(canvas, traffic_sim)
-
-    // tra = new PixelTrafficGraph(canvas)
-
-    // const ctx = canvas.getContext('2d')
-    // Initialize and start the real-scale 2D traffic view here
+    var trafficScene = createTrafficScene(canvas, traffic_sim)
+    debugPerf = trafficScene.debug.perf
   })
 </script>
 
-<canvas bind:this={canvas} width="960" height="100" ></canvas>
+<div>
+  <canvas bind:this={canvas} width="960" height="100" ></canvas>
+
+
+  <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+</div>
+
 
 <style>
   canvas {
