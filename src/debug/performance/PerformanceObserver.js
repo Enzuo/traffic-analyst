@@ -29,6 +29,7 @@ export function createPerformanceObserver(){
       measureCount = 0
       var average = calculateAverageOfLastValues(elapsedTimes, nbMeasureAvg)
       avgTimes.push(average)
+      // TODO might need to clean array at some point to avoid memory hog
     }
   }
 
@@ -41,9 +42,12 @@ export function createPerformanceObserver(){
     get lastMeasure() {
       return elapsedTimes[elapsedTimes.length - 1]
     },
-    get lastAvgMeasure() {
+    get lastTime() {
       return avgTimes[avgTimes.length - 1] || 0
-    }
+    },
+    get lastTimeIndex() {
+      return avgTimes.length - 1
+    },
   }
 }
 

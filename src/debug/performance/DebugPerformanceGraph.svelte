@@ -23,12 +23,12 @@
   })
 </script>
 
-<canvas bind:this={canvas} width="64" height="64"></canvas>
+<canvas bind:this={canvas} width="48" height="16"></canvas>
 
 <style>
   canvas {
     /* width: 512px; */
-    height: 128px;
+    height: 32px;
     image-rendering: pixelated;
   }
 </style>

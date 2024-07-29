@@ -9,9 +9,17 @@ export function createPerformanceGraph(canvas) {
   let performanceObserver
   let animationFrameHandler
 
+  let lastTimeIndex = -1
+  let perfTimes = []
+
+  // Canvas style
+  ctx.font = '8px Arial'
+  ctx.fillStyle = 'black'
+  ctx.translate(0.5,0)
+
   /**
    *
-   * @param {PerformanceObserver} debugPerf
+   * @param {PerformanceOb} debugPerf
    */
   function setPerformanceObserver(debugPerf) {
     debugPerf.isActive = true
@@ -23,14 +31,26 @@ export function createPerformanceGraph(canvas) {
     animationFrameHandler = requestAnimationFrame(animate)
 
     if (!performanceObserver) return
-    draw()
+    if (performanceObserver.lastTimeIndex !== lastTimeIndex){
+      lastTimeIndex = performanceObserver.lastTimeIndex
+      perfTimes.push(performanceObserver.lastTime)
+      draw()
+    }
   }
 
   function draw() {
-    ctx.font = '8px Arial'
-    ctx.fillStyle = 'black'
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.fillText(performanceObserver.lastAvgMeasure.toFixed(2), 0, 16)
+    ctx.fillText(performanceObserver.lastTime.toFixed(2), 18, 16)
+
+    for(var i=0; i<16 && i<perfTimes.length; i++){
+      ctx.beginPath()
+      ctx.moveTo(16-i, 16)
+      var index = perfTimes.length -i -1
+      var yValue = Math.floor(perfTimes[index]) + 1
+      ctx.strokeStyle = isEven(index) ? '#F85E86' : '#D3375E'
+      ctx.lineTo(16-i, 16 - yValue)
+      ctx.stroke()
+    }
   }
 
   function start() {
@@ -46,4 +66,9 @@ export function createPerformanceGraph(canvas) {
     stop,
     setPerformanceObserver
   }
+}
+
+
+function isEven(n) {
+  return n % 2 == 0;
 }
