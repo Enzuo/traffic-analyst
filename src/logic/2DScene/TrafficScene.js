@@ -13,7 +13,7 @@ export function createTrafficScene(canvas, simulation) {
 
   let _animatables = []
 
-  let debugPerf = createPerformanceObserver()
+  let debugPerf = createPerformanceObserver('TrafficScenePixelArt')
 
   //ctx.scale(2, 2);  // Scale drawing operations by 2 in both x and y directions
 

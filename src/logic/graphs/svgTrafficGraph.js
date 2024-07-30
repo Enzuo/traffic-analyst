@@ -78,7 +78,7 @@ export function createTrafficGraph (container, cars) {
     }))
   }
 
-  let debugPerf = createPerformanceObserver()
+  let debugPerf = createPerformanceObserver('TrafficSceneSvg')
   let cancelLoopHandler
   function runLoop (t) {
     cancelLoopHandler = window.requestAnimationFrame(runLoop)

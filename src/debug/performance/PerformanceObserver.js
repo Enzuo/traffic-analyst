@@ -1,9 +1,11 @@
+import * as logger from '../logger/Logger'
 
 /**
  * Measure performance
+ * @param {string} name
  * @returns DebugPerf
  */
-export function createPerformanceObserver(){
+export function createPerformanceObserver(name=''){
   var isActive
 
   var startTime
@@ -12,7 +14,7 @@ export function createPerformanceObserver(){
 
   var avgTimes = []
   var measureCount = 0
-  var nbMeasureAvg = 30
+  var nbMeasureAvg = 30 // 0.5seconds
 
   function measureStart() {
     if(!isActive) return
@@ -30,7 +32,19 @@ export function createPerformanceObserver(){
       var average = calculateAverageOfLastValues(elapsedTimes, nbMeasureAvg)
       avgTimes.push(average)
       // TODO might need to clean array at some point to avoid memory hog
+
+      // log after 30seconds
+      if(avgTimes.length === 60){
+        logPerfStats()
+      }
     }
+  }
+
+  function logPerfStats(){
+    var average = calculateAverageOfLastValues(avgTimes)
+    var max = Math.max(...avgTimes)
+    var min = Math.min(...avgTimes)
+    logger.addPerfLog(name, average, max, min)
   }
 
   return {
@@ -54,16 +68,14 @@ export function createPerformanceObserver(){
 /**
  *
  * @param {Array} array
- * @param {number} nb
+ * @param {number=} nb
  * @returns {number} avg of last {nb} values in {array}
  */
 function calculateAverageOfLastValues(array, nb) {
   // Check if the array has fewer than 30 elements
-  const lastValues = array.length >= nb ? array.slice(-nb) : array;
+  const lastValues = nb && array.length >= nb ? array.slice(-nb) : array;
   const sum = lastValues.reduce((acc, val) => acc + val, 0);
   const average = sum / lastValues.length;
-
-  console.log('avg', average)
 
   return average;
 }

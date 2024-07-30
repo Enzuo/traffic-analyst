@@ -8,7 +8,7 @@ import { createPerformanceObserver } from "@/debug/performance/PerformanceObserv
 export default function createTrafficSimulation () {
 
   const emitter = createEventEmitter()
-  const debugPerf = createPerformanceObserver()
+  const debugPerf = createPerformanceObserver('TrafficSimulation')
 
   const cars = [createCar(20), createCar(-20)]
   const drivers = [
