@@ -2,8 +2,10 @@
   import { createPerformanceGraph  } from './PerformanceGraph';
   import { onMount } from 'svelte'
 
+  /** @type {PerformanceOb} */
   export let debugPerf
   let canvas
+  /** @type {PerformanceGraph} */
   let performanceGraph
 
   $ : setup(debugPerf, performanceGraph)
