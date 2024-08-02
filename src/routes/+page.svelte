@@ -20,7 +20,7 @@
 
 <main>
   <TrafficSimPixelBanner traffic_sim={simulation}></TrafficSimPixelBanner>
-  <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+  <DebugPerformanceGraph debugPerf={debugPerf} top="130px"></DebugPerformanceGraph>
   <h1>
     <img src="title7.png" alt="AutoWaves"/>
   </h1>
@@ -39,7 +39,6 @@
 <style>
 	main {
 		text-align: center;
-		padding: 1em;
 		/* max-width: 240px; */
 		margin: 0 auto;
     display: flex;

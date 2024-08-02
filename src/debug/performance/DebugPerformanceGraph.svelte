@@ -2,11 +2,13 @@
   import { createPerformanceGraph  } from './PerformanceGraph';
   import { onMount } from 'svelte'
 
+  export let top = 0
   /** @type {PerformanceOb} */
   export let debugPerf
   let canvas
   /** @type {PerformanceGraph} */
   let performanceGraph
+
 
   $ : setup(debugPerf, performanceGraph)
 
@@ -25,9 +27,16 @@
   })
 </script>
 
-<canvas bind:this={canvas} width="48" height="16"></canvas>
+<div style="top: {top}">
+  <canvas bind:this={canvas} width="36" height="16"></canvas>
+</div>
 
 <style>
+  div {
+    position:absolute;
+    top:0;
+    right:0;
+  }
   canvas {
     /* width: 512px; */
     height: 32px;

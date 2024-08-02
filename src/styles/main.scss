@@ -29,6 +29,7 @@ $primary-hue: 335;
   --neutral:#a3a3a3;
   --neutral-light:#e9e9e9;
   --neutral-dark:#525252;
+  --neutral-black:#000;
   --neutral-text: #000;
 
   // Typography
@@ -101,10 +102,8 @@ input[type=search]:focus {
 button {
   background-color: var(--primary);
   color : var(--primary-inverse);
-  border: 6px solid var(--primary);
   // box-shadow: 1px 1px 0px 2px var(--secondary);
-  border-bottom-color:var(--primary-shadow);
-  border-right-color:var(--primary-shadow);
+  border: 2px solid var(--neutral-dark);
 
   display: block;
   padding : 1em;
