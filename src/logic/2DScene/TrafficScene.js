@@ -19,12 +19,12 @@ export function createTrafficScene(canvas, simulation) {
 
 
   const middleGround = createNode2D(0, 30)
-  middleGround.addChild(createRoad(ctx))
-  middleGround.addChild(createImage(ctx,'',100,-18))
+  middleGround.addChild(createRoad())
+  middleGround.addChild(createTiledBackground(100,-18))
   _animatables.push(middleGround)
 
   simulation.cars.forEach(c => {
-    _animatables.push(createCar(ctx, c))
+    _animatables.push(createCar(c))
   })
 
 
@@ -39,7 +39,7 @@ export function createTrafficScene(canvas, simulation) {
   function handleSimulationCarCreated(car){
     console.log('simulation has a new car', car)
 
-    _animatables.push(createCar(ctx, car))
+    _animatables.push(createCar(car))
   }
 
 
@@ -51,6 +51,10 @@ export function createTrafficScene(canvas, simulation) {
 
     _animatables.forEach(a => {
       a.animate(dt)
+    })
+
+    _animatables.forEach(a => {
+      a.draw(ctx)
     })
 
     animationHandler = requestAnimationFrame(animate);
@@ -79,9 +83,8 @@ export function createTrafficScene(canvas, simulation) {
 
 /**
  *
- * @param {CanvasRenderingContext2D} ctx
  */
-function createRoad(ctx) {
+function createRoad() {
   var startPoint = { x: 0, y: 30 }
   var length = 960
   var lanes = 3
@@ -93,7 +96,7 @@ function createRoad(ctx) {
   var lineColor = '#FFF42D'
   var tarmacColor = '#302E37'
 
-  function draw(posx, posy) {
+  function draw(ctx, posx, posy) {
     var x = Math.floor(posx)
     var y = Math.floor(posy)
     // remove lines antialiasing
@@ -131,7 +134,6 @@ function createRoad(ctx) {
   }
 
   function animate(dt) {
-    draw()
   }
 
   return {
@@ -143,11 +145,10 @@ function createRoad(ctx) {
 
 /**
  *
- * @param {*} ctx
  * @param {CarEntity} car
  * @returns
  */
-function createCar(ctx, car) {
+function createCar(car) {
   // Create a new image object
   var img = new Image()
 
@@ -165,16 +166,18 @@ function createCar(ctx, car) {
 
   var position = {x: 0, y:0}
 
-  //ctx.translate(0, -0.5)
-
   function animate(dt){
-    //ctx.translate(0, -0.5)
+
+  }
+
+  function draw(ctx){
     position.x = car.state.position*10
     ctx.drawImage(img, Math.floor(position.x), position.y+45-img.height)
   }
 
   return {
-    animate
+    animate,
+    draw,
   }
 }
 
@@ -187,8 +190,8 @@ function createCar(ctx, car) {
  */
 function createNode2D(x, y) {
   var childrens = []
-  function animate(){
-    childrens.forEach(c => c.draw(x, y))
+  function animate(dt){
+    childrens.forEach(c => c.animate(dt))
   }
 
   function addChild(child){
@@ -200,8 +203,8 @@ function createNode2D(x, y) {
     y += my
   }
 
-  function draw(posx, posy){
-    childrens.forEach(c => c.draw(posx+x, posy+y))
+  function draw(ctx, posx=0, posy=0){
+    childrens.forEach(c => c.draw(ctx, posx+x, posy+y))
   }
 
   return {
@@ -212,7 +215,7 @@ function createNode2D(x, y) {
   }
 }
 
-function createImage(ctx, src, x, y) {
+function createImage(src, x, y) {
   // Create a new image object
   var img = new Image()
 
@@ -229,12 +232,40 @@ function createImage(ctx, src, x, y) {
 
 
 
-  function draw(posx, posy){
+  function draw(ctx, posx, posy){
     //ctx.translate(0, -0.5)
     ctx.drawImage(img, posx + x, posy + y)
   }
 
   return {
     draw
+  }
+}
+
+function createTiledBackground(x, y) {
+
+  var img = new Image()
+  // Set the source of the image
+  img.src = ASSETS_PATH + 'background/road_border.png'
+
+  var length = 960
+
+  function draw(ctx, posx, posy){
+
+    var atx = x + posx
+    var aty = y + posy
+    while(atx < length){
+      ctx.drawImage(img, atx, aty)
+      atx += 100
+    }
+  }
+
+  function animate(){
+
+  }
+
+  return {
+    draw,
+    animate,
   }
 }
