@@ -1,7 +1,6 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import adapter from '@sveltejs/adapter-auto'
 import adapterStatic from '@sveltejs/adapter-static'
-import { mdsvex } from 'mdsvex';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -28,20 +27,10 @@ const config = {
     }
 	},
 
-  extensions: [
-    '.svelte',
-    '.svx'
-  ],
 
   // Consult https://svelte.dev/docs#compile-time-svelte-preprocess
   // for more information about preprocessors
-  preprocess: [
-    vitePreprocess(),
-    mdsvex({
-      layout: "./src/components/presentation/Article.svelte",
-      extension: '.svx',
-    }),
-  ],
+  preprocess: vitePreprocess(),
 }
 
 export default config

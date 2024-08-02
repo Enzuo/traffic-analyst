@@ -41,8 +41,8 @@
   </div>
   <div id="articles">
     {#each data.articles as article}
-    <Article>
-      {@html article.code}
+    <Article {...article.frontmatter}>
+      {@html article.content}
     </Article>
     {/each}
   </div>
