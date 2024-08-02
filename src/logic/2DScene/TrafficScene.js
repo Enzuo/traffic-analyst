@@ -17,14 +17,18 @@ export function createTrafficScene(canvas, simulation) {
 
   //ctx.scale(2, 2);  // Scale drawing operations by 2 in both x and y directions
 
+  const background = createNode2D(0, 0)
+  background.addChild(createTiledBackground(0,-8, 'background/background_city.png'))
+  _animatables.push(background)
+
 
   const middleGround = createNode2D(0, 30)
   middleGround.addChild(createRoad())
-  middleGround.addChild(createTiledBackground(100,-18))
+  middleGround.addChild(createTiledBackground(0,-18, 'background/road_border.png'))
   _animatables.push(middleGround)
 
   simulation.cars.forEach(c => {
-    _animatables.push(createCar(c))
+    middleGround.addChild(createCar(c))
   })
 
 
@@ -39,7 +43,7 @@ export function createTrafficScene(canvas, simulation) {
   function handleSimulationCarCreated(car){
     console.log('simulation has a new car', car)
 
-    _animatables.push(createCar(car))
+    middleGround.addChild(createCar(car))
   }
 
 
@@ -47,6 +51,7 @@ export function createTrafficScene(canvas, simulation) {
     debugPerf.measureStart()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    background.move(-0.1, 0)
     middleGround.move(-0.3, 0)
 
     _animatables.forEach(a => {
@@ -90,8 +95,8 @@ function createRoad() {
   var lanes = 3
   var lanesHeight = 12
 
-  var dottedLineLength = 6
-  var dottedLineSpace = 12
+  var dottedLineLength = 15
+  var dottedLineSpace = 30
   var dottedLineColor = '#FFF42D'
   var lineColor = '#FFF42D'
   var tarmacColor = '#302E37'
@@ -170,9 +175,9 @@ function createCar(car) {
 
   }
 
-  function draw(ctx){
+  function draw(ctx, posx, posy){
     position.x = car.state.position*10
-    ctx.drawImage(img, Math.floor(position.x), position.y+45-img.height)
+    ctx.drawImage(img, Math.floor(position.x) + posx, position.y+45-img.height)
   }
 
   return {
@@ -242,11 +247,11 @@ function createImage(src, x, y) {
   }
 }
 
-function createTiledBackground(x, y) {
+function createTiledBackground(x, y, src) {
 
   var img = new Image()
   // Set the source of the image
-  img.src = ASSETS_PATH + 'background/road_border.png'
+  img.src = ASSETS_PATH + src
 
   var length = 960
 
