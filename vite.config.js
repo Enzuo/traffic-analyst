@@ -44,6 +44,10 @@ export default defineConfig({
           src: normalizePath(path.resolve(__dirname, './data/2Dassets/') + '/*'),
           dest: './2dassets'
         },
+        {
+          src: normalizePath(path.resolve(__dirname, './data/2Dassets/') + '/background/*'),
+          dest: './2dassets/background'
+        },
       ]
     }),
     svg()

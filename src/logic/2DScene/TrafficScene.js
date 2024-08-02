@@ -17,21 +17,19 @@ export function createTrafficScene(canvas, simulation) {
 
   //ctx.scale(2, 2);  // Scale drawing operations by 2 in both x and y directions
 
-  _animatables.push(createRoad(ctx))
+
+  const middleGround = createNode2D(0, 30)
+  middleGround.addChild(createRoad(ctx))
+  middleGround.addChild(createImage(ctx,'',100,-18))
+  _animatables.push(middleGround)
 
   simulation.cars.forEach(c => {
     _animatables.push(createCar(ctx, c))
   })
 
-  ctx.beginPath()
-  ctx.moveTo(0, canvas.height / 2) // Start at the left side of the canvas, vertically centered
-  ctx.lineTo(50, 50)
 
-  ctx.strokeStyle = '#000000' // Set the line color to black
-  ctx.lineWidth = 1 // Set the line width to 2 pixels
 
-  // Draw the line
-  ctx.stroke()
+
 
   start()
 
@@ -48,6 +46,8 @@ export function createTrafficScene(canvas, simulation) {
   function animate(dt) {
     debugPerf.measureStart()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    middleGround.move(-0.3, 0)
 
     _animatables.forEach(a => {
       a.animate(dt)
@@ -93,36 +93,38 @@ function createRoad(ctx) {
   var lineColor = '#FFF42D'
   var tarmacColor = '#302E37'
 
-  function draw() {
+  function draw(posx, posy) {
+    var x = Math.floor(posx)
+    var y = Math.floor(posy)
     // remove lines antialiasing
     ctx.translate(0, 0.5)
 
     // create tarmac
     ctx.fillStyle = tarmacColor
     var tarmacHeight = lanes * lanesHeight + (lanes + 1)
-    ctx.fillRect(startPoint.x, startPoint.y, length, tarmacHeight)
+    ctx.fillRect(0, y, length, tarmacHeight)
 
     // paint lines
     ctx.strokeStyle = lineColor
     ctx.lineWidth = 1
     ctx.beginPath()
-    ctx.moveTo(startPoint.x, startPoint.y)
-    ctx.lineTo(length, startPoint.y)
+    ctx.moveTo(x, y)
+    ctx.lineTo(length, y)
     ctx.stroke()
 
     ctx.beginPath()
     for (var i = 1; i < lanes; i++) {
       ctx.setLineDash([dottedLineLength, dottedLineSpace])
       var offsetY = i * (lanesHeight + 1)
-      ctx.moveTo(startPoint.x, startPoint.y + offsetY)
-      ctx.lineTo(length, startPoint.y + offsetY)
+      ctx.moveTo(x, y + offsetY)
+      ctx.lineTo(length, y + offsetY)
     }
     ctx.stroke()
     ctx.setLineDash([])
 
     ctx.beginPath()
-    ctx.moveTo(startPoint.x, startPoint.y + tarmacHeight)
-    ctx.lineTo(length, startPoint.y + tarmacHeight)
+    ctx.moveTo(x, y + tarmacHeight)
+    ctx.lineTo(length, y + tarmacHeight)
     ctx.stroke()
 
     ctx.translate(0, -0.5)
@@ -133,7 +135,8 @@ function createRoad(ctx) {
   }
 
   return {
-    animate
+    animate,
+    draw,
   }
 
 }
@@ -172,5 +175,66 @@ function createCar(ctx, car) {
 
   return {
     animate
+  }
+}
+
+
+/**
+ * Can serve to group node together and show them at a special position
+ * @param {*} x
+ * @param {*} y
+ * @returns
+ */
+function createNode2D(x, y) {
+  var childrens = []
+  function animate(){
+    childrens.forEach(c => c.draw(x, y))
+  }
+
+  function addChild(child){
+    childrens.push(child)
+  }
+
+  function move(mx, my){
+    x += mx
+    y += my
+  }
+
+  function draw(posx, posy){
+    childrens.forEach(c => c.draw(posx+x, posy+y))
+  }
+
+  return {
+    animate,
+    draw,
+    addChild,
+    move,
+  }
+}
+
+function createImage(ctx, src, x, y) {
+  // Create a new image object
+  var img = new Image()
+
+  // Set the source of the image
+  img.src = ASSETS_PATH + 'background/road_border.png'
+
+  // Draw the image on the canvas once it's loaded
+  img.onload = function () {
+    // Draw the image at coordinates (0, 0)
+      // remove antialiasing
+    // ctx.translate(0, -0.5)
+    // ctx.drawImage(img, 0, 0)
+  }
+
+
+
+  function draw(posx, posy){
+    //ctx.translate(0, -0.5)
+    ctx.drawImage(img, posx + x, posy + y)
+  }
+
+  return {
+    draw
   }
 }

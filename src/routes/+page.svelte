@@ -19,7 +19,6 @@
 </script>
 
 <main>
-  <TrafficSim traffic_sim={simulation}></TrafficSim>
   <TrafficSimPixelBanner traffic_sim={simulation}></TrafficSimPixelBanner>
   <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
   <h1>

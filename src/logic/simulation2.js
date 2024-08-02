@@ -12,7 +12,7 @@ export function Simulation () {
    *
    * @param {(t:number, dt:number) => void} fn
    */
-  const subscribeTick = (fn) => {
+  const subscribeTick = (fn) => { // TODO rename onTick , might be better visually ?
     animateFn.push(fn)
   }
 
