@@ -3,11 +3,16 @@
 
   import Tools from '@/components/tools/Tools.svelte'
   import TrafficSim from '@/components/container/TrafficSim.svelte'
+  import Article from '@/components/presentation/Article.svelte'
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
   import TrafficSimPixelBanner from '@/components/container/TrafficSimPixelBanner.svelte'
   import createTrafficSimulation from '@/logic/trafficsim/trafficSimulation'
   import { onMount } from 'svelte'
   import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
+
+  export let data
+
+  console.log(data)
 
   let simulation = createTrafficSimulation()
   let debugPerf
@@ -34,11 +39,18 @@
   <div id="footer">
     v {version}
   </div>
+  <div id="articles">
+    {#each data.articles as article}
+    <Article>
+      {@html article.code}
+    </Article>
+    {/each}
+  </div>
 </main>
 
 <style>
 	main {
-		text-align: center;
+		/* text-align: center; */
 		/* max-width: 240px; */
 		margin: 0 auto;
     display: flex;
@@ -59,7 +71,6 @@
   #footer {
     color:var(--secondary);
   }
-
 
 	h1 {
 		color: #ff3e00;
