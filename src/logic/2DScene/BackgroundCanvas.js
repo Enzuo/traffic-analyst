@@ -141,7 +141,13 @@ function initPositionBuffer(gl) {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
 
   // Now create an array of positions for the square.
-  const positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0]
+  const positions = [
+    1.0, 1.0,
+    -1.0, 1.0,
+    -1.0, -1.0,
+    1.0, -1.0,
+    1.0, 1.0,
+  ]
 
   // Now pass the list of positions into WebGL to build the
   // shape. We do this by creating a Float32Array from the
@@ -214,8 +220,9 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
 
   {
     const offset = 0
-    const vertexCount = 4
-    gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount)
+    const vertexCount = 5
+    // gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount)
+    gl.drawArrays(gl.LINE_STRIP, offset, vertexCount)
   }
 }
 
