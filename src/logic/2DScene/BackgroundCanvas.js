@@ -1,3 +1,4 @@
+import { createPerformanceObserver } from '@/debug/performance/PerformanceObserver'
 import { mat4 } from 'gl-matrix'
 
 // Vertex shader program
@@ -18,6 +19,8 @@ const fsSource = `
 
 export function createBackgroundCanvas(canvas) {
   const gl = canvas.getContext('webgl')
+
+  let debugPerf = createPerformanceObserver('BackgroundWebGL')
 
   // Only continue if WebGL is available and working
   if (gl === null) {
@@ -62,13 +65,23 @@ export function createBackgroundCanvas(canvas) {
     deltaTime = now - then;
     then = now;
 
+    debugPerf.measureStart()
+
     // Draw the scene
     drawScene(gl, programInfo, buffers, squareRotation);
     squareRotation += deltaTime;
 
+    debugPerf.measureEnd()
+
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
+
+  return {
+    debug : {
+      perf : debugPerf
+    }
+  }
 }
 
 //
@@ -245,4 +258,33 @@ function setPositionAttribute(gl, buffers, programInfo) {
     offset
   )
   gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition)
+}
+
+//
+// Geometry
+//
+
+function createSubdiviedPlane() {
+  const size = 1.0; // Size of the plane
+  const divisions = 10; // Number of subdivisions
+  const vertices = [];
+  const indices = [];
+
+  for (let i = 0; i <= divisions; i++) {
+      for (let j = 0; j <= divisions; j++) {
+          const x = (i / divisions) * size - size / 2;
+          const y = (j / divisions) * size - size / 2;
+          vertices.push(x, y);
+      }
+  }
+
+  for (let i = 0; i < divisions; i++) {
+      for (let j = 0; j < divisions; j++) {
+          const row1 = i * (divisions + 1);
+          const row2 = (i + 1) * (divisions + 1);
+          indices.push(row1 + j, row1 + j + 1, row2 + j, row2 + j + 1);
+      }
+  }
+
+  return {vertices, indices}
 }

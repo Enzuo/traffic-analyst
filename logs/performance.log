@@ -1,3 +1,4 @@
-TrafficScenePixelArt avg_frame_time= 0.11ms, min_frame_time= 0.07ms, max_frame_time= 0.15ms
+TrafficScenePixelArt avg_frame_time= 0.17ms, min_frame_time= 0.10ms, max_frame_time= 0.30ms
 TrafficSceneSvg      avg_frame_time= 8.09ms, min_frame_time= 2.27ms, max_frame_time=18.24ms
-TrafficSimulation    avg_frame_time= 0.06ms, min_frame_time= 0.03ms, max_frame_time= 0.09ms
+TrafficSimulation    avg_frame_time= 0.07ms, min_frame_time= 0.03ms, max_frame_time= 0.14ms
+BackgroundWebGL      avg_frame_time= 0.10ms, min_frame_time= 0.06ms, max_frame_time= 0.23ms
