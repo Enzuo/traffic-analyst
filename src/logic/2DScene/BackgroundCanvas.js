@@ -13,12 +13,12 @@ const vsSource = `
 
 const fsSource = `
   void main() {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    gl_FragColor = vec4(0.97, 0.37, 0.53, 1.0);
   }
 `
 
 export function createBackgroundCanvas(canvas) {
-  const gl = canvas.getContext('webgl')
+  const gl = canvas.getContext('webgl', { antialias: false })
 
   let debugPerf = createPerformanceObserver('BackgroundWebGL')
 
@@ -51,15 +51,17 @@ export function createBackgroundCanvas(canvas) {
   // Clear the color buffer with specified clear color
   gl.clear(gl.COLOR_BUFFER_BIT)
 
+  const {vertices} = createSubdiviedPlane()
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
-  const buffers = initBuffers(gl)
+  const buffers = initBuffers(gl, vertices)
 
 
   // Draw the scene repeatedly
   let then = 0;
   let squareRotation = 0.0;
   let deltaTime = 0;
+  let rotationSpeed = 0.05
   function render(now) {
     now *= 0.001; // convert to seconds
     deltaTime = now - then;
@@ -68,8 +70,8 @@ export function createBackgroundCanvas(canvas) {
     debugPerf.measureStart()
 
     // Draw the scene
-    drawScene(gl, programInfo, buffers, squareRotation);
-    squareRotation += deltaTime;
+    drawScene(gl, programInfo, buffers, vertices.length/2, squareRotation);
+    squareRotation += deltaTime * rotationSpeed;
 
     debugPerf.measureEnd()
 
@@ -80,7 +82,10 @@ export function createBackgroundCanvas(canvas) {
   return {
     debug : {
       perf : debugPerf
-    }
+    },
+    destroy : () => {
+
+    },
   }
 }
 
@@ -137,15 +142,15 @@ function loadShader(gl, type, source) {
 //
 // Init buffers
 //
-function initBuffers(gl) {
-  const positionBuffer = initPositionBuffer(gl)
+function initBuffers(gl, vertices) {
+  const positionBuffer = initPositionBuffer(gl, vertices)
 
   return {
     position: positionBuffer
   }
 }
 
-function initPositionBuffer(gl) {
+function initPositionBuffer(gl, vertices) {
   // Create a buffer for the square's positions.
   const positionBuffer = gl.createBuffer()
 
@@ -154,13 +159,7 @@ function initPositionBuffer(gl) {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
 
   // Now create an array of positions for the square.
-  const positions = [
-    1.0, 1.0,
-    -1.0, 1.0,
-    -1.0, -1.0,
-    1.0, -1.0,
-    1.0, 1.0,
-  ]
+  const positions = vertices
 
   // Now pass the list of positions into WebGL to build the
   // shape. We do this by creating a Float32Array from the
@@ -174,8 +173,8 @@ function initPositionBuffer(gl) {
 // Draw scene
 //
 
-function drawScene(gl, programInfo, buffers, squareRotation) {
-  gl.clearColor(0.0, 0.0, 0.0, 1.0) // Clear to black, fully opaque
+function drawScene(gl, programInfo, buffers, vertexCount=5, squareRotation=0) {
+  gl.clearColor(1.0, 1.0, 1.0, 1.0)
   gl.clearDepth(1.0) // Clear everything
   gl.enable(gl.DEPTH_TEST) // Enable depth testing
   gl.depthFunc(gl.LEQUAL) // Near things obscure far things
@@ -233,7 +232,6 @@ function drawScene(gl, programInfo, buffers, squareRotation) {
 
   {
     const offset = 0
-    const vertexCount = 5
     // gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount)
     gl.drawArrays(gl.LINE_STRIP, offset, vertexCount)
   }
@@ -265,26 +263,41 @@ function setPositionAttribute(gl, buffers, programInfo) {
 //
 
 function createSubdiviedPlane() {
-  const size = 1.0; // Size of the plane
+  const size = 3.0; // Size of the plane
   const divisions = 10; // Number of subdivisions
   const vertices = [];
-  const indices = [];
 
   for (let i = 0; i <= divisions; i++) {
-      for (let j = 0; j <= divisions; j++) {
-          const x = (i / divisions) * size - size / 2;
-          const y = (j / divisions) * size - size / 2;
-          vertices.push(x, y);
-      }
+    const x = (i / divisions) * size - size / 2;
+    const xEnd = (i / divisions) * size - size / 2;
+    const y = - size / 2;
+    const yEnd = size / 2;
+
+    if(isEven(i)){
+      vertices.push(x,y,xEnd,yEnd)
+    }
+    else {
+      vertices.push(x,yEnd,xEnd,y)
+    }
   }
 
-  for (let i = 0; i < divisions; i++) {
-      for (let j = 0; j < divisions; j++) {
-          const row1 = i * (divisions + 1);
-          const row2 = (i + 1) * (divisions + 1);
-          indices.push(row1 + j, row1 + j + 1, row2 + j, row2 + j + 1);
-      }
+  for (let i = 0; i <= divisions; i++) {
+    const x = size / 2;
+    const xEnd = - size / 2;
+    const y = (i / divisions) * size - size / 2;
+    const yEnd = (i / divisions) * size - size / 2;
+
+    if(isEven(i)){
+      vertices.push(x,y,xEnd,yEnd)
+    }
+    else {
+      vertices.push(xEnd,y,x,yEnd)
+    }
   }
 
-  return {vertices, indices}
+  return {vertices}
+}
+
+function isEven(n) {
+  return n % 2 == 0;
 }

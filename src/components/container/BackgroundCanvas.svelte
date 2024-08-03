@@ -21,8 +21,21 @@
 
 </script>
 
-<div style="positoin: relative">
-  <canvas bind:this={canvas} width="640" height="480"/>
+<div class="background">
+  <canvas bind:this={canvas} width="480" height="480"/>
 
   <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
 </div>
+
+<style>
+  .background {
+    position: fixed;
+    z-index: -10;
+    top:250px;
+    left:0px;
+  }
+  canvas {
+    height:960px;
+    image-rendering: pixelated;
+  }
+</style>

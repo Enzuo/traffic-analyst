@@ -17,6 +17,8 @@
 
 <style>
   .article {
+    background: rgba(255,255,255,0.9);
+    max-width: 960px;
     border: 2px solid var(--primary);
     margin: 24px;
     padding: 24px;
