@@ -9,6 +9,7 @@
   import createTrafficSimulation from '@/logic/trafficsim/trafficSimulation'
   import { onMount } from 'svelte'
   import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
+  import BackgroundCanvas from '@/components/container/BackgroundCanvas.svelte'
 
   export let data
 
@@ -46,6 +47,7 @@
     </Article>
     {/each}
   </div>
+  <BackgroundCanvas></BackgroundCanvas>
 </main>
 
 <style>
