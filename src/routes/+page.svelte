@@ -28,7 +28,7 @@
   <TrafficSimPixelBanner traffic_sim={simulation}></TrafficSimPixelBanner>
   <DebugPerformanceGraph debugPerf={debugPerf} top="130px"></DebugPerformanceGraph>
   <h1>
-    <img src="title7.png" alt="AutoWaves"/>
+    <img src="title8.png" alt="AutoWaves"/>
   </h1>
   <div id="tools">
     <Tools></Tools>
@@ -79,6 +79,8 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
+    position: absolute;
+    top: 75px;
 	}
 
 	@media (min-width: 640px) {
@@ -100,7 +102,7 @@
   }
 
   h1 img {
-    width:300px;
+    width:448px;
     image-rendering: pixelated;
   }
 </style>
