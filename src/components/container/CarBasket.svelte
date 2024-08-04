@@ -50,7 +50,7 @@
     display: flex;
     justify-content: end;
     /* grid-gap: 10px; */
-    border-bottom: 3px solid var(--secondary);
+    border-bottom: 2px solid var(--primary);
     /* direction: rtl; */
     /* flex-direction: row-reverse; */
   }

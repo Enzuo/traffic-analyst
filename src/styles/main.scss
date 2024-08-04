@@ -173,10 +173,13 @@ li a {
 
   display: block;
   padding : 1em;
-  border-bottom:6px solid var(--neutral-light);
 
   text-decoration: none;
   outline: none;
+}
+
+li:nth-child(odd) a{
+  background-color: #f8f8f8;
 }
 
 li a:is([aria-current], :hover, :active)

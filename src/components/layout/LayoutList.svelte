@@ -38,7 +38,7 @@
   }
 
   .list {
-    border-right:3px solid var(--secondary);
+    border-right:2px solid var(--primary);
     /* height:100%; */
     flex-grow:3;
     overflow-y:scroll;
