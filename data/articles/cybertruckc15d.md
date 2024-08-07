@@ -2,7 +2,7 @@
 title: Cybertruck & C15D
 author: Enzuo
 date: "2024-07-21"
-image: /cybertruckc15d.jpg
+image: cybertruckc15d.png
 ---
 
 Battle of the behemot, The tesla cybertruck vs citroen C15D

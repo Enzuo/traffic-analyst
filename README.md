@@ -53,9 +53,16 @@ Shade smooth
 Auto Smooth around 20°
 Modeling steps :
 - Start by making a box of the size of the car
-- Align the blueprints (Front of the car is -Y)
-- Model
-- Texture
+- Align the blueprints to the box (Front of the car is -Y)
+- Model with symetry modifier applied on X axis `body`
+- Define texture seam `cmd+E`
+- Create a texture of size `256x256` for a basic car size
+- Unwrap the texture `U` and use the plugin `Texel Density Checker by mrven` to scale the uv map (Texture size `256` TD `0.33` set my td)
+- Model the wheel with a cylinder with a
+- Place the wheels empty on each side name them depending on the side `wheelR1` `wheelL2` (could do it with empty rotation but harder to see)
+- Using gltf exporter -> Export the body (selection only) with applied modifier
+- Export the wheel
+
 
 #### Pixel scale
 
