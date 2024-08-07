@@ -1,5 +1,6 @@
 import { SVG } from '@svgdotjs/svg.js'
 import zoeSvg from './zoe.svg?src'
+import { createPerformanceObserver } from '@/debug/performance/PerformanceObserver'
 console.log(zoeSvg)
 
 
@@ -77,10 +78,13 @@ export function createTrafficGraph (container, cars) {
     }))
   }
 
+  let debugPerf = createPerformanceObserver('TrafficSceneSvg')
   let cancelLoopHandler
   function runLoop (t) {
     cancelLoopHandler = window.requestAnimationFrame(runLoop)
+    debugPerf.measureStart()
     animate()
+    debugPerf.measureEnd()
   }
 
   runLoop()
@@ -90,7 +94,12 @@ export function createTrafficGraph (container, cars) {
     window.cancelAnimationFrame(cancelLoopHandler)
   }
 
-  return {destroy}
+  return {
+    destroy,
+    debug : {
+      perf : debugPerf
+    }
+  }
 }
 
 function createCar(car, svggraph) {
