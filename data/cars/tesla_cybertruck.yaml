@@ -83,9 +83,9 @@ wheelType: 285/65R20
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
-modelMisc:
+model: cybertruck
+modelWheel: wheelCybertruck
+modelMisc: Panel
 wheelScale:
 modelLights :
 
