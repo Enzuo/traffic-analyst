@@ -89,8 +89,8 @@ wheelType : 155R13
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: citroenc15
+modelWheel: wheelc15
 modelMisc:
 wheelScale:
 modelLights :
