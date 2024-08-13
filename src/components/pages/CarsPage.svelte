@@ -65,7 +65,7 @@
   }
 
   function handleBasketClick(e) {
-    if(e.detail.id !== selectedCarId){
+    if(e.detail.id !== selectedCarId || e.detail.configId !== selectedConfigId){
       dispatch('carSelect', {
         id : e.detail.id,
         trimId : e.detail.trimId,

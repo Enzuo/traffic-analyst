@@ -23,7 +23,7 @@
     dispatch('click', {
       id : car.id,
       trimId : car.trimId,
-      engineId : car.engineId,
+      configId : car.configId,
     })
   }
 </script>
@@ -32,7 +32,7 @@
 
 <div class="basket-bar">
   <ul>
-  {#each reversedCarBasket as car }
+  {#each reversedCarBasket as car (car.id + car.configId)}
     <li>
       <a href="#" on:click={(e) => handleClick(car, e)} title={`${car.brand} ${car.name} - ${car.engine.hp}hp`}>
         <div class="name">{car.name}</div>
