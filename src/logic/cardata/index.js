@@ -1,4 +1,4 @@
-import { parseEngineSpec, convertUnit } from '../carLogic/carlib.js'
+import { parseEngineSpec, convertQty } from '../carLogic/carlib.js'
 import db from './database.js'
 
 /**
@@ -218,7 +218,7 @@ function completeEngineData(car) {
     }
   }
 
-  engine.power = convertUnit(engine.power).value
+  engine.power = convertQty(engine.power).value
 
 
   car.engine = engine

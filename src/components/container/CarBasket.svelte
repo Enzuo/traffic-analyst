@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte"
   import Icon from "@/components/presentation/Icon.svelte"
+  import QtyUnit from "./QtyUnit.svelte"
 
 
   export let carsBasket
@@ -35,7 +36,13 @@
     <li>
       <a href="#" on:click={(e) => handleClick(car, e)} title={`${car.brand} ${car.name} - ${car.engine.hp}hp`}>
         <div class="name">{car.name}</div>
-        <div class="hp">{car.engine.power?.toFixed(2) || car.engine.hp}</div>
+        <div class="hp">
+          {#if car.engine.power}
+            <QtyUnit value={car.engine.power} unit='hp' precision={0}></QtyUnit>
+          {:else}
+            {car.engine.hp}
+          {/if}
+        </div>
       </a>
     </li>
   {/each}

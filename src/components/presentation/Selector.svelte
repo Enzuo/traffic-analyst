@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte"
   import Icon from "@/components/presentation/Icon.svelte"
+  import QtyUnit from "../container/QtyUnit.svelte"
 
   export let elements
   export let elementType
@@ -38,7 +39,7 @@
         {element.engine?.name}
         <div class="sublabel">
           {#if element.engine?.power}
-            {element.engine?.power}
+            <QtyUnit value={element.engine.power} unit="hp"></QtyUnit>
           {:else}
             {element.engine?.hp}hp
           {/if}
