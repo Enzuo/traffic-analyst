@@ -81,7 +81,7 @@ export function createGraph(cars, element, opts = {}){
   function getYFill(car, rpm){
     let engine = car.engine
     let xMultiplier = engine.torqueXMultiplier || 1
-    let torque = getTorqueForRPM(engine.torqueCurve, rpm)
+    let torque = getTorqueForRPM(engine.torqueCurve, rpm, engine.power)
     let power = torqueToKW(torque, rpm)
     return {torque, power}
   }

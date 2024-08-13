@@ -35,7 +35,7 @@
     <li>
       <a href="#" on:click={(e) => handleClick(car, e)} title={`${car.brand} ${car.name} - ${car.engine.hp}hp`}>
         <div class="name">{car.name}</div>
-        <div class="hp">{car.engine.hp}</div>
+        <div class="hp">{car.engine.power?.toFixed(2) || car.engine.hp}</div>
       </a>
     </li>
   {/each}

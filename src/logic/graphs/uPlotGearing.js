@@ -67,7 +67,7 @@ export function createGraph(car, element, graphOptions = {}){
     for(let i = 0; i < gearbox.gearRatio.length; i++){
       let finalRatio = gearbox.gearRatio[i] * gearbox.driveRatio * (gearbox.gearTransfer ? gearbox.gearTransfer[0] : 1)
       let rpm = getEngineRPMForSpeed(speedms, finalRatio, car.wheelDiameter)
-      let torque = getTorqueForRPM(car.engine.torqueCurve, rpm)
+      let torque = getTorqueForRPM(car.engine.torqueCurve, rpm, car.engine.power)
       let force = getEngineForceFromTorque(torque, finalRatio, null, car.wheelDiameter)
 
       if(graphOptions.isGearForce){

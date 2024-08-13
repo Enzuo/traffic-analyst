@@ -1,4 +1,4 @@
-import { parseEngineSpec } from '../carLogic/carlib.js'
+import { parseEngineSpec, convertUnit } from '../carLogic/carlib.js'
 import db from './database.js'
 
 /**
@@ -217,6 +217,9 @@ function completeEngineData(car) {
       engine.torqueCurve = parseEngineSpec(engine.spec)
     }
   }
+
+  engine.power = convertUnit(engine.power).value
+
 
   car.engine = engine
   return car

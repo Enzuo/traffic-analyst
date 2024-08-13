@@ -23,8 +23,8 @@ type : #AWD, RWD, FWD
 configs:
   - trim: propulsion
     engine:
-      hp: 297
-      spec: 297hp@18000
+      power: 297hp
+      spec: 600nm@1 297hp@18000
     acc0100: 6.7
     vmax: 180
     autonomy: 402
@@ -32,8 +32,8 @@ configs:
 
   - trim: awd
     engine:
-      hp: 600
-      spec: 600hp@18000
+      power: 600hp
+      spec: 1008nm@1 600hp@18000
     acc0100: 4.3
     vmax: 180
     autonomy: 515
@@ -43,8 +43,8 @@ configs:
   - trim: cyberbeast
     engine:
       name: L3C
-      hp: 835
-      spec: 835hp@18000
+      power: 835hp
+      spec: 1396nm@1 835hp@18000
     acc0100: 2.7
     vmax: 209
     autonomy: 515

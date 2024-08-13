@@ -85,7 +85,7 @@ export class CarEntity{
     const inputs = this.inputs
 
     const finalRatio = this.getTransmissionFinalRatio()
-    let torque = getTorqueForRPM(engine.torqueCurve, state.engineRpm) * inputs.throttle
+    let torque = getTorqueForRPM(engine.torqueCurve, state.engineRpm, engine.power) * inputs.throttle
     let force = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
 
     return force
@@ -114,7 +114,7 @@ export function updateForces(car, dt){
   let rollingResistanceForce = getRollingResistanceForce(speed, car.state.acceleration, weight)
   let aeroDragForce = getAirDragForce(speed, dragCoef * dragArea)
 
-  let torque = getTorqueForRPM(engine.torqueCurve, engineRpm) * throttleInput
+  let torque = getTorqueForRPM(engine.torqueCurve, engineRpm, engine.power) * throttleInput
   let power = torqueToKW(torque, engineRpm)
 
   // brake
@@ -141,7 +141,7 @@ export function updateForces(car, dt){
       rpmForSpeed = 2700 // * throttleInput
       const propellerRatio = 5.325 // torque to thrust ratio
       const propellerDiameter = 200
-      torque = getTorqueForRPM(engine.torqueCurve, engineRpm)
+      torque = getTorqueForRPM(engine.torqueCurve, engineRpm, engine.power)
       thrustForce = getEngineForceFromTorque(torque, propellerRatio, 1, propellerDiameter)
     }
   }

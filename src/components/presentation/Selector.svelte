@@ -37,7 +37,12 @@
       <div class="label">
         {element.engine?.name}
         <div class="sublabel">
-          {element.engine?.hp}hp {#if element.gearName}{element.gearName}{/if}
+          {#if element.engine?.power}
+            {element.engine?.power}
+          {:else}
+            {element.engine?.hp}hp
+          {/if}
+          {#if element.gearName}{element.gearName}{/if}
         </div>
       </div>
     {:else if elementType === 'trim'}

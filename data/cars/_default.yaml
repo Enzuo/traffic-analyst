@@ -11,7 +11,7 @@ keywords :
 # -------------
 engine :
   name :
-  hp:
+  power:
   spec:
   torqueY: []
   torqueX: []

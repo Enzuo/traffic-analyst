@@ -203,18 +203,19 @@ export function getAirDragForce(speed, SCx){
  * (Interpolate curve)
  * @param {number[][]} torqueCurve
  * @param {number} rpm
+ * @param {number} maxPower max engine output power in kw
  * @returns {number} Nm
  */
-export function getTorqueForRPM (torqueCurve, rpm) {
-  var torque = torqueCurve.find((torque) => {
-    return torque[0] === rpm
+export function getTorqueForRPM (torqueCurve, rpm, maxPower) {
+  var torque = torqueCurve.find((tcpoint) => {
+    return tcpoint[0] === rpm
   })
   if(torque){
     return torque[1]
   }
 
-  var indexHigherRPM = torqueCurve.findIndex((torque) => {
-    return torque[0] > rpm
+  var indexHigherRPM = torqueCurve.findIndex((tcpoint) => {
+    return tcpoint[0] > rpm
   })
   // not found or first torque point was higher,
   // meaning the wanted rpm is before the torque curve if 0 or after if -1
@@ -227,7 +228,12 @@ export function getTorqueForRPM (torqueCurve, rpm) {
   var distRPM = nextTorquePoint[0] - prevTorquePoint[0]
   var distPercent = (rpm - prevTorquePoint[0]) / distRPM
   var distTorque = nextTorquePoint[1] - prevTorquePoint[1]
-  return prevTorquePoint[1] + distTorque * distPercent
+
+  var torqueValue = prevTorquePoint[1] + distTorque * distPercent
+  if(maxPower && torqueToKW(torqueValue, rpm) > maxPower ){
+    torqueValue = KWToTorque(maxPower, rpm)
+  }
+  return torqueValue
 }
 
 
@@ -267,4 +273,30 @@ export function parseEngineSpec(specString, idleRpm=1000) {
   }
 
   return torqueCurve
+}
+
+
+/**
+ * convert from one unit of a category to another
+ * @param {number|string} value
+ * @param {string=} unit infer unit from value if not provided
+ * @param {string=} toUnit default unit if not provided
+ * @returns
+ */
+export function convertUnit(value, unit, toUnit){
+  if(typeof value === 'string'){
+    const match = value.match(/(\d+\.*\d)(\w+)/);
+    unit = match[2]
+    value = parseFloat(match[1])
+  }
+
+  // TODO use a conversion table ex: [kw, hp, 0,7][nm, lbft, 1.2]
+  if(/hp/.test(unit)){
+    value = HpToKW(value)
+  }
+
+  return {
+    value,
+    unit : 'kw' // toUnit
+  }
 }
