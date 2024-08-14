@@ -17,7 +17,7 @@
     dispatch('select', {
       id : car.id,
       trimId : car.trimId,
-      engineId : car.engineId,
+      configId : car.configId,
     })
   }
 

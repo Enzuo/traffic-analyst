@@ -174,11 +174,11 @@ export function flattenCarData (data) {
   // map cars to a searchable string
   let cars = data.reduce((arr, carFile) => {
     let cars = []
-    cars.push(...splitCarTrimByEngine(carFile, 0))
+    cars.push(...splitCarTrimByConfig(carFile, 0))
     if(carFile.trims){
       carFile.trims.forEach((t, i) => {
-        let tComplete = Object.assign({}, carFile, t)
-        cars.push(...splitCarTrimByEngine(tComplete, i+1))
+        let trimComplete = Object.assign({}, carFile, t)
+        cars.push(...splitCarTrimByConfig(trimComplete, i+1))
       })
     }
 
@@ -189,19 +189,19 @@ export function flattenCarData (data) {
 }
 
 
-function splitCarTrimByEngine(car, trimId){
+function splitCarTrimByConfig(car, trimId){
   let cars = []
-  let engineId = 0
-  if(car.engine){
-    cars.push(Object.assign({}, car, {engineId, trimId}))
-    engineId++
-  }
-  if(car.engines){
-    cars.push(...car.engines.map((e) => {
-      let c = Object.assign({}, car, {...e, engineId, trimId})
-      engineId++
+  let configId = 0
+  // default setup
+
+  if(car.configs){
+    cars.push(...car.configs.map((e) => {
+      let c = Object.assign({}, car, {configId, trimId})
+      configId++
       return c
     }))
   }
+
+  // TODO use generateConfigs
   return cars
 }
