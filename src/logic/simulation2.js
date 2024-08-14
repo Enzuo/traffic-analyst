@@ -39,6 +39,8 @@ export function Simulation () {
   }
 
   const stop = () => {
+    if(!isPlaying)
+      return
     window.cancelAnimationFrame(cancelLoopHandler)
     cancelLoopHandler = null
     isPlaying = false

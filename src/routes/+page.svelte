@@ -7,7 +7,7 @@
   import TestProcedural from '@/components/tools/TestProcedural.svelte';
   import TrafficSimPixelBanner from '@/components/container/TrafficSimPixelBanner.svelte'
   import createTrafficSimulation from '@/logic/trafficsim/trafficSimulation'
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
   import BackgroundCanvas from '@/components/container/BackgroundCanvas.svelte'
 
@@ -21,6 +21,12 @@
   onMount(() => {
     simulation.start()
     debugPerf = simulation.debug.perf
+  })
+
+  onDestroy(() => {
+    if(simulation){
+      simulation.stop()
+    }
   })
 </script>
 

@@ -1,17 +1,24 @@
 <script>
   import { createTrafficScene } from '@/logic/2DScene/TrafficScene'
   import trafficSimulation from '@/logic/trafficsim/trafficSimulation'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
 
   export let traffic_sim
 
   let canvas
   let debugPerf
+  let trafficScene
 
   onMount(() => {
-    var trafficScene = createTrafficScene(canvas, traffic_sim)
+    trafficScene = createTrafficScene(canvas, traffic_sim)
     debugPerf = trafficScene.debug.perf
+  })
+
+  onDestroy(() => {
+    if(trafficScene){
+      trafficScene.stop()
+    }
   })
 </script>
 
