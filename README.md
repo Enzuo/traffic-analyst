@@ -72,7 +72,7 @@ Modeling steps :
 1m -> 33.3 pixels
 1cm -> 0.33 pixels
 
-### Texture
+#### Texture
 
 If using blueprint as base -> measure their length in pixel & car pixel length `lmm * 0.033` to resize it
 
@@ -84,3 +84,7 @@ First 5 pixels define the colors palette than can be altered to change the car c
 3 : lighter
 4 : darker+
 5 : lighter+
+
+#### 2D Scene
+
+1cm -> 0.1 pixel

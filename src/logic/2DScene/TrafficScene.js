@@ -158,7 +158,10 @@ function createCar(car) {
   var img = new Image()
 
   // Set the source of the image
-  img.src = ASSETS_PATH + 'landroverDefender.png'
+  // TODO read model in car
+  const modelsPath = ['landroverDefender', 'teslaCybertruck', 'citroenC15']
+  const modelIndex = Math.floor(Math.random() * modelsPath.length)
+  img.src = ASSETS_PATH + modelsPath[modelIndex] + '.png'
 
   // Draw the image on the canvas once it's loaded
   img.onload = function () {
@@ -177,7 +180,7 @@ function createCar(car) {
 
   function draw(ctx, posx, posy){
     position.x = car.state.position*10
-    ctx.drawImage(img, Math.floor(position.x) + posx, position.y+45-img.height)
+    ctx.drawImage(img, Math.floor(position.x) + posx, position.y+41-img.height)
   }
 
   return {
