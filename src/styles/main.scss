@@ -232,5 +232,10 @@ h5 {
  * Markdown articles
  */
 .article p {
-  margin:12px;
+  margin: 3em;
+  line-height: 1.6em;
+}
+
+a {
+  color: var(--primary);
 }

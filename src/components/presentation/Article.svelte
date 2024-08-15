@@ -8,8 +8,7 @@
 <div class="article">
   <h1>{title}</h1>
   <img src={'images/' + image} />
-  <p class="date">on: {date}</p>
-  <p class="date">by: {author}</p>
+  <p class="date">{date}</p>
   <slot>
     <!-- the mdsvex content will be slotted in here -->
   </slot>
@@ -22,5 +21,10 @@
     border: 2px solid var(--primary);
     margin: 24px;
     padding: 24px;
+  }
+
+  .date {
+    margin: 0.5em;
+    color: var(--secondary)
   }
 </style>
