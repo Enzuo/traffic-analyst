@@ -6,7 +6,6 @@ import { marked } from 'marked'
 
 export async function load() {
   // const files1 =  fs.readdirSync('./')
-  // console.log(files1)
   const files = fs.readdirSync('data/articles').filter((file) => file.endsWith('.md'))
 
   const articles = await Promise.all(

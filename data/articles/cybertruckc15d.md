@@ -16,4 +16,4 @@ This comparison begs the question: Do you really need to spend a fortune to have
 
 Despite its flaws, the Cybertruck deserves credit for pushing the boundaries of automotive design and attempting to reinvigorate a field that has remained largely static for years. Innovation comes with risks and challenges, especially when trying to match or surpass the tried-and-true behemoths that have dominated the market for so long.
 
-[Go to comparison](/compare?id=tesla_cybertruck&tid=0&cid=1&id=citroen_c15d&tid=0&cid=0)
+[Go to comparison](compare?id=tesla_cybertruck&tid=0&cid=1&id=citroen_c15d&tid=0&cid=0)

@@ -13,8 +13,6 @@
 
   export let data
 
-  console.log(data)
-
   let simulation = createTrafficSimulation()
   let debugPerf
 
