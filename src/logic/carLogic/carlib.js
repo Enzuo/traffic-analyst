@@ -312,8 +312,6 @@ export function convertQty(value, unit, fromUnit){
     i++
   }
 
-  console.log('got ratios', ratios, 'for ', value, unit, fromUnit)
-
   function findRatiosForUnits(dimension, toUnit, fromUnit){
     let toUnitRatio
     let fromUnitRatio
@@ -334,7 +332,6 @@ export function convertQty(value, unit, fromUnit){
         }
       }
       else {
-        console.log('default toUnit', toUnit)
         toUnit = dimension[0]
         toUnitRatio = 1
       }
@@ -350,7 +347,6 @@ export function convertQty(value, unit, fromUnit){
         }
       }
       else {
-        console.log('default fromUnit', fromUnit)
         fromUnit = dimension[0]
         fromUnitRatio = 1
       }
@@ -370,7 +366,6 @@ export function convertQty(value, unit, fromUnit){
 
   // convert with ratios
   value = value / ratios.fromUnitRatio * ratios.toUnitRatio
-  console.log('final value', value, ratios.toUnit)
 
   return {
     value,

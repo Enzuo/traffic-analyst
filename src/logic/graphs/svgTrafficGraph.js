@@ -1,7 +1,6 @@
 import { SVG } from '@svgdotjs/svg.js'
 import zoeSvg from './zoe.svg?src'
 import { createPerformanceObserver } from '@/debug/performance/PerformanceObserver'
-console.log(zoeSvg)
 
 
 

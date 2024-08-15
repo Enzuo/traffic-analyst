@@ -159,8 +159,6 @@ export async function loadDefaultCarModelProc(car){
     ], true),
     createFacesBetweenFrames(viFrame,viFrame2, viWRear,viWRear2, viWFront,viWFront2, bodyType)
   )
-  console.log("vertices Array", vertices, faces)
-
 
   let geometry = new THREE.BufferGeometry()
   geometry.setIndex( faces );

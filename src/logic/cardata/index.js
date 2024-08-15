@@ -102,7 +102,6 @@ function generateConfigs(car){
   if(car.configs){
     // default config with default engine/default gearbox
     if(car.engine){
-      console.log('got default engine defined')
       configs.push({engine: car.engine, gearbox: availableGearboxes[0]})
     }
     return configs.concat(car.configs)

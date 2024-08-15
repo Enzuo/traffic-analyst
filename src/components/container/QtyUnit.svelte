@@ -7,8 +7,6 @@
   export let precision = 2
 
   let qty = convertQty(value, unit, fromUnit)
-
-  console.log('convertQty', qty)
 </script>
 
 <div >

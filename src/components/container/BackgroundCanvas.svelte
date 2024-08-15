@@ -24,7 +24,9 @@
 <div class="background">
   <canvas bind:this={canvas} width="480" height="480"/>
 
-  <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+  <div style="display: none;">
+    <DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+  </div>
 </div>
 
 <style>

@@ -1,6 +1,6 @@
 <script>
   import { createPerformanceGraph  } from './PerformanceGraph';
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
 
   export let top = 0
   /** @type {PerformanceOb} */
@@ -24,6 +24,12 @@
 
     // const ctx = canvas.getContext('2d')
     // Initialize and start the real-scale 2D traffic view here
+  })
+
+  onDestroy(() => {
+    if(performanceGraph){
+      performanceGraph.stop()
+    }
   })
 </script>
 
