@@ -1,0 +1,101 @@
+name : F250
+brand : Ford
+trim :
+year :
+unitsProduced :
+price : $46,965
+keywords :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : V8TD
+  power: 325hp
+  spec:
+  torqueY: []
+  torqueX: []
+  type : # petrol, diesel, hybrid, electric
+  layout : # boxer2, l4, v6
+  displacement :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name :
+  gearRatio : []
+  reverseRatio :
+  transferRatio :
+  driveRatio :
+wheelDiameter : # 63cm
+type : #AWD, RWD, FWD
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+    gearbox :
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 2612
+length: 6243
+width: 2029
+height: 2052
+dragCoef:
+dragArea:
+
+wheelbase:
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk:
+trunkMax:
+seats:
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption : 18l/100
+energyTank : 144
+autonomy :
+turningCircle :
+wheelType : 235/85R16
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
