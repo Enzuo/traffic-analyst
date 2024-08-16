@@ -4,6 +4,8 @@ import path from 'path'
 import matter from 'gray-matter'
 import { marked } from 'marked'
 
+export const prerender = true;
+
 export async function load() {
   // const files1 =  fs.readdirSync('./')
   const files = fs.readdirSync('data/articles').filter((file) => file.endsWith('.md'))

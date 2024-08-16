@@ -17,14 +17,25 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		// adapter: adapter()
 		adapter: adapterStatic({
-      fallback: 'index.html',
+      fallback: '404.html'
     }),
     paths: {
       base: process.env.NODE_ENV === "production" ? "/traffic-analyst" : "",
     },
     version: {
       name: pkg.version
-    }
+    },
+    prerender: {
+			handleHttpError: ({ path, referrer, message }) => {
+				// ignore deliberate link to shiny 404 page
+				// if (path === '/not-found' && referrer === '/blog/how-we-built-our-404-page') {
+				// 	return;
+				// }
+
+				// otherwise fail the build
+				// throw new Error(message);
+			}
+		}
 	},
 
 

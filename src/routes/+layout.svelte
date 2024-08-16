@@ -10,9 +10,6 @@
   import "@/styles/reset.css"
   import "@/styles/main.scss"
 
-  // disable ssr for static pages
-  export const ssr = false;
-
 </script>
 
 <svelte:head>

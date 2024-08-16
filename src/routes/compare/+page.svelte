@@ -1,4 +1,5 @@
 <script>
+  import { page } from '$app/stores';
   import { onMount } from 'svelte'
   import UPlotRealtime from '@/components/container/UPlotRealtime.svelte'
   import { getPowerRequiredForSpeed } from '@/logic/carLogic/carlib'
@@ -9,25 +10,55 @@
   import Table from '@/components/presentation/Table.svelte'
   import _get from 'lodash.get'
 
-  export let data
-  export let carIds = data.carIds
+  // export let data
+  let carIds
   const colors = ["blue","red","orange","green","purple"]
 
   // function updateParams(data){
   //   carIds = data.carIds
   // }
-
-
-
-
-
-  let { carEntities, simulation, setup3Dsimulation } = carCompare(carIds)
+  let carEntities, simulation, setup3Dsimulation
+  let generalInfosTableHeader, generalInfosTableData
+  let dimensionsTableColumns, dimensionsDataTable
   let time = 0
   let speed = 0
 
+  onMount(() => {
+    let carSIds = $page.url.searchParams.getAll('id')
+    let trimIds = $page.url.searchParams.getAll('tid')
+    let configIds = $page.url.searchParams.getAll('cid')
+    carIds = carSIds.map((id, index) => ({
+      id : id,
+      tid : trimIds[index],
+      cid : configIds[index],
+    }))
 
-  // General infos table
-  let generalInfosTableRows = [
+
+
+    let dataCompare = carCompare(carIds)
+    carEntities = dataCompare.carEntities
+    simulation = dataCompare.simulation
+
+
+
+
+    let generalInfosTable = getTableData(carEntities, generalInfosTableRows)
+    generalInfosTableHeader = generalInfosTable[0]
+    generalInfosTableData = generalInfosTable[1]
+
+
+    let dimensionsTable = getTableData(carEntities, dimensionsTableRows)
+    dimensionsTableColumns = dimensionsTable[0]
+    dimensionsDataTable = dimensionsTable[1]
+
+    // simulation observe
+    simulation.subscribeTick((t, dt) => {
+      time = t
+    })
+  })
+
+    // General infos table
+    let generalInfosTableRows = [
     {label: 'brand'},
     {label: 'name'},
     {label: 'trim'},
@@ -35,7 +66,6 @@
     {label: 'power', units : 'hp', key : 'engine.hp'},
     {label: 'price'},
   ]
-  let [generalInfosTableHeader, generalInfosTableData] = getTableData(carEntities, generalInfosTableRows)
 
   // Dimensions table
   let dimensionsTableRows = [
@@ -45,7 +75,6 @@
     {label: 'height', units : 'mm'},
     {label: 'wheelbase', units : 'mm'},
   ]
-  let [dimensionsTableColumns, dimensionsDataTable] = getTableData(carEntities, dimensionsTableRows)
 
 
   function getTableData(data, rows){
@@ -61,10 +90,7 @@
     return [columnsHead, dataTable]
   }
 
-  // simulation observe
-  simulation.subscribeTick((t, dt) => {
-    time = t
-  })
+
 
   function handleStart() {
     simulation.start()
@@ -78,6 +104,9 @@
   }
 
 </script>
+
+
+{#if carIds}
 <SceneGraphSimulation carEntities={carEntities} simulation={simulation} colors={colors}></SceneGraphSimulation>
 {#each carEntities as carEntity}
   Car : {carEntity.props.name} {carEntity.props.trim}
@@ -131,3 +160,4 @@
   time={time}
   observed={carEntity.state}
 ></GraphRtUplot> -->
+{/if}
