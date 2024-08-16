@@ -374,6 +374,6 @@ export function convertQty(value, unit, fromUnit){
 }
 
 const conversionTable = [
-  ['kw', 'hp', 1.341,'bhp', 1.3596],
-  ['nm', 'ftlb', 0.7376],
+  ['kw', 'hp', 1.341, 'bhp', 1.359, 'ps', 1.35962],
+  ['nm', 'ftlb', 0.7376, 'mkg', 0.10197],
 ]

@@ -6,7 +6,7 @@ image: cybertruckc15d.png
 ---
 
 Reunited for an improbable duel, the Tesla Cybertruck vs the Citroën C15D.
-Both vehicles boast cargo space large enough to transport a small hay bale or your various farming tools and can get you from point A to point B in your law abiding journey.
+Both vehicles boast cargo space large enough to transport a small hay bale or your various farming tools and can get you from point A to point B using the same time in your law abiding journey.
 
 Released to the public in 2023, the Cybertruck promised extraordinary capabilities. However, its initial tests left much to be desired, especially in terms of off-road performance, where it struggled with even basic obstacles. This shortfall led to humorous comparisons on the web with the Citroën C15D, a vehicle nearly 40 years older and ten times cheaper. Originally meant as a joke, these comparisons highlighted how a decades-old, budget-friendly vehicle could, in many ways, rival the futuristic Cybertruck in practical off-road capability.
 

@@ -6,38 +6,6 @@ unitsProduced :
 price :
 keywords :
 
-# -------------
-# ENGINE
-# -------------
-engine :
-  name :
-  power:
-  spec:
-  torqueY: []
-  torqueX: []
-  type : # petrol, diesel, hybrid, electric
-  layout : # boxer2, l4, v6
-  displacement :
-
-
-# -------------
-# TRANSMISSION
-# -------------
-gearbox :
-  name :
-  gearRatio : []
-  reverseRatio :
-  transferRatio :
-  driveRatio :
-wheelDiameter : # 63cm
-type : #AWD, RWD, FWD
-
-# -------------
-# CONFIGS : possible configs combinations for this car &
-# -------------
-configs :
-  - engine :
-    gearbox :
 
 # -------------
 # DIMENSIONS
@@ -55,6 +23,54 @@ clearance:
 trunk:
 trunkMax:
 seats:
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+    gearbox :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name :
+  power:
+  spec:
+  torqueY: []
+  torqueX: []
+  type : # petrol, diesel, hybrid, electric
+  layout : # boxer2, l4, v6
+  displacement :
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name :
+  gearRatio : []
+  reverseRatio :
+  transferRatio :
+  driveRatio :
+wheelDiameter : # 63cm
+type : #AWD, RWD, FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
+
 
 # -------------
 # STATS
@@ -84,17 +100,6 @@ modelMisc:
 wheelScale:
 modelLights :
 
-# -------------
-# ENGINES : define additional available engines for this car
-# -------------
-engines :
-  - name :
-
-# -------------
-# GEARBOXES : define additional available gearboxes for this car
-# -------------
-gearboxes :
-  - name :
 
 # -------------
 # TRIMS
