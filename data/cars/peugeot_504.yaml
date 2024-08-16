@@ -1,0 +1,133 @@
+name : 504
+brand : Peugeot
+trim :
+year : 1968-2005
+unitsProduced : 4,000,000
+price : 17370fr # For the GL
+keywords :
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : XM7 1.8
+  power : 78hp
+  spec : 140nm@2500 78hp@5100
+  displacement : 1796
+  type : petrol
+  layout : l4
+
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name : XN1
+    power : 93hp
+    spec :
+    type : petrol
+    displacement : 1971
+
+  - name : XD2 2.3D
+    power : 70hp
+    spec : 134nm@2500 70hp@4500
+    type : diesel
+    displacement :
+
+  - name : V6
+    power : 144hp
+    type : petrol
+
+  - name : XMKF6 1.8
+    power : 97hp # 87 SAE
+    displacement : 1796
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : 400/BA7
+  gearRatio : [3.667, 2.170, 1.409, 1]
+  reverseRatio : 3.747
+  transferRatio :
+  driveRatio : 3.8
+wheelDiameter : 63.4
+type : RWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1140
+length: 4490
+width: 1690
+height: 1460
+dragCoef: 0.44
+dragArea: 2.04 # approx
+
+wheelbase: 2740
+bodyType: sedan
+clearance: 160
+trunk: 448
+trunkMax:
+seats: 5
+
+# -------------
+# STATS
+# -------------
+acc0100: 15.8
+vmax: 154
+avgConsumption : 11l/100
+energyTank : 56l
+autonomy :
+turningCircle : 10.4 # 17.1ft between kerbs 17.9
+wheelType : 175HR14
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : break
+
+    length: 4800
+    height: 1550
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+# https://www.504.org/technic.htm
+# http://www.garage24.net/0504-7.htm
+# http://leroux.andre.free.fr/catalogue504.htm
+# https://tractors.fandom.com/wiki/Peugeot_504
+# https://www.mecanicus.com/autopedia/peugeot-504-gl-berline-carbus
