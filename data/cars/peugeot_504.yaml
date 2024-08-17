@@ -2,9 +2,10 @@ name : 504
 brand : Peugeot
 trim :
 year : 1968-2005
-unitsProduced : 4,000,000
+unitsProduced : 3,700,000 # 1% sold as cabriolet, ~25% break
 price : 17370fr # For the GL
 keywords :
+appearances : Le Gendarme en Balade; Gyakie - Forever Remix
 
 # -------------
 # ENGINE
@@ -24,19 +25,15 @@ engine :
 engines :
   - name : XN1
     power : 93hp
-    spec :
+    spec : 159nm@3000 93hp@5600
     type : petrol
     displacement : 1971
 
   - name : XD2 2.3D
     power : 70hp
-    spec : 134nm@2500 70hp@4500
+    spec : 120nm@2000 70hp@4500
     type : diesel
-    displacement :
-
-  - name : V6
-    power : 144hp
-    type : petrol
+    displacement : 2304 # 8.6l/100
 
   - name : XMKF6 1.8
     power : 97hp # 87 SAE
@@ -103,8 +100,8 @@ liftDragRatio:
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: peugeot504
+modelWheel: wheelPeugeot504
 modelMisc:
 wheelScale:
 modelLights :
@@ -119,6 +116,15 @@ trims :
 
     length: 4800
     height: 1550
+    wheelbase: 2900
+
+    bodyType: break
+    model: peugeot504break
+
+    weight : 1238
+    seats: 7
+
+
 
 # -------------
 # OPTIONS (available on all trims)
@@ -131,3 +137,6 @@ options:
 # http://leroux.andre.free.fr/catalogue504.htm
 # https://tractors.fandom.com/wiki/Peugeot_504
 # https://www.mecanicus.com/autopedia/peugeot-504-gl-berline-carbus
+# https://absolutelycars.fr/culture-automobile/focus-sur-la-peugeot-504-la-francaise-star-du-cinema/
+# https://www.carjager.com/blog/article/peugeot-504-le-si-discret-best-seller-du-lion.html
+# https://www.pylaclassiccars.com/Rare-504-break-bleue-7-places-de-1976_a213.html
