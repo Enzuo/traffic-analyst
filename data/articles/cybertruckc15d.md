@@ -1,5 +1,5 @@
 ---
-title: Cybertruck & C15D
+title: Cybertruck vs C15D
 author: Enzuo
 date: "2024-07-21"
 image: cybertruckc15d.png
