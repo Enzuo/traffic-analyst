@@ -1,7 +1,7 @@
 name : F250
 brand : Ford
-trim :
-year :
+trim : Super Duty III
+year : 2011-2016
 unitsProduced :
 price : $46,965
 keywords :
@@ -11,26 +11,24 @@ keywords :
 # -------------
 engine :
   name : V8TD
-  power: 325hp
-  spec:
-  torqueY: []
-  torqueX: []
-  type : # petrol, diesel, hybrid, electric
-  layout : # boxer2, l4, v6
-  displacement :
+  power: 385hp
+  spec: 549nm@4500 385Hp@5750
+  type : petrol
+  layout : v8
+  displacement : 6211
 
 
 # -------------
 # TRANSMISSION
 # -------------
 gearbox :
-  name :
-  gearRatio : []
-  reverseRatio :
+  name : 6R140 TorqShift
+  gearRatio : [3.97, 2.32, 1.52, 1.15, 0.86, 0.67]
+  reverseRatio : 3.13
   transferRatio :
-  driveRatio :
-wheelDiameter : # 63cm
-type : #AWD, RWD, FWD
+  driveRatio : 3.73
+wheelDiameter : 80
+type : AWD
 
 # -------------
 # CONFIGS : possible configs combinations for this car &
@@ -42,36 +40,36 @@ configs :
 # -------------
 # DIMENSIONS
 # -------------
-weight : 2612
-length: 6243
+weight : 2813
+length: 6314
 width: 2029
-height: 2052
-dragCoef:
-dragArea:
+height: 1953
+dragCoef: 0.36
+dragArea: 2.93
 
-wheelbase:
-bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
-clearance:
-trunk:
+wheelbase: 4013
+bodyType: pickup
+clearance: 216
+trunk: 2189
 trunkMax:
-seats:
+seats: 5
 
 # -------------
 # STATS
 # -------------
-acc0100:
+acc0100: 7.9 # approx
 vmax:
 avgConsumption : 18l/100
-energyTank : 144
+energyTank : 132
 autonomy :
 turningCircle :
-wheelType : 235/85R16
+wheelType : 235/85R16 # 265/70 R17
 
 # -------------
 # 3D
 # -------------
-model:
-modelWheel:
+model: ford_f250_gen12
+modelWheel: wheelf250
 modelMisc:
 wheelScale:
 modelLights :
@@ -99,3 +97,5 @@ trims :
 # -------------
 options:
   - name :
+
+# https://ecomodder.com/wiki/Vehicle_Coefficient_of_Drag_List
