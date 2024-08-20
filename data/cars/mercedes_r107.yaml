@@ -1,0 +1,123 @@
+name : R107
+brand : Mercedes
+trim : SL
+year : 1971–1989
+unitsProduced : 300,175  # 237,287 SL 62,888 SLC
+price : $11000 # in 1972 --> 82700$ 2024
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1600
+length: 4390
+width: 1790
+height: 1290
+dragCoef:
+dragArea:
+
+wheelbase: 2460
+bodyType: roadster convertible cabriolet
+clearance:
+trunk:
+trunkMax:
+seats: 2
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : M116.980 V8 350
+  power: 187hp
+  spec: 286nm@4000 197hp@5800
+  type : petrol
+  layout : v8
+  displacement :
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : Model 716.0 (G76)
+  gearRatio : [3.46, 2.18, 1.38, 1.00]
+  reverseRatio : 3.46
+  transferRatio :
+  driveRatio : 3.46
+  gearSpeed : 35
+wheelDiameter : 64
+type : RWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name : W3A 040 722.0
+    gearRatio : [2.65, 1.48, 1.00]
+    reverseRatio : 2.20
+    driveRatio : 3.46
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 8 # approx - 9 automatic
+vmax: 212
+avgConsumption : 14.5l/100 #18.5l/100
+energyTank : 90l
+autonomy :
+turningCircle :
+wheelType : 205/70VR14
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : C107 SLC
+    length : 4750
+    height : 1330
+    wheelbase : 2820
+    weight: 1650
+    bodyType : coupe
+    seats : 5
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+# https://mb107.com/models/350sl.htm
