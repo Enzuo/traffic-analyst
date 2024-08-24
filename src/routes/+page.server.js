@@ -28,5 +28,10 @@ export async function load() {
       return { file, frontmatter: articleData.data, content: articleContent }
     })
   )
+  articles.sort((a, b) => {
+    var dateA = new Date(a.frontmatter.date).getTime()
+    var dateB = new Date(b.frontmatter.date).getTime()
+    return (dateB - dateA)
+  })
   return { articles }
 }
