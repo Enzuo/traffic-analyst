@@ -113,6 +113,8 @@ trims :
     weight: 1650
     bodyType : coupe
     seats : 5
+    model: mercedesc107
+
 
 # -------------
 # OPTIONS (available on all trims)
