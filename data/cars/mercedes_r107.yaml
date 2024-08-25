@@ -95,7 +95,7 @@ liftDragRatio:
 # -------------
 # 3D
 # -------------
-model:
+model: mercedesr107
 modelWheel:
 modelMisc:
 wheelScale:
