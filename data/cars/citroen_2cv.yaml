@@ -3,6 +3,8 @@ brand : Citroen
 year : 1953
 price: 5000fr
 unitsProduced : 5,114,961 # peak 232.551 en 1964 remplacé progressivement par Dyane
+appearances : For your eyes only (james bond)
+
 
 # -------------
 # ENGINE

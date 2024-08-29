@@ -1,0 +1,119 @@
+name : Thames Trader
+brand : Ford
+trim : Thames Trader NC; K series
+year : 1957-1965
+unitsProduced : 121 853
+price : £800
+keywords :
+appearances : Omah lay - Moving; The prisoner (2009)
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight :
+length:
+width:
+height:
+dragCoef:
+dragArea:
+
+wheelbase: # 3 3.5 3.86 4
+bodyType: truck
+clearance:
+trunk:
+trunkMax:
+seats: 3
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+    gearbox :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Ford 4D 3.6
+  power: 73hp
+  spec:
+  type : petrol
+  layout : l4
+  displacement : 3622
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name :
+  gearRatio : [6.58, 3.69, 2.10, 1.00]
+  reverseRatio : 7.82
+  transferRatio :
+  driveRatio : 5.83
+wheelDiameter : # 63cm
+type : #AWD, RWD, FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
+
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax: 80
+avgConsumption :
+energyTank :
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+
+# https://www.imcdb.org/vehicles_make-Ford_model-K-Series.html
+# https://www.youtube.com/watch?app=desktop&v=UC99PhvXk4w
+# https://www.armyvehicles.dk/fordthamestrader.htm
+# https://archive.commercialmotor.com/article/24th-may-1957/57/thames-trader-prices
