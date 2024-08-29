@@ -62,7 +62,7 @@
     "pts": "^0.10.12",
     "sirv-cli": "^1.0.14",
     "svelte-watch-resize": "^1.0.3",
-    "three": "^0.140.2",
+    "three": "^0.167.1",
     "three-to-cannon": "^4.3.0",
     "uplot": "^1.6.24"
   },

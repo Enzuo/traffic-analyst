@@ -1,11 +1,21 @@
 <script>
-  import { createScene } from "@/logic/3DsceneGraph/TestScene"
-  import { onMount } from "svelte"
+  import DebugPerformanceGraph from "@/debug/performance/DebugPerformanceGraph.svelte"
+import { createScene } from "@/logic/3DsceneGraph/TestScene"
+  import { onMount, onDestroy } from "svelte"
 
   let graphContainer
+  let debugPerf
+  let scene
 
   onMount(() => {
-    createScene(graphContainer)
+    scene = createScene(graphContainer)
+    debugPerf = scene.debugPerf
+  })
+
+  onDestroy(() => {
+    if(scene){
+      scene.destroy()
+    }
   })
 </script>
 
@@ -13,7 +23,9 @@
 
 <div class="graph" bind:this={graphContainer}></div>
 
+<DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+
 
 <style>
-	.graph { width: 400px; height: 400px; }
+	.graph { width: 400px; height: 400px; padding-top:15px; }
 </style>
