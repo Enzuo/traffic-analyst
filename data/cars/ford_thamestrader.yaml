@@ -77,7 +77,7 @@ gearboxes :
 acc0100:
 vmax: 80
 avgConsumption :
-energyTank :
+energyTank : 106
 autonomy :
 turningCircle :
 wheelType :
