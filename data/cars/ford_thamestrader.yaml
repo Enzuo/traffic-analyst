@@ -11,14 +11,14 @@ appearances : Omah lay - Moving; The prisoner (2009)
 # -------------
 # DIMENSIONS
 # -------------
-weight :
-length:
-width:
-height:
-dragCoef:
-dragArea:
+weight: 3000
+length: 7036
+width: 2165
+height: 2433
+dragCoef: 0.7
+dragArea: 5.3
 
-wheelbase: # 3 3.5 3.86 4
+wheelbase: 4300
 bodyType: truck
 clearance:
 trunk:
@@ -29,9 +29,6 @@ seats: 3
 # -------------
 # CONFIGS : possible configs combinations for this car &
 # -------------
-configs :
-  - engine :
-    gearbox :
 
 
 # -------------
@@ -40,7 +37,7 @@ configs :
 engine :
   name : Ford 4D 3.6
   power: 73hp
-  spec:
+  spec: 214nm@1500 73hp@3000
   type : petrol
   layout : l4
   displacement : 3622
@@ -49,26 +46,34 @@ engine :
 # ENGINES : define additional available engines for this car
 # -------------
 engines :
-  - name :
+  - name : Ford 6D Diesel
+    power : 104hp
+    spec : 324nm@1600 104hp@2800
+    type : diesel
+    layout : l6
+    displacement : 5408
 
 
 # -------------
 # TRANSMISSION
 # -------------
 gearbox :
-  name :
+  name : 4 speed
   gearRatio : [6.58, 3.69, 2.10, 1.00]
   reverseRatio : 7.82
   transferRatio :
   driveRatio : 5.83
-wheelDiameter : # 63cm
-type : #AWD, RWD, FWD
+wheelDiameter : 89
+type : RWD
 
 # -------------
 # GEARBOXES : define additional available gearboxes for this car
 # -------------
 gearboxes :
-  - name :
+  - name : 5 speed
+    gearRatio : [7.58, 4.10, 2.13, 1.17, 1]
+    reverseRatio : 7.20
+    driveRatio : 5.83 # 6.14
 
 
 # -------------
@@ -83,19 +88,11 @@ turningCircle :
 wheelType :
 
 # -------------
-# PLANE STATS
-# -------------
-groundRoll:
-takeOffSpeed:
-wingArea:
-liftDragRatio:
-
-# -------------
 # 3D
 # -------------
-model:
-modelWheel:
-modelMisc:
+model: ford_thamestrader
+modelWheel: wheelThamesTrader
+modelMisc: Bed
 wheelScale:
 modelLights :
 
