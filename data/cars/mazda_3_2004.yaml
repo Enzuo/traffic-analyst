@@ -2,8 +2,8 @@ name : 3
 brand : Mazda
 trim : BK Hatchback
 year : 2004
-unitsProduced :
-price :
+unitsProduced : 2,200,000
+price : 15 000 €
 
 # -------------
 # ENGINE

@@ -3,7 +3,7 @@ brand : Volvo
 trim : pv445
 year : 1953
 unitsProduced : 97200 # 29 409 unités (PV445), 60 100 unités (P210)
-price : $900 # 6200Krona
+price : $2500 # 6200Krona
 
 # -------------
 # ENGINE

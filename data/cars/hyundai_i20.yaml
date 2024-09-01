@@ -2,6 +2,7 @@ name : i20 II
 trim : 1.2 (84)
 brand : Hyundai
 year : 2015
+price : 12600€ # 12600k premier prix 75cv, ~15k pour l'entrée de gamme
 
 # -------------
 # ENGINE
