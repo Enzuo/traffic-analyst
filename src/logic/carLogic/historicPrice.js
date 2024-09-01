@@ -41,6 +41,7 @@ const HouseholdIncome = {
     [1970, 30000],      // Francs
     [1980, 65000],      // Francs
     [1990, 120000],     // Francs
+    [1999, 125000],     // Francs
     [2000, 20000],      // Euros (conversion from francs to euros)
     [2010, 27000],      // Euros
     [2020, 36000],      // Euros
