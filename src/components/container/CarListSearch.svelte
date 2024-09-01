@@ -5,6 +5,7 @@
   import CarList from '@/components/presentation/CarList.svelte'
   import SortSelector from './SortSelector.svelte'
   import { parseDate } from '@/logic/cardata'
+  import { HistoricPrice } from '@/logic/carLogic/historicPrice'
 
   export let cars=[]
   export let selectedCarId=null
@@ -16,8 +17,6 @@
 
   $: sortFn = getSortFn(sortBy)
   $: carsSorted = cars.toSorted(sortFn)
-  $: foo = "hello" + sortFn
-
 
   function handleCarClick (e) {
     let car = e.detail.car
@@ -38,7 +37,6 @@
   // Utils
 
   function getSortFn(sortBy){
-    console.log('getSortFn', sortBy)
     if(sortBy === 'name'){
       return (a, b) => {
         return a.name - b.name
@@ -53,7 +51,12 @@
 
     if(sortBy === 'price'){
       return (a, b) => {
-        return a.price - b.price
+        let aNormalizedPrice = HistoricPrice(a.price, parseDate(a.year)[0])[0]
+        let bNormalizedPrice = HistoricPrice(b.price, parseDate(b.year)[0])[0]
+        // unknown price -> sort at the end
+        if(!aNormalizedPrice) return 1
+        if(!bNormalizedPrice) return -1
+        return  aNormalizedPrice - bNormalizedPrice
       }
     }
   }
@@ -63,5 +66,4 @@
 
 <SearchBar on:search ></SearchBar>
 <SortSelector options={sortOptions} currentSort={sortBy} on:select={handleSortSelect}></SortSelector>
-{foo}
 <CarList cars={carsSorted} selectedCarId={selectedCarId} on:click={handleCarClick}></CarList>

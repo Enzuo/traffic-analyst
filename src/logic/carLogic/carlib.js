@@ -214,6 +214,7 @@ export function getTorqueForRPM (torqueCurve, rpm, maxPower) {
     return torque[1]
   }
 
+  // TODO use curve lib
   var indexHigherRPM = torqueCurve.findIndex((tcpoint) => {
     return tcpoint[0] > rpm
   })

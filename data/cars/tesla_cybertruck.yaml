@@ -2,7 +2,7 @@ name : Cybertruck
 brand : Tesla
 year : 2023
 unitsProduced :
-price : 73500
+price : 73500$
 keywords :
 
 
@@ -28,7 +28,7 @@ configs:
     acc0100: 6.7
     vmax: 180
     autonomy: 402
-    price: 56000
+    price: 56000$
 
   - trim: awd
     engine:
@@ -37,7 +37,7 @@ configs:
     acc0100: 4.3
     vmax: 180
     autonomy: 515
-    price: 73500
+    price: 73500$
     weight: 3009
 
   - trim: cyberbeast
@@ -48,7 +48,7 @@ configs:
     acc0100: 2.7
     vmax: 209
     autonomy: 515
-    price: 92000
+    price: 92000$
     weight: 3113
 
 
