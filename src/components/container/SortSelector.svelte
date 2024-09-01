@@ -24,3 +24,9 @@
 <div on:click={handleClick}>
   Sort by {currentSort}
 </div>
+
+<style>
+  div {
+    cursor:pointer;
+  }
+</style>

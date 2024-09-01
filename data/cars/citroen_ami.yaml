@@ -2,6 +2,7 @@ name : Ami
 brand : Citroen
 trim :
 year : 2020
+price : 6000€
 
 # -------------
 # ENGINE

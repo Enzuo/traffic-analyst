@@ -85,7 +85,7 @@ export function HistoricPrice(price, year, currency) {
     [priceAmount, currency] = parsePrice(price)
   }
 
-  if(!currency){
+  if(!currency || !year){
     return [priceAmount, null]
   }
 
