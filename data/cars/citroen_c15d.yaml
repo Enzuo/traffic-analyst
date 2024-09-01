@@ -10,9 +10,9 @@ keywords : campagne, cybertruck
 # ENGINE
 # -------------
 engine :
-  name : 1.9D DW8B
-  hp: 60
-  spec: 60hp@4600 106nm@2500
+  name : 1.9D WJZ
+  hp: 70
+  spec: 70hp@4600 125nm@2500
   type : diesel
   layout : l4
   displacement : 1868
@@ -65,8 +65,8 @@ weight: 945
 length:	3995
 width: 1636
 height: 1801
-dragCoef:
-dragArea:
+dragCoef: 0.35
+dragArea: 2.97
 
 wheelbase: 2740
 bodyType: van

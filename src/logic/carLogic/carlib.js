@@ -273,7 +273,7 @@ export function parseEngineSpec(specString, idleRpm=1000) {
     torqueCurve.unshift([idleRpm, maxTorque * idleTorqueX ])
   }
 
-  return torqueCurve
+  return torqueCurve.toSorted((a, b) => a[0] - b[0])
 }
 
 
