@@ -11,32 +11,34 @@ price :
 engine :
   name : human pro
   # hp: 0.35 # 250watt , 200watt cat5, 400watt pro
-  hp: 0.58 # 430watt
-  torqueY: [133,68,41,25] # 250watt, 500w sprint 1min, 1000w sprint 5s  -- max force 3 time body weight
-  torqueX: [0,60,100] # pro cadence : 100 amateur : 80 leisure : 60
+  power: 0.58hp # 430watt
+  torqueY: [133,68,41,25,16] # 250watt, 500w sprint 1min, 1000w sprint 5s  -- max force 3 time body weight
+  torqueX: [0,60,100,160] # pro cadence : 100 amateur : 80 leisure : 60
   type : human # petrol, diesel, hybrid, electric
   minRPM : 1
 
 # List additional engines
 engines :
-  - engine :
-      name : human amateur
-      hp: 0.35
-      torqueY: [133,41,25,15]
-      torqueX: [0,60,100,160]
+  - name : human amateur
+    power: 0.35hp
+    torqueY: [133,41,25,15]
+    torqueX: [0,60,100,160]
+    minRPM : 1
 
-  - engine :
-      name : human sprinter
-      hp: 1.4
-      torqueY: [163,163,98,61]
-      torqueX: [0,60,100,160]
+
+  - name : human sprinter
+    power: 1.4hp
+    torqueY: [163,163,98,61]
+    torqueX: [0,60,100,160]
+    minRPM : 1
+
 
 
 # -------------
 # TRANSMISSION
 # -------------
 gearbox:
-  gearRatio : [0.933, 0.800, 	0.700, 0.600, 0.525, 0.450, 0.375, 0.325, 0.300, 0.231,	0.250] # plateau 52/30, cassette 11/28
+  gearRatio : [0.933, 0.800, 	0.700, 0.600, 0.525, 0.450, 0.375, 0.325, 0.300, 0.250, 0.231] # plateau 52/30, cassette 11/28
   driveRatio : 1
 wheelDiameter : 68 # 63cm
 type : rwd

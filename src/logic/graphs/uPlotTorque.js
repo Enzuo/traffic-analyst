@@ -88,7 +88,18 @@ export function createGraph(cars, element, opts = {}){
 
   function prepareData(cars){
 
-    let rpms = getXFill(cars)
+    // Reduce x steps if cars don't have the usual max rpm (like the bicycle)
+    let allCarsRPM = cars.map( car => {
+      let maxX = car.engine.torqueCurve[car.engine.torqueCurve.length-1][0]
+      return maxX
+    })
+    let maxRPM = Math.max(...allCarsRPM)
+    let steps = 100
+    if(maxRPM < 500){
+      steps = 25
+    }
+
+    let rpms = getXFill(cars, steps)
 
 
     let data = [rpms]
