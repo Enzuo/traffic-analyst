@@ -36,7 +36,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
 
 
   // regroup base trim with additionals trims
-  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims || [])
+  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
   car = Object.assign({}, car, trimsOptions[trimId])
