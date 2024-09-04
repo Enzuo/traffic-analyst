@@ -36,7 +36,7 @@
     {:else if elementType === 'config'}
       <Icon name=cog size={1.5}></Icon>
       <div class="label">
-        {element.engine?.name}
+        {element.engine?.name || 'config '+(index+1)}
         <div class="sublabel">
           {#if element.engine?.power}
             <QtyUnit value={element.engine.power} unit="hp"></QtyUnit>
