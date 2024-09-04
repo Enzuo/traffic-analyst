@@ -53,14 +53,26 @@ export function createScene(element){
 
   const outputPass = new OutputPass();
   composer.addPass( renderScene );
-  // composer.addPass( bloomPass );
-  // composer.addPass( outputPass );
+  composer.addPass( bloomPass );
+  composer.addPass( outputPass );
 
   init()
 
   async function init(){
-    let glb = await loadModel('assets/test_cube_hdr')
+    let glb = await loadModel('ford_thamestrader')
+    const emissiveTexture = new THREE.TextureLoader().load('3dmodels/ford_thamestrader_txt_em.png');
+    emissiveTexture.repeat.y = 1;                 // Negative value mirrors the texture on X-axis
+    emissiveTexture.repeat.x = 1;                 // Negative value mirrors the texture on X-axis
+    emissiveTexture.flipY = false;
+    emissiveTexture.magFilter = THREE.NearestFilter;
+    // emissiveTexture.rotation = - Math.PI / 2;
+
     let object = glb.scene.children[0]
+    console.log(object)
+    object.material.emissive = new THREE.Color( 0xffffff );
+    object.material.emissiveMap = emissiveTexture
+    object.material.emissiveIntensity = 5
+    // object.material.map = emissiveTexture
     scene.add(object)
 
     scene.add( new THREE.AmbientLight( 0xcccccc ) );
