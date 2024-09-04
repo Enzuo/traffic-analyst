@@ -53,8 +53,8 @@ export function createScene(element){
 
   const outputPass = new OutputPass();
   composer.addPass( renderScene );
-  composer.addPass( bloomPass );
-  composer.addPass( outputPass );
+  // composer.addPass( bloomPass );
+  // composer.addPass( outputPass );
 
   init()
 
