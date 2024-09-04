@@ -36,7 +36,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
 
 
   // regroup base trim with additionals trims
-  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims || [])
+  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
   car = Object.assign({}, car, trimsOptions[trimId])
@@ -239,4 +239,27 @@ const defaultCar = {
     gearRatio : [4,2,1],
     driveRatio : 4,
   }
+}
+
+
+/**
+ *
+ * @param {string|number} date
+ */
+export function parseDate(date) {
+  if(!date){
+    return [null, null]
+  }
+
+  if(typeof date === 'number'){
+    return [date, date]
+  }
+
+  const years = date.match(/\d+/g).map(y => parseInt(y, 10))
+
+  if(years.length < 2){
+    return [years[0], years[0]]
+  }
+
+  return years[0] > years[1] ? [years[1], years[0]] : [years[0], years[1]]
 }

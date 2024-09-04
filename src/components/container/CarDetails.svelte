@@ -1,11 +1,12 @@
 <script>
   import { createEventDispatcher } from "svelte"
-  import { getCar } from "@/logic/cardata"
+  import { getCar, parseDate } from "@/logic/cardata"
   import Icon from "@/components/presentation/Icon.svelte"
   import SceneGraphCar from "./SceneGraphCar.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
   import Selector from "@/components/presentation/Selector.svelte";
+  import { HistoricPrice, formatPrice } from "@/logic/carLogic/historicPrice"
 
 
   export let carId
@@ -29,7 +30,6 @@
       car = null
     }
   }
-
 
 
   function handleTrimSelect(id) {
@@ -56,7 +56,7 @@
     <ul>
       <li>{car.brand} - {car.name} - {car.trim}</li>
       <li>{car.year}</li>
-      <li>{car.price}</li>
+      <li>{car.price} - {formatPrice(HistoricPrice(car.price, parseDate(car.year)[0])[0])}$Est</li>
       <li>{car.engine.hp} HP</li>
     </ul>
   </section>

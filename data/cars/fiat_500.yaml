@@ -2,6 +2,7 @@ name : 500
 brand : Fiat
 trim : 500
 year : 2007
+price : 9500€ # 69cv essence 12700€ pour le 75cv diesel
 
 # -------------
 # ENGINE

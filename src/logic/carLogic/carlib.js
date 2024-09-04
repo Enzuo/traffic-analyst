@@ -214,6 +214,7 @@ export function getTorqueForRPM (torqueCurve, rpm, maxPower) {
     return torque[1]
   }
 
+  // TODO use curve lib
   var indexHigherRPM = torqueCurve.findIndex((tcpoint) => {
     return tcpoint[0] > rpm
   })
@@ -272,7 +273,7 @@ export function parseEngineSpec(specString, idleRpm=1000) {
     torqueCurve.unshift([idleRpm, maxTorque * idleTorqueX ])
   }
 
-  return torqueCurve
+  return torqueCurve.toSorted((a, b) => a[0] - b[0])
 }
 
 
