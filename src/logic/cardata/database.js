@@ -63,7 +63,7 @@ function buildEnginesDatabase (cars){
     engines = engines.concat(findCompleteEnginesInCarFile(cars[i]))
   }
 
-  return engines
+  return engines.concat(DATABASE.engines)
 }
 
 function findCompleteEnginesInCarFile(car) {

@@ -1,6 +1,6 @@
 name : Logan mcv
 brand : Dacia
-trim : logan mcv 70hp
+trim : logan mcv 7 seats
 year : 2006
 price : 12140€ # 8200€ for the logan non mcv, 8900€ first price petrol mcv, 12140€ for diesel 7 places
 
@@ -53,7 +53,9 @@ wheelType : 185/65/15
 # TRIMS
 # -------------
 trims :
-  - trim :
+  - trim : logan mcv 5 seats
+    trunk : 700
+    price : 8900€
 
 # -------------
 # 3D

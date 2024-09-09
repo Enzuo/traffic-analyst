@@ -1,0 +1,112 @@
+name : i30
+brand : Hyundai
+trim : 1st gen
+year : 2006-2012
+unitsProduced :
+price : 16870€
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1243
+length: 4245
+width: 1775
+height: 1480
+dragCoef: 0.329
+dragArea: 2.2
+
+wheelbase: 2650
+bodyType: # hatchback, van=monospace=mpv, bus, sedan, box
+clearance:
+trunk: 340
+trunkMax: 1240
+seats: 5
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 1.4 L Gamma MPI I4
+  power: 108hp
+  spec: 137nm@5000 108hp@6200
+  type : petrol
+  layout : l4
+  displacement : 1,396
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name :
+  gearRatio : [3.615, 1.962, 1.370, 1.036, 0.839]
+  reverseRatio : 3.545
+  transferRatio :
+  driveRatio : 4.41
+wheelDiameter : 63
+type : FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 12.6
+vmax: 187
+avgConsumption : 6.1
+energyTank : 53
+autonomy :
+turningCircle : 10.24
+wheelType : 195/65/15
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+
+# https://www.carfolio.com/hyundai-i30-1.4-160732

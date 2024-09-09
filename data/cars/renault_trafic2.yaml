@@ -2,6 +2,7 @@ name : Trafic 2
 brand : Renault
 year : 2006
 trim : 2.0 dCi (90 Hp) L1H1
+price : 23,621€
 
 # -------------
 # ENGINE
@@ -53,6 +54,7 @@ trims :
     wheelbase : 3500
     trunk : 8360
     model : renaultTraficL2H2
+    price : 25,893€
 
 # -------------
 # 3D

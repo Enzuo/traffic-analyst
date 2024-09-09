@@ -3,6 +3,7 @@ brand : Land Rover
 trim : defender 90
 year : 1984
 unitsProduced : 665,000 # peak 39000 in 1997
+price : £6,995
 
 # -------------
 # ENGINES
@@ -128,6 +129,7 @@ trims :
   # -----------------------
   - trim : defender 110
     year : 1983
+    price : £7,995
     length : 4600
     wheelbase : 2794
     weight : 1806

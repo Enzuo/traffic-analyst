@@ -19,14 +19,15 @@ engine :
   weight : 210
   features : SOHC
   lifespan : 300,000
+gearbox : 5s manual d
 
-# List additional engines
 configs :
   - engine :
       name : 2.0 DiTD RF-T DI RF4F
       hp : 101
       spec: 230nm@2000 101hp@4500
       features : SOHC, intercooler
+    gearbox : 5s manual d
   - engine :
       name : 1.3 75
       hp : 75
@@ -37,32 +38,41 @@ configs :
     vmax: 167
     acc0100: 14.2
     avgConsumption : 7.4
-    gearRatio : [3.416,1.842,1.290,0.972,0.78] #approx
-    driveRatio : 4.39
+    gearbox : 5s manual p
   - engine :
-      name : 1.6
+      name : 1.6 l4 petrol
       hp : 106
       torqueY: [100 , 145 , 135 , 120 ] #145nm @4000 78kw@5500
       torqueX: [1000, 4000, 5500, 6000]
       type: petrol
       displacement: 1598
+    gearbox : 5s manual p
     weight : 1119
-    gearName : auto
-    gearRatio : [2.826, 1.497, 1, 0.725]
-    gearReverse : 2.640
-    driveRatio : 4.147
     acc0100 : 12.8
     vmax : 180
 
 # -------------
 # TRANSMISSION
 # -------------
-gearbox:
-  gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
-  reverseRatio :
-  driveRatio : 3.3 # approx
+gearboxes:
+  - name : 5s manual d
+    gearRatio : [3.307,1.842,1.272,0.958,0.756] # approx
+    reverseRatio : 3.17
+    driveRatio : 3.3 # approx
+  - name : 5s manual p
+    gearRatio : [3.31, 1.84, 1.31, 0.97, 0.76]
+    reverseRatio : 3.17
+    driveRatio : 4.1
+  - name : 4s automatic
+    gearRatio : [2.82, 1.50, 1, 0.73]
+    driveRatio : 3.90
 wheelDiameter : 57 # 63cm
 type : fwd
+
+
+engines:
+  - name : 2.0l l4 petrol
+    spec : 183nm@4000 130hp@6000
 
 # -------------
 # DIMENSIONS
@@ -108,7 +118,14 @@ modelLights :
 # TRIMS
 # -------------
 trims :
-  - trim :
+  - trim : protege (us)
+    engines :
+      - name : 1.6l l4 petrol
+      - name : 2.0l l4 petrol
+    gearboxes :
+      - name : 4s automatic
+      - name : 5s manual p
+    price : $11970
 
 # -------------
 # OPTIONS (available on all trims)

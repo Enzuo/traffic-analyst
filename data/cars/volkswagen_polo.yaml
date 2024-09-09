@@ -3,7 +3,7 @@ brand : Volkswagen
 trim :
 year : 1995 - 2001
 unitsProduced :
-price :
+price : 60 000fr
 
 # -------------
 # ENGINE
