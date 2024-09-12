@@ -1,9 +1,11 @@
 import { deepFreeze } from "../lib/utils"
 import db from "./database"
+import data from './index'
 import * as carParts from './carParts'
+import Fuse from "fuse.js"
 
 export function listCars () {
-  return db.cars.filter((c) => {
+  return db.car.filter((c) => {
     return c.id !== '_default'
   })
 }
@@ -109,7 +111,7 @@ function completeCar(car){
  */
 export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   console.log('getting car', carId, trimId, configId, engineId, gearboxId)
-  let car = deepFreeze(db.cars.find((car) => car.id === carId))
+  let car = deepFreeze(db.car.find((car) => car.id === carId))
   if (!car) throw Error('car not found')
 
   const availableGearboxes = carParts.extractGearboxesFrom(car)
@@ -127,8 +129,8 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   availableConfigs = availableConfigs.map((conf) => {
     let config = Object.assign({}, conf)
     let engine = config.engine
-    if(!isEngineDetailed(engine)){ // TODO just check if string
-      let detailedEngine = db.engine.find(engine)
+    if(!carParts.isEngineDetailed(engine)){ // TODO just check if string
+      let detailedEngine = data.engine.find(engine)
       config.engine = detailedEngine
     }
     return config
@@ -142,8 +144,8 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
     car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
   enginesOptions.forEach((eOpts) => {
     let engine = eOpts.engine
-    if(!isEngineDetailed(engine)){
-      let detailedEngine = db.engine.find(engine)
+    if(!carParts.isEngineDetailed(engine)){
+      let detailedEngine = data.engine.find(engine)
       eOpts.engine = detailedEngine
     }
   })
@@ -182,4 +184,30 @@ const defaultCar = {
     gearRatio : [4,2,1],
     driveRatio : 4,
   }
+}
+
+
+/**
+ *
+ * Fuzzy search
+ *
+ */
+
+
+export function searchCar(text, data) {
+  const carsData = flattenCarData(data.cars)
+  const fuse = new Fuse(carsData, {
+    includeScore: true,
+    // Search in `author` and in `tags` array
+    keys: [
+      'name',
+      'trim',
+      'brand',
+      'year',
+      'engine.name',
+      'engine.hp',
+    ]
+  })
+
+  return fuse.search(text).map(r => r.item)
 }

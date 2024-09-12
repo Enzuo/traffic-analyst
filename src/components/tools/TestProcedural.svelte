@@ -1,8 +1,8 @@
 <script>
-  import { getCar } from "@/logic/cardata";
+  import data from "@/logic/cardata";
   import SceneGraphCar from "@/components/container/SceneGraphCar.svelte";
 
-  let car = getCar('volkswagen_kombi')
+  let car = data.car.get('volkswagen_kombi')
 
 
 

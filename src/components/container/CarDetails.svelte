@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte"
-  import { getCar, parseDate } from "@/logic/cardata"
+  import data, { parseDate } from "@/logic/cardata"
   import Icon from "@/components/presentation/Icon.svelte"
   import SceneGraphCar from "./SceneGraphCar.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
@@ -23,7 +23,7 @@
   function loadCar(carId, trimId, configId){
     console.log('trim', typeof trimId, trimId)
     if(carId){
-      car = getCar(carId, trimId, configId)
+      car = data.car.get(carId, trimId, configId)
       console.log('got car', car)
     }
     else {

@@ -1,34 +1,47 @@
+import { parseEngineSpec, convertQty } from '../carLogic/carlib.js'
 import { deepFreeze } from '../lib/utils'
 import * as dataFile from './database.json'
 import Fuse from 'fuse.js'
 
-let DATABASE = dataFile
+let CAR_DATABASE = dataFile.cars
 let ENGINES_DATABASE
 
+// function listCars () {
+//   return cars.filter((c) => {
+//     return c.id !== '_default'
+//   })
+// }
 
-function listCars () {
-  return DATABASE.cars.filter((c) => {
-    return c.id !== '_default'
-  })
+init(dataFile.cars)
+
+// const db = {
+//   init : (cardata) => {
+//     DATABASE = cardata
+//     ENGINES_DATABASE = buildEnginesDatabase(listCars())
+//   },
+//   car : {
+//     list : listCars,
+//     get : (id) => deepFreeze(cars.find((car) => car.id === id)),
+//     search : (text) => searchCar(text, DATABASE)
+//   },
+
+//   engine : {
+//     get : (id) => DATABASE.engines.find((engine) => engine.id === id),
+//     find : (engine) => findEngine(engine),
+//   }
+// }
+
+export function init(cardata){
+  CAR_DATABASE = cardata
+  ENGINES_DATABASE = buildEnginesDatabase(cardata).concat(dataFile.engines)
 }
 
 const db = {
-  init : (cardata) => {
-    DATABASE = cardata
-    ENGINES_DATABASE = buildEnginesDatabase(listCars())
-  },
-  car : {
-    list : listCars,
-    get : (id) => deepFreeze(DATABASE.cars.find((car) => car.id === id)),
-    search : (text) => search(text, DATABASE)
-  },
-
-  engine : {
-    get : (id) => DATABASE.engines.find((engine) => engine.id === id),
-    find : (engine) => findEngine(engine),
-  }
+  engine : ENGINES_DATABASE,
+  car : CAR_DATABASE,
 }
-export default db
+
+export default db;
 
 
 
@@ -42,7 +55,7 @@ export default db
  *
  */
 
-ENGINES_DATABASE = buildEnginesDatabase(listCars())
+// ENGINES_DATABASE = buildEnginesDatabase(listCars())
 
 export function isEngineComplete(engine){
   if(!engine){
@@ -140,6 +153,50 @@ function findEngine(engine) {
 }
 
 
+/**
+ *
+ * @param {*} engine engine to check
+ * @returns {boolean}
+ */
+function isEngineDetailed(engine){
+  if(!engine){
+    return false
+  }
+  if(engine.spec){
+    return true
+  }
+  if(engine.torqueX){
+    return true
+  }
+  return false
+}
+
+
+function completeEngineData(car) {
+  // compute engine torqueCurve
+  var engine = Object.assign({}, car.engine)
+  if(!engine.torqueCurve){
+    if(engine.torqueX){
+      let curve = []
+      for(let i=0; i < engine.torqueX.length; i++){
+        let xMultiplier = engine.torqueXMultiplier ? engine.torqueXMultiplier : 1
+        curve.push([engine.torqueX[i] * xMultiplier, engine.torqueY[i]])
+      }
+      engine.torqueCurve = curve
+    }
+    else if(engine.spec){
+      engine.torqueCurve = parseEngineSpec(engine.spec)
+    }
+  }
+
+  engine.power = convertQty(engine.power).value
+
+
+  car.engine = engine
+  return car
+}
+
+
 
 
 
@@ -150,9 +207,9 @@ function findEngine(engine) {
  */
 
 
-export function search(text, data) {
-  let carsData = flattenCarData(data.cars)
-  let fuse = new Fuse(carsData, {
+export function searchCar(text, data) {
+  const carsData = flattenCarData(data.cars)
+  const fuse = new Fuse(carsData, {
     includeScore: true,
     // Search in `author` and in `tags` array
     keys: [
@@ -168,38 +225,236 @@ export function search(text, data) {
   return fuse.search(text).map(r => r.item)
 }
 
+/**
+ * Extract trims & config contained inside a CarData in several CarData
+ * @param {CarDataRaw[]} data
+ * @returns {CarDataRaw[]}
+ */
 export function flattenCarData (data) {
-  // map cars to a searchable string
-  let cars = data.reduce((arr, carFile) => {
-    let cars = []
-    cars.push(...splitCarTrimByConfig(carFile, 0))
-    if(carFile.trims){
-      carFile.trims.forEach((t, i) => {
-        let trimComplete = Object.assign({}, carFile, t)
+  return data.reduce((arr, carData) => {
+    const cars = []
+
+    // default trim
+    cars.push(...splitCarTrimByConfig(carData, 0))
+
+    // additional trims
+    if(carData.trims){
+      carData.trims.forEach((t, i) => {
+        const trimComplete = Object.assign({}, carData, t)
         cars.push(...splitCarTrimByConfig(trimComplete, i+1))
       })
     }
 
     return arr.concat(cars)
   }, [])
-
-  return cars
 }
 
-
+/**
+ * Split a car trim into several for each available configs for that trim
+ * @param {CarDataRaw} car carTrim
+ * @param {number} trimId
+ * @returns
+ */
 function splitCarTrimByConfig(car, trimId){
   let cars = []
   let configId = 0
-  // default setup
 
-  if(car.configs){
-    cars.push(...car.configs.map((e) => {
-      let c = Object.assign({}, car, {configId, trimId})
+  let configs = generateConfigs(car)
+
+  if(configs){
+    cars.push(...configs.map((conf) => {
+      let c = Object.assign({}, car, conf, {configId, trimId})
       configId++
       return c
     }))
   }
-
-  // TODO use generateConfigs
   return cars
+}
+
+
+/**
+ * Compute all available configs for a car
+ * based on engines and gearboxes or configs object if defined
+ * + default engine/gearbox couple
+ *
+ * @param {CarDataRaw} car
+ * @returns {CarConfig[]}
+ */
+function generateConfigs(car){
+  var configs = []
+  var availableEngines = [].concat(car.engine, ...car.engines || []).filter(Boolean)
+  var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || []).filter(Boolean)
+
+  if(car.configs){
+    // add default config with default engine/default gearbox to the availables configs
+    if(car.engine){
+      configs.push({engine: car.engine, gearbox: availableGearboxes[0]})
+    }
+    return configs.concat(car.configs)
+  }
+
+  for(var i=0; i < availableEngines.length; i++) {
+    if(availableGearboxes.length === 0){
+      configs.push({engine: availableEngines[i]})
+    }
+    for(var j=0; j < availableGearboxes.length; j++) {
+      configs.push({engine: availableEngines[i], gearbox : availableGearboxes[j]})
+    }
+  }
+  return configs
+}
+
+
+/**
+ * Complete a car raw data if there is eventually missing data (engine, gearbox)
+ * @param {CarDataRaw} car
+ * @return {Car}
+ */
+function completeCar(car){
+
+}
+
+
+/**
+ *
+ * @param {string} carId
+ * @param {number=} trimId
+ * @param {number=} configId
+ * @param {number=} engineId override engine
+ * @param {number=} gearboxId override gearbox
+ * @returns {Car}
+ */
+export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
+  console.log('getting car', carId, trimId, configId, engineId, gearboxId)
+  let car = db.car.get(carId)
+  if (!car) throw Error('car not found')
+
+  const availableGearboxes = extractGearboxesFrom(car)
+
+
+  // regroup base trim with additionals trims
+  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
+  // apply selected trim
+  // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
+  car = Object.assign({}, car, trimsOptions[trimId])
+
+
+  // apply selected conf
+  let availableConfigs = generateConfigs(car)
+  availableConfigs = availableConfigs.map((conf) => {
+    let config = Object.assign({}, conf)
+    let engine = config.engine
+    if(!isEngineDetailed(engine)){
+      let detailedEngine = db.engine.find(engine)
+      config.engine = detailedEngine
+    }
+    return config
+  })
+  var config = availableConfigs[configId]
+  car = Object.assign({}, car, config)
+
+  // regroup engines options with default engine & engines
+  const enginesOptions = [].concat(
+    {engine: car.engine},
+    car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
+  enginesOptions.forEach((eOpts) => {
+    let engine = eOpts.engine
+    if(!isEngineDetailed(engine)){
+      let detailedEngine = db.engine.find(engine)
+      eOpts.engine = detailedEngine
+    }
+  })
+
+  // apply selected engine
+  if(engineId >= enginesOptions.length){
+    engineId = 0
+  }
+  car = Object.assign({}, car, enginesOptions[engineId])
+
+  // complete gearbox
+  if(typeof car.gearbox === 'string'){
+    let gb = availableGearboxes.find(g => g.name === car.gearbox)
+    car.gearbox = gb ? gb : defaultCar.gearbox
+  }
+
+  // TODO move to complete engine database
+  car = completeEngineData(car)
+
+  // return car with its available trims and configs
+  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, configs : availableConfigs}, {trimId, configId})
+}
+
+
+
+/**
+ *
+ * Gearbox
+ *
+ */
+
+/**
+ * Find all defined gearboxes in cardata which could be reused someswhere else
+ * @param {*} cardata
+ * @returns {gearbox[]}
+ */
+function extractGearboxesFrom(cardata) {
+  let gearboxes = []
+
+  if(cardata.gearbox && isGearBox(cardata.gearbox)){
+    gearboxes.push(cardata.gearbox)
+  }
+
+  if(cardata.gearboxes){
+    cardata.gearboxes.forEach(gb => {
+      if(isGearBox(gb)){
+        gearboxes.push(gb)
+      }
+    })
+  }
+
+  if(cardata.configs){
+    cardata.configs.forEach(config => {
+      let gbs = extractGearboxesFrom(config)
+      gearboxes.push(...gbs)
+    })
+  }
+
+  if(cardata.trims && cardata.trims.length > 0){
+    for(var i=0; i<cardata.trims.length; i++){
+      let gbs = extractGearboxesFrom(cardata.trims[i])
+      gearboxes.push(...gbs)
+    }
+  }
+
+  return gearboxes
+}
+/**
+ * Is data a complete gearbox definition
+ */
+function isGearBox(data){
+  if(typeof data != 'object'){
+    return false
+  }
+  if(!data.name){
+    return false
+  }
+
+
+  return true
+}
+
+
+const defaultCar = {
+  weight : 1000,
+  height:1600,
+  width:1600,
+  length:4000,
+  wheelDiameter:63,
+  dragCoef: 0.3,
+  dragArea: 2,
+  brakePadsForce: 12000,
+  gearbox: {
+    gearRatio : [4,2,1],
+    driveRatio : 4,
+  }
 }
