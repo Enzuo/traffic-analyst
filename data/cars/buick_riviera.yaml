@@ -1,9 +1,9 @@
-name : R107
-brand : Mercedes
-trim : SL
-year : 1971–1989
-unitsProduced : 300,175  # 237,287 SL 62,888 SLC
-price : $11000 # in 1972 --> 82700$ 2024
+name : Riviera
+brand : Buick
+trim :
+year : 1963-1965
+unitsProduced : 112,547
+price : 4333$
 keywords :
 appearances :
 
@@ -11,37 +11,39 @@ appearances :
 # -------------
 # DIMENSIONS
 # -------------
-weight : 1600
-length: 4390
-width: 1790
-height: 1290
-dragCoef: 0.5
-dragArea: 2
+weight : 1813
+length: 5283
+width: 1938
+height: 1346
+dragCoef: 0.5 # approx
+dragArea: 2.3 # approx
 
-wheelbase: 2460
-bodyType: roadster convertible cabriolet
+wheelbase: 2972
+bodyType: coupe
 clearance:
 trunk:
 trunkMax:
-seats: 2
+seats:
 
 
 # -------------
 # CONFIGS : possible configs combinations for this car &
 # -------------
 configs :
+  - engine :
+    gearbox :
 
 
 # -------------
 # ENGINE
 # -------------
 engine :
-  name : M116.980 V8 350
-  power: 187hp
-  spec: 286nm@4000 197hp@5800
+  name : Wildcat 445 Nailhead
+  power: 325hp
+  spec: 603nm@2800 325hp@4400 300hp@5200
   type : petrol
   layout : v8
-  displacement :
+  displacement : 6600
 
 # -------------
 # ENGINES : define additional available engines for this car
@@ -49,40 +51,35 @@ engine :
 engines :
 
 
-
 # -------------
 # TRANSMISSION
 # -------------
 gearbox :
-  name : Model 716.0 (G76)
-  gearRatio : [3.46, 2.18, 1.38, 1.00]
-  reverseRatio : 3.46
+  name : Hydramatic TH400
+  gearRatio : [2.48, 1.48, 1.00]
+  reverseRatio : 2.07
   transferRatio :
-  driveRatio : 3.46
-  gearSpeed : 35
-wheelDiameter : 64
+  driveRatio : 3.42
+wheelDiameter : 69
 type : RWD
 
 # -------------
 # GEARBOXES : define additional available gearboxes for this car
 # -------------
 gearboxes :
-  - name : W3A 040 722.0
-    gearRatio : [2.65, 1.48, 1.00]
-    reverseRatio : 2.20
-    driveRatio : 3.46
+  # name : Dynaflow
 
 
 # -------------
 # STATS
 # -------------
-acc0100: 8 # approx - 9 automatic
-vmax: 212
-avgConsumption : 14.5l/100 #18.5l/100
-energyTank : 90l
+acc0100: 8.5
+vmax: 185
+avgConsumption : 17.8
+energyTank : 76
 autonomy :
 turningCircle :
-wheelType : 205/70VR14
+wheelType :
 
 # -------------
 # PLANE STATS
@@ -95,7 +92,7 @@ liftDragRatio:
 # -------------
 # 3D
 # -------------
-model: mercedesr107
+model:
 modelWheel:
 modelMisc:
 wheelScale:
@@ -106,15 +103,7 @@ modelLights :
 # TRIMS
 # -------------
 trims :
-  - trim : C107 SLC
-    length : 4750
-    height : 1330
-    wheelbase : 2820
-    weight: 1650
-    bodyType : coupe
-    seats : 5
-    model: mercedesc107
-
+  - trim :
 
 # -------------
 # OPTIONS (available on all trims)
@@ -122,4 +111,6 @@ trims :
 options:
   - name :
 
-# https://mb107.com/models/350sl.htm
+
+# https://www.teambuick.com/reference/nailhead_engine_specs.php
+# https://mobile.guideautoweb.com/articles/69642/buick-riviera-1963-65-beaute-mobile/

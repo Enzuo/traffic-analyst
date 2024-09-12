@@ -286,7 +286,7 @@ export function parseEngineSpec(specString, idleRpm=1000) {
  */
 export function convertQty(value, unit, fromUnit){
   if(typeof value === 'string'){
-    const match = value.match(/(\d+\.*\d+)(\D*)/);
+    const match = value.match(/(\d+\.*\d*)(\D*)/);
     fromUnit = match[2]
     value = parseFloat(match[1])
   }

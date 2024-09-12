@@ -104,6 +104,12 @@ describe('convert unit', () => {
       assert.equal(qty.value.toFixed(2), '100.00')
       assert.equal(qty.unit, 'hp')
     })
+
+    test('small integer', () => {
+      let qty = convertQty('8hp', 'hp')
+      assert.equal(qty.value.toFixed(2), '8.00')
+      assert.equal(qty.unit, 'hp')
+    })
   })
 
 
