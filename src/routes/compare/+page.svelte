@@ -74,6 +74,7 @@
     {label: 'width', units : 'mm'},
     {label: 'height', units : 'mm'},
     {label: 'wheelbase', units : 'mm'},
+    {label: 'trunk', units : 'l'},
   ]
 
 

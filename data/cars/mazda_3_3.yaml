@@ -1,0 +1,121 @@
+name : 3 (III)
+brand : Mazda
+trim :
+year : 2013-2018
+unitsProduced :
+price : 23500€
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1300
+length: 4460
+width: 1795
+height: 1455
+dragCoef: 0.26 # sedan, slightly higher for hatchback
+dragArea: 2.1
+
+wheelbase: 2700
+bodyType: hatchback
+clearance:
+trunk: 364
+trunkMax: 1250
+seats: 5
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine : 2.2 SKYACTIV-D 150
+    gearbox : 6MT D
+    price : 25900€ # (diesel harmonie)
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 2.0 SKYACTIV-G 120
+  power: 120hp
+  spec: 210nm@4000 120hp@6000
+  torqueY: [142 , 188 , 190 , 205 , 210 , 140 , 120]
+  torqueX: [1000, 2000, 2500, 3000, 4000, 6000, 6500]
+  type : petrol
+  layout : l4
+  displacement : 1998
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name : 2.2 SKYACTIV-D 150
+    power : 150hp
+    spec : 380nm@1800 150hp@4000
+    type : diesel
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : 6MT G
+  gearRatio : [3.7,1.947,1.3,1.029,0.837,0.68]
+  reverseRatio :
+  transferRatio :
+  driveRatio : 4.105
+wheelDiameter : 65
+type : FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name : 6MT D
+    gearRatio : [3.538, 1.826, 1.565, 1.147, 0.893, 0.745]
+    driveRatio : 2.814 # or 3.619
+
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption :
+energyTank :
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
