@@ -1,6 +1,6 @@
 import uPlot from 'uplot'
 import 'uplot/dist/uPlot.min.css'
-import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, getEngineRPMForSpeed } from '../carLogic/carlib'
+import { getTorqueForRPM, getEngineForceFromTorque, getResistanceForceAtSpeed, getEngineRPMForSpeed } from '../lib/carlib'
 
 
 /**

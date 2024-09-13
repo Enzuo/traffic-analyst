@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import { getWheelTurns } from '@/logic/carLogic/carlib'
+import { getWheelTurns } from '@/logic/lib/carlib'
 import {loadCarModel, loadModel, loadWheelModel} from './loader'
 import {changeTextureColor} from './texture'
 import { loadDefaultCarModelProc } from './proceduralCar'
 
 
-import type { CarEntity } from '@/logic/carLogic/CarEntity';
+import type { CarEntity } from '@/logic/lib/CarEntity';
 
 /**
  * @typedef {import('./sceneGraph').AnimatedObject} AnimatedObject

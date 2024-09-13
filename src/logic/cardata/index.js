@@ -1,16 +1,17 @@
-import { parseEngineSpec, convertQty } from '../carLogic/carlib.js'
+import { parseEngineSpec, convertQty } from '../lib/carlib.js'
 import db from './database.js'
 
 import * as car from './cars.js'
 import * as carParts from './carParts.js'
 
 
+/**
+ *
+ * Data Service entry points description
+ *
+ */
 
 const api = {
-  // init : (cardata) => {
-  //   DATABASE = cardata
-  //   ENGINES_DATABASE = buildEnginesDatabase(listCars())
-  // },
   car : {
     list : car.listCars,
     get : car.getCar,
@@ -28,9 +29,9 @@ export default api
  *
  * @returns {Array<Car>}
  */
-export function listCars() {
-  return db.car.list()
-}
+// export function listCars() {
+//   return db.car.list()
+// }
 
 /**
  * @typedef {object} Car

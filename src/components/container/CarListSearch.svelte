@@ -5,7 +5,7 @@
   import CarList from '@/components/presentation/CarList.svelte'
   import SortSelector from './SortSelector.svelte'
   import { parseDate } from '@/logic/cardata'
-  import { HistoricPrice } from '@/logic/carLogic/historicPrice'
+  import { HistoricPrice } from '@/logic/lib/historicPrice'
 
   export let cars=[]
   export let selectedCarId=null

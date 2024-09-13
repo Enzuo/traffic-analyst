@@ -1,5 +1,5 @@
 import * as cardata from '@/logic/cardata'
-import {CarEntity, updateForces} from '@/logic/carLogic/CarEntity'
+import {CarEntity, updateForces} from '@/logic/lib/CarEntity'
 import {Simulation} from '@/logic/simulation2'
 
 

@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte'
   import UPlotRealtime from '@/components/container/UPlotRealtime.svelte'
-  import { getPowerRequiredForSpeed } from '@/logic/carLogic/carlib'
+  import { getPowerRequiredForSpeed } from '@/logic/lib/carlib'
   import UPlotGearing from '@/components/container/UPlotGearing.svelte'
   import {carCompare} from '@/logic/app/carCompare'
   import UPlotTorque from '@/components/container/UPlotTorque.svelte'

@@ -1,4 +1,4 @@
-import { CarEntity, updateForces } from "../carLogic/CarEntity";
+import { CarEntity, updateForces } from "../lib/CarEntity";
 import data from "../cardata";
 import { Simulation } from "../simulation2";
 

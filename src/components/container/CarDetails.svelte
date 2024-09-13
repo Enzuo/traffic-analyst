@@ -6,7 +6,7 @@
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
   import Selector from "@/components/presentation/Selector.svelte";
-  import { HistoricPrice, formatPrice } from "@/logic/carLogic/historicPrice"
+  import { HistoricPrice, formatPrice } from "@/logic/lib/historicPrice"
 
 
   export let carId
