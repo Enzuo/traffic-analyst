@@ -44,7 +44,7 @@ function splitCarTrimByConfig(car, trimId){
   let cars = []
   let configId = 0
 
-  let configs = generateConfigs(car)
+  let configs = findAvailableConfigs(car)
 
   if(configs){
     cars.push(...configs.map((conf) => {
@@ -65,7 +65,7 @@ function splitCarTrimByConfig(car, trimId){
  * @param {CarDataRaw} car
  * @returns {CarConfig[]}
  */
-function generateConfigs(car){
+function findAvailableConfigs(car){
   var configs = []
   var availableEngines = [].concat(car.engine, ...car.engines || []).filter(Boolean)
   var availableGearboxes = [].concat(car.gearbox, ...car.gearboxes || []).filter(Boolean)
@@ -117,15 +117,22 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   const availableGearboxes = carParts.extractGearboxesFrom(car)
 
 
+  /**
+   * Apply TRIM
+   */
+
   // concat default trim with additionals trims & filter null
-  const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
-  // apply selected trim
-  // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)
-  car = Object.assign({}, car, trimsOptions[trimId])
+  const availableTrims = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
+  car = Object.assign({}, car, availableTrims[trimId])
 
 
-  // apply selected conf
-  let availableConfigs = generateConfigs(car)
+  /**
+   * Apply CONFIG
+   */
+  let availableConfigs = findAvailableConfigs(car)
+
+  // for each config complete the engine if needed
+  // in order to have detailled engine in available config list
   availableConfigs = availableConfigs.map((conf) => {
     let config = Object.assign({}, conf)
     let engine = config.engine
@@ -139,34 +146,36 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   car = Object.assign({}, car, config)
 
   // regroup engines options with default engine & engines
-  const enginesOptions = [].concat(
-    {engine: car.engine},
-    car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
-  enginesOptions.forEach((eOpts) => {
-    let engine = eOpts.engine
-    if(!carParts.isEngineDetailed(engine)){
-      let detailedEngine = data.engine.find(engine)
-      eOpts.engine = detailedEngine
-    }
-  })
+  // const enginesOptions = [].concat(
+  //   {engine: car.engine},
+  //   car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
+  // enginesOptions.forEach((eOpts) => {
+  //   let engine = eOpts.engine
+  //   if(!carParts.isEngineDetailed(engine)){
+  //     let detailedEngine = data.engine.find(engine)
+  //     eOpts.engine = detailedEngine
+  //   }
+  // })
 
-  // apply selected engine
-  if(engineId >= enginesOptions.length){
-    engineId = 0
-  }
-  car = Object.assign({}, car, enginesOptions[engineId])
+  // // apply selected engine
+  // if(engineId >= enginesOptions.length){
+  //   engineId = 0
+  // }
+  // car = Object.assign({}, car, enginesOptions[engineId])
 
-  // complete gearbox
+  /**
+   * Apply GEARBOX
+   */
   if(typeof car.gearbox === 'string'){
     let gb = availableGearboxes.find(g => g.name === car.gearbox)
     car.gearbox = gb ? gb : defaultCar.gearbox
   }
 
   // TODO move to complete engine database
-  // car = completeEngineData(car)
+  car = carParts.completeEngineData(car)
 
   // return car with its available trims and configs
-  return Object.assign(Object.create(defaultCar), car, {trims : trimsOptions, configs : availableConfigs}, {trimId, configId})
+  return Object.assign(Object.create(defaultCar), car, {trims : availableTrims, configs : availableConfigs}, {trimId, configId})
 }
 
 
