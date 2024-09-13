@@ -145,24 +145,6 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   var config = availableConfigs[configId]
   car = Object.assign({}, car, config)
 
-  // regroup engines options with default engine & engines
-  // const enginesOptions = [].concat(
-  //   {engine: car.engine},
-  //   car.engines ? car.engines.reduce((a, e) => e.engine && e.engine.name ? a.concat(e) : a, [])  : [])
-  // enginesOptions.forEach((eOpts) => {
-  //   let engine = eOpts.engine
-  //   if(!carParts.isEngineDetailed(engine)){
-  //     let detailedEngine = data.engine.find(engine)
-  //     eOpts.engine = detailedEngine
-  //   }
-  // })
-
-  // // apply selected engine
-  // if(engineId >= enginesOptions.length){
-  //   engineId = 0
-  // }
-  // car = Object.assign({}, car, enginesOptions[engineId])
-
   /**
    * Apply GEARBOX
    */

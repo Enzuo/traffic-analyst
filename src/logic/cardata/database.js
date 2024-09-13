@@ -1,7 +1,4 @@
-import { parseEngineSpec, convertQty } from '../lib/carlib.js'
-import { deepFreeze } from '../lib/utils.js'
 import * as dataFile from './database.json'
-import Fuse from 'fuse.js'
 
 /**
  *
@@ -39,7 +36,7 @@ export default db;
  *
  */
 
-export function isEngineComplete(engine){
+function isEngineComplete(engine){
   if(!engine){
     return false
   }
