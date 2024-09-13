@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte"
-  import data, { parseDate } from "@/logic/cardata"
+  import data from "@/logic/cardata"
+  import { parseDate } from "@/logic/lib/dataParser"
   import Icon from "@/components/presentation/Icon.svelte"
   import SceneGraphCar from "./SceneGraphCar.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"

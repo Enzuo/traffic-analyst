@@ -117,7 +117,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   const availableGearboxes = carParts.extractGearboxesFrom(car)
 
 
-  // regroup base trim with additionals trims
+  // concat default trim with additionals trims & filter null
   const trimsOptions = [].concat({trim: car.trim || 'default'}, car.trims ? car.trims.filter(t => t.trim) : [])
   // apply selected trim
   // if(typeof trimId === 'string') trimId = trimsOptions.findIndex(t => t.trim === trimId)

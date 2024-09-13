@@ -132,8 +132,6 @@ export function findEngine(engine) {
     return null
   }
 
-
-  console.log(DATABASE.engine)
   let matchingEngines = DATABASE.engine.filter(e => {
     return e.name === engineName
   })

@@ -4,7 +4,7 @@
   import SearchBar from './SearchBar.svelte'
   import CarList from '@/components/presentation/CarList.svelte'
   import SortSelector from './SortSelector.svelte'
-  import { parseDate } from '@/logic/cardata'
+  import { parseDate } from "@/logic/lib/dataParser"
   import { HistoricPrice } from '@/logic/lib/historicPrice'
 
   export let cars=[]
