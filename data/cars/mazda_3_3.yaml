@@ -101,7 +101,7 @@ liftDragRatio:
 # -------------
 # 3D
 # -------------
-model:
+model: mazda3_3
 modelWheel:
 modelMisc:
 wheelScale:
