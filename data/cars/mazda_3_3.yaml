@@ -15,8 +15,8 @@ weight : 1300
 length: 4460
 width: 1795
 height: 1455
-dragCoef: 0.26 # sedan, slightly higher for hatchback
-dragArea: 2.1
+dragCoef: 0.33 # sedan, slightly higher for hatchback
+dragArea: 2.2
 
 wheelbase: 2700
 bodyType: hatchback
@@ -82,13 +82,13 @@ gearboxes :
 # -------------
 # STATS
 # -------------
-acc0100:
-vmax:
-avgConsumption :
-energyTank :
+acc0100: 8.9
+vmax: 195
+avgConsumption : 5.1
+energyTank : 51
 autonomy :
-turningCircle :
-wheelType :
+turningCircle : 10.6
+wheelType : 215/45R18 # or 205/60R16, 205/55R17, 215/50R17
 
 # -------------
 # PLANE STATS
