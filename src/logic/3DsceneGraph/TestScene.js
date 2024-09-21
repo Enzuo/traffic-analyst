@@ -77,7 +77,7 @@ export function createScene(element){
 
 
     // Wheel
-    let glb = await loadModel('wheelGeneric2')
+    let glb = await loadModel('wheelGeneric')
     let object = glb.scene.children[0]
     // object.material = new THREE.MeshBasicMaterial() // not affected by lights, debug
     object.material = new THREE.MeshStandardMaterial()

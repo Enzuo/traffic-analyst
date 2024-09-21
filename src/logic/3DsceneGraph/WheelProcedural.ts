@@ -52,43 +52,43 @@ export class WheelProcedural extends THREE.Object3D {
 
       // Tread (rolling band)
       if (color.equals(new THREE.Color(THREE.Color.NAMES.red))) {
-        const side = Math.sign(vertex.y)
-        vertex.y = (this.treadWidth / 2 - this.bevelSize) * side * unitScale
+        const side = Math.sign(vertex.x)
+        vertex.x = (this.treadWidth / 2 - this.bevelSize) * side * unitScale
 
-        const vertexVec = new THREE.Vector2(vertex.x, vertex.z).normalize()
+        const vertexVec = new THREE.Vector2(vertex.z, vertex.y).normalize()
         vertexVec.multiplyScalar((this.wheelDiameter / 2) * unitScale)
-        vertex.x = vertexVec.x
-        vertex.z = vertexVec.y
+        vertex.z = vertexVec.x
+        vertex.y = vertexVec.y
       }
 
       // Sidewall
       if (color.equals(new THREE.Color(THREE.Color.NAMES.blue))) {
-        const side = Math.sign(vertex.y)
-        vertex.y = (this.treadWidth / 2) * side * unitScale
+        const side = Math.sign(vertex.x)
+        vertex.x = (this.treadWidth / 2) * side * unitScale
 
-        const vertexVec = new THREE.Vector2(vertex.x, vertex.z).normalize()
+        const vertexVec = new THREE.Vector2(vertex.z, vertex.y).normalize()
         vertexVec.multiplyScalar((this.wheelDiameter / 2 - this.bevelSize) * unitScale)
-        vertex.x = vertexVec.x
-        vertex.z = vertexVec.y
+        vertex.z = vertexVec.x
+        vertex.y = vertexVec.y
       }
 
       if (color.equals(green)) {
-        vertex.y = (this.treadWidth / 2) * unitScale
+        vertex.x = (this.treadWidth / 2) * unitScale
 
-        const vertexVec = new THREE.Vector2(vertex.x, vertex.z).normalize()
+        const vertexVec = new THREE.Vector2(vertex.z, vertex.y).normalize()
         vertexVec.multiplyScalar((this.rimDiameter / 2) * unitScale)
-        vertex.x = vertexVec.x
-        vertex.z = vertexVec.y
+        vertex.z = vertexVec.x
+        vertex.y = vertexVec.y
       }
 
       // Inner bevel
       if (color.equals(yellow)) {
-        vertex.y = (this.treadWidth / 2 - this.bevelSize * 5) * unitScale
+        vertex.x = (this.treadWidth / 2 - this.bevelSize * 5) * unitScale
 
-        const vertexVec = new THREE.Vector2(vertex.x, vertex.z).normalize()
+        const vertexVec = new THREE.Vector2(vertex.z, vertex.y).normalize()
         vertexVec.multiplyScalar((this.rimDiameter / 2 - this.bevelSize) * unitScale)
-        vertex.x = vertexVec.x
-        vertex.z = vertexVec.y
+        vertex.z = vertexVec.x
+        vertex.y = vertexVec.y
       }
 
       // Write the new position back to the attribute
