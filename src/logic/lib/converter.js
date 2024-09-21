@@ -1,11 +1,12 @@
-
 const conversionTable = [
   ['kw', 'hp', 1.341, 'bhp', 1.359, 'ps', 1.35962],
   ['nm', 'ftlb', 0.7376, 'mkg', 0.10197],
 ]
 
+
 const priceConversionTable = ['dollar', 'euro', 0.90, 'pound', 0.76, 'franc', 0.9] // HACK franc ratio same as euro as conversion is just used now
 
+const lengthConversionTable = ['m', 'cm', 100, 'inches', 39.3701]
 
 
 /**
@@ -61,8 +62,23 @@ export function convertQty(value, unit, fromUnit){
  * @returns
  */
 export function convertPrice(value, toUnit, fromUnit){
-  var ratios = findRatiosForUnits(priceConversionTable, toUnit, fromUnit)
+  return convertInDomain(priceConversionTable, value, toUnit, fromUnit)
 
+}
+
+/**
+ * Convert between length values
+ * @param {number} value
+ * @param {string} toUnit
+ * @param {string} fromUnit
+ * @returns
+ */
+export function convertLength(value, toUnit, fromUnit){
+  return convertInDomain(lengthConversionTable, value, toUnit, fromUnit)
+}
+
+function convertInDomain(domain, value, toUnit, fromUnit){
+  var ratios = findRatiosForUnits(domain, toUnit, fromUnit)
   // convert with ratios
   value = value / ratios.fromUnitRatio * ratios.toUnitRatio
 

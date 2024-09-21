@@ -9,6 +9,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { loadModel } from "./loader"
 import * as THREE from 'three'
 import { WheelProcedural } from "./WheelProcedural";
+import { parseTireCode } from "../lib/carlib";
 
 CameraControls.install( { THREE: THREE } )
 
@@ -59,7 +60,6 @@ export function createScene(element){
   // composer.addPass( bloomPass );
   // composer.addPass( outputPass );
 
-  init()
 
   async function init(){
     // let glb = await loadModel('ford_thamestrader')
@@ -94,20 +94,33 @@ export function createScene(element){
     light.position.set(2,2,2)
     scene.add( light );
 
-    let wheel = new WheelProcedural(object)
+    wheel = new WheelProcedural(object)
     wheel.resize()
     scene.add(wheel)
 
 
   }
 
+  // TEST procedural wheel
+  let wheel
+
+  function setWheelCode(tireCode){
+    const sizes = parseTireCode(tireCode)
+    if(wheel && sizes){
+      wheel.resize(sizes[0], sizes[1], sizes[2])
+    }
+  }
+
   function destroy(){
     animation.stop()
   }
 
+  init()
+
   return {
     debugPerf : animation.debugPerf,
     destroy,
+    setWheelCode,
   }
 
 }

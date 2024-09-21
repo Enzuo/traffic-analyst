@@ -15,7 +15,7 @@ export class WheelProcedural extends THREE.Object3D {
     let positionAttribute = geometry.getAttribute('position') as THREE.BufferAttribute
     let colorAttribute = geometry.getAttribute('color') as THREE.BufferAttribute
 
-    console.log(positionAttribute, colorAttribute)
+    console.log('resize wheel', wheelDiameter, treadWidth, rimDiameter)
     const unitScale = 0.01
     const green = new THREE.Color(0, 1, 0)
     const yellow = new THREE.Color(1, 1, 0)

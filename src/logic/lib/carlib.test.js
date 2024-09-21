@@ -1,4 +1,4 @@
-import { parseEngineSpec } from "./carlib"
+import { parseEngineSpec, parseTireCode } from "./carlib"
 import { describe, expect, test, assert } from 'vitest'
 
 
@@ -37,4 +37,17 @@ test('can process engine spec hp (reversed rpm)', () => {
     [ 2500, 145 ],
     [ 4500, 93.64370085 ]
   ])
+})
+
+
+describe('tire codes', () => {
+  const testCases = [
+    ['205/55R16', [ 63, 21, 41 ]],
+    ['80/45r12', [ 38, 8, 30 ]],
+  ]
+
+  test.each(testCases)('should correctly parse "%s" to "%s"', (input, expected) => {
+    const result = parseTireCode(input);
+    assert.deepEqual(result.map(a => Math.round(a)), expected);
+  })
 })

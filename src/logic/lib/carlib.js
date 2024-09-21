@@ -9,6 +9,8 @@
  *
  */
 
+import { convertLength } from "./converter"
+
 
 /**
  *
@@ -274,4 +276,30 @@ export function parseEngineSpec(specString, idleRpm=1000) {
   }
 
   return torqueCurve.toSorted((a, b) => a[0] - b[0])
+}
+
+
+/**
+ *
+ * @param {string} code
+ */
+export function parseTireCode(code){
+
+  const match = code.match(/(\d+)\/(\d+)(?:r|R)(\d+)/) // parse 205/55R15
+
+  console.log(match)
+
+  const widthMM = parseInt(match[1])
+  const width = widthMM * 0.1
+  const aspectRatio = parseInt(match[2])
+  const rimDiameterInches = parseInt(match[3])
+  const rimDiameter = convertLength(rimDiameterInches, 'cm', 'inches').value
+
+  const tireDiameter = width * aspectRatio / 100 * 2 + rimDiameter
+
+  return [
+    tireDiameter,
+    width,
+    rimDiameter
+  ]
 }

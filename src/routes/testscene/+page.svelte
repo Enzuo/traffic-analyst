@@ -1,11 +1,22 @@
 <script>
-  import DebugPerformanceGraph from "@/debug/performance/DebugPerformanceGraph.svelte"
-import { createScene } from "@/logic/3DsceneGraph/TestScene"
-  import { onMount, onDestroy } from "svelte"
+  import DebugPerformanceGraph from '@/debug/performance/DebugPerformanceGraph.svelte'
+  import { createScene } from '@/logic/3DsceneGraph/TestScene'
+  import { onMount, onDestroy } from 'svelte'
 
   let graphContainer
   let debugPerf
   let scene
+
+  let tireCode = '205/55R15'
+
+  $: updateWheelCode(tireCode)
+
+  function updateWheelCode(code){
+    console.log(tireCode)
+    if (scene && scene.setWheelCode) {
+      scene.setWheelCode(tireCode)
+    }
+  }
 
   onMount(() => {
     scene = createScene(graphContainer)
@@ -13,7 +24,7 @@ import { createScene } from "@/logic/3DsceneGraph/TestScene"
   })
 
   onDestroy(() => {
-    if(scene){
+    if (scene) {
       scene.destroy()
     }
   })
@@ -23,9 +34,14 @@ import { createScene } from "@/logic/3DsceneGraph/TestScene"
 
 <div class="graph" bind:this={graphContainer}></div>
 
-<DebugPerformanceGraph debugPerf={debugPerf}></DebugPerformanceGraph>
+<DebugPerformanceGraph {debugPerf}></DebugPerformanceGraph>
 
+<input bind:value={tireCode} />
 
 <style>
-	.graph { width: 400px; height: 400px; padding-top:15px; }
+  .graph {
+    width: 400px;
+    height: 400px;
+    padding-top: 15px;
+  }
 </style>
