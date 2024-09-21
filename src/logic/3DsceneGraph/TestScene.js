@@ -8,6 +8,7 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 import { loadModel } from "./loader"
 import * as THREE from 'three'
+import { WheelProcedural } from "./WheelProcedural";
 
 CameraControls.install( { THREE: THREE } )
 
@@ -17,8 +18,10 @@ export function createScene(element){
 
   const renderer = new THREE.WebGLRenderer( { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
-  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setSize( element.clientWidth, element.clientHeight );
   renderer.toneMapping = THREE.ReinhardToneMapping;
+  renderer.setClearColor( 0xffffff, 0);
+
   element.appendChild( renderer.domElement );
 
   const scene = new THREE.Scene();
@@ -59,23 +62,42 @@ export function createScene(element){
   init()
 
   async function init(){
-    let glb = await loadModel('ford_thamestrader')
-    const emissiveTexture = new THREE.TextureLoader().load('3dmodels/ford_thamestrader_txt_em.png');
-    emissiveTexture.repeat.y = 1;                 // Negative value mirrors the texture on X-axis
-    emissiveTexture.repeat.x = 1;                 // Negative value mirrors the texture on X-axis
-    emissiveTexture.flipY = false;
-    emissiveTexture.magFilter = THREE.NearestFilter;
-    // emissiveTexture.rotation = - Math.PI / 2;
+    // let glb = await loadModel('ford_thamestrader')
 
+    // const emissiveTexture = new THREE.TextureLoader().load('3dmodels/ford_thamestrader_txt_em.png');
+    // emissiveTexture.repeat.y = 1;                 // Negative value mirrors the texture on X-axis
+    // emissiveTexture.repeat.x = 1;                 // Negative value mirrors the texture on X-axis
+    // emissiveTexture.flipY = false;
+    // emissiveTexture.magFilter = THREE.NearestFilter;
+
+    // let object = glb.scene.children[0]
+    // object.material.emissive = new THREE.Color( 0xffffff );
+    // object.material.emissiveMap = emissiveTexture
+    // object.material.emissiveIntensity = 5
+
+
+    // Wheel
+    let glb = await loadModel('wheelGeneric2')
     let object = glb.scene.children[0]
-    console.log(object)
-    object.material.emissive = new THREE.Color( 0xffffff );
-    object.material.emissiveMap = emissiveTexture
-    object.material.emissiveIntensity = 5
-    // object.material.map = emissiveTexture
-    scene.add(object)
+    // object.material = new THREE.MeshBasicMaterial() // not affected by lights, debug
+    object.material = new THREE.MeshStandardMaterial()
+    object.material.color = new THREE.Color(0x777777)
+    // object.material.emissive = new THREE.Color( 0xffffff );
 
-    scene.add( new THREE.AmbientLight( 0xcccccc ) );
+    console.log(glb)
+    console.log(object)
+
+    // scene.add(object)
+    let amblight = new THREE.AmbientLight( 0xcccccc, 1 )
+    scene.add( amblight );
+    let light = new THREE.PointLight(0xffffff, 10)
+    light.position.set(2,2,2)
+    scene.add( light );
+
+    let wheel = new WheelProcedural(object)
+    wheel.resize()
+    scene.add(wheel)
+
 
   }
 
