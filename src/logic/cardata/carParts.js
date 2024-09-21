@@ -1,4 +1,5 @@
-import { parseEngineSpec, convertQty } from '../lib/carlib.js'
+import { parseEngineSpec } from '@/logic/lib/carlib.js'
+import { convertQty } from '@/logic/lib/converter.js'
 
 import DATABASE from './database.js'
 
