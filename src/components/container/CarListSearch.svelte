@@ -10,7 +10,7 @@
   export let cars=[]
   export let selectedCarId=null
 
-  let sortOptions = ['name', 'year', 'price']
+  let sortOptions = ['name', 'year', 'price', 'size']
   let sortBy = sortOptions[0]
 
   const dispatch = createEventDispatcher()
@@ -57,6 +57,14 @@
         if(!aNormalizedPrice) return 1
         if(!bNormalizedPrice) return -1
         return  aNormalizedPrice - bNormalizedPrice
+      }
+    }
+
+    if(sortBy === 'size'){
+      return (a, b) => {
+        let aSize = a.length + a.width + a.height
+        let bSize = b.length + b.width + b.height
+        return aSize - bSize
       }
     }
   }

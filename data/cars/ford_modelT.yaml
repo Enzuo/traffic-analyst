@@ -1,48 +1,45 @@
 name : Model T
 brand : Ford
 trim :
-year : 1908
-price : $850 # 24835$ 2020
+year : 1908-1927
+price : $850 # $260 in 1925
+unitsProduced : 14,689,525
 
 # -------------
 # ENGINE
 # -------------
 engine :
-  name :
-  hp:
-  torqueY: []
-  torqueX: []
-  type : # petrol, diesel, hybrid, electric
-  layout : # boxer2, l4, v6
-  displacement :
-
-# List additional engines
-engines :
-  - engine :
+  name : 177 C.I.D
+  power : 20hp
+  spec: 47nm@300 112nm@900 20hp@1600 17@1900
+  minRPM: 300
+  type : petrol
+  layout : l4
+  displacement : 2896
 
 # -------------
 # TRANSMISSION
 # -------------
 gearbox :
   name :
-  gearRatio : []
+  gearRatio : [2.75, 1]
   reverseRatio :
   transferRatio :
-  driveRatio :
-wheelDiameter : # 63cm
+  driveRatio : 3.63
+wheelDiameter : 76
 type : #AWD, RWD, FWD
 
 # -------------
 # DIMENSIONS
 # -------------
-weight :
-length:
-width:
-height:
-dragCoef :
-dragArea :
+weight : 540
+length: 3404
+width: 1676
+height: 1860
+dragCoef : 0.6 # approx
+dragArea : 2.3
 
-wheelbase:
+wheelbase: 2540
 trunk:
 trunkMax:
 seats:
@@ -51,9 +48,9 @@ seats:
 # STATS
 # -------------
 acc0100:
-vmax:
+vmax: 68
 avgConsumption :
-energyTank :
+energyTank : 38l
 autonomy :
 turningCircle :
 wheelType :
@@ -64,15 +61,3 @@ wheelType :
 model:
 modelWheel:
 modelMisc:
-
-# -------------
-# TRIMS
-# -------------
-trims :
-  - trim :
-
-# -------------
-# OPTIONS (available on all trims)
-# -------------
-options:
-  - name :
