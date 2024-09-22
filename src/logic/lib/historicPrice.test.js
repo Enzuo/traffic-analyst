@@ -2,6 +2,8 @@ import { test, describe, assert } from "vitest";
 import { HistoricPrice, parsePrice } from "./historicPrice";
 
 describe('parse price with currency', () => {
+
+  /**  @type {string|Array[]} */
   const testCases = [
     ['200$', [200, 'dollar']],
     ['$201', [201, 'dollar']],
@@ -22,6 +24,7 @@ describe('parse price with currency', () => {
 })
 
 describe('historicPrice', () => {
+  /**  @type {Array[]} */
   const testCases = [
     [['335$', 1922], [17175, 'dollar']],
   ]

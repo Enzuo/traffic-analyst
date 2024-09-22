@@ -11,6 +11,7 @@ const lengthConversionTable = ['m', 'cm', 100, 'inches', 39.3701]
 
 /**
  * convert from one unit of a category to another
+ * (can extract conversion domain category from value)
  * @param {number|string} value
  * @param {string=} unit unit to convert to (default if not provided)
  * @param {string=} fromUnit value is expressed using this unit (useful if value is a number not expressed in default unit)
@@ -18,7 +19,7 @@ const lengthConversionTable = ['m', 'cm', 100, 'inches', 39.3701]
  */
 export function convertQty(value, unit, fromUnit){
   if(typeof value === 'string'){
-    const match = value.match(/(\d+\.*\d+)(\D*)/);
+    const match = value.match(/(\d+\.*\d*)(\D*)/)
     fromUnit = match[2]
     value = parseFloat(match[1])
   }

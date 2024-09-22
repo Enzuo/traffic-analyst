@@ -3,14 +3,23 @@ import { describe, test, assert } from 'vitest'
 
 
 describe('convert unit', () => {
-  test('string value', () => {
-    let qty = convertQty('100hp')
-    assert.equal(qty.value.toFixed(2), '74.57')
-    assert.equal(qty.unit, 'kw')
 
-    qty = convertQty('100.0hp')
-    assert.equal(qty.value.toFixed(2), '74.57')
-    assert.equal(qty.unit, 'kw')
+  describe('string value', () => {
+
+    /** @type {string|Array[]}*/
+    const testCases = [
+      ['100hp', ['74.57', 'kw']],
+      ['100.0hp', ['74.57', 'kw']],
+      ['8hp', ['5.97', 'kw']],
+    ]
+
+    test.each(testCases)('should correctly parse "%s" to "%s"', (input, expected) => {
+      /** @type {[string|number]}*/
+      const inputArr = typeof input === 'string' ? [input] : input
+      const result = convertQty(...inputArr)
+      assert.deepEqual(result.value.toFixed(2), expected[0])
+      assert.deepEqual(result.unit, expected[1])
+    })
   })
 
   describe('convert from default unit', () => {
