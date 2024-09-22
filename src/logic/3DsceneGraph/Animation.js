@@ -27,7 +27,7 @@ export class Animation {
     this.renderer = renderer
     this.cameraControls = cameraControls
     this.clock = new THREE.Clock()
-    this.animationFrame
+    this.animationFrame = null
 
     /** @type {Array.<AnimatedObject>} */
     this.animatables = []
@@ -49,7 +49,6 @@ export class Animation {
     const delta = this.clock.getDelta() * 1000 // delta ms
     this.debugPerf.measureStart()
     this.renderer.render(this.scene, this.camera );
-    this.debugPerf.measureEnd()
     this.animate(delta)
 
     for(let i=0; i<this.animatables.length; i++){
@@ -57,6 +56,7 @@ export class Animation {
     }
 
     this.cameraControls.update( delta );
+    this.debugPerf.measureEnd()
   }
 
   addAnimated(animated){
