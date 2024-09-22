@@ -3,14 +3,14 @@ import CameraControls from 'camera-controls'
 import { Animation } from '../Animation'
 import * as CANNON from 'cannon-es'
 import db from '@/logic/cardata/database'
-import { CarEntity } from '../../carLogic/CarEntity'
+import { CarEntity } from '../../lib/CarEntity'
 import { TrimeshCollider } from './physics/TrimeshCollider'
 import CannonDebugger from 'cannon-es-debugger'
 import { Scene3D } from '../Scene3D'
 import { CarEntity3D, WheelTypes, createCarEntity3D } from '@/logic/3DsceneGraph/CarEntity3D'
 import { loadCarModel, loadWheelModel } from '../loader'
 import type {Wheel} from '../CarEntity3D'
-import { getCar } from '../../cardata'
+import data from '../../cardata'
 import { InputManager } from './InputManager'
 import { CarEntityControllable } from './CarEntityControllable'
 import { Cone } from './Cone'
@@ -68,7 +68,7 @@ export class GameWorld extends Scene3D {
 
 
     // Car
-    const car = getCar('citroen_2cv')
+    const car = data.car.get('citroen_2cv')
     const carEntityControlled = new CarEntityControllable(car, this.scene, this.physicsWorld)
     this.carEntityControlled = carEntityControlled
 

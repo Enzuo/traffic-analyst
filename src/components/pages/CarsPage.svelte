@@ -1,5 +1,5 @@
 <script>
-  import * as cardata from '@/logic/cardata'
+  import cardata from '@/logic/cardata'
   import LayoutList from "@/components/layout/LayoutList.svelte"
   import CarListSearch from '@/components/container/CarListSearch.svelte'
   import CarDetails from '@/components/container/CarDetails.svelte'
@@ -10,7 +10,7 @@
   export let selectedTrimId = null
   export let selectedConfigId = null
 
-  let cars = cardata.listCars()
+  let cars = cardata.car.list()
   let carsBasket = []
 
   let dispatch = createEventDispatcher()
@@ -34,10 +34,10 @@
   function handleSearch(e) {
     let searchText = e.detail.searchText
     if(!searchText){
-      cars = cardata.listCars()
+      cars = cardata.car.list()
       return
     }
-    cars = cardata.searchCar(searchText)
+    cars = cardata.car.search(searchText)
     console.log('searched', cars)
   }
 
@@ -56,7 +56,7 @@
   }
 
   function handleAddToBasket () {
-    let car = cardata.getCar(selectedCarId, selectedTrimId, selectedConfigId)
+    let car = cardata.car.get(selectedCarId, selectedTrimId, selectedConfigId)
     if(carsBasket.findIndex((c) => {
       return c.id === selectedCarId && c.trimId === selectedTrimId && c.configId === selectedConfigId
     }) < 0){

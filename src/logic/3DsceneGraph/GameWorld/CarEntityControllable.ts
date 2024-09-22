@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import { CarEntity } from "@/logic/carLogic/CarEntity"
+import { CarEntity } from "@/logic/lib/CarEntity"
 import type { IControllable } from "./interfaces/IControllable"
 import { createCarEntity3D, type CarEntity3D } from "@/logic/3DsceneGraph/CarEntity3D"
 import { CarPhysics } from "./CarPhysics"

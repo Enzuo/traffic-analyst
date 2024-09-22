@@ -1,34 +1,28 @@
-import { deepFreeze } from '../lib/utils'
 import * as dataFile from './database.json'
-import Fuse from 'fuse.js'
 
-let DATABASE = dataFile
+/**
+ *
+ * Access Raw Data
+ *
+ *
+ */
+
+let CAR_DATABASE = dataFile.cars
 let ENGINES_DATABASE
 
+init(dataFile.cars)
 
-function listCars () {
-  return DATABASE.cars.filter((c) => {
-    return c.id !== '_default'
-  })
+export function init(cardata){
+  CAR_DATABASE = cardata
+  ENGINES_DATABASE = buildEnginesDatabase(cardata).concat(dataFile.engines)
 }
 
 const db = {
-  init : (cardata) => {
-    DATABASE = cardata
-    ENGINES_DATABASE = buildEnginesDatabase(listCars())
-  },
-  car : {
-    list : listCars,
-    get : (id) => deepFreeze(DATABASE.cars.find((car) => car.id === id)),
-    search : (text) => search(text, DATABASE)
-  },
-
-  engine : {
-    get : (id) => DATABASE.engines.find((engine) => engine.id === id),
-    find : (engine) => findEngine(engine),
-  }
+  engine : ENGINES_DATABASE,
+  car : CAR_DATABASE,
 }
-export default db
+
+export default db;
 
 
 
@@ -42,9 +36,7 @@ export default db
  *
  */
 
-ENGINES_DATABASE = buildEnginesDatabase(listCars())
-
-export function isEngineComplete(engine){
+function isEngineComplete(engine){
   if(!engine){
     return false
   }
@@ -98,108 +90,4 @@ function findCompleteEnginesInCar(car, _engineOrigin){
   }
 
   return engines
-}
-
-/**
- * Find the engine best matching the given engine name
- * @param {engine|string} engine
- * @returns {engine|null}
- */
-function findEngine(engine) {
-  console.log('find Engine', engine)
-  let engineName
-
-  if(!engine){
-    return null
-  }
-
-  if(typeof engine === 'string'){
-    engineName = engine
-  }
-
-  if(typeof engine === 'object'){
-    engineName = engine.name
-  }
-
-  if(!engineName){
-    return null
-  }
-
-
-  let matchingEngines = ENGINES_DATABASE.filter(e => {
-    return e.name === engineName
-  })
-  if(matchingEngines.length === 0 ){
-    return null
-  }
-  if(matchingEngines.length > 1){
-    // TODO pick the best match
-  }
-
-  return matchingEngines[0]
-}
-
-
-
-
-
-/**
- *
- * Fuzzy search
- *
- */
-
-
-export function search(text, data) {
-  let carsData = flattenCarData(data.cars)
-  let fuse = new Fuse(carsData, {
-    includeScore: true,
-    // Search in `author` and in `tags` array
-    keys: [
-      'name',
-      'trim',
-      'brand',
-      'year',
-      'engine.name',
-      'engine.hp',
-    ]
-  })
-
-  return fuse.search(text).map(r => r.item)
-}
-
-export function flattenCarData (data) {
-  // map cars to a searchable string
-  let cars = data.reduce((arr, carFile) => {
-    let cars = []
-    cars.push(...splitCarTrimByConfig(carFile, 0))
-    if(carFile.trims){
-      carFile.trims.forEach((t, i) => {
-        let trimComplete = Object.assign({}, carFile, t)
-        cars.push(...splitCarTrimByConfig(trimComplete, i+1))
-      })
-    }
-
-    return arr.concat(cars)
-  }, [])
-
-  return cars
-}
-
-
-function splitCarTrimByConfig(car, trimId){
-  let cars = []
-  let configId = 0
-  // default setup
-
-  if(car.configs){
-    cars.push(...car.configs.map((e) => {
-      let c = Object.assign({}, car, {configId, trimId})
-      configId++
-      return c
-    }))
-  }
-
-  // TODO use generateConfigs
-  return cars
 }

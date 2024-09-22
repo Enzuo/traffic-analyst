@@ -11,6 +11,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "build-db": "node ./src/logic/cardata/script_loaddb.js",
     "check-data": "node ./src/logic/cardata/script_checkdata.js",
+    "generate-types": "node ./src/logic/cardata/script_types.js",
     "test": "vitest",
     "gh-pages": "npm run build-db && npm run build && npx gh-pages -d build -t true -m \"Publishing version $npm_package_version\""
   },
@@ -32,6 +33,7 @@
     "globals": "^15.0.0",
     "gray-matter": "^4.0.3",
     "jest": "^29.5.0",
+    "json-to-ts": "^2.1.0",
     "marked": "^13.0.3",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.6",
@@ -62,7 +64,7 @@
     "pts": "^0.10.12",
     "sirv-cli": "^1.0.14",
     "svelte-watch-resize": "^1.0.3",
-    "three": "^0.140.2",
+    "three": "^0.167.1",
     "three-to-cannon": "^4.3.0",
     "uplot": "^1.6.24"
   },

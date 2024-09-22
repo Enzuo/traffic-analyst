@@ -1,3 +1,4 @@
+import { createPerformanceObserver } from '@/debug/performance/PerformanceObserver'
 import * as THREE from 'three'
 
 /**
@@ -30,6 +31,8 @@ export class Animation {
 
     /** @type {Array.<AnimatedObject>} */
     this.animatables = []
+
+    this.debugPerf = createPerformanceObserver('Animation')
   }
 
   start() {
@@ -44,7 +47,9 @@ export class Animation {
   animationLoop() {
     this.animationFrame = requestAnimationFrame( this.animationLoop.bind(this) );
     const delta = this.clock.getDelta() * 1000 // delta ms
+    this.debugPerf.measureStart()
     this.renderer.render(this.scene, this.camera );
+    this.debugPerf.measureEnd()
     this.animate(delta)
 
     for(let i=0; i<this.animatables.length; i++){

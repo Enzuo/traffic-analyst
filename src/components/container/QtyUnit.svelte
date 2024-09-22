@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { convertQty } from "@/logic/carLogic/carlib";
+  import { convertQty } from "@/logic/lib/converter";
 
   export let value : number
   export let unit : string

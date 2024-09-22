@@ -1,5 +1,5 @@
-import { CarEntity, updateForces } from "../carLogic/CarEntity";
-import { getCar } from "../cardata";
+import { CarEntity, updateForces } from "../lib/CarEntity";
+import data from "../cardata";
 import { Simulation } from "../simulation2";
 
 export default function followingDistanceSim() {
@@ -13,8 +13,8 @@ export default function followingDistanceSim() {
   const simulation = Simulation();
 
 
-  const firstCar = new CarEntity(getCar("renault_zoe"));
-  const followingCar = new CarEntity(getCar("renault_zoe"));
+  const firstCar = new CarEntity(data.car.get("renault_zoe"));
+  const followingCar = new CarEntity(data.car.get("renault_zoe"));
   const cars = [firstCar, followingCar]
 
   // Init

@@ -1,12 +1,13 @@
 <script>
   import { createEventDispatcher } from "svelte"
-  import { getCar, parseDate } from "@/logic/cardata"
+  import data from "@/logic/cardata"
+  import { parseDate } from "@/logic/lib/dataParser"
   import Icon from "@/components/presentation/Icon.svelte"
   import SceneGraphCar from "./SceneGraphCar.svelte"
   import UPlotGearing from "./UPlotGearing.svelte"
   import UPlotTorque from "./UPlotTorque.svelte"
   import Selector from "@/components/presentation/Selector.svelte";
-  import { HistoricPrice, formatPrice } from "@/logic/carLogic/historicPrice"
+  import { HistoricPrice, formatPrice } from "@/logic/lib/historicPrice"
 
 
   export let carId
@@ -23,7 +24,7 @@
   function loadCar(carId, trimId, configId){
     console.log('trim', typeof trimId, trimId)
     if(carId){
-      car = getCar(carId, trimId, configId)
+      car = data.car.get(carId, trimId, configId)
       console.log('got car', car)
     }
     else {

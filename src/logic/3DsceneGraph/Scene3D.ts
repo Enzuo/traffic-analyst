@@ -82,6 +82,7 @@ export class Scene3D {
     this.camera.updateProjectionMatrix()
   }
 
+  // TODO not sure we need this when we can access animation scene.animation.start
   start() {
     this.animation.start()
   }

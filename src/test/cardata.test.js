@@ -2,7 +2,8 @@ import db from '@/logic/cardata/database'
 import { getCar } from '@/logic/cardata'
 import { describe, it, expect, test, beforeAll, assert } from 'vitest'
 
-const test_data_cars = [{
+/** @type {CarDataRaw[]} */
+export const TEST_CARDATA = [{
   id : 'barebone car',
   engine : {
     name : 'barebone engine',
@@ -81,14 +82,14 @@ const test_data_cars = [{
   }],
 }]
 
-const test_data_engines = [{
+const TEST_ENGINEDATA = [{
 
 }]
 
 describe.only('car data transformation', () => {
   beforeAll(() => {
     console.log('init done')
-    db.init({cars : test_data_cars, engines : test_data_engines})
+    db.init({cars : TEST_CARDATA, engines : TEST_ENGINEDATA})
   })
 
   test('get car (no trims, no configs)', () => {

@@ -1,5 +1,5 @@
 <script>
-  import { getSpeedForRPM } from "@/logic/carLogic/carlib"
+  import { getSpeedForRPM } from "@/logic/lib/carlib"
   let gearSpeed = ''
   let driveRatio = 4
   let wheelSize = 63

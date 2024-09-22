@@ -1,5 +1,5 @@
-import * as cardata from '@/logic/cardata'
-import {CarEntity, updateForces} from '@/logic/carLogic/CarEntity'
+import cardata from '@/logic/cardata'
+import {CarEntity, updateForces} from '@/logic/lib/CarEntity'
 import {Simulation} from '@/logic/simulation2'
 
 
@@ -14,7 +14,7 @@ export function carCompare(carIds){
     let carSpecs
     try {
 
-      carSpecs = cardata.getCar(carIds[i].id, carIds[i].tid, carIds[i].cid)
+      carSpecs = cardata.car.get(carIds[i].id, carIds[i].tid, carIds[i].cid)
 
       let carEntity = new CarEntity(carSpecs)
       carEntity.state.throttleInput = 1

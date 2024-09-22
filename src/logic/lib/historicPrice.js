@@ -1,3 +1,4 @@
+import { convertPrice } from './converter'
 
 const HouseholdIncome = {
   'usa' : [
@@ -67,9 +68,6 @@ const Currencies = {
   },
 }
 
-const ConversionTable = ['dollar', 'euro', 0.90, 'pound', 0.76, 'franc', 0.9] // HACK franc ratio same as euro as conversion is just used now
-
-
 /**
  *
  * @param {string|number} price
@@ -103,8 +101,7 @@ export function HistoricPrice(price, year, currency) {
 
   // convert price to unit
   let toCurrency = 'dollar'
-  let conversionRatio = findConversionRatio(ConversionTable, toCurrency, currency)
-  priceNow = priceNow / conversionRatio.fromUnitRatio * conversionRatio.toUnitRatio
+  priceNow = convertPrice(priceNow, toCurrency, currency).value
 
   // return price
   priceNow = parseFloat(priceNow.toFixed(2))
@@ -170,60 +167,6 @@ function interpolateY(dataPoints, x){
 
   return y
 }
-
-// TODO conversion lib
-function findConversionRatio(conversionTable, toUnit, fromUnit){
-  let toUnitRatio
-  let fromUnitRatio
-  for(var i=0; i < conversionTable.length; i++){
-    var k = conversionTable[i]
-    if(typeof k === 'number'){
-      continue
-    }
-    if(toUnit){
-      if(!toUnitRatio && new RegExp(`^${toUnit}$`, 'i').test(k)){
-        // first unit is default unit and has a ratio of 1 (with itself)
-        if(i===0){
-          toUnitRatio = 1
-        }
-        else {
-          toUnitRatio = conversionTable[i+1]
-        }
-      }
-    }
-    else {
-      toUnit = conversionTable[0]
-      toUnitRatio = 1
-    }
-    if(fromUnit){
-      if(!fromUnitRatio && new RegExp(`^${fromUnit}$`, 'i').test(k)){
-        // first unit is default unit and has a ratio of 1 (with itself)
-        if(i===0){
-          fromUnitRatio = 1
-        }
-        else {
-          fromUnitRatio = conversionTable[i+1]
-        }
-      }
-    }
-    else {
-      fromUnit = conversionTable[0]
-      fromUnitRatio = 1
-    }
-
-    // if fromUnitRatio also found
-    if(toUnitRatio && fromUnitRatio){
-      return {
-        toUnit,
-        toUnitRatio,
-        fromUnit,
-        fromUnitRatio,
-      }
-    }
-  }
-  return null
-}
-
 
 /**
  * Transform price in a more readable string
