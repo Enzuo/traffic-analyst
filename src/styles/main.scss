@@ -239,3 +239,12 @@ h5 {
 a {
   color: var(--primary);
 }
+
+.article ul {
+  list-style-type: circle;
+  list-style-position: inside;
+}
+
+.article li {
+  margin: 1em 0;
+}

@@ -8,7 +8,7 @@
 <div class="article">
   <div class="article-container">
     <h1>{title}</h1>
-    <img src={'images/' + image} />
+    {#if image}<img src={'images/' + image} />{/if}
     <p class="date">{date}</p>
     <slot>
       <!-- the mdsvex content will be slotted in here -->
