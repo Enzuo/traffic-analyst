@@ -11,8 +11,8 @@ import DATABASE from './database.js'
 
 /**
  * Find all defined gearboxes in cardata which could be reused someswhere else
- * @param {*} cardata
- * @returns {gearbox[]}
+ * @param {CarDataRaw} cardata
+ * @returns {Gearbox[]}
  */
 export function extractGearboxesFrom(cardata) {
   let gearboxes = []
@@ -82,9 +82,14 @@ export function isEngineDetailed(engine){
 }
 
 
-export function completeEngineData(car) {
+/**
+ *
+ * @param {Engine} engineSource
+ * @returns {Engine}
+ */
+export function completeEngineData(engineSource) {
   // compute engine torqueCurve
-  var engine = Object.assign({}, car.engine)
+  var engine = Object.assign({}, engineSource)
   if(!engine.torqueCurve){
     if(engine.torqueX){
       let curve = []
@@ -101,17 +106,15 @@ export function completeEngineData(car) {
 
   engine.power = convertQty(engine.power).value
 
-
-  car.engine = engine
-  return car
+  return engine
 }
 
 
 
 /**
  * Find the engine best matching the given engine name
- * @param {engine|string} engine
- * @returns {engine|null}
+ * @param {Engine|string} engine
+ * @returns {Engine|null}
  */
 export function findEngine(engine) {
   console.log('find Engine', engine)

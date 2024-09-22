@@ -26,7 +26,7 @@ declare global {
     seats?: number
 
     /* components */
-    configs?: Config[]
+    configs?: CarConfig[]
     engine?: Engine|string
     engines?: Engine[]
     gearbox?: Gearbox
@@ -61,6 +61,11 @@ declare global {
     options?: unknown
   }
 
+  interface CarData extends CarDataRaw {
+    idTrim: number
+    idConfig: number
+  }
+
   interface Trim {
     trim: string
     [key: string]: unknown // any surcharge we want
@@ -80,12 +85,14 @@ declare global {
     spec?: string
     torqueY?: number[]
     torqueX?: number[]
+    torqueXMultiplier?: number
+    torqueCurve: unknown
     type?: string
     layout?: string
     displacement?: number
   }
 
-  interface Config {
+  interface CarConfig {
     engine?: string | Engine
     gearbox?: string | Gearbox
     [key: string]: unknown // any surcharge we want

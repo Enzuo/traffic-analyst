@@ -107,7 +107,7 @@ function completeCar(car){
  * @param {number=} configId
  * @param {number=} engineId override engine
  * @param {number=} gearboxId override gearbox
- * @returns {Car}
+ * @returns {CarData}
  */
 export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   console.log('getting car', carId, trimId, configId, engineId, gearboxId)
@@ -154,7 +154,7 @@ export function getCar(carId, trimId=0, configId=0, engineId, gearboxId) {
   }
 
   // TODO move to complete engine database
-  car = carParts.completeEngineData(car)
+  car.engine = carParts.completeEngineData(car.engine)
 
   // return car with its available trims and configs
   return Object.assign(Object.create(defaultCar), car, {trims : availableTrims, configs : availableConfigs}, {trimId, configId})
