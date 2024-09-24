@@ -1,0 +1,81 @@
+name : DMC DeLorean
+brand : DMC
+trim : DMC-12
+year : 1981-1983
+unitsProduced : 9500
+price : $25000
+keywords :
+appearances : Back to the futur
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 1233
+length: 4267
+width: 1988
+height: 1140
+dragCoef: 0.36
+dragArea: 2.1 #1.87
+
+wheelbase: 2413
+bodyType: coupe
+clearance:
+trunk: 99
+trunkMax:
+seats: 2
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : PRV ZMJ-159
+  power: 127hp
+  spec: 207nm@2750 127hp@5500
+  type : petrol
+  layout : v6
+  displacement: 2849
+  weight : 150kg
+
+
+# -------------
+# TRANSMISSION
+# -------------
+wheelDiameter : 66
+type : RWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name : 5s manual
+    gearRatio : [3.364, 2.059, 1.381, 1.057, 0.8205]
+    reverseRatio : 3.1818
+    driveRatio : 3.44
+  - name : 3s auto
+    gearRatio : [2.40, 1.48, 1.00]
+    reverseRatio : 1.92
+    driveRatio : 3.44
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 10.5
+vmax: 188kmh
+avgConsumption :
+energyTank :
+autonomy :
+turningCircle : 11m
+wheelType : 195/60R14 # rear 235/60R15
+
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale: [0.89,0.89,1,1]
+modelLights :

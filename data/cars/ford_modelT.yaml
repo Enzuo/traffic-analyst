@@ -11,7 +11,7 @@ unitsProduced : 14,689,525
 engine :
   name : 177 C.I.D
   power : 20hp
-  spec: 47nm@300 112nm@900 20hp@1600 17@1900
+  spec: 47nm@300 112nm@900 20hp@1600 17hp@1900
   minRPM: 300
   type : petrol
   layout : l4
@@ -27,7 +27,7 @@ gearbox :
   transferRatio :
   driveRatio : 3.63
 wheelDiameter : 76
-type : #AWD, RWD, FWD
+type : RWD
 
 # -------------
 # DIMENSIONS
@@ -35,9 +35,9 @@ type : #AWD, RWD, FWD
 weight : 540
 length: 3404
 width: 1676
-height: 1860
+height: 2134
 dragCoef : 0.6 # approx
-dragArea : 2.3
+dragArea : 2.8
 
 wheelbase: 2540
 trunk:
