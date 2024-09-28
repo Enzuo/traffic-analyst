@@ -1,5 +1,5 @@
 import { getCar } from '@/logic/cardata';
-import { CarEntity, updateForces } from '../logic/lib/CarEntity'
+import { CarEntity, updateForces } from '../logic/trafficsim/CarEntity'
 import { describe, it, expect, test } from 'vitest';
 
 

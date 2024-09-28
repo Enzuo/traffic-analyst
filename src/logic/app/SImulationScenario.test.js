@@ -13,4 +13,14 @@ describe('get instruction from scenario', () => {
     let {speed} = getInstruction(scenario, input)
     assert.equal(speed, expected)
   })
+
+  test('time after scenario last step', () => {
+    let {speed} = getInstruction(scenario, 200)
+    assert.equal(speed, 0)
+  })
+
+  test('time at scenario first step', () => {
+    let {speed} = getInstruction(scenario, 0)
+    assert.equal(speed, 0)
+  })
 })

@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte"
   import { SingleCarSceneGraph } from "@/logic/3DsceneGraph/SceneGraph"
-  import { CarEntity } from '@/logic/lib/CarEntity'
+  import { CarEntity } from '@/logic/trafficsim/CarEntity'
 
   export let car
 

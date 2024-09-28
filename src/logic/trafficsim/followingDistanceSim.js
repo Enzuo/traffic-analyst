@@ -1,6 +1,6 @@
-import { CarEntity, updateForces } from "../lib/CarEntity";
+import { CarEntity, updateForces } from "./CarEntity";
 import data from "../cardata";
-import { Simulation } from "../simulation2";
+import { SimulationRunner } from "./SimulationRunner";
 
 export default function followingDistanceSim() {
   let options = {
@@ -10,7 +10,7 @@ export default function followingDistanceSim() {
     brakeApplyTime: 0.5,
   };
 
-  const simulation = Simulation();
+  const simulation = SimulationRunner();
 
 
   const firstCar = new CarEntity(data.car.get("renault_zoe"));

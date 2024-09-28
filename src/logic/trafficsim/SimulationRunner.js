@@ -1,4 +1,4 @@
-export function Simulation () {
+export function SimulationRunner () {
   let elapsedTime = 0
   let elapsedSimulationTime = 0
 

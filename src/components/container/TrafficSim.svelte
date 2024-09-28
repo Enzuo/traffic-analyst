@@ -1,5 +1,5 @@
 <script>
-  import { updateForces } from "@/logic/lib/CarEntity";
+  import { updateForces } from "@/logic/trafficsim/CarEntity";
   import { createTrafficGraph } from "@/logic/graphs/svgTrafficGraph"
   import trafficSimulation from "@/logic/trafficsim/trafficSimulation"
   import { onMount } from "svelte"

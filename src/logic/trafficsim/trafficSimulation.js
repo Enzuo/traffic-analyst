@@ -1,6 +1,6 @@
-import { Simulation } from "@/logic/simulation2";
+import { SimulationRunner } from "@/logic/trafficsim/SimulationRunner";
 import data from "../cardata";
-import { CarEntity, updateForces } from "@/logic/lib/CarEntity";
+import { CarEntity, updateForces } from "@/logic/trafficsim/CarEntity";
 import { is_function } from "svelte/internal";
 import { createEventEmitter } from "../lib/utils";
 import { createPerformanceObserver } from "@/debug/performance/PerformanceObserver";
@@ -20,7 +20,7 @@ export default function createTrafficSimulation () {
   const carCreator = createIntervalTicker(2000)
   const DELETE_DISTANCE = 2000
 
-  const simulation = Simulation()
+  const simulation = SimulationRunner()
 
   let lastCreatedCar
   simulation.subscribeTick((t, dt) => {

@@ -1,4 +1,4 @@
-export const SCENARIOS = [
+export const SCENARIOS : SimulationScenario[] = [
   {
     name : 'floor it',
     steps : [
@@ -76,17 +76,23 @@ export const SCENARIOS = [
 
 /**
  * Get instruction for a scenario at a given time
- * @param scenario
- * @param time
+ * @param {SimulationScenario} scenario
+ * @param {number} time elapsed time in the scenario (s)
  */
 export function getInstruction(scenario, time) {
   var [previousStep, nextStep] = getStepsAtTime(scenario, time)
-  var relativeTime = (time - previousStep.t) / (nextStep.t - previousStep.t)
+  var relativeTime = nextStep.t === previousStep.t ? 1 : (time - previousStep.t) / (nextStep.t - previousStep.t)
   var speed = previousStep.speed + relativeTime * (nextStep.speed - previousStep.speed)
 
   return {speed}
 }
 
+/**
+ *
+ * @param {SimulationScenario} scenario
+ * @param {number} time
+ * @returns
+ */
 function getStepsAtTime(scenario, time){
   let prevStep
   let nextStep

@@ -102,7 +102,7 @@ const BODY_TYPES = {
  */
 
 /**
- * @typedef {import('@/logic/lib/CarEntity')} CarEntity
+ * @typedef {import('@/logic/trafficsim/CarEntity')} CarEntity
  * @typedef {import('@/logic/cardata')} Car
  */
 

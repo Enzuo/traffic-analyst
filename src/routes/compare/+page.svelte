@@ -144,6 +144,14 @@
   colors={colors}
   observed={carEntities}
 ></UPlotRealtime>
+<UPlotRealtime
+  title="Throttle"
+  units="/1"
+  key="throttleInput"
+  time={time}
+  colors={colors}
+  observed={carEntities}
+></UPlotRealtime>
 
 <section>
   <h3>General infos</h3>

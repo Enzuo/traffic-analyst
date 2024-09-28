@@ -5,7 +5,7 @@ import {changeTextureColor} from './texture'
 import { loadDefaultCarModelProc } from './proceduralCar'
 
 
-import type { CarEntity } from '@/logic/lib/CarEntity';
+import type { CarEntity } from '@/logic/trafficsim/CarEntity';
 
 /**
  * @typedef {import('./sceneGraph').AnimatedObject} AnimatedObject

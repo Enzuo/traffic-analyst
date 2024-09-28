@@ -7,7 +7,7 @@ import globals from "globals";
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   js.configs.recommended,
-  ...ts.configs.recommended,
+  ts.configs.recommended['latest'],
   ...svelte.configs["flat/recommended"],
   prettier,
   ...svelte.configs["flat/prettier"],
@@ -30,4 +30,9 @@ export default [
   {
     ignores: ["build/", ".svelte-kit/", "dist/"],
   },
+  {
+    rules: {
+      "prefer-const": "off"
+    }
+  }
 ];
