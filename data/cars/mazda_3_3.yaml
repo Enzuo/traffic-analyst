@@ -11,7 +11,7 @@ appearances :
 # -------------
 # DIMENSIONS
 # -------------
-weight : 1300
+weight : 1205
 length: 4460
 width: 1795
 height: 1455
@@ -33,6 +33,7 @@ configs :
   - engine : 2.2 SKYACTIV-D 150
     gearbox : 6MT D
     price : 25900€ # (diesel harmonie)
+    weight : 1320
 
 
 # -------------
@@ -75,8 +76,8 @@ type : FWD
 # -------------
 gearboxes :
   - name : 6MT D
-    gearRatio : [3.538, 1.826, 1.565, 1.147, 0.893, 0.745]
-    driveRatio : 2.814 # or 3.619
+    gearRatio : [3.538, 2.238, 1.517, 1.023, 0.775, 0.659]
+    driveRatio : 3.389 # or 3.619
 
 
 # -------------
