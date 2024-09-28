@@ -50,6 +50,8 @@ export class CarEntity{
     gear : 0,
     gearT : 0, // gear transfer selected
   }
+  public TCU = createBasicTCU(this)
+  public shifter = createShifter(this)
 
 
 
@@ -91,7 +93,26 @@ export class CarEntity{
     return force
   }
 
+  /**
+   *
+   * @param {number} gear
+   */
+  shiftToGear(gear){
 
+  }
+
+  shiftUp(){
+    let maxGear = this.props.gearbox.gearRatio.length - 1
+    let targetGear = Math.min(this.state.gearInput+1, maxGear)
+    this.shifter.shift(targetGear)
+  }
+
+  update(time, dt){
+    this.TCU.update(time, dt)
+    this.shifter.update(time, dt)
+
+    updateForces(this, dt)
+  }
 }
 
 /**
@@ -127,6 +148,9 @@ export function updateForces(car, dt){
   // let thrustForce = getEngineForceFromPower(speed, power, dts) * transmissionEfficiency
   let finalRatio = driveRatio * gearRatio[gearInput] * (gearTransfer ? gearTransfer[0] : 1)
   let thrustForce = getEngineForceFromTorque(torque, finalRatio, null, wheelDiameter)
+  if(car.shifter.isShifting){
+    thrustForce = 0
+  }
 
   // let currentGearSpeed = gearRatio[gearRatio.length-1] / gearRatio[gearInput] * gearSpeed
   let minRPM = engine.minRPM || 1000
@@ -160,4 +184,72 @@ export function updateForces(car, dt){
   // console.log(force,airDrag,wheelDrag,brakeForce)
 
   return Object.assign(car, { state : Object.assign(car.state, newState)})
+}
+
+/**
+ * Car shifter
+ *
+ * @param {CarEntity} car
+ */
+function createShifter(car){
+  const shiftTime = 1000 // 0.2s for hydro auto, manual 0.5-1s for vertical shift 1-2s for horizontals
+  let isShifting = false
+  let shiftStartTime
+  let currentTime
+  let shiftTo
+
+  function shift(targetGear){
+    if(isShifting) {
+      return
+    }
+    shiftStartTime = currentTime
+    isShifting = true
+    shiftTo = targetGear
+  }
+
+  function update(time, dt){
+    currentTime = time
+    if(shiftStartTime && (shiftStartTime + shiftTime < currentTime)){
+      isShifting = false
+      shiftStartTime = null
+      car.state.gearInput = shiftTo
+    }
+  }
+
+  return {
+    shift,
+    update,
+    get isShifting(){
+      return isShifting
+    }
+  }
+}
+
+
+/**
+ * Transmission Control Unit
+ *
+ * Pick the correct transmission gear for the given car state
+ * (used for manual cars as well cause well... they're controlled by a computer too)
+ *
+ * @param {CarEntity} car
+ */
+function createBasicTCU(car){
+  function update(time, dt){
+      // switch gear
+      const maxRpm = car.props.engine.torqueCurve.length ? car.props.engine.torqueCurve[car.props.engine.torqueCurve.length-1][0] : 0
+      // maxRpm = 3500
+      if(car.state.engineRpm >= maxRpm){
+        // car.state.throttleInput = 0
+        // let maxGear = car.props.gearbox.gearRatio.length - 1
+        // if(car.state.gearInput < maxGear){
+        //   car.state.gearInput += 1
+        // }
+        car.shiftUp()
+      }
+  }
+
+  return {
+    update
+  }
 }

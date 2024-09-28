@@ -14,7 +14,8 @@ export function createDriverSimple(car, scenario){
 
 
   function update(time, dt){
-    let {speed} = getInstruction(scenario, time+11) // DEBUG +11
+    time /= 1000
+    let {speed} = getInstruction(scenario, time)
     let targetSpeed = speed / 3.6 //kmh to ms
     if(car.state.speed < targetSpeed){
       car.state.throttleInput = Math.min(car.state.throttleInput + 0.1, 1)

@@ -20,7 +20,7 @@ export function carCompare(carIds){
       carSpecs = cardata.car.get(carIds[i].id, carIds[i].tid, carIds[i].cid)
 
       let carEntity = new CarEntity(carSpecs)
-      let driver = createDriverSimple(carEntity, SCENARIOS.find(s => s.name === 'ece15'))
+      let driver = createDriverSimple(carEntity, SCENARIOS.find(s => s.name === 'floor it'))
       // carEntity.state.throttleInput = 1
       carEntities.push(carEntity)
       drivers.push(driver)
@@ -34,25 +34,11 @@ export function carCompare(carIds){
   // create simulation
   let simulation = SimulationRunner()
   simulation.subscribeTick((t, dt) => {
-    for(let i=0; i<carEntities.length; i++){
-      let carEntity = carEntities[i]
-      carEntity = updateForces(carEntity, dt)
-
-      // switch gear
-      // const maxRpm = carEntity.props.engine.torqueCurve.length ? carEntity.props.engine.torqueCurve[carEntity.props.engine.torqueCurve.length-1][0] : 0
-      // // maxRpm = 3500
-      // if(carEntity.state.engineRpm >= maxRpm){
-      //   // carEntity.state.throttleInput = 0
-      //   let maxGear = carEntity.props.gearbox.gearRatio.length - 1
-      //   if(carEntity.state.gearInput < maxGear){
-      //     carEntity.state.gearInput += 1
-      //   }
-      // }
-
-      carEntities[i] = carEntity
-    }
+    carEntities.forEach(carEntity => {
+      carEntity.update(t, dt)
+    })
     drivers.forEach(driver => {
-      driver.update(t/1000, dt)
+      driver.update(t, dt)
     })
   })
 
