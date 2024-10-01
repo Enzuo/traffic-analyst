@@ -1,0 +1,102 @@
+name : 626
+brand : Mazda
+trim : sedan
+year : 1997-2002
+unitsProduced : 600,000
+price : 135,000fr # 115k pour le 1.8l 145k la version break
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 1250
+length : 4575
+width: 1695
+height : 1440
+dragCoef: 0.30
+dragArea: 2.3
+
+wheelbase : 2610
+bodyType : sedan
+clearance:
+trunk : 475
+trunkMax: 1700
+seats: 5
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : FS l4
+  power: 115hp
+  spec: 170nm@4500 115hp@6000
+  type : petrol
+  layout : l4
+  displacement : 1991
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : G5M
+  gearRatio : [3.307, 1.833, 1.310, 0.970, 0.795]
+  reverseRatio : 3.166
+  transferRatio :
+  driveRatio : 4.105
+wheelDiameter : 61
+type : FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 10.6
+vmax: 191
+avgConsumption : 8.2
+energyTank :
+autonomy :
+turningCircle : 10.8
+wheelType : 195/60R15
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : break
+    weight : 1305
+    length: 4660
+    width: 1695
+    height: 1520
+    trunk: 502
+    wheelbase: 2670
+    bodyType: break
+    price: 145,000fr
+
