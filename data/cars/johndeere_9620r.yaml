@@ -1,0 +1,115 @@
+name : 9620R AWD
+brand : John Deere
+trim :
+year :
+unitsProduced :
+price :
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 19690
+length: 7697 # With front weights, including hitch and coupler: 8,416 mm
+width: 3050
+height: 3980
+dragCoef:
+dragArea:
+
+wheelbase: 3912
+bodyType: tractor
+clearance: 419
+trunk:
+trunkMax:
+seats:
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+  - engine :
+    gearbox :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Cummins QSX15
+  power: 620hp
+  spec: 2800nm@1600 620hp@2100
+  type : diesel
+  layout : l6
+  displacement : 14900
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name :
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : e18 Powershift
+  gearRatio : []
+  reverseRatio :
+  transferRatio :
+  driveRatio :
+wheelDiameter : 207
+type : awd
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name :
+
+
+# -------------
+# STATS
+# -------------
+acc0100:
+vmax:
+avgConsumption :
+energyTank : 1514
+autonomy :
+turningCircle : 12
+wheelType : 800/70r38
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
+
+# https://agup.com/Tractors/4WD-and-Track-Tractors/9620r-tractor
