@@ -1,0 +1,124 @@
+name : 6
+brand : Mazda
+trim : sedan
+year : 2002-2008
+unitsProduced :
+price : 21600€
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1330
+length: 4670
+width: 1781
+height: 1430
+dragCoef:
+dragArea:
+
+wheelbase: 2675
+bodyType: sedan
+clearance:
+trunk: 492
+trunkMax: 1662
+seats: 5
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+configs :
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 2.0 L MZR-CD I4
+  power: 120hp
+  spec: 320nm@2000 121hp@3500
+  type : diesel
+  layout : l4
+  displacement : 1998
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+engines :
+  - name : 1.8 L MZR L8 I4
+    power: 120hp
+    spec : 165nm@4100 120hp@6500
+    type: petrol
+    displacement: 1798
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : 5-speed G35M-R # 6-speed A26MX-R
+  gearRatio : [3.666 , 2.059, 1.392, 0.97, 0.755]
+  reverseRatio : 3.166
+  transferRatio :
+  driveRatio : 4.388
+wheelDiameter : 63
+type : FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+gearboxes :
+  - name : 5-speed G35M-R (D)
+    gearRatio: [3.416, 1.944, 1.258, 0.902, 0.659]
+    driveRatio : 3.588
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 11
+vmax: 194
+avgConsumption : 7.8
+energyTank : 64
+autonomy :
+turningCircle :
+wheelType :
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : wagon
+    price :  25400€
+    length : 4700
+    height : 1480
+    weight : 1520
+    trunk : 505
+    trunkMax : 1712
+    bodyType : wagon
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
