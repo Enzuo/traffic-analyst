@@ -1,0 +1,82 @@
+name : Demio
+brand : Mazda
+trim :
+year : 1996-2002
+unitsProduced : 1,000,000
+price : ¥1,161,000
+keywords :
+appearances : grandturismo 2
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 960
+length: 3820
+width: 1670
+height: 1540
+dragCoef: 0.38
+dragArea: 2.1
+
+wheelbase: 2390
+bodyType: hatchback
+clearance: 140
+trunk: 330/560
+trunkMax: 1298
+seats: 5
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : B3-ME I4
+  power: 63hp
+  spec: 103nm@3000 63hp@5000
+  type : petrol
+  layout : l4
+  displacement : 1324
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : F5D217111A
+  gearRatio : [4,2.2,1.4,1.1,0.87] # random ratios
+  reverseRatio : 4
+  transferRatio :
+  driveRatio : 3.85
+wheelDiameter : 56.6
+type : FWD
+
+# -------------
+# STATS
+# -------------
+acc0100: 12.6
+vmax: 151
+avgConsumption : 6.3-7 l/100 # saw 7.2 l/100 on a test review
+energyTank : 43l
+autonomy :
+turningCircle :
+wheelType : 175/60R14
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :
