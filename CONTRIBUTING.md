@@ -4,19 +4,21 @@
 #### Blender
 
 Origin point of the car body on the wheel level and centered
-Empty for each wheel named Wheel#R or Wheel#L
 Shade smooth
 Auto Smooth around 20°
-Modeling steps :
+Modeling:
 - Start by making a box of the size of the car
 - Align the blueprints to the box (Front of the car is -Y)
 - Model with symetry modifier applied on X axis `body`
+Texturing :
 - Define texture seam `cmd+E`
 - Apply material + base color texture with closest setting (pixelatted look)
-- Create a texture of size `256x256` for a basic car size
+- Create a texture of size `256x256` for a basic car size (1px=3cm, 100px=3m)
 - Unwrap the texture `U` and use the plugin `Texel Density Checker by mrven` to scale the uv map (Texture size `256` TD `0.33` set my td)
+- For transparent texture, shading : texture alpha -> math value greater than 0.5 -> material alpha
+Finishing :
 - Model the wheel with a cylinder with a
-- Place the wheels empty on each side name them depending on the side `wheel1R` `wheel2L` (could do it with empty rotation but harder to see)
+- Place the wheels empty on each side name them depending on the side `wheel1R` `wheel2L` (could do it with empty rotation but harder to see and fix)
 - Move origins so the car `Body` origin is at wheel center level and reset position to 0
 - Using gltf exporter -> Export the `Body` + `MiscObj` + `Wheel1R` empties (selection only) (mesh -> apply mirror modifier)
 - Export the wheel base model

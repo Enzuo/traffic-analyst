@@ -62,7 +62,7 @@ wheelType : 175/60R14
 # -------------
 # 3D
 # -------------
-model:
+model: mazda_demio
 modelWheel:
 modelMisc:
 wheelScale:
