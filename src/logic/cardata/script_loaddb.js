@@ -27,6 +27,7 @@ for(let i=0; i<DATA_FOLDERS.length; i++){
   database[folder] = []
 
   for(let j=0; j<folderFiles.length; j++){
+    console.log(`${COLOR.yellow}-> ${folder}/${folderFiles[j]}${COLOR.end}`)
     let fileContent = fs.readFileSync(path.join(folderPath, folderFiles[j]), 'utf-8')
 
     // add unique id based on filename (which should be unique)
@@ -41,7 +42,7 @@ for(let i=0; i<DATA_FOLDERS.length; i++){
       database[folder].push(fileParsed)
 
       if(VERBOSE){
-        console.log(`${COLOR.green}- ${id} ${COLOR.end}`)
+        console.log(`${COLOR.green}✓ ${id} ${COLOR.end}`)
       }
 
       nb++

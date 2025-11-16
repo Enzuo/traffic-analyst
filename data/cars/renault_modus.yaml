@@ -67,7 +67,7 @@ wheelType : 165/65R15
 # -------------
 # 3D
 # -------------
-model:
+model: renault_modus
 modelWheel:
 modelMisc:
 wheelScale:
