@@ -1,0 +1,105 @@
+name : 306
+brand : Peugeot
+trim :
+year : 1993-2002
+unitsProduced : 2848131
+price : 78900f
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1107
+length: 4030
+width: 1680
+height: 1380
+dragCoef: 0.33
+dragArea: 2
+
+wheelbase: 2580
+bodyType: hatchback
+clearance:
+trunk: 338
+trunkMax:
+seats: 5
+
+
+# -------------
+# CONFIGS : possible configs combinations for this car &
+# -------------
+
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : TU5 JP
+  power: 90hp
+  spec: 90hp@5600 135nm@3000
+  type : petrol
+  layout : l4
+  displacement : 1587
+
+# -------------
+# ENGINES : define additional available engines for this car
+# -------------
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name : 20CD29
+  gearRatio : [3.42, 1.81, 1.28, 0.98, 0.77]
+  reverseRatio : 3.58
+  transferRatio :
+  driveRatio : 4.063
+wheelDiameter : 60
+type : FWD
+
+# -------------
+# GEARBOXES : define additional available gearboxes for this car
+# -------------
+
+# -------------
+# STATS
+# -------------
+acc0100: 13.9
+vmax: 182
+avgConsumption : 7.3
+energyTank : 60L
+autonomy :
+turningCircle :
+wheelType : 185/65TR14
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

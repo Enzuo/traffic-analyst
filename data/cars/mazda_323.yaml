@@ -28,6 +28,7 @@ configs :
       spec: 230nm@2000 101hp@4500
       features : SOHC, intercooler
     gearbox : 5s manual d
+    avgConsumption : 5.1
   - engine :
       name : 1.3 75
       hp : 75
@@ -50,6 +51,12 @@ configs :
     weight : 1119
     acc0100 : 12.8
     vmax : 180
+  - engine : 1.5 l4 petrol
+    gearbox : 5s manual p
+    weight : 1075
+    acc0100 : 11.9
+    vmax : 178
+    avgConsumption : 7.5
 
 # -------------
 # TRANSMISSION
@@ -73,6 +80,11 @@ type : fwd
 engines:
   - name : 2.0l l4 petrol
     spec : 183nm@4000 130hp@6000
+  - name : 1.5 l4 petrol
+    spec : 132nm@4000 88hp@6000
+    displacement : 1498
+    hp : 88
+
 
 # -------------
 # DIMENSIONS
@@ -97,7 +109,7 @@ seats: 5
 acc0100: 12.2
 vmax: 178
 avgConsumption : 5.1
-energyTank : 50
+energyTank : 55
 autonomy :
 turningCircle : 10.6
 wheelType : 175/70R13 - 185/65R14
