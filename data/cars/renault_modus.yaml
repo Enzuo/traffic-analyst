@@ -43,10 +43,10 @@ engine :
 # -------------
 gearbox :
   name : JH3132
-  gearRatio : [3.2, 1.9, 1.3, 1, 0.8] # random ratios
+  gearRatio : [4.2, 2.2, 1.4, 1, 0.8] # observed ratios
   reverseRatio :
   transferRatio :
-  driveRatio : 3.4 # random ratio
+  driveRatio : 3.5 # random ratio
 wheelDiameter : 60
 type : FWD
 
