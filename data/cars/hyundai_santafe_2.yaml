@@ -1,0 +1,96 @@
+name : Santafe 2
+brand : Hyundai
+trim :
+year : 2006-2012
+unitsProduced : 1 000 000
+price : 29900€
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight: 1769
+length: 4690
+width: 1880
+height: 1790
+dragCoef: 0.38
+dragArea: 2.85
+
+wheelbase: 2700
+bodyType: suv
+clearance: 206
+trunk: 774
+trunkMax: 1582
+seats: 7
+
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : 2.2 crdi
+  power: 155hp
+  spec: 155hp@4000 343nm@1800
+  type : diesel
+  layout : l4
+  displacement : 2188
+
+
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  name :
+  gearRatio : [3.88, 2.13, 1.21, 1, 0.82]
+  reverseRatio : 4.41
+  transferRatio :
+  driveRatio : 3.71
+wheelDiameter : 74
+type : FWD
+
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 11.3
+vmax: 180
+avgConsumption : 7l/100
+energyTank : 75
+autonomy :
+turningCircle : 10.90
+wheelType : 235/65/17
+
+# -------------
+# PLANE STATS
+# -------------
+groundRoll:
+takeOffSpeed:
+wingArea:
+liftDragRatio:
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim :
+
+# -------------
+# OPTIONS (available on all trims)
+# -------------
+options:
+  - name :

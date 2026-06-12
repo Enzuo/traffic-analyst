@@ -36,7 +36,7 @@ dragCoef : 0.36
 dragArea : 2.36
 
 wheelbase: 2900
-trunk: 198
+trunk: 198/700
 trunkMax: 2350
 seats: 7
 
