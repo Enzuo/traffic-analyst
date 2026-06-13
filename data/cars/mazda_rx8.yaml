@@ -1,0 +1,87 @@
+name : rx8
+brand : Mazda
+trim : elegance
+year : 2003-2012
+unitsProduced : 192094
+price : 29000€
+keywords :
+appearances :
+
+
+# -------------
+# DIMENSIONS
+# -------------
+weight : 1350
+length: 4430
+width: 1770
+height: 1340
+dragCoef: 0.30
+dragArea: 2.08
+
+wheelbase: 2700
+bodyType: coupe
+trunk: 290
+seats: 4
+
+
+# -------------
+# ENGINE
+# -------------
+engine :
+  name : Renesis
+  power: 192hp
+  spec: 192hp@8000 220nm@5000
+  type : petrol
+  layout : rotary
+  displacement : 2x654
+
+# -------------
+# TRANSMISSION
+# -------------
+gearbox :
+  gearRatio : [3.545, 1.950, 1.310, 0.970, 0.725]
+  driveRatio : 4.090
+wheelDiameter : 63
+type : RWD
+
+
+# -------------
+# STATS
+# -------------
+acc0100: 7.6
+vmax: 230
+avgConsumption : 10.6
+energyTank : 61
+autonomy :
+turningCircle : 10.6
+wheelType : 205/55R16
+
+# -------------
+# 3D
+# -------------
+model:
+modelWheel:
+modelMisc:
+wheelScale:
+modelLights :
+
+
+# -------------
+# TRIMS
+# -------------
+trims :
+  - trim : performance
+    acc0100: 6.4
+    vmax: 238
+    price: 33000€
+
+    engine :
+      name : Renesis
+      spec: 231hp@8200 211nm@5500
+      type : petrol
+      layout : rotary
+      displacement : 2x654
+
+    gearbox :
+      gearRatio : [3.583, 2.045, 1.430, 1.120, 0.914, 0.756]
+      driveRatio : 3.583
