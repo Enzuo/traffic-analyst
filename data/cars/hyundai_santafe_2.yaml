@@ -66,17 +66,9 @@ turningCircle : 10.90
 wheelType : 235/65/17
 
 # -------------
-# PLANE STATS
-# -------------
-groundRoll:
-takeOffSpeed:
-wingArea:
-liftDragRatio:
-
-# -------------
 # 3D
 # -------------
-model:
+model: hyundai_santafe
 modelWheel:
 modelMisc:
 wheelScale:
